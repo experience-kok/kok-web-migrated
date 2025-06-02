@@ -7,6 +7,35 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'drxgfm74s70w1.cloudfront.net',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ckokservice.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'imagescdn.gettyimagesbank.com',
+        port: '',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -13,3 +13,12 @@ export interface ErrorResponse {
   message: string;
   success: false;
 }
+
+export interface Pagination {
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  first: boolean;
+  last: boolean;
+}
