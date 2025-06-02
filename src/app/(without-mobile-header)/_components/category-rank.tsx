@@ -41,7 +41,15 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
     carouselAPI.on('select', onSelect);
   }, [carouselAPI, onSelect]);
 
-  const selectedCategoryData = categoryData[selectedIndex];
+  const visitCampaigns = categoryData
+    .filter(data => data.categoryType === '방문')
+    .flatMap(data => data.campaigns)
+    .slice(0, 3);
+
+  const deliveryCampaigns = categoryData
+    .filter(data => data.categoryType === '배송')
+    .flatMap(data => data.campaigns)
+    .slice(0, 3);
 
   return (
     <>
@@ -78,7 +86,7 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
 
                   {data.campaigns.length === 0 && (
                     <div className="py-8 text-center text-gray-500">
-                      해당 카테고리에 캠페인이 없습니다.
+                      {data.categoryName} 카테고리에 캠페인이 없어요.
                     </div>
                   )}
                 </div>
@@ -88,51 +96,67 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
         </Carousel>
       </div>
 
-      {/* 모바일 이상 사이즈에서 보일 컴포넌트 */}
+      {/* 모바일 이상 사이즈에서 보일 컴포넌트 - 2열 구조 (방문 | 배송) */}
       <div className="hidden w-full md:block">
-        {/* 카테고리 네비게이션 */}
-        <div className="mb-6 flex flex-wrap gap-2">
-          {categories.map((category, index) => (
-            <button
-              key={`${categoryData[index].categoryType}-${category}`}
-              onClick={() => setSelectedIndex(index)}
-              className={`cursor-pointer rounded px-4 py-2 transition-all ${
-                selectedIndex === index
-                  ? 'bg-black text-white hover:bg-black'
-                  : 'bg-gray-200 hover:bg-gray-300'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        <div className="grid grid-cols-2 gap-8">
+          {/* 방문 카테고리 */}
+          <div className="space-y-4">
+            <div className="text-center">
+              <span className="inline-block rounded-full bg-blue-100 px-4 py-2 text-lg font-bold text-blue-800">
+                방문
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {visitCampaigns.map((campaign, index) => (
+                <RankCampaignCard key={campaign.id} campaign={campaign} ranking={index + 1} />
+              ))}
+
+              {Array.from({ length: Math.max(0, 3 - visitCampaigns.length) }).map((_, index) => (
+                <div key={`visit-empty-${index}`} className="w-full">
+                  <div className="rounded-lg border border-dashed border-gray-200 py-6 text-center text-gray-300">
+                    <p className="text-sm">준비 중이에요.</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {visitCampaigns.length === 0 && (
+              <div className="rounded-lg border border-dashed border-gray-200 py-8 text-center text-gray-500">
+                <p>방문 카테고리에 캠페인이 없어요.</p>
+              </div>
+            )}
+          </div>
+
+          {/* 배송 카테고리 */}
+          <div className="space-y-4">
+            <div className="text-center">
+              <span className="inline-block rounded-full bg-green-100 px-4 py-2 text-lg font-bold text-green-800">
+                배송
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {deliveryCampaigns.map((campaign, index) => (
+                <RankCampaignCard key={campaign.id} campaign={campaign} ranking={index + 1} />
+              ))}
+
+              {Array.from({ length: Math.max(0, 3 - deliveryCampaigns.length) }).map((_, index) => (
+                <div key={`delivery-empty-${index}`} className="w-full">
+                  <div className="rounded-lg border border-dashed border-gray-200 py-6 text-center text-gray-300">
+                    <p className="text-sm">준비 중이에요.</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {deliveryCampaigns.length === 0 && (
+              <div className="rounded-lg border border-dashed border-gray-200 py-8 text-center text-gray-500">
+                <p>배송 카테고리에 캠페인이 없어요.</p>
+              </div>
+            )}
+          </div>
         </div>
-
-        {selectedCategoryData && (
-          <div className="flex gap-6">
-            <ul className="flex w-1/2 flex-col items-center justify-start gap-4">
-              {selectedCategoryData.campaigns.slice(0, 3).map((campaign, index) => (
-                <li key={campaign.id} className="w-full">
-                  <RankCampaignCard campaign={campaign} ranking={index + 1} />
-                </li>
-              ))}
-            </ul>
-
-            <ul className="flex w-1/2 flex-col items-center gap-4">
-              {selectedCategoryData.campaigns.slice(3, 6).map((campaign, index) => (
-                <li key={campaign.id} className="w-full">
-                  <RankCampaignCard campaign={campaign} ranking={index + 4} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* 데이터가 없을 경우 */}
-        {selectedCategoryData && selectedCategoryData.campaigns.length === 0 && (
-          <div className="py-12 text-center text-gray-500">
-            <p>해당 카테고리에 캠페인이 없습니다.</p>
-          </div>
-        )}
       </div>
     </>
   );

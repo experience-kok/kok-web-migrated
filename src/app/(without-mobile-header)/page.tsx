@@ -7,15 +7,14 @@ import CategoryRank from './_components/category-rank';
 import MainBanner from './_components/main-banner';
 import PopularCampaigns from './_components/popular-campaigns';
 
+// ISR : 60초마다 재생성
 export const revalidate = 60;
 
 export default async function Home() {
   // 인기 캠페인 목록 요청
   const campaignsData = await getPopularCampaigns({
-    page: 0,
+    page: 1,
     size: 10,
-    categoryType: '방문',
-    campaignType: '인스타그램',
   });
 
   const categoryRankingData = await Promise.all([
@@ -49,8 +48,6 @@ export default async function Home() {
     }),
   ]);
 
-  console.log(categoryRankingData);
-
   return (
     <>
       <section className="md:px-6 md:py-10 lg:px-16">
@@ -68,8 +65,11 @@ export default async function Home() {
       <SplitBox className="h-2" />
 
       <section className="px-6 py-10 lg:px-16">
-        <Text as="h2" size="2xl" weight="bold" className="mb-4">
+        <Text as="h2" size="2xl" weight="bold" className="mb-4 md:hidden">
           카테고리 랭킹
+        </Text>
+        <Text as="h2" size="2xl" weight="bold" className="mb-4 hidden md:block">
+          체험콕이 추천해요!
         </Text>
         <CategoryRank categoryData={categoryRankingData} />
       </section>

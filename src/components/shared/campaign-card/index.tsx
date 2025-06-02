@@ -17,15 +17,14 @@ interface Props {
  * 캠페인 카드 컴포넌트
  */
 export default function CampaignCard({ campaign }: Props) {
-  const { title, thumbnailUrl, maxApplicants, currentApplicants, campaignType } = campaign;
-  const testurl =
-    'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080';
+  const { title, thumbnailUrl, maxApplicants, currentApplicants, campaignType, productShortInfo } =
+    campaign;
   return (
     <Card className="gap-2 border-none py-0 shadow-none">
       <CardContent className="group relative cursor-pointer overflow-hidden rounded-lg p-0">
         <AspectRatio ratio={1 / 1}>
           <Image
-            src={thumbnailUrl || testurl}
+            src={thumbnailUrl || ''}
             alt={`testurl`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -42,7 +41,7 @@ export default function CampaignCard({ campaign }: Props) {
         </div>
         <Text className="line-clamp-2">{title || '제목이 없습니다.'}</Text>
         <Text size="sm" color="muted-foreground" weight="semibold" className="mb-2">
-          치킨 메뉴 교환권
+          {productShortInfo}
         </Text>
         <ApplicatnsCount maxApplicants={maxApplicants} currentApplicants={currentApplicants} />
       </CardFooter>

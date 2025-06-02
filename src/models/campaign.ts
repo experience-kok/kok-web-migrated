@@ -15,10 +15,10 @@ export interface Campaign {
   id: number;
   campaignType: CampaignType;
   title: string;
-  currentApplicants: number;
-  maxApplicants: number;
-  createdAt: string;
-  applicationDeadlineDate: string;
+  productShortInfo: string; // 제공 제품 한 줄
+  currentApplicants: number; // 현재 신청 인원
+  maxApplicants: number; // 최대 신청 인원
+  applicationDeadlineDate: string; // 신청 마감일
   thumbnailUrl: string;
   category: {
     type: CampaignCategoryType;

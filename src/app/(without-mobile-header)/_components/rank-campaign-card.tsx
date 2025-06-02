@@ -26,9 +26,6 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
     applicationDeadlineDate,
   } = campaign;
 
-  const testurl =
-    'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080';
-
   // 남은 날짜 계산
   const daysRemaining = Math.ceil(
     (new Date(applicationDeadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
@@ -39,7 +36,7 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
       <CardContent className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-lg p-0 md:h-[135px] md:w-[135px]">
         <AspectRatio ratio={1 / 1} className="h-full w-full">
           <Image
-            src={thumbnailUrl || testurl}
+            src={thumbnailUrl || ''}
             alt={title}
             fill
             sizes="115px"
@@ -65,7 +62,7 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
             {daysRemaining > 0 ? `${daysRemaining}일 남음` : '마감'}
           </Text>
           <Text size="sm" color="muted-foreground" weight="semibold">
-            {campaign.category.name}
+            {campaign.productShortInfo}
           </Text>
         </div>
         <div className="flex w-full justify-end">
