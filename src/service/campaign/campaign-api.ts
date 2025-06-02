@@ -11,12 +11,14 @@ export async function getPopularCampaigns({
   size,
   categoryType,
   campaignType,
+  categoryName,
 }: GetPopularCampaignsRequest) {
   const queryParams = new URLSearchParams();
   if (page) queryParams.set('page', page.toString());
   if (size) queryParams.set('size', size.toString());
   if (categoryType) queryParams.set('categoryType', categoryType);
   if (campaignType) queryParams.set('campaignType', campaignType);
+  if (categoryName) queryParams.set('categoryName', categoryName);
 
   const response = await fetchKok.get<GetPopularCampaignsResponse>(
     `/campaigns/popular?${queryParams.toString()}`,

@@ -7,9 +7,9 @@ interface Props {
 }
 
 /**
- * 메인 페이지 인기 캠페인 섹션 컴포넌트
+ * 메인 페이지 인기 캠페인 컴포넌트
  */
-export default function PopularSection({ campaigns }: Props) {
+export default function PopularCampaigns({ campaigns }: Props) {
   return (
     <Carousel
       className="mx-auto w-full"

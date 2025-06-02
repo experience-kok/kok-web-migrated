@@ -1,4 +1,9 @@
-import { Campaign, CampaignCategoryType, CampaignType } from '@/models/campaign';
+import {
+  Campaign,
+  CampaignCategoryName,
+  CampaignCategoryType,
+  CampaignType,
+} from '@/models/campaign';
 
 import { Pagination } from '@/types/response';
 
@@ -9,6 +14,7 @@ export interface GetPopularCampaignsRequest {
   page?: number;
   size?: number;
   categoryType?: CampaignCategoryType;
+  categoryName?: CampaignCategoryName;
   campaignType?: CampaignType;
 }
 
