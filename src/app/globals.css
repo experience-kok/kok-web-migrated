@@ -4,6 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-pretendard: var(--font-pretendard);
+}
+
+@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -119,6 +123,10 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+* {
+  font-family: var(--font-pretendard);
 }
 
 html {
