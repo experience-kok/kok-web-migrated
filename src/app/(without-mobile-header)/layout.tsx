@@ -1,8 +1,7 @@
 import Footer from '@/components/layout.tsx/footer';
 import FooterMenu from '@/components/layout.tsx/footer-menu';
+import Header from '@/components/layout.tsx/header';
 import ScrollToTopButton from '@/components/shared/scroll-to-top-button';
-
-// import Header from '@/components/layout.tsx/header';
 
 export default function ServiceLayout({
   children,
@@ -11,7 +10,7 @@ export default function ServiceLayout({
 }>) {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* <Header /> */}
+      <Header />
       <main className="h-full w-full flex-grow">{children}</main>
       <FooterMenu />
       <Footer />

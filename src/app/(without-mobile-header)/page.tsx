@@ -1,3 +1,4 @@
+import SplitBox from '@/components/ui/split-box';
 import { Text } from '@/components/ui/text';
 import { getPopularCampaigns } from '@/service/campaign/campaign-api';
 
@@ -27,6 +28,8 @@ export default async function Home() {
 
         <PopularSection campaigns={campaignsData.campaigns} />
       </section>
+
+      <SplitBox className="h-2" />
     </>
   );
 }
