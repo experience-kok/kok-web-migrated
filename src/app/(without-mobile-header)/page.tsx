@@ -16,6 +16,7 @@ export default async function Home() {
     page: 1,
     size: 10,
   });
+  console.log(campaignsData);
 
   const categoryRankingData = await Promise.all([
     // 방문 카테고리 인기 캠페인 목록
@@ -55,7 +56,7 @@ export default async function Home() {
       </section>
 
       <section className="px-6 py-10 lg:px-16">
-        <Text as="h2" size="2xl" weight="bold" className="mb-4">
+        <Text as="h2" size="3xl" weight="bold" className="mb-4">
           인기 캠페인
         </Text>
 
@@ -65,10 +66,10 @@ export default async function Home() {
       <SplitBox className="h-2" />
 
       <section className="px-6 py-10 lg:px-16">
-        <Text as="h2" size="2xl" weight="bold" className="mb-4 md:hidden">
+        <Text as="h2" size="3xl" weight="bold" className="mb-4 md:hidden">
           카테고리 랭킹
         </Text>
-        <Text as="h2" size="2xl" weight="bold" className="mb-4 hidden md:block">
+        <Text as="h2" size="3xl" weight="bold" className="mb-4 hidden md:block">
           체험콕이 추천해요!
         </Text>
         <CategoryRank categoryData={categoryRankingData} />

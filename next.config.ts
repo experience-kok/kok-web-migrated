@@ -26,11 +26,6 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'example.com',
-        port: '',
-      },
-      {
-        protocol: 'https',
         hostname: 'imagescdn.gettyimagesbank.com',
         port: '',
       },

@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Separator } from '@/components/ui/separator';
+import { Text } from '@/components/ui/text';
 import { Campaign, CampaignCategoryType, CampaignCategoryName } from '@/models/campaign';
 
 import RankCampaignCard from './rank-campaign-card';
@@ -20,9 +22,14 @@ interface CategoryRankProps {
 export default function CategoryRank({ categoryData }: CategoryRankProps) {
   const categories = categoryData.map(data => data.categoryName);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  // Find the index of "맛집" category to set as default
+  const restaurantIndex = categories.findIndex(category => category === '맛집');
+  const defaultIndex = restaurantIndex !== -1 ? restaurantIndex : 0;
+
+  const [selectedIndex, setSelectedIndex] = useState(defaultIndex);
   const [carouselAPI, setCarouselAPI] = useState<CarouselApi | null>(null);
   const [, setScrollSnaps] = useState<number[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   const onSelect = useCallback(() => {
     if (!carouselAPI) return;
@@ -34,6 +41,55 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
     carouselAPI.scrollTo(index);
   };
 
+  // Initialize carousel with restaurant category
+  useEffect(() => {
+    if (carouselAPI && restaurantIndex !== -1) {
+      carouselAPI.scrollTo(restaurantIndex);
+      setSelectedIndex(restaurantIndex);
+    }
+  }, [carouselAPI, restaurantIndex]);
+
+  // Handle breakpoint changes (only when crossing md breakpoint)
+  useEffect(() => {
+    const checkMobile = () => {
+      return window.innerWidth < 768; // md breakpoint is 768px
+    };
+
+    // Set initial state
+    setIsMobile(checkMobile());
+
+    const handleResize = () => {
+      const currentIsMobile = checkMobile();
+
+      // Only reset to restaurant when switching between mobile/desktop
+      if (currentIsMobile !== isMobile) {
+        setIsMobile(currentIsMobile);
+
+        // Reset to restaurant category only when switching breakpoints
+        if (restaurantIndex !== -1) {
+          setSelectedIndex(restaurantIndex);
+          if (carouselAPI && currentIsMobile) {
+            // Only scroll carousel on mobile
+            carouselAPI.scrollTo(restaurantIndex);
+          }
+        }
+      }
+    };
+
+    // Use throttling to reduce resize event frequency
+    let timeoutId: NodeJS.Timeout;
+    const throttledHandleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(handleResize, 100);
+    };
+
+    window.addEventListener('resize', throttledHandleResize);
+    return () => {
+      window.removeEventListener('resize', throttledHandleResize);
+      clearTimeout(timeoutId);
+    };
+  }, [carouselAPI, restaurantIndex, isMobile]);
+
   useEffect(() => {
     if (!carouselAPI) return;
     onSelect();
@@ -41,15 +97,14 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
     carouselAPI.on('select', onSelect);
   }, [carouselAPI, onSelect]);
 
-  const visitCampaigns = categoryData
-    .filter(data => data.categoryType === '방문')
-    .flatMap(data => data.campaigns)
-    .slice(0, 3);
+  const restaurantCampaigns =
+    categoryData.find(data => data.categoryName === '맛집')?.campaigns.slice(0, 3) || [];
 
-  const deliveryCampaigns = categoryData
-    .filter(data => data.categoryType === '배송')
-    .flatMap(data => data.campaigns)
-    .slice(0, 3);
+  const accommodationCampaigns =
+    categoryData.find(data => data.categoryName === '숙박')?.campaigns.slice(0, 3) || [];
+
+  const cosmeticsCampaigns =
+    categoryData.find(data => data.categoryName === '화장품')?.campaigns.slice(0, 3) || [];
 
   return (
     <>
@@ -96,65 +151,100 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
         </Carousel>
       </div>
 
-      {/* 모바일 이상 사이즈에서 보일 컴포넌트 - 2열 구조 (방문 | 배송) */}
+      {/* 모바일 이상 사이즈에서 보일 컴포넌트 - 3열 구조 (맛집 | 숙박 | 화장품) */}
       <div className="hidden w-full md:block">
-        <div className="grid grid-cols-2 gap-8">
-          {/* 방문 카테고리 */}
+        <div className="grid grid-cols-3 gap-6">
+          {/* 맛집 카테고리 */}
           <div className="space-y-4">
-            <div className="text-center">
-              <span className="inline-block rounded-full bg-blue-100 px-4 py-2 text-lg font-bold text-blue-800">
-                방문
-              </span>
+            <div className="flex flex-col gap-1 text-left">
+              <Text size={'xl'} weight={'semibold'} className="line-clamp-1">
+                입맛도 여행이 필요해요 🍽️
+              </Text>
+              <Text size={'md'} weight={'semibold'} color="muted-foreground">
+                맛집 캠페인
+              </Text>
+              <Separator />
             </div>
 
             <div className="space-y-3">
-              {visitCampaigns.map((campaign, index) => (
+              {restaurantCampaigns.map((campaign, index) => (
                 <RankCampaignCard key={campaign.id} campaign={campaign} ranking={index + 1} />
               ))}
 
-              {Array.from({ length: Math.max(0, 3 - visitCampaigns.length) }).map((_, index) => (
-                <div key={`visit-empty-${index}`} className="w-full">
-                  <div className="rounded-lg border border-dashed border-gray-200 py-6 text-center text-gray-300">
-                    <p className="text-sm">준비 중이에요.</p>
+              {Array.from({ length: Math.max(0, 3 - restaurantCampaigns.length) }).map(
+                (_, index) => (
+                  <div key={`restaurant-empty-${index}`} className="w-full">
+                    <div className="rounded-lg border border-dashed border-gray-200 py-6 text-center text-gray-300">
+                      <p className="text-sm">준비 중이에요.</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
 
-            {visitCampaigns.length === 0 && (
+            {restaurantCampaigns.length === 0 && (
               <div className="rounded-lg border border-dashed border-gray-200 py-8 text-center text-gray-500">
-                <p>방문 카테고리에 캠페인이 없어요.</p>
+                <p>맛집 카테고리에 캠페인이 없어요.</p>
               </div>
             )}
           </div>
 
-          {/* 배송 카테고리 */}
+          {/* 숙박 카테고리 */}
           <div className="space-y-4">
-            <div className="text-center">
-              <span className="inline-block rounded-full bg-green-100 px-4 py-2 text-lg font-bold text-green-800">
-                배송
-              </span>
+            <div className="flex flex-col gap-1 text-left">
+              <Text size={'xl'} weight={'semibold'} className="line-clamp-1">
+                쉼표 같은 숙소, 지금 만나봐요 🛌
+              </Text>
+              <Text size={'md'} weight={'semibold'} color="muted-foreground">
+                숙박 캠페인
+              </Text>
+              <Separator />
             </div>
 
             <div className="space-y-3">
-              {deliveryCampaigns.map((campaign, index) => (
+              {accommodationCampaigns.map((campaign, index) => (
                 <RankCampaignCard key={campaign.id} campaign={campaign} ranking={index + 1} />
               ))}
 
-              {Array.from({ length: Math.max(0, 3 - deliveryCampaigns.length) }).map((_, index) => (
-                <div key={`delivery-empty-${index}`} className="w-full">
-                  <div className="rounded-lg border border-dashed border-gray-200 py-6 text-center text-gray-300">
-                    <p className="text-sm">준비 중이에요.</p>
+              {Array.from({ length: Math.max(0, 3 - accommodationCampaigns.length) }).map(
+                (_, index) => (
+                  <div key={`accommodation-empty-${index}`} className="w-full">
+                    <div className="rounded-lg border border-dashed border-gray-200 py-6 text-center text-gray-300">
+                      <p className="text-sm">준비 중이에요.</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
+            </div>
+          </div>
+
+          {/* 화장품 카테고리 */}
+          <div className="space-y-4">
+            <div className="flex flex-col gap-1 text-left">
+              <Text size={'xl'} weight={'semibold'} className="line-clamp-1">
+                여름 피부, 기초부터 달라져요 🧴
+              </Text>
+              <Text size={'md'} weight={'semibold'} color="muted-foreground">
+                화장품 캠페인
+              </Text>
+              <Separator />
             </div>
 
-            {deliveryCampaigns.length === 0 && (
-              <div className="rounded-lg border border-dashed border-gray-200 py-8 text-center text-gray-500">
-                <p>배송 카테고리에 캠페인이 없어요.</p>
-              </div>
-            )}
+            <div className="space-y-3">
+              {cosmeticsCampaigns.map((campaign, index) => (
+                <RankCampaignCard key={campaign.id} campaign={campaign} ranking={index + 1} />
+              ))}
+
+              {Array.from({ length: Math.max(0, 3 - cosmeticsCampaigns.length) }).map(
+                (_, index) => (
+                  <div key={`cosmetics-empty-${index}`} className="w-full">
+                    <div className="rounded-lg border border-dashed border-gray-200 py-6 text-center text-gray-300">
+                      <p className="text-sm">준비 중이에요.</p>
+                    </div>
+                  </div>
+                ),
+              )}
+            </div>
           </div>
         </div>
       </div>

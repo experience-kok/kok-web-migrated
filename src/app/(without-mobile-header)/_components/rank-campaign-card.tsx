@@ -33,7 +33,7 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
 
   return (
     <Card className="flex-row gap-2 border-none py-0 shadow-none">
-      <CardContent className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-lg p-0 md:h-[135px] md:w-[135px]">
+      <CardContent className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-lg p-0 md:h-[105px] md:w-[105px] lg:h-[135px] lg:w-[135px]">
         <AspectRatio ratio={1 / 1} className="h-full w-full">
           <Image
             src={thumbnailUrl || ''}
@@ -52,17 +52,17 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
           <LikeButton />
         </div>
       </CardContent>
-      <CardFooter className="flex-1 flex-col items-start justify-start">
+      <CardFooter className="flex-1 flex-col items-start justify-start px-4">
         <div className="scrollbar-hide mb-2 flex w-full items-center gap-2 overflow-x-auto">
           <CampaignTypeBadge campaignType={campaignType} />
         </div>
-        <Text className="line-clamp-2">{title}</Text>
-        <div className="mb-2 flex items-center gap-1">
+        <Text className="line-clamp-1">{title}</Text>
+        <div className="mb-2 flex flex-col gap-1">
+          <Text className="line-clamp-1" size="sm" color="muted-foreground" weight="semibold">
+            {campaign.productShortInfo}
+          </Text>
           <Text size="sm" color="primary" weight="bold">
             {daysRemaining > 0 ? `${daysRemaining}일 남음` : '마감'}
-          </Text>
-          <Text size="sm" color="muted-foreground" weight="semibold">
-            {campaign.productShortInfo}
           </Text>
         </div>
         <div className="flex w-full justify-end">
