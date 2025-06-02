@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitFlow 전략
 
-## Getting Started
+체험콕 서비스는 GitFlow 전략을 따라서 프로젝트를 관리합니다.
 
-First, run the development server:
+## 브랜치 구조
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+GitFlow는 다음과 같은 주요 브랜치로 구성됩니다:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. `main` 브랜치
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 배포 가능한 안정적인 코드만 포함합니다.
+- 직접 개발이 이루어지지 않으며, `develop` 브랜치에서 안정화된 코드가 머지됩니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. `develop` 브랜치
 
-## Learn More
+- 최신 개발이 반영되는 브랜치입니다.
+- 기능 개발이 완료된 후 `feature` 브랜치에서 머지됩니다.
+- 충분한 테스트를 거친 후 `main` 브랜치로 머지됩니다.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. `feature` 브랜치
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 새로운 기능을 개발할 때 생성되는 브랜치입니다.
+- `develop` 브랜치에서 생성되며, 개발이 완료되면 `develop` 브랜치로 머지됩니다.
+- 브랜치명: `feature/#이슈번호-기능명`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. `release` 브랜치
 
-## Deploy on Vercel
+- 배포 전 최종 테스트 및 버그 수정용 브랜치입니다.
+- `develop` 브랜치에서 생성되며, 버그 수정 후 `main`과 `develop` 브랜치로 머지됩니다。
+- 브랜치명: `release/버전명`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. `hotfix` 브랜치
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `main` 브랜치에서 긴급한 버그를 수정할 때 사용하는 브랜치입니다。
+- 버그 수정 후 `main`과 `develop` 브랜치로 머지됩니다。
+- 브랜치명: `hotfix/#이슈번호-버그명`
+
+## 이슈 관리
+
+이슈 관리는 깃허브에 Issue 탭을 사용하여 관리합니다.
+
+### 1. 이슈 생성
+
+- 새 기능, 버그 수정, 개선 사항 등을 트래킹하기 위해 이슈를 생성합니다.
+- 명확한 제목과 설명을 작성하여 개발자들이 쉽게 이해할 수 있도록 합니다.
+- 라벨(Label)을 활용하여 이슈의 성격(예: 버그수정, 기능개발, 의존성변경, 리팩토링 등)을 구분합니다.
+- 마일스톤(Milestone)을 설정하여 일정 관리에 도움을 줍니다.
+
+### 2. 이슈 할당 및 작업 진행
+
+- 담당자를 지정하여 책임을 명확히 합니다.
+- 관련된 브랜치(`feature/#이슈번호-기능명`, `hotfix/이슈번호-버그명`)를 생성하여 이슈와 브랜치를 연결합니다.
+- 이슈와 관련된 커밋 메시지에 `#이슈번호`를 포함하여 추적 가능하도록 합니다.
+
+### 3. PR(Pull Request) 또는 MR(Merge Request) 생성
+
+- 작업이 완료되면 PR 또는 MR을 생성하여 코드 리뷰를 요청합니다.
+- 리뷰어는 코드의 품질과 프로젝트 규칙을 준수하는지 확인합니다.
+- 피드백을 반영하여 최종적으로 `develop` 또는 `main` 브랜치에 병합합니다.
+- PR 합병시 `close #이슈번호` 를 통해 이슈를 종료합니다.
