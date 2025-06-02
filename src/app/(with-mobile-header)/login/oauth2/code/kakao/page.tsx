@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 
 import LoadingLottie from '@/assets/lotties/loading.json';
+import { setTokens } from '@/lib/cookie-utils';
 import { postKakaoLogin } from '@/service/auth/auth-api';
 
 const LottieLoader = dynamic(() => import('@/components/shared/lottie-loader'), {
@@ -39,7 +40,23 @@ export default function KakaoCallbackPage() {
           authorizationCode: code,
           redirectUri,
         });
-        console.log(response);
+
+        const { loginType, user, accessToken, refreshToken } = response;
+
+        setTokens(accessToken, refreshToken);
+
+        if (loginType === 'login') {
+          router.push('/');
+
+          setTimeout(() => {
+            toast.success(`${user.nickname}님, 환영해요!`, {
+              position: 'top-center',
+              duration: 3000,
+            });
+          }, 1000);
+        } else if (loginType === 'registration') {
+          router.push('/welcome');
+        }
       } catch (error) {
         console.error('로그인 에러: ', error);
         toast.error(error instanceof Error ? error.message : '잠시 후 다시 시도해주세요.', {

@@ -1,6 +1,6 @@
 import { fetchKok } from '@/lib/fetcher';
 
-import { PostKakaoLoginRequest } from './types';
+import { PostKakaoLoginRequest, PostKakaoLoginResponse } from './types';
 
 /**
  * 카카오 로그인
@@ -11,7 +11,7 @@ export async function postKakaoLogin({ authorizationCode, redirectUri }: PostKak
     authorizationCode,
     redirectUri,
   };
-  const response = await fetchKok.post(`/auth/kakao`, requestBody);
+  const response = await fetchKok.post<PostKakaoLoginResponse>(`/auth/kakao`, requestBody);
 
   return response;
 }
