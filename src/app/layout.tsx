@@ -1,9 +1,18 @@
+import localFont from 'next/font/local';
+
 import type { Metadata } from 'next';
 
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import './globals.css';
 import Provider from '@/components/provider';
+
+const pretendard = localFont({
+  src: '../assets/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '100 900',
+  variable: '--font-pretendard',
+});
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} antialiased`}
         suppressHydrationWarning={true}
       >
         <Provider>{children}</Provider>
