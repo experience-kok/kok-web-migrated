@@ -54,7 +54,9 @@ export default function KakaoCallbackPage() {
               duration: 3000,
             });
           }, 1000);
-        } else if (loginType === 'registration') {
+        }
+        // 회원가입시 환영 페이지로 이동
+        else if (loginType === 'registration') {
           router.push('/welcome');
         }
       } catch (error) {
