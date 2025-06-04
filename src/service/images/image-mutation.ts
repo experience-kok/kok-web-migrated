@@ -1,6 +1,11 @@
+import { useSetAtom } from 'jotai';
 import { toast } from 'sonner';
 
+import { User } from '@/models/user';
+
 import { getQueryClient } from '@/configs/tanstack-query/get-query-client';
+
+import { userAtom } from '@/stores/user.atom';
 
 import { useMutation } from '@tanstack/react-query';
 
@@ -15,6 +20,7 @@ import { ImageExtension } from './types';
  */
 export function usePatchProfileImageMutation() {
   const queryClient = getQueryClient();
+  const setUser = useSetAtom(userAtom);
 
   return useMutation({
     mutationFn: async (file: File) => {
@@ -31,11 +37,27 @@ export function usePatchProfileImageMutation() {
       });
 
       // 프로필 이미지 업로드
-      await patchProfileImage({
+      const response = await patchProfileImage({
         profileImage: presignedUrl,
       });
+      return response;
     },
-    onSuccess: () => {
+    onSuccess: ({ user }) => {
+      // 이전 상태를 가져와서 새로운 상태 생성
+      const prevUser = JSON.parse(localStorage.getItem('user') || 'null');
+
+      // user 객체를 직접 저장
+      const newUser = {
+        ...prevUser,
+        profileImage: user.profileImage,
+      } as User;
+
+      // localStorage에 user 객체 직접 저장
+      localStorage.setItem('user', JSON.stringify(newUser));
+
+      // atom 상태도 user 객체로 직접 업데이트
+      setUser(newUser);
+
       toast.success('프로필 이미지가 성공적으로 업데이트되었어요.', {
         position: 'top-center',
       });
