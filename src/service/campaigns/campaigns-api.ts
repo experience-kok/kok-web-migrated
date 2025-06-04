@@ -1,6 +1,10 @@
 import { fetcher } from '@/lib/fetcher';
 
-import { GetPopularCampaignsRequest, GetPopularCampaignsResponse } from './types';
+import {
+  GetPopularCampaignsRequest,
+  GetPopularCampaignsResponse,
+  PostCampaignRequest,
+} from './types';
 
 /**
  * 인기 캠페인 조회
@@ -26,6 +30,17 @@ export async function getPopularCampaigns({
       requiresAuth: false,
     },
   );
+
+  return response;
+}
+
+/**
+ * 캠페인 등록
+ */
+export async function postCampaign(requestBody: PostCampaignRequest) {
+  const response = fetcher.post<null>(`/campaigns`, requestBody, {
+    requiresAuth: true,
+  });
 
   return response;
 }

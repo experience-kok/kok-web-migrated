@@ -203,7 +203,8 @@ export class CustomFetcher {
         if (authToken) {
           requestHeaders.Authorization = `Bearer ${authToken}`;
         } else if (requiresAuth) {
-          console.log('토큰 없음');
+          this.redirectToLogin();
+          removeAllTokens();
           throw new FetcherError(401, 'Unauthorized', {
             errorCode: errorCode.UNAUTHORIZED,
             status: 401,
