@@ -402,7 +402,9 @@ export default function InfoForm({ onSubmit }: Props) {
       {/* 미션 가이드 */}
       <Card>
         <CardHeader>
-          <CardTitle>미션 가이드</CardTitle>
+          <CardTitle>
+            미션 가이드 <span className="text-primary">*</span>
+          </CardTitle>
           <p className="text-muted-foreground text-sm">
             선정된 인플루언서가 수행해야 할 구체적인 미션 내용을 작성해주세요
           </p>
@@ -422,7 +424,9 @@ export default function InfoForm({ onSubmit }: Props) {
       {/* 미션 키워드 */}
       <Card>
         <CardHeader>
-          <CardTitle>미션 키워드</CardTitle>
+          <CardTitle>
+            미션 키워드 <span className="text-primary">*</span>
+          </CardTitle>
           <p className="text-muted-foreground text-sm">
             리뷰 콘텐츠에 반드시 포함되어야 하는 해시태그나 키워드를 쉼표(,)로 구분하여 입력하세요
           </p>
