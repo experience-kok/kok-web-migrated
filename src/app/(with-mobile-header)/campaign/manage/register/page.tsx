@@ -9,6 +9,7 @@ import { usePostCampaignMutation } from '@/service/campaigns/campaigns-mutation'
 import { PostCampaignRequest } from '@/service/campaigns/types';
 
 import InfoForm from './_components/info-form';
+import ThumbnailForm from './_components/thumbnail-form';
 
 export default function CampaignRegisterPage() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -87,7 +88,7 @@ export default function CampaignRegisterPage() {
         </div>
 
         {/* 썸네일 등록 */}
-        {/* <ImageUpload preview={preview} onFileChange={handleFileChange} /> */}
+        <ThumbnailForm preview={preview} onFileChange={handleFileChange} />
 
         {/* 기본 정보 - 폼이 자체적으로 관리됨 */}
         <InfoForm onSubmit={handleSubmit} />

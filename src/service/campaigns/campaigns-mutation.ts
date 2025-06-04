@@ -1,3 +1,6 @@
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
 import { useMutation } from '@tanstack/react-query';
 
 import { postPresignedUrl } from '../images/images-api';
@@ -10,6 +13,8 @@ import { PostCampaignRequest } from './types';
  * 캠페인 등록 뮤테이션
  */
 export function usePostCampaignMutation() {
+  const router = useRouter();
+
   return useMutation({
     mutationFn: async ({
       file,
@@ -34,10 +39,19 @@ export function usePostCampaignMutation() {
         thumbnailUrl: presignedUrl,
         ...campaignData,
       };
+      console.log(requestData);
 
       // 캠페인 등록
       await postCampaign(requestData);
     },
-    onSuccess: () => {},
+    onSuccess: () => {
+      toast.success('캠페인 등록이 완료되었어요.', { position: 'top-center' });
+      router.push('/campaign/manage');
+    },
+    onError: () => {
+      toast.error('캠페인 등록을 실패했어요.', {
+        position: 'top-center',
+      });
+    },
   });
 }
