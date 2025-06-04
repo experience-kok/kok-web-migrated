@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
 import { User } from '@/models/user';
-import { usePatchProfileImageMutation } from '@/service/images/image-mutation';
+import { usePatchProfileImageMutation } from '@/service/images/images-mutation';
 
 interface Props extends PropsWithChildren {
   user: User;
@@ -66,7 +66,7 @@ export default function ProfileImageUploadDialog({ children, user }: Props) {
     fileInput?.click();
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!selectedFile) {
       return;
     }

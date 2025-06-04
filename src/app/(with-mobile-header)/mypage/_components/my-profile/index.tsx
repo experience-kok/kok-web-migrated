@@ -17,7 +17,6 @@ export default function MyProfile() {
   const {
     data: { user: user },
   } = useGetUsersProfile();
-  console.log(user);
 
   return (
     <section className="px-6 py-10">
