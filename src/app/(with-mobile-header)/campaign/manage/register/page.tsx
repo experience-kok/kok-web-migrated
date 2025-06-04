@@ -8,6 +8,8 @@ import { CampaignCreateForm } from '@/schemas/campaign.schemas';
 import { usePostCampaignMutation } from '@/service/campaigns/campaigns-mutation';
 import { PostCampaignRequest } from '@/service/campaigns/types';
 
+import InfoForm from './_components/info-form';
+
 export default function CampaignRegisterPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -88,7 +90,7 @@ export default function CampaignRegisterPage() {
         {/* <ImageUpload preview={preview} onFileChange={handleFileChange} /> */}
 
         {/* 기본 정보 - 폼이 자체적으로 관리됨 */}
-        {/* <InfoForm onSubmit={handleSubmit} /> */}
+        <InfoForm onSubmit={handleSubmit} />
       </div>
     </div>
   );
