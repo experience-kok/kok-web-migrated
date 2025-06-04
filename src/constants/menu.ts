@@ -10,6 +10,10 @@ export const routeMenu: Menu[] = [
     url: '/',
   },
   {
+    title: '로그인',
+    url: '/login',
+  },
+  {
     title: '내 정보',
     url: '/mypage',
   },

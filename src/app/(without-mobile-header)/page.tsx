@@ -1,14 +1,14 @@
 import SplitBox from '@/components/ui/split-box';
 import { Text } from '@/components/ui/text';
 import { DELIVERY_CATEGORIES, VISIT_CATEGORIES } from '@/models/campaign';
-import { getPopularCampaigns } from '@/service/campaign/campaign-api';
+import { getPopularCampaigns } from '@/service/campaigns/campaigns-api';
 
 import CategoryRank from './_components/category-rank';
 import MainBanner from './_components/main-banner';
 import PopularCampaigns from './_components/popular-campaigns';
 
 // ISR : 60초마다 재생성
-export const revalidate = 60;
+export const revalidate = 10;
 
 export default async function Home() {
   // 인기 캠페인 목록 요청
@@ -16,7 +16,6 @@ export default async function Home() {
     page: 1,
     size: 10,
   });
-  console.log(campaignsData);
 
   const categoryRankingData = await Promise.all([
     // 방문 카테고리 인기 캠페인 목록

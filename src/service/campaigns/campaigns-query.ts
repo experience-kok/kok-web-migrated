@@ -1,6 +1,6 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
-import { getPopularCampaigns } from './campaign-api';
+import { getPopularCampaigns } from './campaigns-api';
 import { GetPopularCampaignsRequest } from './types';
 
 // campaigns 쿼리키

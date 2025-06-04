@@ -1,6 +1,6 @@
 import { getQueryClient } from '@/configs/tanstack-query/get-query-client';
 
-import { campaignsQueryKeys } from './campaign-query';
+import { campaignsQueryKeys } from './campaigns-query';
 import { GetPopularCampaignsRequest } from './types';
 
 /**
