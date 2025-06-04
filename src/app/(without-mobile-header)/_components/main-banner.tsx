@@ -28,7 +28,7 @@ export default function MainBanner({ banners }: Props) {
     >
       <CarouselContent className="-ml-4">
         {banners.map((banner, index) => (
-          <CarouselItem key={index} className="pl-0 md:basis-1/3 md:pl-4">
+          <CarouselItem key={index} className="pl-0 md:basis-1/2 md:pl-4 lg:basis-1/3">
             <AspectRatio ratio={16 / 9} className="md:rounded-lg">
               <Image
                 src={banner.bannerUrl}

@@ -57,7 +57,7 @@ export default function FooterMenu() {
         <ScrollToTopButton />
       </div>
       <div
-        className={`fixed right-0 bottom-0 left-0 h-15 w-full border-t bg-white transition-transform duration-300 lg:hidden ${
+        className={`fixed right-0 bottom-0 left-0 h-15 w-full border-t bg-white transition-transform duration-300 md:hidden ${
           scrollDirection === 'down' ? 'translate-y-full' : 'translate-y-0'
         }`}
       >
