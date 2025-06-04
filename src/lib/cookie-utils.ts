@@ -104,7 +104,7 @@ export async function getRefreshToken(): Promise<string | null> {
  */
 export function setAccessToken(token: string, options: CookieOptions = {}): void {
   const defaultOptions: CookieOptions = {
-    maxAge: 60 * 15, // 15 minutes (short-lived)
+    maxAge: 60 * 60 * 24, // 1일
     secure: true,
     sameSite: 'lax',
     ...options,
@@ -120,7 +120,7 @@ export function setAccessToken(token: string, options: CookieOptions = {}): void
  */
 export function setRefreshToken(token: string, options: CookieOptions = {}): void {
   const defaultOptions: CookieOptions = {
-    maxAge: 60 * 60 * 24 * 7, // 7 days (long-lived)
+    maxAge: 60 * 60 * 24 * 7, // 7일
     secure: true,
     sameSite: 'lax',
     httpOnly: false, // Note: client-side accessible for token refresh

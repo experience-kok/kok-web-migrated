@@ -4,6 +4,8 @@ import {
   GetUsersProfileResponse,
   PatchProfileImageRequest,
   PatchProfileImageResponse,
+  PutProfileRequest,
+  PutProfileResponse,
 } from './types';
 
 /**
@@ -12,6 +14,17 @@ import {
  */
 export async function getUsersProfile() {
   const response = await fetcher.get<GetUsersProfileResponse>(`/users/profile`, {
+    requiresAuth: true,
+  });
+
+  return response;
+}
+
+/**
+ * 내 정보 수정
+ */
+export async function putProfile(requestBody: PutProfileRequest) {
+  const response = await fetcher.put<PutProfileResponse>(`/users/profile`, requestBody, {
     requiresAuth: true,
   });
 
