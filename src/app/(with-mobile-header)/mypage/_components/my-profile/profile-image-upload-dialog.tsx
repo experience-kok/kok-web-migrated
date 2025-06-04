@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
 import { User } from '@/models/user';
+import { usePatchProfileImageMutation } from '@/service/images/image-mutation';
 
 interface Props extends PropsWithChildren {
   user: User;
@@ -28,6 +29,8 @@ interface Props extends PropsWithChildren {
 export default function ProfileImageUploadDialog({ children, user }: Props) {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const { mutate: handlePatchProfile } = usePatchProfileImageMutation();
 
   // 이미지 변경 함수
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +56,7 @@ export default function ProfileImageUploadDialog({ children, user }: Props) {
     if (!open && preview) {
       URL.revokeObjectURL(preview);
       setPreview(null);
+      setSelectedFile(null);
     }
   };
 
@@ -60,6 +64,14 @@ export default function ProfileImageUploadDialog({ children, user }: Props) {
     // input 요소를 클릭하여 파일 선택 다이얼로그 열기
     const fileInput = document.getElementById('profile-image-input');
     fileInput?.click();
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedFile) {
+      return;
+    }
+
+    handlePatchProfile(selectedFile);
   };
 
   return (
@@ -84,7 +96,9 @@ export default function ProfileImageUploadDialog({ children, user }: Props) {
                     <Image src={user.profileImage} width={70} height={70} alt="프로필 이미지" />
                   </AvatarImage>
                 ) : null}
-                <AvatarFallback></AvatarFallback>
+                <AvatarFallback>
+                  <Image src={'/kogi.svg'} width={70} height={70} alt="프로필 이미지" />
+                </AvatarFallback>
               </Avatar>
 
               {/* 어두운 오버레이 */}
@@ -111,9 +125,9 @@ export default function ProfileImageUploadDialog({ children, user }: Props) {
         </section>
 
         <DialogClose asChild>
-          {/* <Button onClick={handleSubmit} disabled={!selectedFile}>
+          <Button onClick={handleSubmit} disabled={!selectedFile}>
             저장
-          </Button> */}
+          </Button>
         </DialogClose>
       </DialogContent>
     </Dialog>

@@ -10,7 +10,6 @@ import { Text } from '@/components/ui/text';
 import { useGetUsersProfile } from '@/service/users/users-query';
 
 import ProfileImageUploadDialog from './profile-image-upload-dialog';
-
 /**
  * 내 정보 컴포넌트
  */
@@ -28,10 +27,17 @@ export default function MyProfile() {
             <div className="group relative cursor-pointer">
               <Avatar className="h-20 w-20">
                 <AvatarImage asChild src={user.profileImage ?? undefined}>
-                  <Image src={user.profileImage ?? ''} width={70} height={70} alt="프로필 이미지" />
+                  <Image
+                    src={user.profileImage ?? '/kogi.svg'}
+                    width={70}
+                    height={70}
+                    alt="프로필 이미지"
+                  />
                 </AvatarImage>
 
-                <AvatarFallback>체험콕</AvatarFallback>
+                <AvatarFallback>
+                  <Image src={'/kogi.svg'} width={70} height={70} alt="프로필 이미지" />
+                </AvatarFallback>
               </Avatar>
 
               {/* 어두운 오버레이 */}

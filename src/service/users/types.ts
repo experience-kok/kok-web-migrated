@@ -6,3 +6,16 @@ import { User } from '@/models/user';
 export interface GetUsersProfileResponse {
   user: User;
 }
+
+// 프로필 이미지 수정 요청
+export interface PatchProfileImageRequest {
+  profileImage: string;
+}
+
+// 프로필 이미지 수정 응답
+export interface PatchProfileImageResponse {
+  user: {
+    profileImage: string;
+    id: number;
+  };
+}
