@@ -1,6 +1,7 @@
 import SplitBox from '@/components/ui/split-box';
 import { Text } from '@/components/ui/text';
 import { DELIVERY_CATEGORIES, VISIT_CATEGORIES } from '@/models/campaign';
+import { getBanners } from '@/service/banners/banners-api';
 import { getPopularCampaigns } from '@/service/campaigns/campaigns-api';
 
 import CategoryRank from './_components/category-rank';
@@ -11,12 +12,16 @@ import PopularCampaigns from './_components/popular-campaigns';
 export const revalidate = 10;
 
 export default async function Home() {
+  // 배너 목록 요청
+  const bannersData = await getBanners();
+
   // 인기 캠페인 목록 요청
   const campaignsData = await getPopularCampaigns({
     page: 1,
     size: 10,
   });
 
+  // 카테고리 랭킹 캠페인 목록 요청
   const categoryRankingData = await Promise.all([
     // 방문 카테고리 인기 캠페인 목록
     ...VISIT_CATEGORIES.map(async categoryName => {
@@ -51,7 +56,7 @@ export default async function Home() {
   return (
     <>
       <section className="md:px-6 md:py-10 lg:px-16">
-        <MainBanner />
+        <MainBanner banners={bannersData} />
       </section>
 
       <section className="px-6 py-10 lg:px-16">
