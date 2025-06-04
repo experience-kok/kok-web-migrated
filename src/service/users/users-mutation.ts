@@ -1,5 +1,5 @@
 import { useSetAtom } from 'jotai';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { User } from '@/models/user';
@@ -27,22 +27,33 @@ export function usePutProfileMutation() {
   const setUser = useSetAtom(userAtom);
 
   return useMutation({
-    mutationFn: async ({ file, userData }: { file: File; userData: EditForm }) => {
-      // 파일 확장자 추출
-      const fileExtension = file.name.split('.').pop() as ImageExtension;
+    mutationFn: async ({ file, userData }: { file?: File; userData: EditForm }) => {
+      let profileImageUrl: string;
 
-      // presigned-url 발급
-      const { presignedUrl } = await postPresignedUrl(fileExtension, 'profile');
+      if (file) {
+        // 파일 확장자 추출
+        const fileExtension = file.name.split('.').pop() as ImageExtension;
 
-      // 발급 받은 url에 이미지 업로드
-      await fetch(presignedUrl, {
-        method: 'PUT',
-        body: file,
-      });
+        // presigned-url 발급
+        const { presignedUrl } = await postPresignedUrl(fileExtension, 'profile');
+
+        // 발급 받은 url에 이미지 업로드
+        await fetch(presignedUrl, {
+          method: 'PUT',
+          body: file,
+        });
+
+        profileImageUrl = presignedUrl;
+      } else {
+        const cachedUserData = queryClient.getQueryData(usersQueryKeys.profile().queryKey) as
+          | User
+          | undefined;
+        profileImageUrl = cachedUserData?.profileImage || '';
+      }
 
       const requestData: PutProfileRequest = {
         ...userData,
-        profileImage: presignedUrl,
+        profileImage: profileImageUrl,
       };
 
       // 유저 정보 수정
