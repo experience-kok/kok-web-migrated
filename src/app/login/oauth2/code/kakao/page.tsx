@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 
+import { useSetAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
@@ -10,6 +11,8 @@ import LoadingLottie from '@/assets/lotties/loading.json';
 import { setTokens } from '@/lib/cookie-utils';
 import { postKakaoLogin } from '@/service/auth/auth-api';
 
+import { userAtom } from '@/stores/user.atom';
+
 const LottieLoader = dynamic(() => import('@/components/shared/lottie-loader'), {
   ssr: false,
 });
@@ -17,6 +20,7 @@ const LottieLoader = dynamic(() => import('@/components/shared/lottie-loader'), 
 export default function KakaoCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const setUser = useSetAtom(userAtom);
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -44,6 +48,7 @@ export default function KakaoCallbackPage() {
         const { loginType, user, accessToken, refreshToken } = response;
 
         setTokens(accessToken, refreshToken);
+        setUser(user);
 
         if (loginType === 'login') {
           router.push('/');
@@ -70,7 +75,7 @@ export default function KakaoCallbackPage() {
     };
 
     handleCallback();
-  }, [router, searchParams]);
+  }, [router, searchParams, setUser]);
 
   return (
     <div className="flex h-screen w-full items-center justify-center">
