@@ -1,4 +1,4 @@
-import { fetchKok } from '@/lib/fetcher';
+import { fetcher } from '@/lib/fetcher';
 
 import { GetPopularCampaignsRequest, GetPopularCampaignsResponse } from './types';
 
@@ -20,7 +20,7 @@ export async function getPopularCampaigns({
   if (campaignType) queryParams.set('campaignType', campaignType);
   if (categoryName) queryParams.set('categoryName', categoryName);
 
-  const response = await fetchKok.get<GetPopularCampaignsResponse>(
+  const response = await fetcher.get<GetPopularCampaignsResponse>(
     `/campaigns/popular?${queryParams.toString()}`,
     {
       requiresAuth: false,

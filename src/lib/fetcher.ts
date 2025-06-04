@@ -1,7 +1,13 @@
 import { errorCode } from '@/types/error-code';
 import { ErrorResponse, SuccessResponse } from '@/types/response';
 
-import { getAccessToken, getRefreshToken, setAccessToken, removeAllTokens } from './cookie-utils';
+import {
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  removeAllTokens,
+  setRefreshToken,
+} from './cookie-utils';
 
 export interface FetcherConfig {
   baseURL?: string;
@@ -13,7 +19,6 @@ export interface RequestOptions extends RequestInit {
   timeout?: number;
   requiresAuth?: boolean;
   token?: string;
-  useKokAPI?: boolean; // KOK API를 사용하는지 BFF를 사용하는지 확인하는 플래그
 }
 
 export class FetcherError extends Error {
@@ -47,15 +52,7 @@ export class CustomFetcher {
   }
 
   private getDefaultBaseURL(): string {
-    // 기본 BFF 엔드포인트
-    return process.env.NEXT_PUBLIC_BFF_BASE_URL || 'http://localhost:3000/bff';
-  }
-
-  private getBaseURL(useKokAPI?: boolean): string {
-    if (useKokAPI) {
-      return process.env.NEXT_PUBLIC_KOK_BASE_URL || 'https://ckok.kr/api';
-    }
-    return process.env.NEXT_PUBLIC_BFF_BASE_URL || 'http://localhost:3000/bff';
+    return process.env.NEXT_PUBLIC_KOK_BASE_URL || 'https://ckok.kr/api';
   }
 
   private async getAuthToken(token?: string): Promise<string | null> {
@@ -72,7 +69,7 @@ export class CustomFetcher {
   private redirectToLogin(): void {
     removeAllTokens();
     if (typeof window !== 'undefined') {
-      window.location.href = process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URI || '/login';
+      window.location.href = '/login';
     }
   }
 
@@ -91,24 +88,29 @@ export class CustomFetcher {
     }
 
     try {
-      // BFF를 사용하여 액세스 토큰 리프레시
-      const refreshResponse = await this.request<SuccessResponse<{ accessToken: string }>>(
+      // 현재 (만료된) 액세스 토큰 가져오기
+      const currentAccessToken = await getAccessToken();
+
+      // 액세스 토큰 리프레시 - Authorization 헤더에 현재 토큰 추가
+      const refreshResponse = await this.post<{ accessToken: string; refreshToken: string }>(
         '/auth/refresh',
         {
-          method: 'POST',
-          body: JSON.stringify({ refreshToken }),
-          requiresAuth: false,
-          useKokAPI: false, // 항상 BFF를 사용하여 토큰 리프레시
+          refreshToken,
+        },
+        {
+          // 현재 액세스 토큰을 Authorization 헤더에 추가
+          token: currentAccessToken || undefined,
         },
       );
 
       // 새로운 액세스 토큰 저장
-      setAccessToken(refreshResponse.data.accessToken);
+      setAccessToken(refreshResponse.accessToken);
+      setRefreshToken(refreshResponse.refreshToken);
 
       // 원래 요청 다시 시도
       return this.request<T>(url, {
         ...options,
-        token: refreshResponse.data.accessToken,
+        token: refreshResponse.accessToken,
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (refreshError) {
@@ -157,13 +159,12 @@ export class CustomFetcher {
       timeout = this.config.timeout,
       requiresAuth = false,
       token,
-      useKokAPI = false,
       headers = {},
       ...fetchOptions
     } = options;
 
     // 기본 URL 결정
-    const baseURL = this.getBaseURL(useKokAPI);
+    const baseURL = this.config.baseURL;
     const url = endpoint.startsWith('http')
       ? endpoint
       : `${baseURL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
@@ -194,12 +195,15 @@ export class CustomFetcher {
         }
       }
 
+      console.log('인증처리');
+
       // 인증 처리
       if (requiresAuth || token) {
         const authToken = await this.getAuthToken(token);
         if (authToken) {
           requestHeaders.Authorization = `Bearer ${authToken}`;
         } else if (requiresAuth) {
+          console.log('토큰 없음');
           throw new FetcherError(401, 'Unauthorized', {
             errorCode: errorCode.UNAUTHORIZED,
             status: 401,
@@ -221,11 +225,11 @@ export class CustomFetcher {
         let errorData: ErrorResponse;
         try {
           const jsonData = await response.json();
-          // Check if it's already in ErrorResponse format
+
           if (jsonData.success === false && jsonData.errorCode) {
             errorData = jsonData as ErrorResponse;
           } else {
-            // Transform to ErrorResponse format
+            // 에러 타입 변환
             errorData = {
               errorCode: jsonData.errorCode || jsonData.code || 'UNKNOWN_ERROR',
               status: response.status,
@@ -290,7 +294,7 @@ export class CustomFetcher {
     }
   }
 
-  // Convenience methods for BFF endpoints
+  // HTTP method convenience functions
   async get<T = unknown>(
     endpoint: string,
     options?: Omit<RequestOptions, 'method' | 'body'>,
@@ -340,104 +344,7 @@ export class CustomFetcher {
   ): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'DELETE' });
   }
-
-  // Convenience methods for KOK API endpoints
-  async getKok<T = unknown>(
-    endpoint: string,
-    options?: Omit<RequestOptions, 'method' | 'body' | 'useKokAPI'>,
-  ): Promise<T> {
-    return this.request<T>(endpoint, { ...options, method: 'GET', useKokAPI: true });
-  }
-
-  async postKok<T = unknown>(
-    endpoint: string,
-    data?: unknown,
-    options?: Omit<RequestOptions, 'method' | 'useKokAPI'>,
-  ): Promise<T> {
-    return this.request<T>(endpoint, {
-      ...options,
-      method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
-      useKokAPI: true,
-    });
-  }
-
-  async putKok<T = unknown>(
-    endpoint: string,
-    data?: unknown,
-    options?: Omit<RequestOptions, 'method' | 'useKokAPI'>,
-  ): Promise<T> {
-    return this.request<T>(endpoint, {
-      ...options,
-      method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
-      useKokAPI: true,
-    });
-  }
-
-  async patchKok<T = unknown>(
-    endpoint: string,
-    data?: unknown,
-    options?: Omit<RequestOptions, 'method' | 'useKokAPI'>,
-  ): Promise<T> {
-    return this.request<T>(endpoint, {
-      ...options,
-      method: 'PATCH',
-      body: data ? JSON.stringify(data) : undefined,
-      useKokAPI: true,
-    });
-  }
-
-  async deleteKok<T = unknown>(
-    endpoint: string,
-    options?: Omit<RequestOptions, 'method' | 'body' | 'useKokAPI'>,
-  ): Promise<T> {
-    return this.request<T>(endpoint, { ...options, method: 'DELETE', useKokAPI: true });
-  }
 }
 
-// Create default instances
+// Create default instance
 export const fetcher = new CustomFetcher();
-
-// Convenience functions using the default instance
-export const fetchBFF = {
-  get: <T = unknown>(endpoint: string, options?: Omit<RequestOptions, 'method' | 'body'>) =>
-    fetcher.get<T>(endpoint, options),
-  post: <T = unknown>(endpoint: string, data?: unknown, options?: Omit<RequestOptions, 'method'>) =>
-    fetcher.post<T>(endpoint, data, options),
-  put: <T = unknown>(endpoint: string, data?: unknown, options?: Omit<RequestOptions, 'method'>) =>
-    fetcher.put<T>(endpoint, data, options),
-  patch: <T = unknown>(
-    endpoint: string,
-    data?: unknown,
-    options?: Omit<RequestOptions, 'method'>,
-  ) => fetcher.patch<T>(endpoint, data, options),
-  delete: <T = unknown>(endpoint: string, options?: Omit<RequestOptions, 'method' | 'body'>) =>
-    fetcher.delete<T>(endpoint, options),
-};
-
-export const fetchKok = {
-  get: <T = unknown>(
-    endpoint: string,
-    options?: Omit<RequestOptions, 'method' | 'body' | 'useKokAPI'>,
-  ) => fetcher.getKok<T>(endpoint, options),
-  post: <T = unknown>(
-    endpoint: string,
-    data?: unknown,
-    options?: Omit<RequestOptions, 'method' | 'useKokAPI'>,
-  ) => fetcher.postKok<T>(endpoint, data, options),
-  put: <T = unknown>(
-    endpoint: string,
-    data?: unknown,
-    options?: Omit<RequestOptions, 'method' | 'useKokAPI'>,
-  ) => fetcher.putKok<T>(endpoint, data, options),
-  patch: <T = unknown>(
-    endpoint: string,
-    data?: unknown,
-    options?: Omit<RequestOptions, 'method' | 'useKokAPI'>,
-  ) => fetcher.patchKok<T>(endpoint, data, options),
-  delete: <T = unknown>(
-    endpoint: string,
-    options?: Omit<RequestOptions, 'method' | 'body' | 'useKokAPI'>,
-  ) => fetcher.deleteKok<T>(endpoint, options),
-};
