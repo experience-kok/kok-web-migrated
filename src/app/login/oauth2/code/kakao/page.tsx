@@ -75,7 +75,7 @@ export default function KakaoCallbackPage() {
     };
 
     handleCallback();
-  }, [router, searchParams]);
+  }, [router, searchParams, setUser]);
 
   return (
     <div className="flex h-screen w-full items-center justify-center">
