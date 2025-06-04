@@ -15,3 +15,12 @@ export async function postKakaoLogin({ authorizationCode, redirectUri }: PostKak
 
   return response;
 }
+
+/**
+ * 로그아웃
+ */
+export async function postLogout() {
+  const response = await fetcher.post(`/auth/logout`);
+
+  return response;
+}
