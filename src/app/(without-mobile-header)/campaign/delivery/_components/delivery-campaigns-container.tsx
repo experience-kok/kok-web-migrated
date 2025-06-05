@@ -8,7 +8,7 @@ import { CampaignType, Sort, 배송카테고리 } from '@/models/campaign';
 import { useGetDeliveryCampaigns } from '@/service/campaigns/campaigns-query';
 
 import CampaignList from './campaign-list';
-import Filter from './Filter';
+import Filter from './filter';
 
 export default function DeliveryCampaignsContainer() {
   const searchParams = useSearchParams();
@@ -23,7 +23,14 @@ export default function DeliveryCampaignsContainer() {
     [searchParams],
   );
 
-  const { data: campaigns } = useGetDeliveryCampaigns(params);
+  const {
+    data: campaigns,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    error,
+  } = useGetDeliveryCampaigns(params);
 
   const allCampaigns = campaigns?.pages.flatMap(page => page.campaigns) ?? [];
 
@@ -32,11 +39,11 @@ export default function DeliveryCampaignsContainer() {
       <Filter totalElements={campaigns?.pages[0]?.pagination?.totalElements ?? 0} />
       <CampaignList
         campaigns={allCampaigns}
-        // isLoading={isLoading}
-        // isFetchingNextPage={isFetchingNextPage}
-        // hasNextPage={hasNextPage}
-        // onLoadMore={fetchNextPage}
-        // error={error}
+        isLoading={isLoading}
+        isFetchingNextPage={isFetchingNextPage}
+        hasNextPage={hasNextPage}
+        onLoadMore={fetchNextPage}
+        error={error}
       />
     </>
   );
