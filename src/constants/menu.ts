@@ -26,6 +26,14 @@ export const routeMenu: Menu[] = [
     url: '/campaign',
   },
   {
+    title: '배송 캠페인',
+    url: '/campaign/delivery',
+  },
+  {
+    title: '방문 캠페인',
+    url: '/campaign/visit',
+  },
+  {
     title: '캠페인 관리',
     url: '/campaign/manage',
   },

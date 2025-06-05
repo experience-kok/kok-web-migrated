@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/use-auth';
 
 import HeaderLogo from './header-logo';
 import HeaderNav from './header-nav';
-import HeaderSecondNav from './header-second-nav';
+// import HeaderSecondNav from './header-second-nav';
 import LoginButton from './login-button';
 import ProfileDropdown from './profile-dropdown';
 import SearchButton from './search-button';
@@ -35,7 +35,7 @@ export default function Header() {
           </div>
         </div>
       </header>
-      <HeaderSecondNav />
+      {/* <HeaderSecondNav /> */}
     </>
   );
 }
