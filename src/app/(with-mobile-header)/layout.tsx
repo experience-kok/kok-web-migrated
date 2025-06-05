@@ -11,7 +11,7 @@ export default function WithMobileHeaderLayout({
 }>) {
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
-      <div className="hidden lg:block">
+      <div className="hidden md:block">
         <Header />
       </div>
       <MobileNavHeader />

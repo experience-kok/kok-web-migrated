@@ -140,6 +140,7 @@
 
 html {
   font-size: 13px;
+  overflow-y: scroll;
 }
 
 @media (min-width: 768px) {

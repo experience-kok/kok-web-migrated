@@ -195,8 +195,6 @@ export class CustomFetcher {
         }
       }
 
-      console.log('인증처리');
-
       // 인증 처리
       if (requiresAuth || token) {
         const authToken = await this.getAuthToken(token);

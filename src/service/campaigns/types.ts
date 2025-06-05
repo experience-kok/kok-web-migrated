@@ -3,6 +3,8 @@ import {
   CampaignCategoryName,
   CampaignCategoryType,
   CampaignType,
+  Sort,
+  배송카테고리,
 } from '@/models/campaign';
 
 import { Pagination } from '@/types/response';
@@ -22,6 +24,25 @@ export interface GetPopularCampaignsRequest {
  * 인기 캠페인 조회 응답
  */
 export interface GetPopularCampaignsResponse {
+  campaigns: Campaign[];
+  pagination: Pagination;
+}
+
+/**
+ * 배송 캠페인 조회 요청
+ */
+export interface GetDeliveryCampaignsRequest {
+  page?: number;
+  size?: number;
+  categoryName?: 배송카테고리;
+  campaignTypes?: CampaignType[];
+  sort?: Sort;
+}
+
+/**
+ * 배송 캠페인 조회 응답
+ */
+export interface GetDeliveryCampaignsResponse {
   campaigns: Campaign[];
   pagination: Pagination;
 }

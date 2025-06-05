@@ -37,10 +37,16 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
         <AspectRatio ratio={1 / 1} className="h-full w-full">
           <Image
             src={thumbnailUrl || ''}
-            alt={title}
+            alt={`Campaign thumbnail for ${title || 'unknown'}`}
             fill
             sizes="115px"
-            className="rounded-lg object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+            quality={85} // 이미지 품질 조정으로 렌더링 부담 감소
+            className="rounded-lg object-cover transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110"
+            style={{
+              willChange: 'transform', // 렌더링 최적화
+              backfaceVisibility: 'hidden', // 떨림 방지
+              transform: 'translateZ(0)', // GPU 가속 활성화
+            }}
           />
         </AspectRatio>
         <div className="absolute top-0 left-0 flex h-8 w-8 items-center justify-center rounded-md bg-black/70">
