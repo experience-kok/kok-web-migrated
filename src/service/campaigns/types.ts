@@ -4,6 +4,7 @@ import {
   CampaignCategoryType,
   CampaignType,
   Sort,
+  방문카테고리,
   배송카테고리,
 } from '@/models/campaign';
 
@@ -43,6 +44,24 @@ export interface GetDeliveryCampaignsRequest {
  * 배송 캠페인 조회 응답
  */
 export interface GetDeliveryCampaignsResponse {
+  campaigns: Campaign[];
+  pagination: Pagination;
+}
+
+/**
+ * 방문 캠페인 조회 요청
+ */
+export interface GetVisitCampaignsRequest {
+  page?: number;
+  size?: number;
+  categoryName?: 방문카테고리;
+  campaignTypes?: CampaignType[];
+  sort?: Sort;
+}
+/**
+ * 방문 캠페인 조회 응답
+ */
+export interface GetVisitCampaignsResponse {
   campaigns: Campaign[];
   pagination: Pagination;
 }

@@ -48,7 +48,7 @@ export default function CampaignList({
     return (
       <div className="flex w-full items-center justify-center py-20">
         <Text size="lg" color="red">
-          캠페인을 불러오는 중 오류가 발생했습니다.
+          캠페인을 불러오는 중 오류가 발생했어요.
         </Text>
       </div>
     );
@@ -91,7 +91,7 @@ export default function CampaignList({
       {!hasNextPage && campaigns.length > 0 && (
         <div className="flex w-full items-center justify-center py-8">
           <Text size="sm" color="muted-foreground">
-            모든 캠페인을 불러왔습니다.
+            모든 캠페인을 불러왔어요.
           </Text>
         </div>
       )}

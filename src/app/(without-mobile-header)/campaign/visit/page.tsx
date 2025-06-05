@@ -1,14 +1,14 @@
-import { CampaignType, Sort, 배송카테고리 } from '@/models/campaign';
-import { prefetchDeliveryCampaigns } from '@/service/campaigns/campaigns-prefetch';
+import { CampaignType, Sort, 방문카테고리 } from '@/models/campaign';
+import { prefetchVisitCampaigns } from '@/service/campaigns/campaigns-prefetch';
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
-import DeliveryCampaignsContainer from './_components/delivery-campaigns-container';
+import VisitCampaignsContainer from './_components/visit-campaigns-container';
 
 /**
- * 배송 캠페인 목록 페이지
+ * 방문 캠페인 목록 페이지
  */
-export default async function CampaignDeliveryPage({
+export default async function CampaignVisitPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -22,7 +22,7 @@ export default async function CampaignDeliveryPage({
   const size = resolvedSearchParams.size
     ? parseInt(resolvedSearchParams.size as string, 10)
     : undefined;
-  const categoryName = resolvedSearchParams.categoryName as 배송카테고리 | undefined;
+  const categoryName = resolvedSearchParams.categoryName as 방문카테고리 | undefined;
   const campaignTypes = resolvedSearchParams.campaignTypes
     ? typeof resolvedSearchParams.campaignTypes === 'string'
       ? resolvedSearchParams.campaignTypes.split(',').map(type => type as CampaignType)
@@ -31,7 +31,7 @@ export default async function CampaignDeliveryPage({
   const sort = resolvedSearchParams.sort as Sort | undefined;
 
   // 프리 패칭
-  const queryClient = prefetchDeliveryCampaigns({
+  const queryClient = prefetchVisitCampaigns({
     page,
     size,
     categoryName,
@@ -41,7 +41,7 @@ export default async function CampaignDeliveryPage({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <DeliveryCampaignsContainer />
+      <VisitCampaignsContainer />
     </HydrationBoundary>
   );
 }
