@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Text } from '@/components/ui/text';
 import { CampaignType, Sort, 배송카테고리 } from '@/models/campaign';
 
 // 정렬 옵션
@@ -166,12 +167,12 @@ export default function Filter({ totalElements }: Props) {
   return (
     <>
       <div className="sticky top-0 z-10 flex h-11 w-full items-center border-b-[1px] border-gray-200 bg-white md:h-14 md:px-6 lg:px-16">
-        <ul className="scrollbar-hide flex h-full space-x-4 overflow-x-auto whitespace-nowrap md:ml-4">
+        <ul className="scrollbar-hide flex h-full space-x-4 overflow-x-auto whitespace-nowrap">
           {categoryOption.map(({ value, label }, index) => (
             <li
               key={`${value}-${index}`}
               onClick={() => handleCategoryChange(value)}
-              className={`md:text-md flex items-center justify-center border-b-2 font-semibold md:px-1 ${selectedCategory === value ? 'border-primary font-bole' : 'text-muted-foreground border-transparent'} ${index === 0 ? 'ml-6 md:ml-0' : ''} ${index === categoryOption.length - 1 ? 'mr-4 md:mr-0' : ''}`}
+              className={`md:text-md hover:text-primary flex cursor-pointer items-center justify-center border-b-2 font-semibold md:px-1 ${selectedCategory === value ? 'border-primary font-bole' : 'text-muted-foreground border-transparent'} ${index === 0 ? 'ml-6 md:ml-0' : ''} ${index === categoryOption.length - 1 ? 'mr-4 md:mr-0' : ''}`}
             >
               {label}
             </li>
@@ -179,29 +180,11 @@ export default function Filter({ totalElements }: Props) {
         </ul>
       </div>
 
-      <div className="px-6 lg:px-16">
+      <div className="mt-4 px-6 lg:px-16">
         {/* 캠페인 타입 필터 */}
-        <div className="flex-1">
-          <label className="mb-2 block text-sm font-medium text-gray-700">캠페인 타입</label>
-          <div className="space-y-2">
-            {campaignTypeOption.map(option => (
-              <label key={option.value} className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={selectedCampaignTypes.includes(option.value)}
-                  onChange={e => handleCampaignTypeChange(option.value, e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">{option.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex items-start justify-between gap-4 sm:flex-row sm:items-center">
-          <div>총 개수: {totalElements}</div>
+        <div className="mb-4 flex items-center gap-2">
           <Select value={selectedSort} onValueChange={handleSortChange}>
-            <SelectTrigger className="w-[100px]">
+            <SelectTrigger className="text-foreground cursor-pointer border-gray-300 transition-all duration-200 hover:border-gray-400">
               <SelectValue placeholder="최신순" />
             </SelectTrigger>
             <SelectContent>
@@ -214,6 +197,32 @@ export default function Filter({ totalElements }: Props) {
               </SelectGroup>
             </SelectContent>
           </Select>
+          <div className="scrollbar-hide flex items-center gap-2 overflow-x-auto">
+            {campaignTypeOption.map(option => (
+              <button
+                key={option.value}
+                onClick={() =>
+                  handleCampaignTypeChange(
+                    option.value,
+                    !selectedCampaignTypes.includes(option.value),
+                  )
+                }
+                className={`flex w-fit cursor-pointer items-center justify-between rounded-full border-1 px-4 py-1 whitespace-nowrap transition-all duration-200 ${
+                  selectedCampaignTypes.includes(option.value)
+                    ? 'border-primary text-primary shadow-md'
+                    : 'text-muted-foreground border-gray-300 bg-white hover:border-gray-400'
+                } `}
+              >
+                <span>{option.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <Text size="md" color="foreground">
+            총 {totalElements}개
+          </Text>
         </div>
       </div>
     </>

@@ -11,14 +11,6 @@ const NAV_MENU: Menu[] = [
     title: '방문',
     url: '/campaign/visit',
   },
-  {
-    title: 'AA',
-    url: '/',
-  },
-  {
-    title: 'BB',
-    url: '/',
-  },
 ];
 
 /**

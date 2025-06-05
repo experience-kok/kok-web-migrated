@@ -117,7 +117,7 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
               onClick={() => scrollTo(index)}
               className={`flex-shrink-0 cursor-pointer rounded px-4 py-2 transition-all ${
                 selectedIndex === index
-                  ? 'bg-black text-white hover:bg-black'
+                  ? 'bg-black font-bold text-white hover:bg-black'
                   : 'bg-gray-200 hover:bg-gray-300'
               }`}
             >
