@@ -52,7 +52,7 @@ export class CustomFetcher {
   }
 
   private getDefaultBaseURL(): string {
-    return process.env.NEXT_PUBLIC_KOK_BASE_URL || 'https://ckok.kr/api';
+    return process.env.NEXT_PUBLIC_KOK_BASE_URL || 'https://chkok.kr/api';
   }
 
   private async getAuthToken(token?: string): Promise<string | null> {
