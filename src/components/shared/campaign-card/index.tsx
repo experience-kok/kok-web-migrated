@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -17,10 +20,24 @@ interface Props {
  * 캠페인 카드 컴포넌트
  */
 export default function CampaignCard({ campaign }: Props) {
-  const { title, thumbnailUrl, maxApplicants, currentApplicants, campaignType, productShortInfo } =
-    campaign;
+  const router = useRouter();
+
+  const {
+    id,
+    title,
+    thumbnailUrl,
+    maxApplicants,
+    currentApplicants,
+    campaignType,
+    productShortInfo,
+  } = campaign;
+
+  const handleRouteToDetailPage = () => {
+    router.push(`/campaign/${id}`);
+  };
+
   return (
-    <Card className="gap-2 border-none py-0 shadow-none">
+    <Card className="gap-2 border-none py-0 shadow-none" onClick={handleRouteToDetailPage}>
       <CardContent className="group relative cursor-pointer overflow-hidden rounded-lg p-0">
         <AspectRatio ratio={1 / 1}>
           <Image
@@ -41,7 +58,7 @@ export default function CampaignCard({ campaign }: Props) {
           <LikeButton />
         </div>
       </CardContent>
-      <CardFooter className="flex flex-col items-start px-0">
+      <CardFooter className="flex cursor-pointer flex-col items-start px-0">
         <div className="scrollbar-hide mb-2 flex w-full items-center gap-2 overflow-x-auto">
           <CampaignTypeBadge campaignType={campaignType} />
         </div>

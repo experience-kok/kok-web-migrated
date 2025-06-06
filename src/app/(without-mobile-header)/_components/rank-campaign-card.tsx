@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import ApplicatnsCount from '@/components/shared/campaign-card/applicants-count';
 import CampaignTypeBadge from '@/components/shared/campaign-card/campaign-type-badge';
@@ -17,7 +18,9 @@ interface Props {
  * 랭킹 캠페인 카드 컴포넌트
  */
 export default function RankCampaignCard({ campaign, ranking }: Props) {
+  const router = useRouter();
   const {
+    id,
     title,
     thumbnailUrl,
     maxApplicants,
@@ -31,8 +34,12 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
     (new Date(applicationDeadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
   );
 
+  const handleRouteToDetailPage = () => {
+    router.push(`/campaign/${id}`);
+  };
+
   return (
-    <Card className="flex-row gap-2 border-none py-0 shadow-none">
+    <Card className="flex-row gap-2 border-none py-0 shadow-none" onClick={handleRouteToDetailPage}>
       <CardContent className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-lg p-0 md:h-[105px] md:w-[105px] lg:h-[135px] lg:w-[135px]">
         <AspectRatio ratio={1 / 1} className="h-full w-full">
           <Image
@@ -58,7 +65,7 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
           <LikeButton />
         </div>
       </CardContent>
-      <CardFooter className="flex-1 flex-col items-start justify-start px-4">
+      <CardFooter className="flex-1 cursor-pointer flex-col items-start justify-start px-4">
         <div className="scrollbar-hide mb-2 flex w-full items-center gap-2 overflow-x-auto">
           <CampaignTypeBadge campaignType={campaignType} />
         </div>
