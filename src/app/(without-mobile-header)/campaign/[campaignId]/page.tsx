@@ -198,7 +198,7 @@ export default async function CampaignDetailPage({ params }: Props) {
 
         <div className="px-6 py-5">
           <Text as="h2" size={'lg'} weight={'bold'} className="mb-4">
-            📅 추가 안내사항
+            ‼️ 추가 안내사항
           </Text>
 
           <Text as="p">- 업체 요청에 따라 선정 인원이 변경될 수 있어요.</Text>
