@@ -7,6 +7,9 @@ import KakaoLoginButton from './_components/kakao-login-button';
 import LoginButton from './_components/login-button';
 import SignUpButton from './_components/signup-button';
 
+/**
+ * 로그인 페이지
+ */
 export default async function LoginPage() {
   return (
     <section className="mt-20 flex flex-col items-center gap-6 px-4 md:mx-auto md:max-w-[400px]">
