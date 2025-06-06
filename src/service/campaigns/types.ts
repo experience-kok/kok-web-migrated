@@ -95,3 +95,30 @@ export interface PostCampaignRequest {
     phoneNumber: string;
   };
 }
+
+/**
+ * 캠페인 기본 정보 조회 응답
+ */
+export interface GetCampaignBasicInfoResponse {
+  campaignId: number;
+  campaignType: CampaignType;
+  categoryType: CampaignCategoryType;
+  categoryName: CampaignCategoryName;
+  title: string;
+  maxApplicants: number;
+  currentApplicants: number;
+  recruitmentStartDate: string;
+  recruitmentEndDate: string;
+}
+/**
+ * 캠페인 상세 정보 조회 응답
+ */
+export interface GetCampaignDetailInfoResponse {
+  campaignId: number;
+  productShortInfo: string;
+  productDetails: string;
+  selectionCriteria: string;
+  reviewDeadlineDate: string;
+  selectionDate: string;
+  applicationDeadlineDate: string;
+}
