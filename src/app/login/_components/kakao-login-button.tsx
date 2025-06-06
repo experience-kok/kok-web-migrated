@@ -7,8 +7,8 @@ import { Text } from '@/components/ui/text';
 export default function KakaoLoginButton() {
   const handleKakaoLogin = () => {
     const callbackBaseUrl =
-      process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://ckok.kr';
-    window.location.href = `https://ckok.kr/api/auth/login-redirect?redirectUri=${callbackBaseUrl}/login/oauth2/code/kakao`;
+      process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://chkok.kr';
+    window.location.href = `https://chkok.kr/api/auth/login-redirect?redirectUri=${callbackBaseUrl}/login/oauth2/code/kakao`;
   };
 
   return (
