@@ -4,12 +4,12 @@ import { Menu } from '@/constants/menu';
 
 const NAV_MENU: Menu[] = [
   {
-    title: '배송',
-    url: '/campaign/delivery',
-  },
-  {
     title: '방문',
     url: '/campaign/visit',
+  },
+  {
+    title: '배송',
+    url: '/campaign/delivery',
   },
 ];
 

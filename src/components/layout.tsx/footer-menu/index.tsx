@@ -29,7 +29,7 @@ export default function FooterMenu() {
     {
       icon: <AlarmClock className="h-6 w-6" />,
       title: '마감임박',
-      url: '/category',
+      url: '/마감임박',
     },
     {
       icon: <House className="h-6 w-6" />,
@@ -39,7 +39,7 @@ export default function FooterMenu() {
     {
       icon: <Pin className="h-6 w-6" />,
       title: '콕',
-      url: '/category',
+      url: '/콕',
     },
     {
       icon: <UserRound className="h-6 w-6" />,
