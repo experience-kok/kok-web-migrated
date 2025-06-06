@@ -17,16 +17,16 @@ import {
 import CampaignThumbnail from './_components/campaign-thumbnail';
 
 interface Props {
-  params: {
+  params: Promise<{
     campaignId: string;
-  };
+  }>;
 }
 
 /**
  * 캠페인 상세 페이지
  */
 export default async function CampaignDetailPage({ params }: Props) {
-  const { campaignId } = params;
+  const { campaignId } = await params;
 
   const { thumbnailUrl } = await getCampaignThumbnail(Number(campaignId));
 
