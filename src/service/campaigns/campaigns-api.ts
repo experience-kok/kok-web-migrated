@@ -1,6 +1,8 @@
 import { fetcher } from '@/lib/fetcher';
 
 import {
+  GetCampaignBasicInfoResponse,
+  GetCampaignDetailInfoResponse,
   GetDeliveryCampaignsRequest,
   GetDeliveryCampaignsResponse,
   GetPopularCampaignsRequest,
@@ -104,9 +106,56 @@ export async function getVisitCampaigns({
  * 캠페인 등록
  */
 export async function postCampaign(requestBody: PostCampaignRequest) {
-  const response = fetcher.post<null>(`/campaigns`, requestBody, {
+  const response = await fetcher.post<null>(`/campaigns`, requestBody, {
     requiresAuth: true,
   });
+
+  return response;
+}
+
+/**
+ * 캠페인 상세 조회 API 목록
+ * - 캠페인 썸네일 조회
+ * - 캠페인 기본 정보 조회
+ * - 캠페인 상세 정보 조회
+ * - 캠페인 미션 가이드 조회
+ * - 캠페인 필수 키워드 조회
+ */
+export async function getCampaignThumbnail(campaignId: number) {
+  const response = await fetcher.get<{
+    campaignId: number;
+    thumbnailUrl: string;
+  }>(`/campaigns/${campaignId}/thumbnail`);
+
+  return response;
+}
+export async function getCampaignBasicInfo(campaignId: number) {
+  const response = await fetcher.get<GetCampaignBasicInfoResponse>(
+    `/campaigns/${campaignId}/basic-info`,
+  );
+
+  return response;
+}
+export async function getCampaignDetailInfo(campaignId: number) {
+  const response = await fetcher.get<GetCampaignDetailInfoResponse>(
+    `/campaigns/${campaignId}/detail-info`,
+  );
+
+  return response;
+}
+export async function getCampaignMissionGuide(campaignId: number) {
+  const response = await fetcher.get<{
+    campaignId: number;
+    missionGuide: string;
+  }>(`/campaigns/${campaignId}/mission-guide`);
+
+  return response;
+}
+export async function getCampaignKeywords(campaignId: number) {
+  const response = await fetcher.get<{
+    campaignId: number;
+    missionKeywords: string[];
+  }>(`/campaigns/${campaignId}/keywords`);
 
   return response;
 }
