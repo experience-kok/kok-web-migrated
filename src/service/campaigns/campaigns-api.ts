@@ -1,6 +1,7 @@
 import { fetcher } from '@/lib/fetcher';
 
 import {
+  GetCampaignApplicateCheckResponse,
   GetCampaignBasicInfoResponse,
   GetCampaignDetailInfoResponse,
   GetDeliveryCampaignsRequest,
@@ -9,6 +10,7 @@ import {
   GetPopularCampaignsResponse,
   GetVisitCampaignsRequest,
   GetVisitCampaignsResponse,
+  PostCampaignApplicateResponse,
   PostCampaignRequest,
 } from './types';
 
@@ -109,6 +111,42 @@ export async function postCampaign(requestBody: PostCampaignRequest) {
   const response = await fetcher.post<null>(`/campaigns`, requestBody, {
     requiresAuth: true,
   });
+
+  return response;
+}
+
+/**
+ * 캠페인 지원ㄴ 상태 조회
+ */
+export async function getCampaignApplicateCheck(campaignId: number) {
+  const queryParams = new URLSearchParams();
+  queryParams.set('campaignId', campaignId.toString());
+
+  const response = await fetcher.get<GetCampaignApplicateCheckResponse>(
+    `/campaign-applications/check?${queryParams.toString()}`,
+    {
+      requiresAuth: true,
+    },
+  );
+
+  return response;
+}
+
+/**
+ * 캠페인 지원
+ */
+export async function postCampaignApplicate(campaignId: number) {
+  const requestBody = {
+    campaignId,
+  };
+
+  const response = await fetcher.post<PostCampaignApplicateResponse>(
+    `/campaign-applications`,
+    requestBody,
+    {
+      requiresAuth: true,
+    },
+  );
 
   return response;
 }

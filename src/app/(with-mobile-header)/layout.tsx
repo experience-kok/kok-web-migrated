@@ -22,7 +22,7 @@ export default function WithMobileHeaderLayout({
       <Footer />
 
       {/* pc 버전 스크롤 버튼 */}
-      <div className="fixed right-8 bottom-8 hidden md:block">
+      <div className="fixed right-8 bottom-20 hidden md:block">
         <ScrollToTopButton />
       </div>
     </div>

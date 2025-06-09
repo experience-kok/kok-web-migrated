@@ -12,10 +12,10 @@ export const campaignCreateSchema = z
       .max(200, { message: '제목은 200자 이하로 입력해 주세요.' }),
     maxApplicants: z
       .number({
-        required_error: '최대 신청 인원을 입력해 주세요.',
-        invalid_type_error: '최대 신청 인원은 숫자여야 합니다.',
+        required_error: '최대 지원 인원을 입력해 주세요.',
+        invalid_type_error: '최대 지원 인원은 숫자여야 합니다.',
       })
-      .min(1, { message: '최대 신청 인원은 1명 이상이어야 합니다.' }),
+      .min(1, { message: '최대 지원 인원은 1명 이상이어야 합니다.' }),
 
     // 카테고리 정보
     categoryType: z.enum(['방문', '배송'], {
@@ -31,7 +31,7 @@ export const campaignCreateSchema = z
     // 날짜 정보
     recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
     recruitmentEndDate: z.string().min(1, { message: '모집 종료일을 선택해 주세요.' }),
-    applicationDeadlineDate: z.string().min(1, { message: '신청 마감일을 선택해 주세요.' }),
+    applicationDeadlineDate: z.string().min(1, { message: '지원 마감일을 선택해 주세요.' }),
     selectionDate: z.string().min(1, { message: '참가자 선정일을 선택해 주세요.' }),
     reviewDeadlineDate: z.string().min(1, { message: '리뷰 제출 마감일을 선택해 주세요.' }),
 
@@ -85,14 +85,14 @@ export const campaignCreateSchema = z
   )
   .refine(
     data => {
-      // 신청 마감일이 모집 시작일 이후이고 종료일 이전인지 확인
+      // 지원 마감일이 모집 시작일 이후이고 종료일 이전인지 확인
       const startDate = new Date(data.recruitmentStartDate);
       const endDate = new Date(data.recruitmentEndDate);
       const applicationDeadline = new Date(data.applicationDeadlineDate);
       return applicationDeadline >= startDate && applicationDeadline <= endDate;
     },
     {
-      message: '신청 마감일은 모집 시작일 이후이고 종료일 이전이어야 합니다.',
+      message: '지원 마감일은 모집 시작일 이후이고 종료일 이전이어야 합니다.',
       path: ['applicationDeadlineDate'],
     },
   )

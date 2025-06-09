@@ -1,8 +1,13 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 
-import { getDeliveryCampaigns, getPopularCampaigns, getVisitCampaigns } from './campaigns-api';
+import {
+  getCampaignApplicateCheck,
+  getDeliveryCampaigns,
+  getPopularCampaigns,
+  getVisitCampaigns,
+} from './campaigns-api';
 import {
   GetDeliveryCampaignsRequest,
   GetPopularCampaignsRequest,
@@ -11,6 +16,7 @@ import {
 
 // campaigns 쿼리키
 export const campaignsQueryKeys = createQueryKeys('campaigns', {
+  // 인기 캠페인
   popular: ({
     page,
     size,
@@ -21,16 +27,21 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
     queryKey: ['popular', page, size, categoryType, campaignType, categoryName],
     queryFn: () => getPopularCampaigns({ page, size, categoryType, campaignType, categoryName }),
   }),
-  delivery: ({ page, size, categoryName, campaignTypes, sort }: GetDeliveryCampaignsRequest) => ({
-    queryKey: [page, size, categoryName, campaignTypes, sort],
-    queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
-      getDeliveryCampaigns({
-        page: pageParam,
-        size,
-        categoryName,
-        campaignTypes,
-        sort,
-      }),
+  // delivery: ({ page, size, categoryName, campaignTypes, sort }: GetDeliveryCampaignsRequest) => ({
+  //   queryKey: [page, size, categoryName, campaignTypes, sort],
+  //   queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
+  //     getDeliveryCampaigns({
+  //       page: pageParam,
+  //       size,
+  //       categoryName,
+  //       campaignTypes,
+  //       sort,
+  //     }),
+  // }),
+  // 캠페인 신청
+  applicate: (campaignId: number) => ({
+    queryKey: [campaignId],
+    queryFn: () => getCampaignApplicateCheck(campaignId),
   }),
 });
 
@@ -90,4 +101,9 @@ export function useGetVisitCampaigns({
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
   });
+}
+
+// 캠페인 신청 상태 쿼리
+export function useGetCampaignApplicateCheck(campaignId: number) {
+  return useSuspenseQuery(campaignsQueryKeys.applicate(campaignId));
 }

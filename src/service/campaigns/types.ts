@@ -122,3 +122,44 @@ export interface GetCampaignDetailInfoResponse {
   selectionDate: string;
   applicationDeadlineDate: string;
 }
+
+/**
+ * 캠페인 지원 상태 조회 응답
+ */
+export interface GetCampaignApplicateCheckResponse {
+  application: {
+    hasApplied: boolean;
+    id?: number;
+    status?: '';
+    createdAt?: string;
+    updatedAt?: string;
+    campaign?: {
+      id: number;
+      title: string;
+    };
+    user?: {
+      id: number;
+      nickname: string;
+    };
+  };
+}
+
+/**
+ * 캠페인 지원 응답
+ */
+export interface PostCampaignApplicateResponse {
+  application: {
+    id: number;
+    status: '';
+    createdAt: string;
+    updatedAt: string;
+    campaign: {
+      id: number;
+      title: string;
+    };
+    user: {
+      id: number;
+      nickname: string;
+    };
+  };
+}

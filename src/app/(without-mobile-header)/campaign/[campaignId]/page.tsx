@@ -1,3 +1,4 @@
+import { Suspense } from '@suspensive/react';
 import { Pin, Share } from 'lucide-react';
 
 import ApplicatnsCount from '@/components/shared/campaign-card/applicants-count';
@@ -14,6 +15,8 @@ import {
   getCampaignThumbnail,
 } from '@/service/campaigns/campaigns-api';
 
+import CampaignApplicate from './_components/campaign-applicate';
+import CampaignApplicateSkeleton from './_components/campaign-applicate-skeleton';
 import CampaignThumbnail from './_components/campaign-thumbnail';
 
 interface Props {
@@ -135,9 +138,9 @@ export default async function CampaignDetailPage({ params }: Props) {
             </div>
           </div>
 
-          {/* 신청조건 */}
+          {/* 지원조건 */}
           <Text as="h2" size={'lg'} weight={'bold'}>
-            ✅ 신청조건
+            ✅ 지원조건
           </Text>
           <div className="space-y-2">
             <div className="flex items-start gap-2">
@@ -202,13 +205,17 @@ export default async function CampaignDetailPage({ params }: Props) {
           </Text>
 
           <Text as="p">- 업체 요청에 따라 선정 인원이 변경될 수 있어요.</Text>
-          <Text as="p">- 온라인 리뷰는 신청한 SNS 계정에 업로드 후 6개월간 유지해야 해요.</Text>
+          <Text as="p">- 온라인 리뷰는 지원한 SNS 계정에 업로드 후 6개월간 유지해야 해요.</Text>
           <Text as="p">
             - 제공받은 제품은 교환, 판매, 양도가 불가해요. 적발시 캠페인 참여가 제한될 수 있어요.
           </Text>
           <Text as="p">- SNS 게시물 작성시 경제적 대가관계를 표기해주세요.</Text>
         </div>
       </div>
+
+      <Suspense clientOnly fallback={<CampaignApplicateSkeleton />}>
+        <CampaignApplicate campaignId={Number(campaignId)} />
+      </Suspense>
     </div>
   );
 }
