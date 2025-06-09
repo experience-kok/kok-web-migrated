@@ -128,15 +128,16 @@ export interface GetCampaignDetailInfoResponse {
  */
 export interface GetCampaignApplicateCheckResponse {
   application: {
-    id: number;
-    status: '';
-    createdAt: string;
-    updatedAt: string;
-    campaign: {
+    hasApplied: boolean;
+    id?: number;
+    status?: '';
+    createdAt?: string;
+    updatedAt?: string;
+    campaign?: {
       id: number;
       title: string;
     };
-    user: {
+    user?: {
       id: number;
       nickname: string;
     };
