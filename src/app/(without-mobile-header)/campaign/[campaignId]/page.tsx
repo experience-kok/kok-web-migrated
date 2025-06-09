@@ -1,4 +1,3 @@
-import { Suspense } from '@suspensive/react';
 import { Pin, Share } from 'lucide-react';
 
 import ApplicatnsCount from '@/components/shared/campaign-card/applicants-count';
@@ -15,8 +14,6 @@ import {
   getCampaignThumbnail,
 } from '@/service/campaigns/campaigns-api';
 
-import CampaignApplicate from './_components/campaign-applicate';
-import CampaignApplicateSkeleton from './_components/campaign-applicate-skeleton';
 import CampaignThumbnail from './_components/campaign-thumbnail';
 
 interface Props {
@@ -212,10 +209,6 @@ export default async function CampaignDetailPage({ params }: Props) {
           <Text as="p">- SNS 게시물 작성시 경제적 대가관계를 표기해주세요.</Text>
         </div>
       </div>
-
-      <Suspense clientOnly fallback={<CampaignApplicateSkeleton />}>
-        <CampaignApplicate campaignId={Number(campaignId)} />
-      </Suspense>
     </div>
   );
 }
