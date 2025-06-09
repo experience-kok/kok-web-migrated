@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton';
 
 /**
- * 캠페인 신청 컴포넌트 스켈레톤 UI
+ * 캠페인 지원 컴포넌트 스켈레톤 UI
  */
 export default function CampaignApplicateSkeleton() {
   return (

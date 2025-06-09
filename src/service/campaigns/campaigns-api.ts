@@ -10,6 +10,7 @@ import {
   GetPopularCampaignsResponse,
   GetVisitCampaignsRequest,
   GetVisitCampaignsResponse,
+  PostCampaignApplicateResponse,
   PostCampaignRequest,
 } from './types';
 
@@ -115,7 +116,7 @@ export async function postCampaign(requestBody: PostCampaignRequest) {
 }
 
 /**
- * 캠페인 신청 상태 조회
+ * 캠페인 지원ㄴ 상태 조회
  */
 export async function getCampaignApplicateCheck(campaignId: number) {
   const queryParams = new URLSearchParams();
@@ -123,6 +124,25 @@ export async function getCampaignApplicateCheck(campaignId: number) {
 
   const response = await fetcher.get<GetCampaignApplicateCheckResponse>(
     `/campaign-applications/check?${queryParams.toString()}`,
+    {
+      requiresAuth: true,
+    },
+  );
+
+  return response;
+}
+
+/**
+ * 캠페인 지원
+ */
+export async function postCampaignApplicate(campaignId: number) {
+  const requestBody = {
+    campaignId,
+  };
+
+  const response = await fetcher.post<PostCampaignApplicateResponse>(
+    `/campaign-applications`,
+    requestBody,
     {
       requiresAuth: true,
     },

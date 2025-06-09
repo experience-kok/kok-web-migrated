@@ -124,7 +124,7 @@ export interface GetCampaignDetailInfoResponse {
 }
 
 /**
- * 캠페인 신청 상태 조회 응답
+ * 캠페인 지원 상태 조회 응답
  */
 export interface GetCampaignApplicateCheckResponse {
   application: {
@@ -138,6 +138,26 @@ export interface GetCampaignApplicateCheckResponse {
       title: string;
     };
     user?: {
+      id: number;
+      nickname: string;
+    };
+  };
+}
+
+/**
+ * 캠페인 지원 응답
+ */
+export interface PostCampaignApplicateResponse {
+  application: {
+    id: number;
+    status: '';
+    createdAt: string;
+    updatedAt: string;
+    campaign: {
+      id: number;
+      title: string;
+    };
+    user: {
       id: number;
       nickname: string;
     };

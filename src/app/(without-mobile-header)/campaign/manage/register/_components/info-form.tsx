@@ -220,7 +220,7 @@ export default function InfoForm({ onSubmit }: Props) {
 
           <div className="space-y-2">
             <Label className="text-md">
-              최대 신청 인원 <span className="text-primary">*</span>
+              최대 지원 인원 <span className="text-primary">*</span>
             </Label>
             <div className="flex items-center gap-2">
               <Users className="text-muted-foreground h-4 w-4" />
@@ -265,7 +265,7 @@ export default function InfoForm({ onSubmit }: Props) {
 
             <div className="space-y-2">
               <Label className="text-md">
-                신청 마감일 <span className="text-primary">*</span>
+                지원 마감일 <span className="text-primary">*</span>
               </Label>
               <div className="flex items-center gap-2">
                 <Calendar className="text-muted-foreground h-4 w-4" />
