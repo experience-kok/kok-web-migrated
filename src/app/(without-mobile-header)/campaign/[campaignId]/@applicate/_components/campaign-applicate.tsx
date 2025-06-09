@@ -13,7 +13,6 @@ interface Props {
  */
 export default function CampaignApplicate({ campaignId }: Props) {
   const { data: applicateData } = useGetCampaignApplicateCheck(campaignId);
-  console.log(applicateData);
 
   const { hasApplied } = applicateData.application;
 
