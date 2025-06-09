@@ -6,6 +6,8 @@ import { EditForm } from '@/schemas/profile.schemas';
 import { usePutProfileMutation } from '@/service/users/users-mutation';
 import { useGetUsersProfile } from '@/service/users/users-query';
 
+import { useAuth } from '@/hooks/use-auth';
+
 import ProfileAvatar from './profile-avatar';
 import ProfileForm from './profile-form';
 
@@ -13,6 +15,8 @@ export default function ProfileEditContainer() {
   const {
     data: { user: user },
   } = useGetUsersProfile();
+
+  const localUser = useAuth();
 
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -38,8 +42,10 @@ export default function ProfileEditContainer() {
     setSelectedFile(file);
   };
 
+  // 프로필 수정 요청
   const handleSubmit = (formData: EditForm) => {
     if (!selectedFile) {
+      handlePutProfile({ file: localUser.user?.profileImage as string, userData: formData });
       return;
     }
 
