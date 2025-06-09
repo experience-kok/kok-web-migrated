@@ -27,10 +27,23 @@ export function usePutProfileMutation() {
   const setUser = useSetAtom(userAtom);
 
   return useMutation({
-    mutationFn: async ({ file, userData }: { file?: File; userData: EditForm }) => {
+    mutationFn: async ({ file, userData }: { file?: File | string; userData: EditForm }) => {
       let profileImageUrl: string;
 
-      if (file) {
+      // 타입가드 함수들
+      const isFile = (value: File | string | undefined): value is File => {
+        return value instanceof File;
+      };
+
+      const isString = (value: File | string | undefined): value is string => {
+        return typeof value === 'string';
+      };
+
+      if (isString(file)) {
+        // file이 string인 경우 (기존 이미지 URL)
+        profileImageUrl = file;
+      } else if (isFile(file)) {
+        // file이 File 객체인 경우 (새로 업로드하는 파일)
         // 파일 확장자 추출
         const fileExtension = file.name.split('.').pop() as ImageExtension;
 
@@ -45,10 +58,14 @@ export function usePutProfileMutation() {
 
         profileImageUrl = presignedUrl;
       } else {
+        // file이 undefined인 경우 (기존 프로필 이미지 유지)
         const cachedUserData = queryClient.getQueryData(usersQueryKeys.profile().queryKey) as
           | User
           | undefined;
+
         profileImageUrl = cachedUserData?.profileImage || '';
+
+        console.log('Using cached profile image:', profileImageUrl);
       }
 
       const requestData: PutProfileRequest = {
