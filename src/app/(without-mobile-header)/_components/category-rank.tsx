@@ -41,7 +41,6 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
     carouselAPI.scrollTo(index);
   };
 
-  // Initialize carousel with restaurant category
   useEffect(() => {
     if (carouselAPI && restaurantIndex !== -1) {
       carouselAPI.scrollTo(restaurantIndex);
@@ -49,34 +48,28 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
     }
   }, [carouselAPI, restaurantIndex]);
 
-  // Handle breakpoint changes (only when crossing md breakpoint)
   useEffect(() => {
     const checkMobile = () => {
       return window.innerWidth < 768; // md breakpoint is 768px
     };
 
-    // Set initial state
     setIsMobile(checkMobile());
 
     const handleResize = () => {
       const currentIsMobile = checkMobile();
 
-      // Only reset to restaurant when switching between mobile/desktop
       if (currentIsMobile !== isMobile) {
         setIsMobile(currentIsMobile);
 
-        // Reset to restaurant category only when switching breakpoints
         if (restaurantIndex !== -1) {
           setSelectedIndex(restaurantIndex);
           if (carouselAPI && currentIsMobile) {
-            // Only scroll carousel on mobile
             carouselAPI.scrollTo(restaurantIndex);
           }
         }
       }
     };
 
-    // Use throttling to reduce resize event frequency
     let timeoutId: NodeJS.Timeout;
     const throttledHandleResize = () => {
       clearTimeout(timeoutId);
@@ -106,6 +99,12 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
   const cosmeticsCampaigns =
     categoryData.find(data => data.categoryName === '화장품')?.campaigns.slice(0, 3) || [];
 
+  // 각 카테고리별로 캠페인을 3개씩만 남기기
+  const limitedCategoryData = categoryData.map(data => ({
+    ...data,
+    campaigns: data.campaigns.slice(0, 3),
+  }));
+
   return (
     <>
       {/* 모바일에서 보일 컴포넌트 */}
@@ -128,7 +127,7 @@ export default function CategoryRank({ categoryData }: CategoryRankProps) {
 
         <Carousel className="mx-auto w-full" setApi={setCarouselAPI}>
           <CarouselContent className="-ml-4">
-            {categoryData.map(data => (
+            {limitedCategoryData.map(data => (
               <CarouselItem key={`${data.categoryType}-${data.categoryName}`} className="pl-4">
                 <div className="flex flex-col gap-4">
                   {data.campaigns.slice(0, 5).map((campaign, rankIndex) => (

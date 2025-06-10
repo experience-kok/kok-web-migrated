@@ -5,6 +5,7 @@ import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import {
   getCampaignApplicateCheck,
   getDeliveryCampaigns,
+  getMyCampaigns,
   getPopularCampaigns,
   getVisitCampaigns,
 } from './campaigns-api';
@@ -42,6 +43,10 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
   applicate: (campaignId: number) => ({
     queryKey: [campaignId],
     queryFn: () => getCampaignApplicateCheck(campaignId),
+  }),
+  my: () => ({
+    queryKey: [''],
+    queryFn: () => getMyCampaigns(),
   }),
 });
 
@@ -106,4 +111,9 @@ export function useGetVisitCampaigns({
 // 캠페인 신청 상태 쿼리
 export function useGetCampaignApplicateCheck(campaignId: number) {
   return useSuspenseQuery(campaignsQueryKeys.applicate(campaignId));
+}
+
+// 내 캠페인 요약 조회 쿼리
+export function useGetMyCampaigns() {
+  return useSuspenseQuery(campaignsQueryKeys.my());
 }

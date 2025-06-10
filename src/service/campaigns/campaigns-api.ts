@@ -6,6 +6,7 @@ import {
   GetCampaignDetailInfoResponse,
   GetDeliveryCampaignsRequest,
   GetDeliveryCampaignsResponse,
+  GetMyCampaignsResponse,
   GetPopularCampaignsRequest,
   GetPopularCampaignsResponse,
   GetVisitCampaignsRequest,
@@ -116,7 +117,7 @@ export async function postCampaign(requestBody: PostCampaignRequest) {
 }
 
 /**
- * 캠페인 지원ㄴ 상태 조회
+ * 캠페인 지원 상태 조회
  */
 export async function getCampaignApplicateCheck(campaignId: number) {
   const queryParams = new URLSearchParams();
@@ -194,6 +195,17 @@ export async function getCampaignKeywords(campaignId: number) {
     campaignId: number;
     missionKeywords: string[];
   }>(`/campaigns/${campaignId}/keywords`);
+
+  return response;
+}
+
+/**
+ * 내 캠페인 요약 조회
+ */
+export async function getMyCampaigns() {
+  const response = await fetcher.get<GetMyCampaignsResponse>(`/my-campaigns/summary`, {
+    requiresAuth: true,
+  });
 
   return response;
 }
