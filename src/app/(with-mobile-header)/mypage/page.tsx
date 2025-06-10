@@ -6,6 +6,7 @@ import SplitBox from '@/components/ui/split-box';
 import { Text } from '@/components/ui/text';
 
 import Campaign from './_components/campaign';
+import CampaignSkeleton from './_components/campaign/campaign-skeleton';
 import MyProfile from './_components/my-profile';
 import MyProfileSkeleton from './_components/my-profile/my-profile-skeleton';
 import Sns from './_components/sns';
@@ -21,7 +22,16 @@ export default async function MyPage() {
 
       <SplitBox className="h-2" />
 
-      <Campaign />
+      <section className="px-6 py-10">
+        <Text as="h2" size="xl" weight="bold" className="mb-4">
+          내 캠페인
+        </Text>
+        <ErrorBoundary fallback={ErrorFallback}>
+          <Suspense clientOnly fallback={<CampaignSkeleton />}>
+            <Campaign />
+          </Suspense>
+        </ErrorBoundary>
+      </section>
 
       <SplitBox className="h-2" />
 

@@ -7,6 +7,7 @@ import {
   방문카테고리,
   배송카테고리,
 } from '@/models/campaign';
+import { Role } from '@/models/user';
 
 import { Pagination } from '@/types/response';
 
@@ -160,6 +161,31 @@ export interface PostCampaignApplicateResponse {
     user: {
       id: number;
       nickname: string;
+    };
+  };
+}
+
+/**
+ * 내 캠페인 요약 조회 응답
+ */
+export interface GetMyCampaignsResponse {
+  role: Role;
+  summary: {
+    applied: {
+      count: number;
+      label: string;
+    };
+    pending: {
+      count: number;
+      label: string;
+    };
+    selected: {
+      count: number;
+      label: string;
+    };
+    completed: {
+      count: number;
+      label: string;
     };
   };
 }
