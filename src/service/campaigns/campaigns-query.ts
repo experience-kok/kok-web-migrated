@@ -1,16 +1,19 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
-import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import {
   getCampaignApplicateCheck,
+  getCampaignSearch,
   getDeliveryCampaigns,
   getMyApplications,
   getMyCampaignsSummary,
   getPopularCampaigns,
+  getSearchSuggestions,
   getVisitCampaigns,
 } from './campaigns-api';
 import {
+  GetCampaignSearchRequest,
   GetDeliveryCampaignsRequest,
   GetMyApplicationsRequest,
   GetPopularCampaignsRequest,
@@ -44,6 +47,10 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
   my: () => ({
     queryKey: [''],
     queryFn: () => getMyCampaignsSummary(),
+  }),
+  suggest: (q: string) => ({
+    queryKey: [q],
+    queryFn: () => getSearchSuggestions(q),
   }),
 });
 
@@ -139,3 +146,36 @@ export function useGetMyApplications({
     gcTime: 10 * 60 * 1000,
   });
 }
+
+// 캠페인 검색 자동완성 쿼리
+export function useGetSearchSuggestions(q: string) {
+  return useQuery({
+    ...campaignsQueryKeys.suggest(q),
+    enabled: !!q && q.trim().length > 0,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+}
+
+// 캠페인 검색 쿼리
+export function useGetCampaignSearch({ size, keyword }: Omit<GetCampaignSearchRequest, 'page'>) {
+  return useInfiniteQuery({
+    queryKey: ['campaign', keyword, size],
+    queryFn: ({ pageParam = 1 }) =>
+      getCampaignSearch({
+        page: pageParam,
+        size,
+        keyword,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: data => {
+      if (data.pagination.last) {
+        return undefined;
+      }
+      return data.pagination.pageNumber + 1;
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+}
+

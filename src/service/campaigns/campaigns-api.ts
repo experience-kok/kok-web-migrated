@@ -4,6 +4,8 @@ import {
   GetCampaignApplicateCheckResponse,
   GetCampaignBasicInfoResponse,
   GetCampaignDetailInfoResponse,
+  GetCampaignSearchRequest,
+  GetCampaignSearchResponse,
   GetDeliveryCampaignsRequest,
   GetDeliveryCampaignsResponse,
   GetMyApplicationsRequest,
@@ -230,6 +232,37 @@ export async function getMyApplications({
     {
       requiresAuth: true,
     },
+  )
+  
+  return response;
+}
+
+/*
+ * 캠페인 검색 자동완성
+ */
+export async function getSearchSuggestions(q: string) {
+  const queryParams = new URLSearchParams();
+  queryParams.set('q', q.toString());
+  queryParams.set('limit', '5'); // 고정으로 제안 키워드 5개
+
+  const response = await fetcher.get<{
+    suggestions: string[];
+  }>(`/campaigns/search/suggestions?${queryParams.toString()}`);
+
+  return response;
+}
+/**
+ * 캠페인 검색
+ */
+export async function getCampaignSearch({ page, size, keyword }: GetCampaignSearchRequest) {
+  const queryParams = new URLSearchParams();
+  if (page) queryParams.set('page', page.toString());
+  if (size) queryParams.set('size', size.toString());
+
+  queryParams.set('keyword', keyword.toString());
+
+  const response = await fetcher.get<GetCampaignSearchResponse>(
+    `/campaigns/search?${queryParams.toString()}`,
   );
 
   return response;

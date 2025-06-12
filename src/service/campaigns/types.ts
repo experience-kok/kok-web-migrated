@@ -218,3 +218,21 @@ export interface GetMyApplicationsRequest {
   size?: number;
   applicationStatus: CampaignApplicationStatus;
 }
+
+  
+/*
+ * 캠페인 검색 요청
+ */
+export interface GetCampaignSearchRequest {
+  keyword: string;
+  page?: number;
+  size?: number;
+}
+
+/**
+ * 캠페인 검색 응답
+ */
+export interface GetCampaignSearchResponse {
+  campaigns: Campaign[];
+  pagination: Pagination;
+}
