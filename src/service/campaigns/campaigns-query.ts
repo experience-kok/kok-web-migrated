@@ -1,11 +1,14 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
+import { CampaignApplicationStatus } from '@/models/campaign';
+
 import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import {
   getCampaignApplicateCheck,
   getDeliveryCampaigns,
-  getMyCampaigns,
+  getMyApplications,
+  getMyCampaignsSummary,
   getPopularCampaigns,
   getVisitCampaigns,
 } from './campaigns-api';
@@ -28,25 +31,20 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
     queryKey: ['popular', page, size, categoryType, campaignType, categoryName],
     queryFn: () => getPopularCampaigns({ page, size, categoryType, campaignType, categoryName }),
   }),
-  // delivery: ({ page, size, categoryName, campaignTypes, sort }: GetDeliveryCampaignsRequest) => ({
-  //   queryKey: [page, size, categoryName, campaignTypes, sort],
-  //   queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
-  //     getDeliveryCampaigns({
-  //       page: pageParam,
-  //       size,
-  //       categoryName,
-  //       campaignTypes,
-  //       sort,
-  //     }),
-  // }),
-  // 캠페인 신청
+  // 특정 캠페인 지원 상태 조회
   applicate: (campaignId: number) => ({
     queryKey: [campaignId],
     queryFn: () => getCampaignApplicateCheck(campaignId),
   }),
+  // 지원 캠페인 목록 조회
+  applications: (applicationStatus: CampaignApplicationStatus) => ({
+    queryKey: [applicationStatus],
+    queryFn: () => getMyApplications(applicationStatus),
+  }),
+  // 내 캠페인 요약 조회
   my: () => ({
     queryKey: [''],
-    queryFn: () => getMyCampaigns(),
+    queryFn: () => getMyCampaignsSummary(),
   }),
 });
 
@@ -116,4 +114,9 @@ export function useGetCampaignApplicateCheck(campaignId: number) {
 // 내 캠페인 요약 조회 쿼리
 export function useGetMyCampaigns() {
   return useSuspenseQuery(campaignsQueryKeys.my());
+}
+
+// 내 캠페인 지원 목록 조회
+export function useGetMyApplications(applicationStatus: CampaignApplicationStatus) {
+  return useSuspenseQuery(campaignsQueryKeys.applications(applicationStatus));
 }

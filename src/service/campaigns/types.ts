@@ -1,5 +1,6 @@
 import {
   Campaign,
+  CampaignApplicationStatus,
   CampaignCategoryName,
   CampaignCategoryType,
   CampaignType,
@@ -168,7 +169,7 @@ export interface PostCampaignApplicateResponse {
 /**
  * 내 캠페인 요약 조회 응답
  */
-export interface GetMyCampaignsResponse {
+export interface GetMyCampaignsSummaryResponse {
   role: Role;
   summary: {
     applied: {
@@ -187,5 +188,21 @@ export interface GetMyCampaignsResponse {
       count: number;
       label: string;
     };
+  };
+}
+
+/**
+ * 내 캠페인 지원 상태 조회 응답
+ */
+export interface GetMyApplicationsResponse {
+  id: number;
+  applicationStatus: CampaignApplicationStatus;
+  campaign: {
+    id: number;
+    title: string;
+  };
+  user: {
+    id: number;
+    nickname: string;
   };
 }

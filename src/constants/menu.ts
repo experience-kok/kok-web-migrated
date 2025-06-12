@@ -22,6 +22,10 @@ export const routeMenu: Menu[] = [
     url: '/mypage/edit',
   },
   {
+    title: '지원 목록 조회',
+    url: '/mypage/applications',
+  },
+  {
     title: '캠페인',
     url: '/campaign',
   },

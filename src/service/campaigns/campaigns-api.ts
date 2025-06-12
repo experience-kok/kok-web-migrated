@@ -1,4 +1,5 @@
 import { fetcher } from '@/lib/fetcher';
+import { CampaignApplicationStatus } from '@/models/campaign';
 
 import {
   GetCampaignApplicateCheckResponse,
@@ -6,7 +7,8 @@ import {
   GetCampaignDetailInfoResponse,
   GetDeliveryCampaignsRequest,
   GetDeliveryCampaignsResponse,
-  GetMyCampaignsResponse,
+  GetMyApplicationsResponse,
+  GetMyCampaignsSummaryResponse,
   GetPopularCampaignsRequest,
   GetPopularCampaignsResponse,
   GetVisitCampaignsRequest,
@@ -202,10 +204,27 @@ export async function getCampaignKeywords(campaignId: number) {
 /**
  * 내 캠페인 요약 조회
  */
-export async function getMyCampaigns() {
-  const response = await fetcher.get<GetMyCampaignsResponse>(`/my-campaigns/summary`, {
+export async function getMyCampaignsSummary() {
+  const response = await fetcher.get<GetMyCampaignsSummaryResponse>(`/my-campaigns/summary`, {
     requiresAuth: true,
   });
+
+  return response;
+}
+
+/**
+ * 내 캠페인 지원 목록 조회
+ */
+export async function getMyApplications(applicationStatus: CampaignApplicationStatus) {
+  const queryParams = new URLSearchParams();
+  queryParams.set('applicationStatus', applicationStatus.toString());
+
+  const response = await fetcher.get<GetMyApplicationsResponse[]>(
+    `/campaign-applications/my-applications`,
+    {
+      requiresAuth: true,
+    },
+  );
 
   return response;
 }
