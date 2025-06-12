@@ -192,17 +192,28 @@ export interface GetMyCampaignsSummaryResponse {
 }
 
 /**
- * 내 캠페인 지원 상태 조회 응답
+ * 내 캠페인 지원 목록 조회 응답
  */
 export interface GetMyApplicationsResponse {
-  id: number;
+  applications: {
+    id: number;
+    applicationStatus: CampaignApplicationStatus;
+    campaign: {
+      id: number;
+      title: string;
+    };
+    user: {
+      id: number;
+      nickname: string;
+    };
+  }[];
+  pagination: Pagination;
+}
+/**
+ * 내 캠페인 지원 목록 조회 요청
+ */
+export interface GetMyApplicationsRequest {
+  page?: number;
+  size?: number;
   applicationStatus: CampaignApplicationStatus;
-  campaign: {
-    id: number;
-    title: string;
-  };
-  user: {
-    id: number;
-    nickname: string;
-  };
 }

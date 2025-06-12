@@ -1,7 +1,5 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
-import { CampaignApplicationStatus } from '@/models/campaign';
-
 import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import {
@@ -14,6 +12,7 @@ import {
 } from './campaigns-api';
 import {
   GetDeliveryCampaignsRequest,
+  GetMyApplicationsRequest,
   GetPopularCampaignsRequest,
   GetVisitCampaignsRequest,
 } from './types';
@@ -37,9 +36,9 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
     queryFn: () => getCampaignApplicateCheck(campaignId),
   }),
   // 지원 캠페인 목록 조회
-  applications: (applicationStatus: CampaignApplicationStatus) => ({
-    queryKey: [applicationStatus],
-    queryFn: () => getMyApplications(applicationStatus),
+  applications: ({ page, size, applicationStatus }: GetMyApplicationsRequest) => ({
+    queryKey: [page, size, applicationStatus],
+    queryFn: () => getMyApplications({ page, size, applicationStatus }),
   }),
   // 내 캠페인 요약 조회
   my: () => ({
@@ -116,7 +115,27 @@ export function useGetMyCampaigns() {
   return useSuspenseQuery(campaignsQueryKeys.my());
 }
 
-// 내 캠페인 지원 목록 조회
-export function useGetMyApplications(applicationStatus: CampaignApplicationStatus) {
-  return useSuspenseQuery(campaignsQueryKeys.applications(applicationStatus));
+// 내 캠페인 지원 목록 조회 - 쿼리키 사용 안하고 있어서 이부분 추후 수정 필요
+export function useGetMyApplications({
+  size,
+  applicationStatus,
+}: Omit<GetMyApplicationsRequest, 'page'>) {
+  return useInfiniteQuery({
+    queryKey: ['campaigns', 'applications', size, applicationStatus],
+    queryFn: ({ pageParam = 1 }) =>
+      getMyApplications({
+        page: pageParam,
+        size,
+        applicationStatus,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: data => {
+      if (data.pagination.last) {
+        return undefined;
+      }
+      return data.pagination.pageNumber + 1;
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
 }
