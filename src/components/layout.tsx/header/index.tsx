@@ -56,12 +56,12 @@ export default function Header() {
         <>
           {/* 전체 배경 오버레이 */}
           <div
-            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md"
+            className="fixed inset-0 z-51 bg-black/70 backdrop-blur-md"
             onClick={handleCloseSearch}
           />
 
           {/* 검색바 컨테이너 */}
-          <div className="pointer-events-none fixed inset-0 z-50 flex items-start justify-center p-6 pt-20">
+          <div className="pointer-events-none fixed inset-0 z-52 flex items-start justify-center p-6 pt-20">
             <div className="animate-in fade-in-0 zoom-in-95 pointer-events-auto w-full max-w-3xl transform duration-300">
               {/* 헤더 섹션 */}
               <div className="rounded-t-3xl border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6">
