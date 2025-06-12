@@ -6,7 +6,8 @@ import {
   getCampaignApplicateCheck,
   getCampaignSearch,
   getDeliveryCampaigns,
-  getMyCampaigns,
+  getMyApplications,
+  getMyCampaignsSummary,
   getPopularCampaigns,
   getSearchSuggestions,
   getVisitCampaigns,
@@ -14,6 +15,7 @@ import {
 import {
   GetCampaignSearchRequest,
   GetDeliveryCampaignsRequest,
+  GetMyApplicationsRequest,
   GetPopularCampaignsRequest,
   GetVisitCampaignsRequest,
 } from './types';
@@ -31,25 +33,20 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
     queryKey: ['popular', page, size, categoryType, campaignType, categoryName],
     queryFn: () => getPopularCampaigns({ page, size, categoryType, campaignType, categoryName }),
   }),
-  // delivery: ({ page, size, categoryName, campaignTypes, sort }: GetDeliveryCampaignsRequest) => ({
-  //   queryKey: [page, size, categoryName, campaignTypes, sort],
-  //   queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
-  //     getDeliveryCampaigns({
-  //       page: pageParam,
-  //       size,
-  //       categoryName,
-  //       campaignTypes,
-  //       sort,
-  //     }),
-  // }),
-  // 캠페인 신청
+  // 특정 캠페인 지원 상태 조회
   applicate: (campaignId: number) => ({
     queryKey: [campaignId],
     queryFn: () => getCampaignApplicateCheck(campaignId),
   }),
+  // 지원 캠페인 목록 조회
+  applications: ({ page, size, applicationStatus }: GetMyApplicationsRequest) => ({
+    queryKey: [page, size, applicationStatus],
+    queryFn: () => getMyApplications({ page, size, applicationStatus }),
+  }),
+  // 내 캠페인 요약 조회
   my: () => ({
     queryKey: [''],
-    queryFn: () => getMyCampaigns(),
+    queryFn: () => getMyCampaignsSummary(),
   }),
   suggest: (q: string) => ({
     queryKey: [q],
@@ -125,6 +122,31 @@ export function useGetMyCampaigns() {
   return useSuspenseQuery(campaignsQueryKeys.my());
 }
 
+// 내 캠페인 지원 목록 조회 - 쿼리키 사용 안하고 있어서 이부분 추후 수정 필요
+export function useGetMyApplications({
+  size,
+  applicationStatus,
+}: Omit<GetMyApplicationsRequest, 'page'>) {
+  return useInfiniteQuery({
+    queryKey: ['campaigns', 'applications', size, applicationStatus],
+    queryFn: ({ pageParam = 1 }) =>
+      getMyApplications({
+        page: pageParam,
+        size,
+        applicationStatus,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: data => {
+      if (data.pagination.last) {
+        return undefined;
+      }
+      return data.pagination.pageNumber + 1;
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+}
+
 // 캠페인 검색 자동완성 쿼리
 export function useGetSearchSuggestions(q: string) {
   return useQuery({
@@ -156,3 +178,4 @@ export function useGetCampaignSearch({ size, keyword }: Omit<GetCampaignSearchRe
     gcTime: 10 * 60 * 1000,
   });
 }
+

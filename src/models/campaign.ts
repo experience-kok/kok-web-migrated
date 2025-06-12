@@ -1,8 +1,6 @@
 export type CampaignType = '인스타그램' | '블로그' | '유튜브' | '틱톡';
 export const CAMPAIGN_TYPES = ['인스타그램', '블로그', '유튜브', '틱톡'] as const;
 
-export type Sort = 'latest' | 'popular' | 'deadline';
-
 export type CampaignCategoryType = '방문' | '배송';
 export const CAMPAIGN_CATEGORY_TYPES = ['방문', '배송'] as const;
 
@@ -13,6 +11,9 @@ export const DELIVERY_CATEGORIES = ['식품', '화장품', '생활용품', '패�
 
 export type CampaignCategoryName = 방문카테고리 | 배송카테고리;
 
+export type Sort = 'latest' | 'popular' | 'deadline';
+
+// 캠페인
 export interface Campaign {
   id: number;
   campaignType: CampaignType;
@@ -27,3 +28,24 @@ export interface Campaign {
     name: CampaignCategoryName;
   };
 }
+
+// 캠페인 상태
+export type UserApplicationCampaignStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'COMPLETED';
+export type ClientApplicationCampaignStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'EXPIRED';
+export type CampaignApplicationStatus =
+  | UserApplicationCampaignStatus
+  | ClientApplicationCampaignStatus;
+
+// 캠페인 상태별 라벨 매핑
+export const USER_CAMPAIGN_STATUS_LABELS: Record<UserApplicationCampaignStatus, string> = {
+  PENDING: '지원',
+  APPROVED: '대기중',
+  REJECTED: '선정',
+  COMPLETED: '완료',
+};
+export const CLIENT_CAMPAIGN_STATUS_LABELS: Record<ClientApplicationCampaignStatus, string> = {
+  PENDING: '대기중',
+  APPROVED: '승인됨',
+  REJECTED: '거절됨',
+  EXPIRED: '만료됨',
+};

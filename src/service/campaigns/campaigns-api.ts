@@ -8,7 +8,9 @@ import {
   GetCampaignSearchResponse,
   GetDeliveryCampaignsRequest,
   GetDeliveryCampaignsResponse,
-  GetMyCampaignsResponse,
+  GetMyApplicationsRequest,
+  GetMyApplicationsResponse,
+  GetMyCampaignsSummaryResponse,
   GetPopularCampaignsRequest,
   GetPopularCampaignsResponse,
   GetVisitCampaignsRequest,
@@ -204,8 +206,8 @@ export async function getCampaignKeywords(campaignId: number) {
 /**
  * 내 캠페인 요약 조회
  */
-export async function getMyCampaigns() {
-  const response = await fetcher.get<GetMyCampaignsResponse>(`/my-campaigns/summary`, {
+export async function getMyCampaignsSummary() {
+  const response = await fetcher.get<GetMyCampaignsSummaryResponse>(`/my-campaigns/summary`, {
     requiresAuth: true,
   });
 
@@ -213,6 +215,29 @@ export async function getMyCampaigns() {
 }
 
 /**
+ * 내 캠페인 지원 목록 조회
+ */
+export async function getMyApplications({
+  page,
+  size,
+  applicationStatus,
+}: GetMyApplicationsRequest) {
+  const queryParams = new URLSearchParams();
+  if (page) queryParams.set('page', page.toString());
+  if (size) queryParams.set('size', size.toString());
+  queryParams.set('applicationStatus', applicationStatus.toString());
+
+  const response = await fetcher.get<GetMyApplicationsResponse>(
+    `/campaign-applications/my-applications?${queryParams}`,
+    {
+      requiresAuth: true,
+    },
+  )
+  
+  return response;
+}
+
+/*
  * 캠페인 검색 자동완성
  */
 export async function getSearchSuggestions(q: string) {

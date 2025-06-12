@@ -1,5 +1,6 @@
 import {
   Campaign,
+  CampaignApplicationStatus,
   CampaignCategoryName,
   CampaignCategoryType,
   CampaignType,
@@ -168,7 +169,7 @@ export interface PostCampaignApplicateResponse {
 /**
  * 내 캠페인 요약 조회 응답
  */
-export interface GetMyCampaignsResponse {
+export interface GetMyCampaignsSummaryResponse {
   role: Role;
   summary: {
     applied: {
@@ -191,6 +192,35 @@ export interface GetMyCampaignsResponse {
 }
 
 /**
+ * 내 캠페인 지원 목록 조회 응답
+ */
+export interface GetMyApplicationsResponse {
+  applications: {
+    id: number;
+    applicationStatus: CampaignApplicationStatus;
+    campaign: {
+      id: number;
+      title: string;
+      thumbnailUrl: string
+    };
+    user: {
+      id: number;
+      nickname: string;
+    };
+  }[];
+  pagination: Pagination;
+}
+/**
+ * 내 캠페인 지원 목록 조회 요청
+ */
+export interface GetMyApplicationsRequest {
+  page?: number;
+  size?: number;
+  applicationStatus: CampaignApplicationStatus;
+}
+
+  
+/*
  * 캠페인 검색 요청
  */
 export interface GetCampaignSearchRequest {
@@ -198,6 +228,7 @@ export interface GetCampaignSearchRequest {
   page?: number;
   size?: number;
 }
+
 /**
  * 캠페인 검색 응답
  */
