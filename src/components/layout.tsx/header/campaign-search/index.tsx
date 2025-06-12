@@ -80,7 +80,7 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
           autoFocus
-          className="w-full rounded-lg border-2 border-gray-300 px-4 py-4 pr-20 text-lg focus:border-blue-500 focus:outline-none"
+          className="focus:border-primary w-full rounded-lg border-2 border-gray-300 px-4 py-4 pr-20 text-lg focus:outline-none"
         />
 
         {/* 검색어 초기화 버튼 */}

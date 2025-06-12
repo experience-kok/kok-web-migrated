@@ -18,7 +18,7 @@ function highlightSearchTerm(text: string, searchTerm: string) {
   return parts.map((part, index) => {
     if (regex.test(part)) {
       return (
-        <mark key={index} className="rounded bg-blue-100 px-1 font-semibold text-blue-900">
+        <mark key={index} className="bg-primary/30 text-foreground rounded px-1 font-medium">
           {part}
         </mark>
       );
