@@ -201,6 +201,7 @@ export interface GetMyApplicationsResponse {
     campaign: {
       id: number;
       title: string;
+      thumbnailUrl: string
     };
     user: {
       id: number;

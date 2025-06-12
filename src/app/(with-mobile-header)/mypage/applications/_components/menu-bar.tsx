@@ -61,7 +61,7 @@ export default function Menubar() {
           >
             {item.label}
             {item.count > 0 && (
-              <span className="text-muted-foreground ml-2 text-sm">({item.count})</span>
+              <span className="text-muted-foreground text-sm">({item.count})</span>
             )}
           </Button>
         ))}

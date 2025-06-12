@@ -1,6 +1,4 @@
-import { Suspense } from '@suspensive/react';
-
-import Menubar from './_components/menu-bar';
+import ApplicationsContainer from './_components/applications-container';
 
 /**
  * 지원 캠페인 목록 페이지
@@ -8,9 +6,7 @@ import Menubar from './_components/menu-bar';
 export default function ApplicationsPage() {
   return (
     <>
-      <Suspense clientOnly>
-        <Menubar />
-      </Suspense>
+      <ApplicationsContainer />
     </>
   );
 }
