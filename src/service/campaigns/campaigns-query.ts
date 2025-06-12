@@ -1,6 +1,6 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
-import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import {
   getCampaignApplicateCheck,
@@ -126,7 +126,14 @@ export function useGetMyCampaigns() {
 }
 
 // 캠페인 검색 자동완성 쿼리
-export function useGetSearchSuggestions() {}
+export function useGetSearchSuggestions(q: string) {
+  return useQuery({
+    ...campaignsQueryKeys.suggest(q),
+    enabled: !!q && q.trim().length > 0,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+}
 
 // 캠페인 검색 쿼리
 export function useGetCampaignSearch({ size, keyword }: Omit<GetCampaignSearchRequest, 'page'>) {

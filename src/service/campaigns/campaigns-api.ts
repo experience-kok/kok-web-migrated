@@ -218,6 +218,7 @@ export async function getMyCampaigns() {
 export async function getSearchSuggestions(q: string) {
   const queryParams = new URLSearchParams();
   queryParams.set('q', q.toString());
+  queryParams.set('limit', '5'); // 고정으로 제안 키워드 5개
 
   const response = await fetcher.get<{
     suggestions: string[];
