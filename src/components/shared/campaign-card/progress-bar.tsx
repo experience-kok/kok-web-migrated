@@ -5,12 +5,12 @@ import { useMemo } from 'react';
 import { Text } from '@/components/ui/text';
 
 interface Props {
-  currentApplicants: number; // 현재 신청 인원
-  maxApplicants: number; // 총 신청 가능 인원
+  currentApplicants: number; // 현재 지원 인원
+  maxApplicants: number; // 총 지원 가능 인원
 }
 
 /**
- * 캠페인 카드 신청 인원에 따라 채워지는 바 컴포넌트
+ * 캠페인 카드 지원 인원에 따라 채워지는 바 컴포넌트
  */
 export default function ProgressBar({ currentApplicants, maxApplicants }: Props) {
   // 진행률 계산 (0-100%)
@@ -23,9 +23,9 @@ export default function ProgressBar({ currentApplicants, maxApplicants }: Props)
     <div className="w-full space-y-2">
       <div className="flex justify-between">
         <div className="flex items-center">
-          {/* 신청 인원 텍스트 */}
+          {/* 지원 인원 텍스트 */}
           <Text size="sm" color="foreground">
-            신청 {currentApplicants} / &nbsp;
+            지원 {currentApplicants} / &nbsp;
           </Text>
           <Text size="sm" color="muted-foreground">
             {maxApplicants}명

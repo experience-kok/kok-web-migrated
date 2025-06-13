@@ -25,7 +25,7 @@ export default function WelcomePage() {
           <Link href="/" className="flex-1">
             <Button className="h-12 w-full text-lg font-semibold">메인 화면으로</Button>
           </Link>
-          <Link href="/profile" className="flex-1">
+          <Link href="/mypage" className="flex-1">
             <Button className="h-12 w-full text-lg font-semibold" variant="outline">
               프로필 등록하기
             </Button>

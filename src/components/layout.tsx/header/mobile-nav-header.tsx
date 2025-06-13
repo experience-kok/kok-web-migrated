@@ -20,7 +20,7 @@ export default function MobileNavHeader() {
   const title = currentMenu?.title ?? '페이지';
 
   return (
-    <header className="sticky top-0 z-10 mx-auto flex h-16 w-full max-w-[720px] items-center border-b border-gray-200 bg-white px-6 lg:hidden">
+    <header className="sticky top-0 z-10 mx-auto flex h-16 w-full max-w-[720px] items-center border-b border-gray-200 bg-white px-6 md:hidden">
       <button
         className="absolute left-6 cursor-pointer"
         onClick={() => router.back()}

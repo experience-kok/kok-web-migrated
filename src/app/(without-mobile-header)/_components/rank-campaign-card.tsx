@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import ApplicatnsCount from '@/components/shared/campaign-card/applicants-count';
 import CampaignTypeBadge from '@/components/shared/campaign-card/campaign-type-badge';
@@ -17,7 +18,9 @@ interface Props {
  * 랭킹 캠페인 카드 컴포넌트
  */
 export default function RankCampaignCard({ campaign, ranking }: Props) {
+  const router = useRouter();
   const {
+    id,
     title,
     thumbnailUrl,
     maxApplicants,
@@ -31,16 +34,26 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
     (new Date(applicationDeadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
   );
 
+  const handleRouteToDetailPage = () => {
+    router.push(`/campaign/${id}`);
+  };
+
   return (
-    <Card className="flex-row gap-2 border-none py-0 shadow-none">
+    <Card className="flex-row gap-2 border-none py-0 shadow-none" onClick={handleRouteToDetailPage}>
       <CardContent className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-lg p-0 md:h-[105px] md:w-[105px] lg:h-[135px] lg:w-[135px]">
         <AspectRatio ratio={1 / 1} className="h-full w-full">
           <Image
             src={thumbnailUrl || ''}
-            alt={title}
+            alt={`Campaign thumbnail for ${title || 'unknown'}`}
             fill
             sizes="115px"
-            className="rounded-lg object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+            quality={85} // 이미지 품질 조정으로 렌더링 부담 감소
+            className="rounded-lg object-cover transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110"
+            style={{
+              willChange: 'transform', // 렌더링 최적화
+              backfaceVisibility: 'hidden', // 떨림 방지
+              transform: 'translateZ(0)', // GPU 가속 활성화
+            }}
           />
         </AspectRatio>
         <div className="absolute top-0 left-0 flex h-8 w-8 items-center justify-center rounded-md bg-black/70">
@@ -52,7 +65,7 @@ export default function RankCampaignCard({ campaign, ranking }: Props) {
           <LikeButton />
         </div>
       </CardContent>
-      <CardFooter className="flex-1 flex-col items-start justify-start px-4">
+      <CardFooter className="flex-1 cursor-pointer flex-col items-start justify-start px-4">
         <div className="scrollbar-hide mb-2 flex w-full items-center gap-2 overflow-x-auto">
           <CampaignTypeBadge campaignType={campaignType} />
         </div>

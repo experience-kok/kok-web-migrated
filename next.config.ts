@@ -40,6 +40,7 @@ const nextConfig: NextConfig = {
     return config;
   },
   experimental: {
+    nextScriptWorkers: true,
     turbo: {
       rules: {
         '*.svg': {

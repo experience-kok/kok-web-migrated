@@ -1,23 +1,27 @@
 import SplitBox from '@/components/ui/split-box';
 import { Text } from '@/components/ui/text';
 import { DELIVERY_CATEGORIES, VISIT_CATEGORIES } from '@/models/campaign';
-import { getPopularCampaigns } from '@/service/campaign/campaign-api';
+import { getBanners } from '@/service/banners/banners-api';
+import { getPopularCampaigns } from '@/service/campaigns/campaigns-api';
 
 import CategoryRank from './_components/category-rank';
 import MainBanner from './_components/main-banner';
 import PopularCampaigns from './_components/popular-campaigns';
 
 // ISR : 60초마다 재생성
-export const revalidate = 60;
+export const revalidate = 10;
 
 export default async function Home() {
+  // 배너 목록 요청
+  const bannersData = await getBanners();
+
   // 인기 캠페인 목록 요청
   const campaignsData = await getPopularCampaigns({
     page: 1,
     size: 10,
   });
-  console.log(campaignsData);
 
+  // 카테고리 랭킹 캠페인 목록 요청
   const categoryRankingData = await Promise.all([
     // 방문 카테고리 인기 캠페인 목록
     ...VISIT_CATEGORIES.map(async categoryName => {
@@ -49,10 +53,11 @@ export default async function Home() {
     }),
   ]);
 
+  console.log(campaignsData);
   return (
     <>
       <section className="md:px-6 md:py-10 lg:px-16">
-        <MainBanner />
+        <MainBanner banners={bannersData} />
       </section>
 
       <section className="px-6 py-10 lg:px-16">
