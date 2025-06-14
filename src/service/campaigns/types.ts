@@ -201,7 +201,9 @@ export interface GetMyApplicationsResponse {
     campaign: {
       id: number;
       title: string;
-      thumbnailUrl: string
+      thumbnailUrl: string;
+      productShortInfo: string;
+      campaignType: CampaignType;
     };
     user: {
       id: number;
@@ -219,7 +221,6 @@ export interface GetMyApplicationsRequest {
   applicationStatus: CampaignApplicationStatus;
 }
 
-  
 /*
  * 캠페인 검색 요청
  */

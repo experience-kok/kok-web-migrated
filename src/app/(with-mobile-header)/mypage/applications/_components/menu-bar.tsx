@@ -48,15 +48,15 @@ export default function Menubar() {
 
   return (
     <>
-      <section className="flex border-b">
+      <section className="flex">
         {/* 상태별 버튼들 */}
         {buttonData.map(item => (
           <Button
             variant={'ghost'}
             key={item.key}
             onClick={() => handleTabChange(item.key)}
-            className={`flex-1 rounded-none py-3 font-medium ${
-              activeTab === item.key ? 'border-b-2 border-black text-black' : 'text-gray-500'
+            className={`flex-1 justify-center gap-0 rounded-none border-b py-3 font-medium ${
+              activeTab === item.key ? 'text-foreground border-foreground' : 'text-gray-500'
             }`}
           >
             {item.label}
