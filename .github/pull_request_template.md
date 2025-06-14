@@ -2,6 +2,8 @@
 
 ## 📎 Issue Number
 
+<!-- close #number -->
+
 ## 📝 Summary
 
 ## 🛠️ PR Type
