@@ -1,5 +1,5 @@
 import localFont from 'next/font/local';
-import Script from 'next/script';
+// import Script from 'next/script';
 
 import type { Metadata } from 'next';
 
@@ -43,10 +43,8 @@ export default function RootLayout({
       >
         <Provider>{children}</Provider>
       </body>
-      <Script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js" defer />
-      <Script src="https://files.bpcontent.cloud/2025/06/12/16/20250612165435-J4VLJ03G.js" defer />
+      {/* <Script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js" defer />
+      <Script src="https://files.bpcontent.cloud/2025/06/12/16/20250612165435-J4VLJ03G.js" defer /> */}
     </html>
   );
 }
-
-
