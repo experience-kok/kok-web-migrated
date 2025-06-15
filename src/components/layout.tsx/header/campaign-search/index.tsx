@@ -29,7 +29,7 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
 
   // URL 업데이트 (디바운스된 쿼리 기준)
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(window.location.search);
 
     if (debouncedQuery.trim()) {
       params.set('q', debouncedQuery.trim());
@@ -38,8 +38,12 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
     }
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
-    router.replace(newUrl);
-  }, [debouncedQuery, router, searchParams]);
+
+    // 현재 URL과 다를 때만 업데이트
+    if (window.location.search !== `?${params.toString()}`) {
+      router.replace(newUrl, { scroll: false });
+    }
+  }, [debouncedQuery, router]);
 
   const { data: { suggestions } = { suggestions: [] } } = useGetSearchSuggestions(debouncedQuery);
 

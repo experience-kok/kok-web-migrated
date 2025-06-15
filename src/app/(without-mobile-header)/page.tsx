@@ -53,7 +53,6 @@ export default async function Home() {
     }),
   ]);
 
-  console.log(campaignsData);
   return (
     <>
       <section className="md:px-6 md:py-10 lg:px-16">
