@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 
 import { useAuth } from '@/hooks/use-auth';
+import { usePreventScroll } from '@/hooks/use-prevent-scroll'; // 스크롤 방지 훅 추가
 
 import CampaignSearch from './campaign-search';
 import HeaderLogo from './header-logo';
@@ -23,6 +24,13 @@ import SearchButton from './search-button';
 export default function Header() {
   const auth = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // 검색 모달이 열렸을 때 스크롤 방지
+  usePreventScroll({
+    enabled: isSearchOpen,
+    hideOverflow: true,
+    preventTouch: true,
+  });
 
   const handleClickSearchButton = () => {
     setIsSearchOpen(prev => !prev);
