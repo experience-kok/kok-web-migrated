@@ -7,7 +7,7 @@ type ScrollDirection = 'up' | 'down' | null;
  * @param threshold 감지를 무시할 스크롤 px 사이즈
  * @returns
  */
-export const useScrollDirection = (threshold: number = 20): ScrollDirection => {
+export function useScrollDirection(threshold: number = 20): ScrollDirection {
   const [scrollDirection, setScrollDirection] = useState<ScrollDirection>(null);
 
   useEffect(() => {
@@ -41,4 +41,4 @@ export const useScrollDirection = (threshold: number = 20): ScrollDirection => {
   }, [threshold]);
 
   return scrollDirection;
-};
+}
