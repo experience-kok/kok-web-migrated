@@ -7,7 +7,7 @@ export default function CategoryLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex flex-col bg-gray-50">
       <div>
         <Header />
       </div>
