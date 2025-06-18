@@ -9,6 +9,7 @@ import {
   getMyApplications,
   getMyCampaignsSummary,
   getPopularCampaigns,
+  getSearchRealtime,
   getSearchSuggestions,
   getVisitCampaigns,
 } from './campaigns-api';
@@ -51,6 +52,10 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
   suggest: (q: string) => ({
     queryKey: [q],
     queryFn: () => getSearchSuggestions(q),
+  }),
+  realtime: () => ({
+    queryKey: ['keyword'],
+    queryFn: () => getSearchRealtime(),
   }),
 });
 
@@ -179,3 +184,16 @@ export function useGetCampaignSearch({ size, keyword }: Omit<GetCampaignSearchRe
   });
 }
 
+/**
+ * 실시간 인기 검색어 쿼리
+ * @description 해당 쿼리는 10분동안 신선한 상태를 유지합니다.
+ * @returns
+ */
+export function useGetSearchRealtime() {
+  return useSuspenseQuery({
+    ...campaignsQueryKeys.realtime(),
+    // 10분 캐싱
+    staleTime: 1000 * 60 * 10,
+    gcTime: 1000 * 60 * 10,
+  });
+}

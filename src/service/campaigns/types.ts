@@ -237,3 +237,10 @@ export interface GetCampaignSearchResponse {
   campaigns: Campaign[];
   pagination: Pagination;
 }
+
+/**
+ * 실시간 인기 검색어 조회 응답
+ */
+export interface GetSearchRealtimeResponse {
+  suggestions: string[];
+}

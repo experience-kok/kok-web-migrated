@@ -5,6 +5,7 @@ import { Search } from 'lucide-react';
 interface SuggestItemProps {
   label: string;
   searchQuery?: string;
+  type?: 'suggestion' | 'realtime';
   onClick?: () => void;
 }
 
@@ -27,8 +28,9 @@ function highlightSearchTerm(text: string, searchTerm: string) {
   });
 }
 
-export default function SuggestItem({ label, searchQuery, onClick }: SuggestItemProps) {
+export default function SuggestItem({ label, searchQuery, type, onClick }: SuggestItemProps) {
   const highlightedLabel = searchQuery ? highlightSearchTerm(label, searchQuery) : label;
+  console.log(type);
 
   return (
     <div
@@ -44,13 +46,13 @@ export default function SuggestItem({ label, searchQuery, onClick }: SuggestItem
           {highlightedLabel}
         </span>
 
-        {/* {trending && (
+        {type === 'realtime' && (
           <div className="ml-auto">
             <span className="bg-primary/10 text-primary group-hover:bg-primary/20 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium transition-colors duration-200">
               인기
             </span>
           </div>
-        )} */}
+        )}
 
         {/* 호버 시 화살표 */}
         <div className="ml-auto translate-x-2 transform opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">

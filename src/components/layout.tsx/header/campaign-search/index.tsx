@@ -6,7 +6,7 @@ import { X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { useGetSearchSuggestions } from '@/service/campaigns/campaigns-query';
+import { useGetSearchRealtime, useGetSearchSuggestions } from '@/service/campaigns/campaigns-query';
 
 import { useDebounce } from '@/hooks/use-debounce';
 
@@ -23,9 +23,11 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
+  const { data: searchRealtimeList } = useGetSearchRealtime();
+  console.log(searchRealtimeList);
 
   // 디바운스 처리 (200ms 지연)
-  const debouncedQuery = useDebounce(searchQuery, 200);
+  const debouncedQuery = useDebounce(searchQuery, 400);
 
   // URL 업데이트 (디바운스된 쿼리 기준)
   useEffect(() => {
@@ -52,6 +54,7 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
     setSearchQuery(e.target.value);
   };
 
+  // 키보드 입력 함수
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -63,6 +66,7 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
     }
   };
 
+  // 추천 검색어 입력
   const handleSuggestClick = (suggestion: string) => {
     setSearchQuery(suggestion);
     router.push(`/campaign/search?keyword=${suggestion}`);
@@ -72,6 +76,28 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
   const handleResetQuery = () => {
     setSearchQuery('');
   };
+
+  // 표시할 목록 결정
+  const getDisplayList = () => {
+    if (searchQuery.trim()) {
+      if (suggestions.length > 0) {
+        // 검색어가 있고 결과가 있는 경우
+        return { list: suggestions, type: 'suggestions' as const, hasResults: true };
+      } else {
+        // 검색어는 있는데 결과가 없는 경우
+        return { list: [], type: 'suggestions' as const, hasResults: false };
+      }
+    } else {
+      // 검색어가 없는 경우
+      return {
+        list: searchRealtimeList || [],
+        type: 'realtime' as const,
+        hasResults: true,
+      };
+    }
+  };
+
+  const { list, type, hasResults } = getDisplayList();
 
   return (
     <div className="relative w-full">
@@ -101,28 +127,43 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
       </div>
 
       {/* 검색 결과 목록 */}
-      {(searchQuery.trim() || suggestions.length > 0) && (
-        <div className="absolute top-full right-0 left-0 z-10 mt-2 max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-xl">
-          {suggestions.length > 0 ? (
-            <div className="py-2">
-              {suggestions.map((suggest, index) => (
-                <SuggestItem
-                  key={`${suggest}-${index}`}
-                  label={suggest}
-                  searchQuery={debouncedQuery} // 검색어 전달
-                  onClick={() => handleSuggestClick(suggest)}
-                />
-              ))}
+      <div className="absolute top-full right-0 left-0 z-10 mt-2 max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-xl">
+        {type === 'suggestions' && hasResults ? (
+          // 검색어가 있고 결과가 있는 경우
+          <div className="py-2">
+            {list.map((item, index) => (
+              <SuggestItem
+                key={`${item}-${index}`}
+                label={item}
+                searchQuery={debouncedQuery}
+                onClick={() => handleSuggestClick(item)}
+              />
+            ))}
+          </div>
+        ) : type === 'suggestions' && !hasResults ? (
+          // 검색어는 있는데 결과가 없는 경우
+          <div className="px-4 py-6 text-center text-sm text-gray-500">검색 결과가 없어요.</div>
+        ) : type === 'realtime' && list.length > 0 ? (
+          // 검색어가 없고 실시간 검색어가 있는 경우
+          <div className="py-2">
+            <div className="border-b border-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
+              실시간 검색어
             </div>
-          ) : searchQuery.trim() ? (
-            <div className="px-4 py-6 text-center text-sm text-gray-500">검색 결과가 없어요.</div>
-          ) : (
-            <div className="px-4 py-6 text-center text-sm text-gray-500">
-              검색어를 입력해주세요.
-            </div>
-          )}
-        </div>
-      )}
+            {list.map((item, index) => (
+              <SuggestItem
+                key={`${item}-${index}`}
+                label={item}
+                searchQuery=""
+                type="realtime"
+                onClick={() => handleSuggestClick(item)}
+              />
+            ))}
+          </div>
+        ) : (
+          // 검색어가 없고 실시간 검색어도 없는 경우
+          <div className="px-4 py-6 text-center text-sm text-gray-500">실시간 검색어가 없어요.</div>
+        )}
+      </div>
     </div>
   );
 }
