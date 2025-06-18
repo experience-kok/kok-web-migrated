@@ -13,6 +13,7 @@ import {
   GetMyCampaignsSummaryResponse,
   GetPopularCampaignsRequest,
   GetPopularCampaignsResponse,
+  GetSearchRealtimeResponse,
   GetVisitCampaignsRequest,
   GetVisitCampaignsResponse,
   PostCampaignApplicateResponse,
@@ -232,12 +233,12 @@ export async function getMyApplications({
     {
       requiresAuth: true,
     },
-  )
-  
+  );
+
   return response;
 }
 
-/*
+/**
  * 캠페인 검색 자동완성
  */
 export async function getSearchSuggestions(q: string) {
@@ -251,6 +252,24 @@ export async function getSearchSuggestions(q: string) {
 
   return response;
 }
+
+/**
+ * 실시간 인기 검색어 조회
+ */
+export async function getSearchRealtime() {
+  const response = await fetcher.get<GetSearchRealtimeResponse>(
+    `/campaigns/search/realtime?limit=5`,
+    {
+      next: {
+        // next 서버측에서 1시간 캐싱
+        revalidate: 3600,
+      },
+    },
+  );
+
+  return response;
+}
+
 /**
  * 캠페인 검색
  */
