@@ -1,5 +1,7 @@
 import { fetcher } from '@/lib/fetcher';
 
+import { SuccessResponse } from '@/types/response';
+
 import {
   GetCampaignApplicateCheckResponse,
   GetCampaignBasicInfoResponse,
@@ -255,19 +257,21 @@ export async function getSearchSuggestions(q: string) {
 
 /**
  * 실시간 인기 검색어 조회
+ *
+ * !TODO 추후 fetcher에 bff 기능 추가 필요
  */
 export async function getSearchRealtime() {
-  const response = await fetcher.get<GetSearchRealtimeResponse>(
-    `/campaigns/search/realtime?limit=5`,
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BFF_BASE_URL}/campaigns/search/realtime`,
     {
-      next: {
-        // next 서버측에서 1시간 캐싱
-        revalidate: 3600,
-      },
+      method: 'GET',
     },
   );
 
-  return response;
+  const data = (await response.json()) as SuccessResponse<GetSearchRealtimeResponse>;
+  console.log(data);
+
+  return data.data.suggestions;
 }
 
 /**

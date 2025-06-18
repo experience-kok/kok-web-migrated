@@ -192,6 +192,7 @@ export function useGetCampaignSearch({ size, keyword }: Omit<GetCampaignSearchRe
 export function useGetSearchRealtime() {
   return useSuspenseQuery({
     ...campaignsQueryKeys.realtime(),
+    // 10분 캐싱
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 10,
   });
