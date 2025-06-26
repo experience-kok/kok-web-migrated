@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import CampaignCardSkeleton from '@/components/shared/campaign-card/campaign-card-skeleton';
 import { Text } from '@/components/ui/text';
-import { CampaignApplicationStatus } from '@/models/campaign';
+import { CampaignApplicationStatus, CampaignType } from '@/models/campaign';
 
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 
@@ -19,6 +19,8 @@ interface Props {
       id: number;
       title: string;
       thumbnailUrl: string;
+      productShortInfo: string;
+      campaignType: CampaignType;
     };
     user: {
       id: number;
@@ -79,6 +81,11 @@ export default function CampaignList({
       <div className="flex flex-col gap-6 px-6 py-10 lg:px-16">
         {isApplications &&
           applications.map((application, index) => {
+            // applicationStatus가 COMPLETED 또는 EXPIRED인 경우 grayscale 적용
+            const shouldApplyGrayscale =
+              application.applicationStatus === 'COMPLETED' ||
+              application.applicationStatus === 'EXPIRED';
+
             // 마지막 요소에 ref 연결
             if (applications.length === index + 1) {
               return (
@@ -87,6 +94,9 @@ export default function CampaignList({
                     id={application.id}
                     thumbnailUrl={application.campaign.thumbnailUrl}
                     title={application.campaign.title}
+                    productShortInfo={application.campaign.productShortInfo}
+                    campaignType={application.campaign.campaignType}
+                    grayscale={shouldApplyGrayscale}
                   />
                 </div>
               );
@@ -97,6 +107,9 @@ export default function CampaignList({
                   id={application.id}
                   thumbnailUrl={application.campaign.thumbnailUrl}
                   title={application.campaign.title}
+                  productShortInfo={application.campaign.productShortInfo}
+                  campaignType={application.campaign.campaignType}
+                  grayscale={shouldApplyGrayscale}
                 />
               );
             }

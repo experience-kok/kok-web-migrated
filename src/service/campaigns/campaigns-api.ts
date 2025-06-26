@@ -1,5 +1,7 @@
 import { fetcher } from '@/lib/fetcher';
 
+import { SuccessResponse } from '@/types/response';
+
 import {
   GetCampaignApplicateCheckResponse,
   GetCampaignBasicInfoResponse,
@@ -13,6 +15,7 @@ import {
   GetMyCampaignsSummaryResponse,
   GetPopularCampaignsRequest,
   GetPopularCampaignsResponse,
+  GetSearchRealtimeResponse,
   GetVisitCampaignsRequest,
   GetVisitCampaignsResponse,
   PostCampaignApplicateResponse,
@@ -232,12 +235,12 @@ export async function getMyApplications({
     {
       requiresAuth: true,
     },
-  )
-  
+  );
+
   return response;
 }
 
-/*
+/**
  * 캠페인 검색 자동완성
  */
 export async function getSearchSuggestions(q: string) {
@@ -251,6 +254,26 @@ export async function getSearchSuggestions(q: string) {
 
   return response;
 }
+
+/**
+ * 실시간 인기 검색어 조회
+ *
+ * !TODO 추후 fetcher에 bff 기능 추가 필요
+ */
+export async function getSearchRealtime() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BFF_BASE_URL}/campaigns/search/realtime`,
+    {
+      method: 'GET',
+    },
+  );
+
+  const data = (await response.json()) as SuccessResponse<GetSearchRealtimeResponse>;
+  console.log(data);
+
+  return data.data.suggestions;
+}
+
 /**
  * 캠페인 검색
  */

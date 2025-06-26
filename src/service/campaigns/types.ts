@@ -201,7 +201,9 @@ export interface GetMyApplicationsResponse {
     campaign: {
       id: number;
       title: string;
-      thumbnailUrl: string
+      thumbnailUrl: string;
+      productShortInfo: string;
+      campaignType: CampaignType;
     };
     user: {
       id: number;
@@ -219,7 +221,6 @@ export interface GetMyApplicationsRequest {
   applicationStatus: CampaignApplicationStatus;
 }
 
-  
 /*
  * 캠페인 검색 요청
  */
@@ -235,4 +236,11 @@ export interface GetCampaignSearchRequest {
 export interface GetCampaignSearchResponse {
   campaigns: Campaign[];
   pagination: Pagination;
+}
+
+/**
+ * 실시간 인기 검색어 조회 응답
+ */
+export interface GetSearchRealtimeResponse {
+  suggestions: string[];
 }

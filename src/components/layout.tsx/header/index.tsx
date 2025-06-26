@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 
 import { useAuth } from '@/hooks/use-auth';
+import { usePreventScroll } from '@/hooks/use-prevent-scroll'; // 스크롤 방지 훅 추가
 
 import CampaignSearch from './campaign-search';
 import HeaderLogo from './header-logo';
@@ -23,6 +24,13 @@ import SearchButton from './search-button';
 export default function Header() {
   const auth = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // 검색 모달이 열렸을 때 스크롤 방지
+  usePreventScroll({
+    enabled: isSearchOpen,
+    hideOverflow: true,
+    preventTouch: true,
+  });
 
   const handleClickSearchButton = () => {
     setIsSearchOpen(prev => !prev);
@@ -64,7 +72,7 @@ export default function Header() {
           <div className="pointer-events-none fixed inset-0 z-52 flex items-start justify-center p-6 pt-20">
             <div className="animate-in fade-in-0 zoom-in-95 pointer-events-auto w-full max-w-3xl transform duration-300">
               {/* 헤더 섹션 */}
-              <div className="rounded-t-3xl border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6">
+              <div className="rounded-t-3xl bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <Text
