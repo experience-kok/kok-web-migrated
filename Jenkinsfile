@@ -33,9 +33,11 @@ pipeline {
                         sh """
                             # .env 두 개 병합
                             cat $ENV_MAIN $ENV_PROD > merged.env
-                            # 원격 서버에 병합된 .env 복사
+                            # :흰색_확인_표시: 1. 원격 서버에 디렉토리 먼저 생성
+                            ssh ${remoteService} 'mkdir -p ~/project'
+                            # :흰색_확인_표시: 2. 디렉토리 존재 보장 후 복사
                             scp merged.env ${remoteService}:~/project/.env
-                            # Docker Compose 실행
+                            # 3. Docker Compose 실행
                             ssh ${remoteService} '
                                 cd ~/project &&
                                 docker compose --env-file .env -f docker-compose.yml build --no-cache &&
