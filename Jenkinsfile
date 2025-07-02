@@ -3,10 +3,8 @@ pipeline {
     environment {
         SLACK_CHANNEL = '#jenkins-alert'
         SLACK_CREDENTIAL_ID = 'slack-token'
-        // Jenkins 서버의 env 파일 경로
         LOCAL_ENV_DIR = '/var/service_envs'
-        // 원격 서버에서 env 파일을 둘 경로
-        REMOTE_ENV_DIR = '/home/ec2-user/envs'
+        SERVICE_ENV_FILE = "${LOCAL_ENV_DIR}/service.env"
     }
     stages {
         stage("Setup") {
@@ -17,7 +15,7 @@ pipeline {
                         message: ":로켓: 빌드 시작: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         tokenCredentialId: SLACK_CREDENTIAL_ID
                     )
-                    if(env.GIT_BRANCH == "origin/main") {
+                    if (env.GIT_BRANCH == "origin/main") {
                         target = "production"
                         remoteService = "ec2-user@ec2-3-35-148-154.ap-northeast-2.compute.amazonaws.com"
                     } else {
@@ -26,17 +24,13 @@ pipeline {
                 }
             }
         }
-        stage("Copy .env files") {
-            when {
-                expression { return target == "production" }
-            }
+        stage("Generate Env File") {
             steps {
                 script {
-                    // 원격 경로에 env 디렉토리 생성
-                    sh "ssh ${remoteService} 'mkdir -p ${REMOTE_ENV_DIR}'"
-                    // env 파일 전송 (필요한 파일 모두)
-                    sh "scp ${LOCAL_ENV_DIR}/web-front-main.env ${remoteService}:${REMOTE_ENV_DIR}/"
-                    sh "scp ${LOCAL_ENV_DIR}/web-front-main.env.production ${remoteService}:${REMOTE_ENV_DIR}/"
+                    echo "환경 변수 파일 병합 중..."
+                    sh """
+                        cat ${LOCAL_ENV_DIR}/web-front-main.env ${LOCAL_ENV_DIR}/web-front-main.env.production > ${SERVICE_ENV_FILE}
+                    """
                 }
             }
         }
@@ -47,17 +41,16 @@ pipeline {
             steps {
                 echo "STAGE: Deploy"
                 script {
-                    // docker compose 실행 시 --env-file 지정
-                    sh("""
+                    sh """
                         docker -H ssh://${remoteService} compose \
-                        --env-file ${REMOTE_ENV_DIR}/web-front-main.env \
+                        --env-file ${SERVICE_ENV_FILE} \
                         -f docker-compose.yml build --no-cache
-                    """.stripIndent())
-                    sh("""
+                    """.stripIndent()
+                    sh """
                         docker -H ssh://${remoteService} compose \
-                        --env-file ${REMOTE_ENV_DIR}/web-front-main.env \
+                        --env-file ${SERVICE_ENV_FILE} \
                         -f docker-compose.yml up -d
-                    """.stripIndent())
+                    """.stripIndent()
                 }
             }
         }
