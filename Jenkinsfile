@@ -1,8 +1,10 @@
 pipeline {
     agent any
     environment {
-        SLACK_CHANNEL = '#jenkins-alert' // ← 여기에 원하는 채널 이름 입력
+        SLACK_CHANNEL = '#jenkins-alert'
         SLACK_CREDENTIAL_ID = 'slack-token'
+        ENV_FILE_ID_MAIN = '4a830e68-b5ec-4eed-98b3-b750d9a368d6'
+        ENV_FILE_ID_PROD = 'a81709e5-198a-415c-bc86-9fe464f2ca6b'
     }
     stages {
         stage("Setup") {
@@ -13,24 +15,34 @@ pipeline {
                         message: ":로켓: 빌드 시작: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         tokenCredentialId: SLACK_CREDENTIAL_ID
                     )
-                    if(env.GIT_BRANCH == "origin/main") {
-                        target = "production"
+                    if (env.GIT_BRANCH == "origin/main") {
                         remoteService = "ec2-user@ec2-3-35-148-154.ap-northeast-2.compute.amazonaws.com"
                     } else {
-                        error "찾을 수 없는 브랜치: ${env.GIT_BRANCH}"
+                        error ":경고: 지원하지 않는 브랜치: ${env.GIT_BRANCH}"
                     }
                 }
             }
         }
-        stage("Deploy PROD") {
-            when {
-                expression { return target == "production" }
-            }
+        stage("Deploy") {
             steps {
-                echo "STAGE: Deploy"
                 script {
-                    sh("docker -H ssh://${remoteService} compose -f docker-compose.yml build --no-cache")
-                    sh("docker -H ssh://${remoteService} compose -f docker-compose.yml up -d")
+                    configFileProvider([
+                        configFile(fileId: env.ENV_FILE_ID_MAIN, variable: 'ENV_MAIN'),
+                        configFile(fileId: env.ENV_FILE_ID_PROD, variable: 'ENV_PROD')
+                    ]) {
+                        sh """
+                            # .env 두 개 병합
+                            cat $ENV_MAIN $ENV_PROD > merged.env
+                            # 원격 서버에 병합된 .env 복사
+                            scp merged.env ${remoteService}:~/project/.env
+                            # Docker Compose 실행
+                            ssh ${remoteService} '
+                                cd ~/project &&
+                                docker compose --env-file .env -f docker-compose.yml build --no-cache &&
+                                docker compose --env-file .env -f docker-compose.yml up -d
+                            '
+                        """
+                    }
                 }
             }
         }
