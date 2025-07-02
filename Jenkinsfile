@@ -6,6 +6,7 @@ pipeline {
         MAIN_ENV_DIR = '/var/service_envs/web-front-main.env'
         PRD_ENV_DIR = '/var/service_envs/web-front-main.env.production'
         WORKSPACE_DIR = '/var/jenkins_home/workspace/chkok-web-front-main/'
+        PIPELINE_DIR = '/var/jenkins_home/workspace/chkok-web-front-main-pipeline/'
     }
     stages {
         stage("Setup") {
@@ -32,6 +33,8 @@ pipeline {
                     sh """
                         cp ${MAIN_ENV_DIR} ${WORKSPACE_DIR}/.env
                         cp ${PRD_ENV_DIR} ${WORKSPACE_DIR}/.env.production
+                        cp ${MAIN_ENV_DIR} ${PIPELINE_DIR}/.env
+                        cp ${PRD_ENV_DIR} ${PIPELINE_DIR}/.env.production
                     """.stripIndent()
                 }
             }
