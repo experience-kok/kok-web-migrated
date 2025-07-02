@@ -3,8 +3,9 @@ pipeline {
     environment {
         SLACK_CHANNEL = '#jenkins-alert'
         SLACK_CREDENTIAL_ID = 'slack-token'
-        LOCAL_ENV_DIR = '/var/service_envs'
-        SERVICE_ENV_FILE = "${LOCAL_ENV_DIR}/service.env"
+        MAIN_ENV_DIR = '/var/service_envs/web-front-main.env'
+        PRD_ENV_DIR = '/var/service_envs/web-front-main.env.production'
+        WORKSPACE_DIR = '/var/jenkins_home/workspace/chkok-web-front-main/'
     }
     stages {
         stage("Setup") {
@@ -24,13 +25,14 @@ pipeline {
                 }
             }
         }
-        stage("Generate Env File") {
+        stage("Copy Env Files") {
             steps {
+                echo "STAGE: Copy Env Files"
                 script {
-                    echo "환경 변수 파일 병합 중..."
                     sh """
-                        cat ${LOCAL_ENV_DIR}/web-front-main.env ${LOCAL_ENV_DIR}/web-front-main.env.production > ${SERVICE_ENV_FILE}
-                    """
+                        cp ${MAIN_ENV_DIR} ${WORKSPACE_DIR}/.env
+                        cp ${PRD_ENV_DIR} ${WORKSPACE_DIR}/.env.production
+                    """.stripIndent()
                 }
             }
         }
@@ -41,17 +43,15 @@ pipeline {
             steps {
                 echo "STAGE: Deploy"
                 script {
-                    sh("""
+                    sh """
                         docker -H ssh://${remoteService} rm -f next-app || true
-                    """)
+                    """
                     sh """
                         docker -H ssh://${remoteService} compose \
-                        --env-file ${SERVICE_ENV_FILE} \
                         -f docker-compose.yml build --no-cache
                     """.stripIndent()
                     sh """
                         docker -H ssh://${remoteService} compose \
-                        --env-file ${SERVICE_ENV_FILE} \
                         -f docker-compose.yml up -d --build
                     """.stripIndent()
                 }
