@@ -98,7 +98,7 @@ export default function RankingCampaign({ categoryData }: Props) {
   }));
 
   return (
-    <div>
+    <div className="px-4">
       <div className="scrollbar-hide mb-4 flex space-x-4 overflow-x-auto whitespace-nowrap">
         {categories.map((category, index) => (
           <button

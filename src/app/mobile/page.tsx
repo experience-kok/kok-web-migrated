@@ -1,9 +1,11 @@
+import SplitBox from '@/components/ui/split-box';
 import { DELIVERY_CATEGORIES, VISIT_CATEGORIES } from '@/models/campaign';
 import { getBanners } from '@/service/banners/banners-api';
 import { getPopularCampaigns } from '@/service/campaigns/campaigns-api';
 
 import MainBanner from './_components/main-banner';
 import PopularCampaign from './_components/popular-campaign';
+import QuickMenu from './_components/quick-menu';
 import RankingCampaign from './_components/ranking-campaign';
 
 export default async function Home() {
@@ -55,17 +57,23 @@ export default async function Home() {
         <MainBanner banners={bannersData} />
       </section>
 
+      <section className="mt-5">
+        <QuickMenu />
+      </section>
+
       {/* 인기 캠페인 영역 */}
-      <section className="p-4">
-        <h2 className="chkok-title-md mb-4">인기 캠페인</h2>
+      <section className="mt-10">
+        <h2 className="chkok-title-md p-4">인기 캠페인</h2>
 
         <PopularCampaign campaigns={campaignsData.campaigns} />
       </section>
 
+      {/* <SplitBox className="h-2" /> */}
+
       {/* 체험콕이 추천해요! 영역 */}
-      <section className="p-4">
+      <section className="mt-14">
         {/* 랭킹순으로 추천 */}
-        <h2 className="chkok-title-md mb-4">체험콕이 추천해요!</h2>
+        <h2 className="chkok-title-md p-4">체험콕이 추천해요!</h2>
 
         <RankingCampaign categoryData={categoryRankingData} />
       </section>

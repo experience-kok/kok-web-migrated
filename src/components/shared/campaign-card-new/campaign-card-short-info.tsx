@@ -8,6 +8,6 @@ interface Props {
  */
 export default function CampaignCardShortInfo({ productShortInfo }: Props) {
   return (
-    <p className="chkok-text-sm text-muted-foreground mb-2 line-clamp-2">{productShortInfo}</p>
+    <p className="chkok-text-sm text-muted-foreground mb-2 line-clamp-1">{productShortInfo}</p>
   );
 }
