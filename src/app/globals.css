@@ -116,6 +116,36 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@layer components {
+  .chkok-title-lg {
+    @apply text-3xl leading-tight font-semibold tracking-tight;
+  }
+
+  .chkok-title-md {
+    @apply text-2xl leading-tight font-semibold tracking-tight;
+  }
+
+  .chkok-title-sm {
+    @apply text-xl leading-6 font-semibold tracking-tight;
+  }
+
+  .chkok-text-lg {
+    @apply text-lg leading-6 font-semibold tracking-normal;
+  }
+
+  .chkok-text-md {
+    @apply text-base leading-6 font-medium tracking-normal;
+  }
+
+  .chkok-text-sm {
+    @apply text-sm leading-6 font-medium tracking-normal;
+  }
+
+  .chkok-caption {
+    @apply text-xs font-medium tracking-normal;
+  }
+}
+
 @layer utilities {
   .scrollbar-hide {
     &::-webkit-scrollbar {
@@ -139,7 +169,7 @@
 }
 
 html {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 @media (min-width: 768px) {

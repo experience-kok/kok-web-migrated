@@ -1,4 +1,4 @@
-import { Pin, Share } from 'lucide-react';
+import { Heart, Share } from 'lucide-react';
 
 import ApplicatnsCount from '@/components/shared/campaign-card/applicants-count';
 import CampaignTypeBadge from '@/components/shared/campaign-card/campaign-type-badge';
@@ -64,7 +64,7 @@ export default async function CampaignDetailPage({ params }: Props) {
 
           <div className="absolute right-4 bottom-4 flex gap-2" style={{ marginTop: '120px' }}>
             <Button variant="ghost" size="icon" className="bg-white/80 hover:bg-white">
-              <Pin className="h-6 w-6" />
+              <Heart className="h-6 w-6" />
             </Button>
             <Button variant="ghost" size="icon" className="bg-white/80 hover:bg-white">
               <Share className="h-6 w-6" />
