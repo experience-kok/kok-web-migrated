@@ -45,7 +45,7 @@ export default function MainBanner({ banners }: Props) {
   }, [api]);
 
   return (
-    <div>
+    <div className="relative w-full">
       <Carousel
         className="mx-auto w-full"
         opts={{ loop: true }}
@@ -72,8 +72,8 @@ export default function MainBanner({ banners }: Props) {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="text-muted-foreground py-2 text-center text-sm">
-        Slide {current} of {count}
+      <div className="chkok-caption absolute right-2 bottom-2 rounded-md bg-black/50 px-2 py-1 text-white backdrop-blur-sm">
+        {current} / {count}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { House, AlarmClock, Menu, UserRound, Pin } from 'lucide-react';
+import { House, AlarmClock, Menu, UserRound, Heart } from 'lucide-react';
 
 import ScrollToTopButton from '@/components/shared/scroll-to-top-button';
 
@@ -37,9 +37,9 @@ export default function FooterMenu() {
       url: '/',
     },
     {
-      icon: <Pin className="h-6 w-6" />,
-      title: '콕',
-      url: '/콕',
+      icon: <Heart className="h-6 w-6" />,
+      title: '찜',
+      url: '/찜',
     },
     {
       icon: <UserRound className="h-6 w-6" />,
