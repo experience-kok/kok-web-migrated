@@ -1,16 +1,17 @@
+import { Suspense } from 'react';
+
 import { DELIVERY_CATEGORIES, VISIT_CATEGORIES } from '@/models/campaign';
-import { getBanners } from '@/service/banners/banners-api';
 import { getPopularCampaigns } from '@/service/campaigns/campaigns-api';
 
 import AdBanner from './_components/ad-banner';
-import MainBanner from './_components/main-banner';
+import MainBannerSection from './_components/main-banner-section';
+import MainBannerSkeleton from './_components/main-banner-section/main-banner-skeleton';
 import PopularCampaign from './_components/popular-campaign';
 import QuickMenu from './_components/quick-menu';
 import RankingCampaign from './_components/ranking-campaign';
 
 export default async function Home() {
   // 배너 목록 요청
-  const bannersData = await getBanners();
 
   // 인기 캠페인 목록 요청
   const campaignsData = await getPopularCampaigns({
@@ -53,9 +54,9 @@ export default async function Home() {
   return (
     <>
       {/* 배너 영역 */}
-      <section>
-        <MainBanner banners={bannersData} />
-      </section>
+      <Suspense fallback={<MainBannerSkeleton />}>
+        <MainBannerSection />
+      </Suspense>
 
       <section className="mt-5">
         <QuickMenu />
