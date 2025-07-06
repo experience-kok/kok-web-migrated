@@ -22,7 +22,7 @@ export default function RankingCampaignCard({ campaign, ranking }: Props) {
           </div>
         </div>
 
-        <div className="flex cursor-pointer flex-col items-start px-0">
+        <div className="flex cursor-pointer flex-col items-start px-4">
           <div className="scrollbar-hide mb-2 flex w-full items-center gap-2 overflow-x-auto">
             <CampaignCard.Badge campaignType={campaign.campaignType} />
           </div>

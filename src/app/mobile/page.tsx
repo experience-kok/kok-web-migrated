@@ -1,8 +1,8 @@
-import SplitBox from '@/components/ui/split-box';
 import { DELIVERY_CATEGORIES, VISIT_CATEGORIES } from '@/models/campaign';
 import { getBanners } from '@/service/banners/banners-api';
 import { getPopularCampaigns } from '@/service/campaigns/campaigns-api';
 
+import AdBanner from './_components/ad-banner';
 import MainBanner from './_components/main-banner';
 import PopularCampaign from './_components/popular-campaign';
 import QuickMenu from './_components/quick-menu';
@@ -68,10 +68,12 @@ export default async function Home() {
         <PopularCampaign campaigns={campaignsData.campaigns} />
       </section>
 
-      {/* <SplitBox className="h-2" /> */}
+      <section className="mt-10">
+        <AdBanner />
+      </section>
 
       {/* 체험콕이 추천해요! 영역 */}
-      <section className="mt-14">
+      <section className="my-10">
         {/* 랭킹순으로 추천 */}
         <h2 className="chkok-title-md p-4">체험콕이 추천해요!</h2>
 
