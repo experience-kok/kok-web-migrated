@@ -61,6 +61,7 @@ pipeline {
                 echo "STAGE: Deploy"
                 script {
                     sshagent(credentials: ['chkok-ssh-key']) {
+                        sh "docker -H ssh://${remoteService} rm -f next-app || true"
                         sh """
                             docker -H ssh://${remoteService} compose \
                             -f docker-compose.yml build
