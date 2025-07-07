@@ -3,8 +3,6 @@ pipeline {
     environment {
         SLACK_CHANNEL = '#jenkins-alert'
         SLACK_CREDENTIAL_ID = 'slack-token'
-        WORKSPACE_DIR = '/var/jenkins_home/workspace/chkok-web-front-main/'
-        PIPELINE_DIR = '/var/jenkins_home/workspace/chkok-web-front-main-pipeline/'
     }
     stages {
         stage("Setup") {
@@ -24,7 +22,7 @@ pipeline {
                 }
             }
         }
-        stage("Create & Copy Env Files") {
+        stage("Copy Env Files") {
             steps {
                 echo "STAGE: Copy Env Files"
                 configFileProvider([
@@ -32,11 +30,25 @@ pipeline {
                     configFile(fileId: 'a81709e5-198a-415c-bc86-9fe464f2ca6b', variable: 'PRD_ENV')
                 ]) {
                     sh """
-                        cp \$MAIN_ENV ${WORKSPACE_DIR}/.env
-                        cp \$PRD_ENV ${WORKSPACE_DIR}/.env.production
-                        cp \$MAIN_ENV ${PIPELINE_DIR}/.env
-                        cp \$PRD_ENV ${PIPELINE_DIR}/.env.production
+                        cp \$MAIN_ENV ${env.WORKSPACE}/.env
+                        cp \$PRD_ENV ${env.WORKSPACE}/.env.production
                     """
+                }
+            }
+        }
+        stage("Check SSH & Docker") {
+            when {
+                expression { return target == "production" }
+            }
+            steps {
+                echo "STAGE: Check SSH & Docker connection"
+                script {
+                    sshagent(credentials: ['chkok-ssh-key']) {
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'echo :흰색_확인_표시: SSH 연결 성공'"
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'docker ps -a'"
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'docker version'"
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'docker compose version || docker-compose version || echo :출입금지_기호: docker compose 명령어 없음'"
+                    }
                 }
             }
         }
@@ -47,15 +59,17 @@ pipeline {
             steps {
                 echo "STAGE: Deploy"
                 script {
-                    sh "docker -H ssh://${remoteService} rm -f next-app || true"
-                    sh """
-                        docker -H ssh://${remoteService} compose \
-                        -f docker-compose.yml build --no-cache
-                    """
-                    sh """
-                        docker -H ssh://${remoteService} compose \
-                        -f docker-compose.yml up -d --build
-                    """
+                    sshagent(credentials: ['chkok-ssh-key']) {
+                        sh "docker -H ssh://${remoteService} rm -f next-app || true"
+                        sh """
+                            docker -H ssh://${remoteService} compose \
+                            -f docker-compose.yml build
+                        """
+                        sh """
+                            docker -H ssh://${remoteService} compose \
+                            -f docker-compose.yml up -d --build
+                        """
+                    }
                 }
             }
         }
