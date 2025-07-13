@@ -118,15 +118,15 @@
 
 @layer components {
   .chkok-title-lg {
-    @apply text-3xl leading-tight font-semibold tracking-tight;
-  }
-
-  .chkok-title-md {
     @apply text-2xl leading-tight font-semibold tracking-tight;
   }
 
+  .chkok-title-md {
+    @apply text-xl leading-tight font-semibold tracking-tight;
+  }
+
   .chkok-title-sm {
-    @apply text-xl leading-6 font-semibold tracking-tight;
+    @apply text-lg leading-6 font-semibold tracking-tight;
   }
 
   .chkok-text-lg {
@@ -134,15 +134,15 @@
   }
 
   .chkok-text-md {
-    @apply text-base leading-6 font-medium tracking-normal;
+    @apply text-base leading-6 font-normal tracking-normal;
   }
 
   .chkok-text-sm {
-    @apply text-sm leading-6 font-medium tracking-normal;
+    @apply text-sm leading-6 font-normal tracking-normal;
   }
 
   .chkok-caption {
-    @apply text-xs font-medium tracking-normal;
+    @apply text-xs font-normal tracking-normal;
   }
 }
 
