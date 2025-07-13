@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
  */
 export default function ProfileContainerSkeleton() {
   return (
-    <section className="px-6 py-10">
+    <section className="px-4 py-6">
       <div className="flex items-center gap-5">
         {/* 프로필 이미지 자리 */}
         <Skeleton className="h-20 w-20 rounded-full" />

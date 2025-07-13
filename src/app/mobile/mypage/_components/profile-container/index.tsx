@@ -20,7 +20,7 @@ export default function ProfileContainer() {
   } = useGetUsersProfile();
 
   return (
-    <section className="px-4 py-10">
+    <section className="px-4 py-6">
       <div className="flex items-center gap-5">
         <ProfileImageUploadDialog user={user}>
           <Tooltip content="프로필 이미지 변경">
