@@ -27,7 +27,12 @@ export default function MyPage() {
       <section className="px-4 py-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="chkok-title-sm">내 캠페인</h2>
-          <Link href={`/mobile/mypage/applications`}>더보기</Link>
+          <Link
+            className="chkok-text-sm text-muted-foreground"
+            href={`/mobile/mypage/applications`}
+          >
+            더보기
+          </Link>
         </div>
 
         <ErrorBoundary fallback={ErrorFallback}>
