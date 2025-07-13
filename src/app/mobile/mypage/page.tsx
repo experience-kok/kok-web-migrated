@@ -56,7 +56,7 @@ export default function MyPage() {
       {/* 메뉴 목록 영역 */}
       <section className="px-4">
         <div className="flex w-full items-center justify-between py-5">
-          <span className="chkok-text-md">공지사항</span>
+          <span className="chkok-text-md font-semibold">공지사항</span>
           <ChevronRight width={16} height={16} className="text-muted-foreground" />
         </div>
       </section>
