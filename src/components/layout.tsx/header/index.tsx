@@ -43,7 +43,7 @@ export default function Header() {
   return (
     <>
       <header className="relative z-10 flex h-16 w-full border-b border-gray-100/50 bg-white/80 backdrop-blur-xl md:h-18">
-        <div className="h-full w-full px-6 lg:px-16">
+        <div className="h-full w-full px-4 lg:px-16">
           <div className="flex h-full w-full items-center">
             <div className="flex h-full w-full items-center">
               <HeaderLogo />

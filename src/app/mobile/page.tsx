@@ -9,7 +9,7 @@ import QuickMenu from './_components/quick-menu';
 import RankingCampaignSection from './_components/ranking-campaign-section';
 import RankingCampaignSkeleton from './_components/ranking-campaign-section/ranking-campaign-skeleton';
 
-export default async function Home() {
+export default function Home() {
   return (
     <>
       {/* 배너 영역 */}
