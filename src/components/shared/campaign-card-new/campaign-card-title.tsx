@@ -1,10 +1,13 @@
+import { cn } from '@/lib/utils';
+
 interface Props {
   title: string;
+  className?: string;
 }
 
 /**
  * 캠페인 카드의 제목 컴포넌트
  */
-export default function CampaignCardTitle({ title }: Props) {
-  return <p className="chkok-text-md line-clamp-2">{title}</p>;
+export default function CampaignCardTitle({ title, className }: Props) {
+  return <p className={cn('chkok-text-md line-clamp-2', className)}>{title}</p>;
 }
