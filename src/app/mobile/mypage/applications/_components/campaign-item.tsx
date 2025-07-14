@@ -41,21 +41,29 @@ export default function CampaignItem({
   return (
     <Link href={`/campaign/${id}`}>
       <CampaignCard className="flex flex-row">
-        <CampaignCard.Image
-          imageUrl={thumbnailUrl}
-          imageAlt={`Campaign thumbnail for ${title || 'unknown'}`}
-          aspectRatio={1 / 1}
-          width={75}
-          height={75}
-          className={imageFilterClass} // grayscale 클래스 적용
-        />
+        {/* 이미지 컨테이너에 flex-shrink-0 적용하여 크기 고정 */}
+        <div className="flex-shrink-0">
+          <CampaignCard.Image
+            imageUrl={thumbnailUrl}
+            imageAlt={`Campaign thumbnail for ${title || 'unknown'}`}
+            width={75}
+            height={75}
+            className={imageFilterClass} // grayscale 클래스 적용
+          />
+        </div>
 
-        <div className="flex cursor-pointer flex-col items-start px-2">
+        {/* 텍스트 영역에 flex-1과 min-w-0 적용 */}
+        <div className="flex min-w-0 flex-1 cursor-pointer flex-col items-start px-2">
           <div className="scrollbar-hide mb-2 flex w-full items-center gap-2 overflow-x-auto">
             <CampaignCard.Badge campaignType={campaignType} />
           </div>
-          <CampaignCard.Title title={title} />
-          <CampaignCard.ShortInfo productShortInfo={productShortInfo} />
+          {/* 제목이 길어질 경우를 대비한 처리 */}
+          <div className="w-full">
+            <CampaignCard.Title title={title} className="line-clamp-1" />
+          </div>
+          <div className="w-full">
+            <CampaignCard.ShortInfo productShortInfo={productShortInfo} />
+          </div>
         </div>
       </CampaignCard>
     </Link>
