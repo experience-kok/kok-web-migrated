@@ -16,10 +16,11 @@ interface Props {
 
 /**
  * 메인 페이지 배너 컴포넌트 (반응형)
+ * !TODO banner의 개수가 0개일 경우도 예외처리가 필요할까?
  */
 export default function MainBanner({ banners }: Props) {
   const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(banners.length > 0 ? 1 : 0);
   const [count, setCount] = useState(banners.length);
 
   useEffect(() => {
