@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 회사 정보 (OAS 표준)
  * @export
@@ -62,5 +60,3 @@ export interface CreateCampaignV2ResponseCompanyInfo {
      */
     'updatedAt'?: Date;
 }
-
-

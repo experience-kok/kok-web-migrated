@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 닉네임 수정 요청
  * @export
@@ -26,5 +24,3 @@ export interface NicknameUpdateRequest {
      */
     'nickname': string;
 }
-
-

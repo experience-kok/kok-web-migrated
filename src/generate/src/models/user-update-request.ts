@@ -11,9 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-import { UserUpdateRequest } from './user-update-request';
-
 /**
  * 수정할 사용자 정보
  * @export

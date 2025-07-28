@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 
  * @export
@@ -50,5 +48,3 @@ export interface PlatformListSuccessResponseDataPlatformsInner {
      */
     'lastCrawledAt'?: string;
 }
-
-

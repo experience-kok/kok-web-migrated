@@ -11,10 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-import { CreateCampaignV2Request } from './create-campaign-v2-request';
-import { CreateCampaignV2Request } from './create-campaign-v2-request';
-
 /**
  * 캠페인 생성 요청
  * @export
@@ -32,7 +28,7 @@ export interface CreateCampaignV2Request {
      * @type {string}
      * @memberof CreateCampaignV2Request
      */
-    'campaignType': string;
+    'campaignType': CreateCampaignV2RequestCampaignTypeEnum;
     /**
      * 캠페인 제목
      * @type {string}
@@ -120,15 +116,16 @@ export interface CreateCampaignV2Request {
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum CampaignTypeEnum {
-    'INSTAGRAM' = 'INSTAGRAM',
-    'BLOG' = 'BLOG',
-    'YOUTUBE' = 'YOUTUBE',
-    'INSTAGRAM' = 'INSTAGRAM',
-    'BLOG' = 'BLOG',
-    'YOUTUBE' = 'YOUTUBE'
-}
+    * @export
+    * @enum {string}
+    */
+export type CreateCampaignV2RequestCampaignTypeEnum = 
+  'INSTAGRAM'|
+  'BLOG'|
+  'YOUTUBE'|
+  'INSTAGRAM'|
+  'BLOG'|
+  'YOUTUBE'
+
+
 

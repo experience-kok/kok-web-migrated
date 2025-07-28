@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 파일 정보
  * @export
@@ -24,16 +22,17 @@ export interface PresignedUrlRequest {
      * @type {string}
      * @memberof PresignedUrlRequest
      */
-    'fileExtension': string;
+    'fileExtension': PresignedUrlRequestFileExtensionEnum;
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum FileExtensionEnum {
-    'jpg' = 'jpg',
-    'jpeg' = 'jpeg',
-    'png' = 'png'
-}
+    * @export
+    * @enum {string}
+    */
+export type PresignedUrlRequestFileExtensionEnum = 
+  'jpg'|
+  'jpeg'|
+  'png'
+
+
 

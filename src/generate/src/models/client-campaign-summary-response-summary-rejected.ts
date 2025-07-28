@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 관리자가 거절한 캠페인
  * @export
@@ -32,5 +30,3 @@ export interface ClientCampaignSummaryResponseSummaryRejected {
      */
     'label'?: string;
 }
-
-

@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 완료된 신청
  * @export
@@ -32,5 +30,3 @@ export interface UserCampaignSummaryResponseSummaryCompleted {
      */
     'label'?: string;
 }
-
-

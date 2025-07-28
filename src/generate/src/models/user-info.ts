@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 사용자 정보
  * @export
@@ -42,7 +40,7 @@ export interface UserInfo {
      * @type {string}
      * @memberof UserInfo
      */
-    'role'?: string;
+    'role'?: UserInfoRoleEnum;
     /**
      * 프로필 이미지 URL
      * @type {string}
@@ -52,12 +50,13 @@ export interface UserInfo {
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum RoleEnum {
-    'USER' = 'USER',
-    'CLIENT' = 'CLIENT',
-    'ADMIN' = 'ADMIN'
-}
+    * @export
+    * @enum {string}
+    */
+export type UserInfoRoleEnum = 
+  'USER'|
+  'CLIENT'|
+  'ADMIN'
+
+
 

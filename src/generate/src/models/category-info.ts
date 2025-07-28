@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 캠페인 카테고리 정보
  * @export
@@ -24,7 +22,7 @@ export interface CategoryInfo {
      * @type {string}
      * @memberof CategoryInfo
      */
-    'type': string;
+    'type': CategoryInfoTypeEnum;
     /**
      * 카테고리명 - 제품/서비스 분야를 나타내는 세부 분류 • 방문형: 맛집, 카페, 뷰티, 숙박 • 배송형: 식품, 화장품, 생활용품, 패션, 잡화
      * @type {string}
@@ -34,11 +32,12 @@ export interface CategoryInfo {
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum TypeEnum {
-    '방문' = '방문',
-    '배송' = '배송'
-}
+    * @export
+    * @enum {string}
+    */
+export type CategoryInfoTypeEnum = 
+  '방문'|
+  '배송'
+
+
 

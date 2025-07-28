@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 캠페인 주최 업체 정보
  * @export
@@ -44,5 +42,3 @@ export interface CompanyInfo {
      */
     'phoneNumber'?: string;
 }
-
-

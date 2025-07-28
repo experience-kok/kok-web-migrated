@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 토큰 재발급 요청
  * @export
@@ -26,5 +24,3 @@ export interface RefreshTokenRequest {
      */
     'refreshToken': string;
 }
-
-

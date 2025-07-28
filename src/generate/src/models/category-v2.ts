@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 캠페인 카테고리
  * @export
@@ -24,7 +22,7 @@ export interface CategoryV2 {
      * @type {string}
      * @memberof CategoryV2
      */
-    'type': string;
+    'type': CategoryV2TypeEnum;
     /**
      * 카테고리 이름
      * @type {string}
@@ -34,11 +32,12 @@ export interface CategoryV2 {
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum TypeEnum {
-    'VISIT' = 'VISIT',
-    'DELIVERY' = 'DELIVERY'
-}
+    * @export
+    * @enum {string}
+    */
+export type CategoryV2TypeEnum = 
+  'VISIT'|
+  'DELIVERY'
+
+
 

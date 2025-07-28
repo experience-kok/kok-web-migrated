@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 페이징 정보
  * @export
@@ -56,5 +54,3 @@ export interface CampaignV1ListSuccessResponseDataPagination {
      */
     'last'?: boolean;
 }
-
-

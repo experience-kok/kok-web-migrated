@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 카카오 로그인 요청
  * @export
@@ -30,15 +28,16 @@ export interface KakaoAuthRequest {
      * @type {string}
      * @memberof KakaoAuthRequest
      */
-    'redirectUri': string;
+    'redirectUri': KakaoAuthRequestRedirectUriEnum;
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum RedirectUriEnum {
-    'http://localhost:3000/login/oauth2/code/kakao' = 'http://localhost:3000/login/oauth2/code/kakao',
-    'https://chkok.kr/login/oauth2/code/kakao' = 'https://chkok.kr/login/oauth2/code/kakao'
-}
+    * @export
+    * @enum {string}
+    */
+export type KakaoAuthRequestRedirectUriEnum = 
+  'http://localhost:3000/login/oauth2/code/kakao'|
+  'https://chkok.kr/login/oauth2/code/kakao'
+
+
 

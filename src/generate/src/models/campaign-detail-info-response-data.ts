@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 캠페인 상세 정보
  * @export
@@ -62,5 +60,3 @@ export interface CampaignDetailInfoResponseData {
      */
     'applicationDeadlineDate'?: Date;
 }
-
-

@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 캠페인 키워드
  * @export
@@ -32,5 +30,3 @@ export interface CampaignKeywordsResponseData {
      */
     'missionKeywords'?: Array<string>;
 }
-
-

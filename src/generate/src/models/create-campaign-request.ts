@@ -11,10 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-import { CreateCampaignRequest } from './create-campaign-request';
-import { CreateCampaignRequest } from './create-campaign-request';
-
 /**
  * 캠페인 등록 요청
  * @export
@@ -32,7 +28,7 @@ export interface CreateCampaignRequest {
      * @type {string}
      * @memberof CreateCampaignRequest
      */
-    'campaignType': string;
+    'campaignType': CreateCampaignRequestCampaignTypeEnum;
     /**
      * 캠페인 제목 - 인플루언서들에게 노출될 캠페인 이름
      * @type {string}
@@ -120,13 +116,14 @@ export interface CreateCampaignRequest {
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum CampaignTypeEnum {
-    '인스타그램' = '인스타그램',
-    '블로그' = '블로그',
-    '유튜브' = '유튜브',
-    '틱톡' = '틱톡'
-}
+    * @export
+    * @enum {string}
+    */
+export type CreateCampaignRequestCampaignTypeEnum = 
+  '인스타그램'|
+  '블로그'|
+  '유튜브'|
+  '틱톡'
+
+
 

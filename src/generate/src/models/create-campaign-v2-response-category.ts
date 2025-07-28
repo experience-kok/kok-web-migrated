@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 캠페인 카테고리 (OAS 표준)
  * @export
@@ -30,7 +28,7 @@ export interface CreateCampaignV2ResponseCategory {
      * @type {string}
      * @memberof CreateCampaignV2ResponseCategory
      */
-    'type'?: string;
+    'type'?: CreateCampaignV2ResponseCategoryTypeEnum;
     /**
      * 카테고리 이름
      * @type {string}
@@ -52,11 +50,12 @@ export interface CreateCampaignV2ResponseCategory {
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum TypeEnum {
-    'VISIT' = 'VISIT',
-    'DELIVERY' = 'DELIVERY'
-}
+    * @export
+    * @enum {string}
+    */
+export type CreateCampaignV2ResponseCategoryTypeEnum = 
+  'VISIT'|
+  'DELIVERY'
+
+
 

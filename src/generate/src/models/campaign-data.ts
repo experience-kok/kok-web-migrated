@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 캠페인 데이터
  * @export
@@ -36,7 +34,7 @@ export interface CampaignData {
      * @type {string}
      * @memberof CampaignData
      */
-    'approvalStatus'?: string;
+    'approvalStatus'?: CampaignDataApprovalStatusEnum;
     /**
      * 생성일시
      * @type {string}
@@ -46,12 +44,13 @@ export interface CampaignData {
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum ApprovalStatusEnum {
-    'PENDING' = 'PENDING',
-    'APPROVED' = 'APPROVED',
-    'REJECTED' = 'REJECTED'
-}
+    * @export
+    * @enum {string}
+    */
+export type CampaignDataApprovalStatusEnum = 
+  'PENDING'|
+  'APPROVED'|
+  'REJECTED'
+
+
 

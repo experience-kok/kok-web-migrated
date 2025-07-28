@@ -11,12 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-import { ClientCampaignSummaryResponseSummary } from './client-campaign-summary-response-summary';
-import { ClientCampaignSummaryResponseSummary } from './client-campaign-summary-response-summary';
-import { ClientCampaignSummaryResponseSummary } from './client-campaign-summary-response-summary';
-import { ClientCampaignSummaryResponseSummary } from './client-campaign-summary-response-summary';
-
 /**
  * 기업 캠페인 요약 정보
  * @export
@@ -48,5 +42,3 @@ export interface ClientCampaignSummaryResponseSummary {
      */
     'expired'?: ClientCampaignSummaryResponseSummaryExpired;
 }
-
-

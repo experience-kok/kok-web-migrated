@@ -11,12 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-import { UserCampaignSummaryResponseSummary } from './user-campaign-summary-response-summary';
-import { UserCampaignSummaryResponseSummary } from './user-campaign-summary-response-summary';
-import { UserCampaignSummaryResponseSummary } from './user-campaign-summary-response-summary';
-import { UserCampaignSummaryResponseSummary } from './user-campaign-summary-response-summary';
-
 /**
  * 인플루언서 신청 요약 정보
  * @export
@@ -48,5 +42,3 @@ export interface UserCampaignSummaryResponseSummary {
      */
     'completed'?: UserCampaignSummaryResponseSummaryCompleted;
 }
-
-

@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 승인되어 활성화된 캠페인
  * @export
@@ -32,5 +30,3 @@ export interface ClientCampaignSummaryResponseSummaryApproved {
      */
     'label'?: string;
 }
-
-

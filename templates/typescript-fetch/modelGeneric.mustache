@@ -1,24 +1,25 @@
-{{#imports}}
-import { {{classname}} } from './{{classFilename}}';
-{{/imports}}
-
 /**
  * {{{description}}}
  * @export
  * @interface {{classname}}
  */
-export interface {{classname}} {
-    {{#vars}}
+export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+{{#additionalPropertiesType}}
+    [key: string]: {{{additionalPropertiesType}}}{{^additionalPropertiesIsAnyType}}{{#hasVars}} | any{{/hasVars}}{{/additionalPropertiesIsAnyType}};
+
+{{/additionalPropertiesType}}
+{{#vars}}
+  {{^deprecated}}
     /**
      * {{{description}}}
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */
-    {{#readOnly}}readonly {{/readOnly}}'{{baseName}}'{{^required}}?{{/required}}: {{{dataType}}};
+    '{{baseName}}'{{^required}}?{{/required}}: {{#isEnum}}{{#isBoolean}}{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}{{/isBoolean}}{{^isBoolean}}{{#allowableValues}}{{#enumVars.0}}{{^enumVars.1}}{{#enumVars}}{{{value}}}{{/enumVars}}{{/enumVars.1}}{{#enumVars.1}}{{{datatypeWithEnum}}}{{/enumVars.1}}{{/enumVars.0}}{{/allowableValues}}{{^allowableValues}}{{{datatypeWithEnum}}}{{/allowableValues}}{{/isBoolean}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+    {{/deprecated}}
     {{/vars}}
-}
+}{{#hasEnums}}
 
-{{#hasEnums}}
 {{#vars}}
 {{#isEnum}}
 {{^isBoolean}}
@@ -27,38 +28,20 @@ export interface {{classname}} {
 {{#enumVars.0}}
 {{#enumVars.1}}
 /**
- * @export
- * @enum {string}
- */
-export enum {{enumName}} {
-{{#enumVars}}
-    {{#enumDescription}}
-    /**
-     * {{.}}
-     */
-    {{/enumDescription}}
-    {{{value}}} = {{{value}}}{{^-last}},{{/-last}}
-{{/enumVars}}
-}
+    * @export
+    * @enum {string}
+    */
+export type {{classname}}{{enumName}} = 
+{{#allowableValues}}
+  {{#enumVars}}
+  {{{value}}}{{^-last}}|{{/-last}}
+  {{/enumVars}}
+{{/allowableValues}}
+
+
 {{/enumVars.1}}
 {{/enumVars.0}}
 {{/allowableValues}}
-{{/stringEnums}}
-{{^stringEnums}}
-export const {{enumName}} = {
-{{#allowableValues}}
-{{#enumVars}}
-    {{#enumDescription}}
-    /**
-     * {{.}}
-     */
-    {{/enumDescription}}
-    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
-{{/enumVars}}
-{{/allowableValues}}
-} as const;
-
-export type {{enumName}} = typeof {{enumName}}[keyof typeof {{enumName}}];
 {{/stringEnums}}
 {{/isBoolean}}
 {{/isEnum}}

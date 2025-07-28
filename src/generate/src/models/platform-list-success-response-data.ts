@@ -11,9 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-import { PlatformListSuccessResponseData } from './platform-list-success-response-data';
-
 /**
  * 플랫폼 목록 데이터
  * @export
@@ -27,5 +24,3 @@ export interface PlatformListSuccessResponseData {
      */
     'platforms'?: Array<PlatformListSuccessResponseDataPlatformsInner>;
 }
-
-

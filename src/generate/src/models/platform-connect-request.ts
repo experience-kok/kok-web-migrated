@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * SNS 플랫폼 연동 요청
  * @export
@@ -24,7 +22,7 @@ export interface PlatformConnectRequest {
      * @type {string}
      * @memberof PlatformConnectRequest
      */
-    'type': string;
+    'type': PlatformConnectRequestTypeEnum;
     /**
      * SNS 플랫폼 URL
      * @type {string}
@@ -34,12 +32,13 @@ export interface PlatformConnectRequest {
 }
 
 /**
- * @export
- * @enum {string}
- */
-export enum TypeEnum {
-    'BLOG' = 'BLOG',
-    'INSTAGRAM' = 'INSTAGRAM',
-    'YOUTUBE' = 'YOUTUBE'
-}
+    * @export
+    * @enum {string}
+    */
+export type PlatformConnectRequestTypeEnum = 
+  'BLOG'|
+  'INSTAGRAM'|
+  'YOUTUBE'
+
+
 

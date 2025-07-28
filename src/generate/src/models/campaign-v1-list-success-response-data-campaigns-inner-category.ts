@@ -11,8 +11,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-
 /**
  * 
  * @export
@@ -32,5 +30,3 @@ export interface CampaignV1ListSuccessResponseDataCampaignsInnerCategory {
      */
     'name'?: string;
 }
-
-
