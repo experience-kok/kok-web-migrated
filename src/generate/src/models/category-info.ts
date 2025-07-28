@@ -32,6 +32,7 @@ export interface CategoryInfo {
     'name': string;
 }
 
+
 /**
     * @export
     * @enum {string}

@@ -47,3 +47,6 @@ export interface UserCampaignSummaryResponseSummary {
      */
     'completed'?: UserCampaignSummaryResponseSummaryCompleted;
 }
+
+
+

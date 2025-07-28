@@ -37,3 +37,6 @@ export interface PlatformConnectSuccessResponseData {
      */
     'message'?: string;
 }
+
+
+

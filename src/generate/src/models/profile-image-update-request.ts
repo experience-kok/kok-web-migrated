@@ -25,3 +25,6 @@ export interface ProfileImageUpdateRequest {
      */
     'profileImage': string;
 }
+
+
+

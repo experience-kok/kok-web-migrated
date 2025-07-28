@@ -31,3 +31,6 @@ export interface CampaignThumbnailResponseData {
      */
     'thumbnailUrl'?: string;
 }
+
+
+

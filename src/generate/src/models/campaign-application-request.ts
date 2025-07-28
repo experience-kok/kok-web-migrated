@@ -25,3 +25,6 @@ export interface CampaignApplicationRequest {
      */
     'campaignId': number;
 }
+
+
+

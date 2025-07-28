@@ -50,6 +50,7 @@ export interface CreateCampaignV2ResponseCategory {
     'updatedAt'?: Date;
 }
 
+
 /**
     * @export
     * @enum {string}

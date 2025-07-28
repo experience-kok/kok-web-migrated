@@ -31,3 +31,6 @@ export interface CampaignV1ListSuccessResponseDataCampaignsInnerCategory {
      */
     'name'?: string;
 }
+
+
+

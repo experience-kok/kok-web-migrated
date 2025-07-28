@@ -31,3 +31,6 @@ export interface UserCampaignSummaryResponseSummaryPending {
      */
     'label'?: string;
 }
+
+
+

@@ -31,3 +31,6 @@ export interface ClientCampaignSummaryResponseSummaryRejected {
      */
     'label'?: string;
 }
+
+
+

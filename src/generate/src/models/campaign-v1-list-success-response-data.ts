@@ -33,3 +33,6 @@ export interface CampaignV1ListSuccessResponseData {
      */
     'pagination'?: CampaignV1ListSuccessResponseDataPagination;
 }
+
+
+

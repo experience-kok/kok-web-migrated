@@ -47,3 +47,6 @@ export interface ClientCampaignSummaryResponseSummary {
      */
     'expired'?: ClientCampaignSummaryResponseSummaryExpired;
 }
+
+
+

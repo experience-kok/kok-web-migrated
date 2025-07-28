@@ -55,3 +55,6 @@ export interface CampaignV1ListSuccessResponseDataPagination {
      */
     'last'?: boolean;
 }
+
+
+

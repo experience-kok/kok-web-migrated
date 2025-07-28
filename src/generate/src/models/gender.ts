@@ -11,16 +11,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-/**
- * 성별
- * @export
- * @enum {string}
- */
-export enum Gender {
-    Male = 'MALE',
-    Female = 'FEMALE',
-    Unknown = 'UNKNOWN'
-}
+
 
 
 export function instanceOfGender(value: any): boolean {

@@ -25,3 +25,6 @@ export interface RealtimeSearchSuccessResponseData {
      */
     'suggestions'?: Array<string>;
 }
+
+
+

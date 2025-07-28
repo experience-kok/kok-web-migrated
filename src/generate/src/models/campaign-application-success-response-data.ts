@@ -43,3 +43,6 @@ export interface CampaignApplicationSuccessResponseData {
      */
     'appliedAt'?: string;
 }
+
+
+

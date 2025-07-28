@@ -37,3 +37,6 @@ export interface BannerImageSuccessResponseDataInner {
      */
     'redirectUrl'?: string;
 }
+
+
+

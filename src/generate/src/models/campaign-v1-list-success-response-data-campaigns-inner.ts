@@ -86,3 +86,6 @@ export interface CampaignV1ListSuccessResponseDataCampaignsInner {
      */
     'category'?: CampaignV1ListSuccessResponseDataCampaignsInnerCategory;
 }
+
+
+

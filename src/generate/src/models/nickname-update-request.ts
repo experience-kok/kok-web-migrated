@@ -25,3 +25,6 @@ export interface NicknameUpdateRequest {
      */
     'nickname': string;
 }
+
+
+

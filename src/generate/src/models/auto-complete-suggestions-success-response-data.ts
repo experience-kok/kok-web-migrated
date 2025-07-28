@@ -25,3 +25,6 @@ export interface AutoCompleteSuggestionsSuccessResponseData {
      */
     'suggestions'?: Array<string>;
 }
+
+
+

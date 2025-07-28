@@ -61,3 +61,6 @@ export interface CreateCampaignV2ResponseCompanyInfo {
      */
     'updatedAt'?: Date;
 }
+
+
+

@@ -31,3 +31,6 @@ export interface ClientCampaignSummaryResponseSummaryApproved {
      */
     'label'?: string;
 }
+
+
+

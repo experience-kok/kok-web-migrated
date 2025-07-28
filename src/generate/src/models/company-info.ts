@@ -43,3 +43,6 @@ export interface CompanyInfo {
      */
     'phoneNumber'?: string;
 }
+
+
+
