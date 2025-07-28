@@ -32,7 +32,6 @@ export interface CategoryV2 {
     'name': string;
 }
 
-
 /**
     * @export
     * @enum {string}

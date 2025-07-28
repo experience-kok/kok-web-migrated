@@ -118,7 +118,6 @@ export interface CreateCampaignV2Request {
     'companyInfo': CompanyInfo;
 }
 
-
 /**
     * @export
     * @enum {string}

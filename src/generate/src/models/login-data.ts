@@ -45,7 +45,6 @@ export interface LoginData {
     'user'?: UserInfo;
 }
 
-
 /**
     * @export
     * @enum {string}

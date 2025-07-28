@@ -63,4 +63,3 @@ export interface CreateCampaignV2ResponseCompanyInfo {
 }
 
 
-

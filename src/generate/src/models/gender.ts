@@ -13,7 +13,6 @@
  */
 
 
-
 export function instanceOfGender(value: any): boolean {
     for (const key in Gender) {
         if (Object.prototype.hasOwnProperty.call(Gender, key)) {

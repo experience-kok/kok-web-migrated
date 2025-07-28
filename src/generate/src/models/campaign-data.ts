@@ -44,7 +44,6 @@ export interface CampaignData {
     'createdAt'?: string;
 }
 
-
 /**
     * @export
     * @enum {string}

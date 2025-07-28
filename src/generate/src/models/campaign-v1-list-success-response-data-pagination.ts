@@ -57,4 +57,3 @@ export interface CampaignV1ListSuccessResponseDataPagination {
 }
 
 
-

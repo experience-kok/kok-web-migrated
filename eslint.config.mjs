@@ -25,6 +25,9 @@ const eslintConfig = [
       },
     },
     rules: {
+      // unused eslint-disable 경고 완전 비활성화
+      '@typescript-eslint/no-unused-disable-next-line': 'off',
+
       // import 순서 규칙
       'import/order': [
         'error',
@@ -110,6 +113,29 @@ const eslintConfig = [
           },
         },
       ],
+    },
+  },
+  // 생성된 파일들에 대한 특별 규칙
+  {
+    files: [
+      '**/generate/**/*.ts',
+      '**/generated/**/*.ts',
+      '**/models/**/*.ts',
+      '**/src/generate/**/*.ts',
+      '**/*.generated.ts',
+    ],
+    rules: {
+      // 모든 ESLint 규칙과 경고 완전 비활성화
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-disable-next-line': 'off',
+      'import/order': 'off',
+      'no-unused-vars': 'off',
+      // 추가로 필요한 규칙들
+    },
+    // reportUnusedDisableDirectives 비활성화
+    linterOptions: {
+      reportUnusedDisableDirectives: false,
     },
   },
 ];

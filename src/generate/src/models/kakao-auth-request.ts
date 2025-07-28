@@ -32,7 +32,6 @@ export interface KakaoAuthRequest {
     'redirectUri': KakaoAuthRequestRedirectUriEnum;
 }
 
-
 /**
     * @export
     * @enum {string}

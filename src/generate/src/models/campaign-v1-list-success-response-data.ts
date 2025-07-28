@@ -35,4 +35,3 @@ export interface CampaignV1ListSuccessResponseData {
 }
 
 
-

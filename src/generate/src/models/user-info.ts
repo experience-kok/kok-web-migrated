@@ -50,7 +50,6 @@ export interface UserInfo {
     'profileImageUrl'?: string;
 }
 
-
 /**
     * @export
     * @enum {string}
