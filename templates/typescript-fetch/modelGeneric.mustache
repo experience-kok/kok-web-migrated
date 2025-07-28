@@ -1,0 +1,66 @@
+{{#imports}}
+import { {{classname}} } from './{{classFilename}}';
+{{/imports}}
+
+/**
+ * {{{description}}}
+ * @export
+ * @interface {{classname}}
+ */
+export interface {{classname}} {
+    {{#vars}}
+    /**
+     * {{{description}}}
+     * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
+     * @memberof {{classname}}
+     */
+    {{#readOnly}}readonly {{/readOnly}}'{{baseName}}'{{^required}}?{{/required}}: {{{dataType}}};
+    {{/vars}}
+}
+
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+{{^isBoolean}}
+{{#stringEnums}}
+{{#allowableValues}}
+{{#enumVars.0}}
+{{#enumVars.1}}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum {{enumName}} {
+{{#enumVars}}
+    {{#enumDescription}}
+    /**
+     * {{.}}
+     */
+    {{/enumDescription}}
+    {{{value}}} = {{{value}}}{{^-last}},{{/-last}}
+{{/enumVars}}
+}
+{{/enumVars.1}}
+{{/enumVars.0}}
+{{/allowableValues}}
+{{/stringEnums}}
+{{^stringEnums}}
+export const {{enumName}} = {
+{{#allowableValues}}
+{{#enumVars}}
+    {{#enumDescription}}
+    /**
+     * {{.}}
+     */
+    {{/enumDescription}}
+    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+} as const;
+
+export type {{enumName}} = typeof {{enumName}}[keyof typeof {{enumName}}];
+{{/stringEnums}}
+{{/isBoolean}}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}

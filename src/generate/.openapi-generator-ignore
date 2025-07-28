@@ -1,0 +1,6 @@
+# 무조건 삭제: -response.ts로 끝나는 파일
+models/*-response.ts
+
+# 예외: -response-data.ts, -response-data-inner.ts 등은 포함되면 안 됨
+!models/*-response-data.ts
+!models/*-response-data-inner.ts
