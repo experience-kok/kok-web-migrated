@@ -1,0 +1,28 @@
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+{{^isBoolean}}
+{{#stringEnums}}
+{{#allowableValues}}
+{{#enumVars.0}}
+{{#enumVars.1}}
+/**
+    * @export
+    * @enum {string}
+    */
+export type {{classname}}{{enumName}} = 
+{{#allowableValues}}
+  {{#enumVars}}
+  {{{value}}}{{^-last}}|{{/-last}}
+  {{/enumVars}}
+{{/allowableValues}}
+
+
+{{/enumVars.1}}
+{{/enumVars.0}}
+{{/allowableValues}}
+{{/stringEnums}}
+{{/isBoolean}}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}

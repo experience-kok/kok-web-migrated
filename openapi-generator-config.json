@@ -1,0 +1,27 @@
+{
+  "generatorName": "typescript-fetch",
+  "inputSpec": "https://chkok.kr/api-docs",
+  "outputDir": "src/generate",
+  "templateDir": "./templates/typescript-fetch",
+  "additionalProperties": {
+    "withSeparateModelsAndApi": true,
+    "apiPackage": "api",
+    "modelPackage": "models",
+    "supportsES6": true,
+    "npmName": "my-api-client",
+    "stringEnums": true,
+    "enumNameSuffix": "Enum",
+    "typescriptThreePlus": true,
+    "fileNaming": "kebab-case",
+    "modelFilesOnly": true
+  },
+  "globalProperties": {
+    "skipFormModel": "false",
+    "models": "",
+    "apis": "false"
+  },
+  "systemProperties": {
+    "javax.net.ssl.trustStore": "",
+    "javax.net.ssl.trustStorePassword": ""
+  }
+}
