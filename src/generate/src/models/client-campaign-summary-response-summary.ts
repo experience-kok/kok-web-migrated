@@ -11,6 +11,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ClientCampaignSummaryResponseSummaryApproved } from './client-campaign-summary-response-summary-approved';
+import { ClientCampaignSummaryResponseSummaryExpired } from './client-campaign-summary-response-summary-expired';
+import { ClientCampaignSummaryResponseSummaryPending } from './client-campaign-summary-response-summary-pending';
+import { ClientCampaignSummaryResponseSummaryRejected } from './client-campaign-summary-response-summary-rejected';
+
 /**
  * 기업 캠페인 요약 정보
  * @export

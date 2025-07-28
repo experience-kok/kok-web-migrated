@@ -11,6 +11,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+
 /**
  * 대기중인 신청
  * @export

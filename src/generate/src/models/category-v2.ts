@@ -11,6 +11,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+
 /**
  * 캠페인 카테고리
  * @export

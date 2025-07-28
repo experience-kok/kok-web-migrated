@@ -11,6 +11,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserInfo } from './user-info';
+
 /**
  * 로그인 데이터
  * @export

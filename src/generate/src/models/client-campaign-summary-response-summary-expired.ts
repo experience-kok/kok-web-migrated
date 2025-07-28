@@ -11,6 +11,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+
 /**
  * 승인됐지만 신청기간이 종료된 캠페인
  * @export

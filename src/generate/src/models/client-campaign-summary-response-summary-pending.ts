@@ -11,6 +11,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+
 /**
  * 관리자 승인 대기중인 캠페인
  * @export

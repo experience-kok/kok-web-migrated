@@ -11,6 +11,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CategoryV2 } from './category-v2';
+import { CompanyInfo } from './company-info';
+
 /**
  * 캠페인 생성 요청
  * @export

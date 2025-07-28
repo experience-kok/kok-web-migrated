@@ -11,6 +11,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CampaignV1ListSuccessResponseDataCampaignsInnerCategory } from './campaign-v1-list-success-response-data-campaigns-inner-category';
+
 /**
  * 
  * @export

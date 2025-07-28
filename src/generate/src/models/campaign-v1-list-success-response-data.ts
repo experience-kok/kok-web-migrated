@@ -11,6 +11,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CampaignV1ListSuccessResponseDataCampaignsInner } from './campaign-v1-list-success-response-data-campaigns-inner';
+import { CampaignV1ListSuccessResponseDataPagination } from './campaign-v1-list-success-response-data-pagination';
+
 /**
  * 캠페인 목록 데이터
  * @export
