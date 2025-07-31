@@ -16,12 +16,12 @@ export default function Campaign() {
           Object.entries(myCampaigns.summary).map(([key, value]) => (
             <div className="flex flex-col items-center gap-1" key={key}>
               <span
-                className={`chkok-text-lg ${value.count === 0 ? 'text-muted-foreground' : 'text-primary'}`}
+                className={`ck-body-1 ${value.count === 0 ? 'text-muted-foreground' : 'text-primary'}`}
               >
                 {value.count}
               </span>
               <span
-                className={`chkok-text-md font-semibold ${value.count === 0 ? 'text-muted-foreground' : ''}`}
+                className={`ck-body-2 font-semibold ${value.count === 0 ? 'text-muted-foreground' : ''}`}
               >
                 {value.label}
               </span>
