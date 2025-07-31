@@ -151,32 +151,73 @@
 }
 
 @layer components {
-  .chkok-title-lg {
-    @apply text-2xl leading-tight font-semibold tracking-tight;
+  /* Headline */
+  .ck-headline-0 {
+    font-size: 29px;
+    line-height: 36px;
+    letter-spacing: -0.032rem;
+  }
+  .ck-headline-1 {
+    font-size: 25px;
+    line-height: 32px;
+    letter-spacing: -0.024rem;
+    font-weight: bold;
+  }
+  .ck-headline-2 {
+    font-size: 23px;
+    line-height: 30px;
+    letter-spacing: -0.014rem;
+    font-weight: bold;
+  }
+  .ck-headline-3 {
+    font-size: 21px;
+    line-height: 28px;
+    letter-spacing: -0.007rem;
+    font-weight: bold;
   }
 
-  .chkok-title-md {
-    @apply text-xl leading-tight font-semibold tracking-tight;
+  /* Title */
+  .ck-title {
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: 0;
+    font-weight: 600;
   }
 
-  .chkok-title-sm {
-    @apply text-lg leading-6 font-semibold tracking-tight;
+  /* Sub-title */
+  .ck-sub-title-1 {
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0;
+  }
+  .ck-sub-title-2 {
+    font-size: 17px;
+    line-height: 23px;
+    letter-spacing: 0;
   }
 
-  .chkok-text-lg {
-    @apply text-lg leading-6 font-semibold tracking-normal;
+  /* Body */
+  .ck-body-1 {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0;
+  }
+  .ck-body-2 {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.007rem;
   }
 
-  .chkok-text-md {
-    @apply text-base leading-6 font-normal tracking-normal;
+  /* Caption */
+  .ck-caption-1 {
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0.013rem;
   }
-
-  .chkok-text-sm {
-    @apply text-sm leading-6 font-normal tracking-normal;
-  }
-
-  .chkok-caption {
-    @apply text-xs font-normal tracking-normal;
+  .ck-caption-2 {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.018rem;
   }
 }
 
