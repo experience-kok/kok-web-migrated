@@ -26,11 +26,8 @@ export default function MyPage() {
       {/* 내 캠페인 영역 */}
       <section className="px-4 py-6">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="chkok-title-sm">내 캠페인</h2>
-          <Link
-            className="chkok-text-sm text-muted-foreground"
-            href={`/mobile/mypage/applications`}
-          >
+          <h2 className="ck-title">내 캠페인</h2>
+          <Link className="ck-body-2 text-muted-foreground" href={`/mobile/mypage/applications`}>
             더보기
           </Link>
         </div>
@@ -46,7 +43,7 @@ export default function MyPage() {
 
       <section className="px-4 py-6">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="chkok-title-sm">등록된 SNS</h2>
+          <h2 className="ck-title">등록된 SNS</h2>
         </div>
         <Sns />
       </section>
@@ -56,7 +53,7 @@ export default function MyPage() {
       {/* 메뉴 목록 영역 */}
       <section className="px-4">
         <div className="flex w-full items-center justify-between py-5">
-          <span className="chkok-text-md font-semibold">공지사항</span>
+          <span className="ck-body-2 font-semibold">공지사항</span>
           <ChevronRight width={16} height={16} className="text-muted-foreground" />
         </div>
       </section>

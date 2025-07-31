@@ -73,7 +73,7 @@ export default function MainBanner({ banners }: Props) {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="chkok-caption absolute right-2 bottom-2 rounded-md bg-black/50 px-2 py-1 text-white backdrop-blur-sm">
+      <div className="ck-caption-2 absolute right-2 bottom-2 rounded-md bg-black/50 px-2 py-1 text-white backdrop-blur-sm">
         {current} / {count}
       </div>
     </div>

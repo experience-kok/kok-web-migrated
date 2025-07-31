@@ -104,7 +104,7 @@ export default function RankingCampaign({ categoryData }: Props) {
           <button
             key={`${categoryData[index].categoryType}-${category}`}
             onClick={() => scrollTo(index)}
-            className={`chkok-text-md flex-shrink-0 cursor-pointer rounded-full px-4 py-2 shadow-none transition-all ${
+            className={`ck-body-2 flex-shrink-0 cursor-pointer rounded-full px-4 py-2 shadow-none transition-all ${
               selectedIndex === index
                 ? 'bg-primary border-primary border text-white'
                 : 'text-foreground border'
@@ -128,7 +128,7 @@ export default function RankingCampaign({ categoryData }: Props) {
                 ))}
 
                 {data.campaigns.length === 0 && (
-                  <div className="chkok-text-md py-8 text-center text-gray-500">
+                  <div className="ck-body-2 py-8 text-center text-gray-500">
                     {data.categoryName} 카테고리에 캠페인이 없어요.
                   </div>
                 )}

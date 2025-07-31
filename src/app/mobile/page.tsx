@@ -23,7 +23,7 @@ export default function Home() {
 
       {/* 인기 캠페인 영역 */}
       <section className="mt-10">
-        <h2 className="chkok-title-md p-4">인기 캠페인</h2>
+        <h2 className="ck-title p-4">인기 캠페인</h2>
 
         <Suspense fallback={<PopularCampaignSkeleton />}>
           <PopularCampaignSection />
@@ -37,7 +37,7 @@ export default function Home() {
       {/* 체험콕이 추천해요! 영역 */}
       <section className="my-10">
         {/* 랭킹순으로 추천 */}
-        <h2 className="chkok-title-md p-4">체험콕이 추천해요!</h2>
+        <h2 className="ck-title p-4">체험콕이 추천해요!</h2>
 
         <Suspense fallback={<RankingCampaignSkeleton />}>
           <RankingCampaignSection />

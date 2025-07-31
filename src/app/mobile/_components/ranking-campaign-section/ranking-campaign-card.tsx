@@ -18,7 +18,7 @@ export default function RankingCampaignCard({ campaign, ranking }: Props) {
         <div className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-lg p-0 md:h-[105px] md:w-[105px] lg:h-[135px] lg:w-[135px]">
           <CampaignCard.Image imageUrl={campaign.thumbnailUrl} imageAlt={campaign.title} />
           <div className="absolute top-0 left-0 flex h-8 w-8 items-center justify-center rounded-md bg-black/70">
-            <div className="chkok-text-sm text-white">{ranking}</div>
+            <div className="ck-caption-2 text-white">{ranking}</div>
           </div>
         </div>
 
