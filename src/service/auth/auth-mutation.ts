@@ -10,6 +10,7 @@ import { userAtom } from '@/stores/user.atom';
 import { useMutation } from '@tanstack/react-query';
 
 import { postLogin, postLogout } from './auth-api';
+
 export function useLoginMutation() {
   const setUser = useSetAtom(userAtom);
   const router = useRouter();
