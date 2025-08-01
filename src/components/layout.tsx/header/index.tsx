@@ -13,7 +13,6 @@ import { usePreventScroll } from '@/hooks/use-prevent-scroll'; // 스크롤 방�
 
 import CampaignSearch from './campaign-search';
 import HeaderLogo from './header-logo';
-import HeaderNav from './header-nav';
 import LoginButton from './login-button';
 import ProfileDropdown from './profile-dropdown';
 import SearchButton from './search-button';
@@ -42,12 +41,11 @@ export default function Header() {
 
   return (
     <>
-      <header className="relative z-10 flex h-16 w-full border-b border-gray-100/50 bg-white/80 backdrop-blur-xl md:h-18">
-        <div className="h-full w-full px-4 lg:px-16">
+      <header className="relative z-10 flex h-16 w-full bg-white/80 backdrop-blur-xl md:h-18">
+        <div className="h-full w-full px-5">
           <div className="flex h-full w-full items-center">
             <div className="flex h-full w-full items-center">
               <HeaderLogo />
-              <HeaderNav />
             </div>
             <div className="flex items-center gap-3">
               <SearchButton onClick={handleClickSearchButton} />
