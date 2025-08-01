@@ -28,7 +28,7 @@ export default function QuickMenu() {
           </div>
 
           {/* 메뉴 텍스트 */}
-          <span className="chkok-caption text-foreground text-center">{item.name}</span>
+          <span className="ck-caption-1 text-foreground text-center">{item.name}</span>
         </div>
       ))}
     </div>

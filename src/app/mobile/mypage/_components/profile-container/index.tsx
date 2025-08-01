@@ -51,10 +51,10 @@ export default function ProfileContainer() {
         </ProfileImageUploadDialog>
 
         <div className="flex flex-col items-start">
-          <span className="chkok-text-lg font-bold">{user.nickname}</span>
+          <span className="ck-body-1 font-bold">{user.nickname}</span>
 
           <Link href="/mobile/mypage/edit">
-            <span className="chkok-text-md text-muted-foreground cursor-pointer underline">
+            <span className="ck-body-2 text-muted-foreground cursor-pointer underline">
               내 정보 수정
             </span>
           </Link>

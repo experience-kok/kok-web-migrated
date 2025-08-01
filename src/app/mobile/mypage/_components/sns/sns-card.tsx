@@ -30,7 +30,7 @@ export default function SnsCard({ type, isRegistration }: Props) {
         isRegistration ? 'border-solid' : 'border-dashed'
       }`}
     >
-      <span className="chkok-text-md text-muted-foreground">{title}</span>
+      <span className="ck-body-2 text-muted-foreground">{title}</span>
 
       <Plus size={16} className="text-muted-foreground" />
     </div>

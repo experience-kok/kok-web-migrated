@@ -5,5 +5,5 @@ import { cn } from '@/lib/utils';
  * @description 높이는 class로 넘겨주어야함
  */
 export default function SplitBox({ className }: React.ComponentProps<'div'>) {
-  return <div className={cn('w-full bg-gray-100', className)} />;
+  return <div className={cn('bg-ck-gray-300 h-[1px] w-full', className)} />;
 }

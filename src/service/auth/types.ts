@@ -13,3 +13,17 @@ export interface PostKakaoLoginResponse {
   refreshToken: string;
   loginType: 'registration' | 'login';
 }
+
+/**
+ * 자체 로그인 요청
+ */
+export interface PostLoginRequest {
+  email: string;
+  password: string;
+}
+export interface PostLoginResponse {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+  loginType: 'registration' | 'login';
+}
