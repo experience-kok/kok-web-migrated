@@ -8,16 +8,16 @@ import RankingCampaignCardSkeleton from './ranking-campaign-card-skeleton';
  */
 export default function RankingCampaignSkeleton() {
   return (
-    <div className="px-4">
+    <>
       {/* 카테고리 탭 스켈레톤 */}
-      <div className="scrollbar-hide mb-4 flex space-x-4 overflow-x-auto whitespace-nowrap">
+      <div className="scrollbar-hide mt-2 flex space-x-4 overflow-x-auto whitespace-nowrap">
         {Array.from({ length: 6 }).map((_, index) => (
           <Skeleton key={index} className="h-10 w-16 flex-shrink-0 rounded-full" />
         ))}
       </div>
 
       {/* 캐러샐 스켈레톤 */}
-      <Carousel className="mx-auto w-full">
+      <Carousel className="mx-auto mt-3 mb-5 w-full">
         <CarouselContent className="-ml-4">
           {/* 첫 번째 카테고리 페이지 스켈레톤 */}
           <CarouselItem className="pl-4">
@@ -38,6 +38,6 @@ export default function RankingCampaignSkeleton() {
           </CarouselItem>
         </CarouselContent>
       </Carousel>
-    </div>
+    </>
   );
 }

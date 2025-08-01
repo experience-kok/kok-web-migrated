@@ -35,9 +35,9 @@ export default function Home() {
       </section>
 
       {/* 체험콕이 추천해요! 영역 */}
-      <section className="my-10">
+      <section className="mt-10 px-5">
         {/* 랭킹순으로 추천 */}
-        <h2 className="ck-title p-4">체험콕이 추천해요!</h2>
+        <h2 className="ck-title">체험콕이 추천해요!</h2>
 
         <Suspense fallback={<RankingCampaignSkeleton />}>
           <RankingCampaignSection />
