@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
+import Image from 'next/image';
+
+import AdImage from '@/assets/ad.png';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 export default function AdBanner() {
@@ -32,12 +35,12 @@ export default function AdBanner() {
   }, [api]);
 
   return (
-    <div className="flex w-full flex-col items-center justify-center px-4">
+    <div className="flex w-full flex-col items-center justify-center">
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent>
           {Array.from({ length: 3 }).map((_, index) => (
             <CarouselItem key={index}>
-              <div className="h-20 w-full rounded-lg bg-gray-300"></div>
+              <Image src={AdImage} alt="광고 이미지" className="rounded-[12px]" />
             </CarouselItem>
           ))}
         </CarouselContent>

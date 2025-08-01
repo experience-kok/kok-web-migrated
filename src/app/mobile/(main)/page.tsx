@@ -17,27 +17,27 @@ export default function Home() {
         <MainBannerSection />
       </Suspense>
 
-      <section className="mt-5">
+      <section className="mt-6 px-5">
         <QuickMenu />
       </section>
 
       {/* 인기 캠페인 영역 */}
-      <section className="mt-10">
-        <h2 className="ck-title p-4">인기 캠페인</h2>
+      <section className="mt-10 px-5">
+        <h2 className="ck-title">인기 캠페인</h2>
 
         <Suspense fallback={<PopularCampaignSkeleton />}>
           <PopularCampaignSection />
         </Suspense>
       </section>
 
-      <section className="mt-10">
+      <section className="mt-10 px-5">
         <AdBanner />
       </section>
 
       {/* 체험콕이 추천해요! 영역 */}
-      <section className="my-10">
+      <section className="mt-10 px-5">
         {/* 랭킹순으로 추천 */}
-        <h2 className="ck-title p-4">체험콕이 추천해요!</h2>
+        <h2 className="ck-title">체험콕이 추천해요!</h2>
 
         <Suspense fallback={<RankingCampaignSkeleton />}>
           <RankingCampaignSection />

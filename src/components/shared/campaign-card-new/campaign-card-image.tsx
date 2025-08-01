@@ -35,7 +35,7 @@ export default function CampaignCardImage({
   // width와 height가 모두 제공된 경우 AspectRatio 없이 사용
   if (width && height) {
     return (
-      <div className="relative overflow-hidden rounded-lg" style={{ width, height }}>
+      <div className="relative overflow-hidden rounded-[12px]" style={{ width, height }}>
         <Image
           src={imageUrl}
           alt={imageAlt}
@@ -50,6 +50,7 @@ export default function CampaignCardImage({
             willChange: 'transform',
             backfaceVisibility: 'hidden',
             transform: 'translateZ(0)',
+            borderRadius: '12px',
           }}
         />
         {isLikeButton && <div className="absolute right-2 bottom-2"></div>}
@@ -70,6 +71,7 @@ export default function CampaignCardImage({
           willChange: 'transform', // 렌더링 최적화
           backfaceVisibility: 'hidden', // 떨림 방지
           transform: 'translateZ(0)', // GPU 가속 활성화
+          borderRadius: '12px',
         }}
       />
       {isLikeButton && <div className="absolute right-2 bottom-2"></div>}

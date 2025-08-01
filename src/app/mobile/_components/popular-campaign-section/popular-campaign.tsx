@@ -13,7 +13,7 @@ interface Props {
 export default function PopularCampaign({ campaigns }: Props) {
   return (
     <Carousel
-      className="mx-auto w-full px-4"
+      className="mx-auto mt-2 w-full"
       opts={{
         align: 'start',
         dragFree: true,

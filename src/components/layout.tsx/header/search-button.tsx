@@ -11,7 +11,7 @@ interface Props {
  */
 export default function SearchButton({ onClick }: Props) {
   return (
-    <Button className="size-8 md:size-9" variant="ghost" onClick={onClick}>
+    <Button className="text-ck-gray-500 size-5" variant="ghost" onClick={onClick}>
       <Search className="size-6" />
     </Button>
   );
