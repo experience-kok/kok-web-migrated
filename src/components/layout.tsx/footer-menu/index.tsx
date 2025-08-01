@@ -24,7 +24,7 @@ export default function FooterMenu() {
     {
       icon: <Menu className="h-6 w-6" />,
       title: '카테고리',
-      url: '/category',
+      url: '/mobile/category',
     },
     {
       icon: <AlarmClock className="h-6 w-6" />,
@@ -34,7 +34,7 @@ export default function FooterMenu() {
     {
       icon: <House className="h-6 w-6" />,
       title: '홈',
-      url: '/',
+      url: '/mobile',
     },
     {
       icon: <Heart className="h-6 w-6" />,
@@ -44,7 +44,7 @@ export default function FooterMenu() {
     {
       icon: <UserRound className="h-6 w-6" />,
       title: '마이',
-      url: '/mypage',
+      url: '/mobile/mypage',
     },
   ];
 
@@ -63,7 +63,7 @@ export default function FooterMenu() {
       >
         <ul className="flex h-full items-center justify-around">
           {menus.map((menu, index) => (
-            <MenuItem icon={menu.icon} title={menu.title} url={menu.url} key={menu.title + index} />
+            <MenuItem icon={menu.icon} url={menu.url} key={menu.title + index} />
           ))}
         </ul>
       </div>

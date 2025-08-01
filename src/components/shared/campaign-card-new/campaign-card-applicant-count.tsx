@@ -12,8 +12,8 @@ interface Props {
 export default function CampaignCardApplicantCount({ maxApplicants, currentApplicants }: Props) {
   return (
     <div className="flex w-full items-center">
-      <span className="ck-caption-2 text-foreground">지원 {currentApplicants} /&nbsp;</span>
-      <span className="ck-caption-2 text-foreground">{maxApplicants}명</span>
+      <span className="ck-caption-2 text-ck-gray-600">지원 {currentApplicants} /&nbsp;</span>
+      <span className="ck-caption-2 text-ck-gray-600">{maxApplicants}명</span>
     </div>
   );
 }

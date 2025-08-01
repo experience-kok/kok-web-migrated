@@ -98,27 +98,27 @@ export default function RankingCampaign({ categoryData }: Props) {
   }));
 
   return (
-    <div className="px-4">
-      <div className="scrollbar-hide mb-4 flex space-x-4 overflow-x-auto whitespace-nowrap">
+    <>
+      <div className="scrollbar-hide mt-2 flex space-x-2 overflow-x-auto whitespace-nowrap">
         {categories.map((category, index) => (
           <button
             key={`${categoryData[index].categoryType}-${category}`}
             onClick={() => scrollTo(index)}
             className={`ck-body-2 flex-shrink-0 cursor-pointer rounded-full px-4 py-2 shadow-none transition-all ${
               selectedIndex === index
-                ? 'bg-primary border-primary border text-white'
-                : 'text-foreground border'
+                ? 'bg-ck-gray-900 border-ck-gray-900 ck-body-2-bold border text-white'
+                : 'text-ck-gray-900 border'
             }`}
           >
             {category}
           </button>
         ))}
       </div>
-      <Carousel className="mx-auto w-full" setApi={setCarouselAPI}>
+      <Carousel className="mx-auto mt-3 mb-5 w-full" setApi={setCarouselAPI}>
         <CarouselContent className="-ml-4">
           {limitedCategoryData.map(data => (
             <CarouselItem key={`${data.categoryType}-${data.categoryName}`} className="pl-4">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3">
                 {data.campaigns.slice(0, 5).map((campaign, rankIndex) => (
                   <RankingCampaignCard
                     key={campaign.id}
@@ -137,6 +137,6 @@ export default function RankingCampaign({ categoryData }: Props) {
           ))}
         </CarouselContent>
       </Carousel>
-    </div>
+    </>
   );
 }

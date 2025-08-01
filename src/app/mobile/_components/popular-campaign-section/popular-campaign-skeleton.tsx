@@ -8,7 +8,7 @@ import PopularCampaignCardSkeleton from './popular-campaign-card-skeleton';
 export default function PopularCampaignSkeleton() {
   return (
     <Carousel
-      className="mx-auto w-full px-4"
+      className="mx-auto mt-2 w-full"
       opts={{
         align: 'start',
         dragFree: true,

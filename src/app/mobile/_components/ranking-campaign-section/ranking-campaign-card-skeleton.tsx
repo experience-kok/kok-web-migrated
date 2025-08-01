@@ -9,7 +9,7 @@ export default function RankingCampaignCardSkeleton() {
     <Card className="flex-row border-none py-0 shadow-none">
       {/* 이미지 영역 스켈레톤 */}
       <div className="relative h-[115px] w-[115px] overflow-hidden rounded-lg md:h-[105px] md:w-[105px] lg:h-[135px] lg:w-[135px]">
-        <Skeleton className="h-full w-full rounded-lg" />
+        <Skeleton className="h-full w-full rounded-[12px]" />
       </div>
 
       {/* 콘텐츠 영역 스켈레톤 */}

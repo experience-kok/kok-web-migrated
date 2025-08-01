@@ -8,9 +8,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function PopularCampaignCardSkeleton() {
   return (
     <Card className="gap-2 border-none py-0 shadow-none">
-      <CardContent className="relative overflow-hidden rounded-lg p-0">
+      <CardContent className="relative overflow-hidden rounded-[12px] p-0">
         <AspectRatio ratio={1 / 1}>
-          <Skeleton className="h-full w-full rounded-lg" />
+          <Skeleton className="h-full w-full rounded-[12px]" />
         </AspectRatio>
         {/* 좋아요 버튼 스켈레톤 */}
         <div className="absolute right-2 bottom-2">

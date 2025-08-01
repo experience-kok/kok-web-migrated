@@ -7,5 +7,5 @@ interface Props {
  * @returns
  */
 export default function CampaignCardShortInfo({ productShortInfo }: Props) {
-  return <p className="ck-caption-1 text-muted-foreground mb-2 line-clamp-1">{productShortInfo}</p>;
+  return <p className="ck-caption-1 text-ck-gray-700 mb-2 line-clamp-1">{productShortInfo}</p>;
 }
