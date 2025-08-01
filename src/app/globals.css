@@ -113,7 +113,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.235 0 0);
 }
 
 .dark {
@@ -189,6 +189,7 @@
     font-size: 18px;
     line-height: 24px;
     letter-spacing: 0;
+    font-weight: 600;
   }
   .ck-sub-title-2 {
     font-size: 17px;
@@ -202,10 +203,22 @@
     line-height: 24px;
     letter-spacing: 0;
   }
+  .ck-body-1-bold {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0;
+    font-weight: bold;
+  }
   .ck-body-2 {
     font-size: 14px;
     line-height: 21px;
     letter-spacing: 0.007rem;
+  }
+  .ck-body-2-bold {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.007rem;
+    font-weight: bold;
   }
 
   /* Caption */
@@ -214,10 +227,27 @@
     line-height: 18px;
     letter-spacing: 0.013rem;
   }
+  .ck-caption-1-bold {
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0.013rem;
+    font-weight: bold;
+  }
   .ck-caption-2 {
     font-size: 12px;
     line-height: 16px;
     letter-spacing: 0.018rem;
+  }
+  .ck-caption-2-bold {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.018rem;
+    font-weight: bold;
+  }
+  .ck-caption-3 {
+    font-size: 8px;
+    line-height: 12px;
+    letter-spacing: 0;
   }
 }
 

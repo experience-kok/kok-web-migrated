@@ -1,0 +1,78 @@
+'use client';
+
+import { useState } from 'react';
+
+import { MapPin, Link as LinkIcon, Clock, Phone, Copy, Check } from 'lucide-react';
+import Link from 'next/link';
+import { toast } from 'sonner';
+
+import { Button } from '@/components/ui/button';
+
+/**
+ * 캠페인 기본 정보 컴포넌트
+ */
+export default function CampaignBasicInfo() {
+  const [copied, setCopied] = useState(false);
+  const address = '서울특별시 OO구 OO로';
+
+  const handleCopyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(address);
+      toast.info('주소를 복사했어요.', {
+        position: 'top-center',
+      });
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // 2초 후 원래 상태로
+    } catch (err) {
+      console.error('주소 복사 실패:', err);
+    }
+  };
+
+  return (
+    <section className="px-5 pt-8 pb-5">
+      <div className="ck-sub-title-1">기본 정보</div>
+
+      <div className="relative mt-2 h-[200px] w-full rounded-[12px] bg-gray-200"></div>
+
+      <div className="mt-2 flex items-center gap-2">
+        <MapPin className="text-ck-gray-700 w-3.5" />
+        <div className="ck-body-2">{address}</div>
+      </div>
+
+      {/* 주소 복사 버튼 */}
+      <Button variant={'outline'} onClick={handleCopyAddress} className="mt-3 w-full">
+        {copied ? (
+          <>
+            <Check className="w-3.5 text-green-600" />
+            <span className="ck-caption-1 text-green-600">주소 복사 완료!</span>
+          </>
+        ) : (
+          <>
+            <Copy className="text-ck-gray-700 w-3.5" />
+            <span className="ck-caption-1 text-ck-gray-700">주소 복사하기</span>
+          </>
+        )}
+      </Button>
+
+      <div className="mt-3 flex flex-col gap-2">
+        <div className="flex items-center gap-2">
+          <Phone className="text-ck-gray-700 w-3.5" />
+          {/* 추후 전화번호 연결 필요 */}
+          <a href={`tel:031-123-1234`} className="ck-body-2 underline">
+            031-123-1234
+          </a>
+        </div>
+        <div className="flex items-center gap-2">
+          <LinkIcon className="text-ck-gray-700 w-3.5" />
+          <Link href="/" className="ck-body-2 underline">
+            공식 홈페이지 바로가기
+          </Link>
+        </div>
+        <div className="flex items-center gap-2">
+          <Clock className="text-ck-gray-700 w-3.5" />
+          <div className="ck-body-2">매일 09:00~18:00</div>
+        </div>
+      </div>
+    </section>
+  );
+}
