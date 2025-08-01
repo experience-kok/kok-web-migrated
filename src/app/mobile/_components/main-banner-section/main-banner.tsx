@@ -67,13 +67,13 @@ export default function MainBanner({ banners }: Props) {
               key={index}
               className="basis-[85%] pl-2 md:basis-[60%] md:pl-4 lg:basis-[45%]"
             >
-              <AspectRatio ratio={16 / 9} className="rounded-lg">
+              <AspectRatio ratio={16 / 9} className="rounded-[12px]">
                 <Image
                   src={banner.bannerUrl}
                   alt={`Banner Image ${index + 1}`}
                   fill
                   sizes="(max-width: 768px) 85vw, (max-width: 1200px) 60vw, 45vw"
-                  className="rounded-lg object-cover"
+                  className="rounded-[12px] object-cover"
                   priority={index === 0} // 첫 번째 이미지는 우선 로드
                 />
               </AspectRatio>

@@ -22,15 +22,15 @@ export default function Home() {
       </section>
 
       {/* 인기 캠페인 영역 */}
-      <section className="mt-10">
-        <h2 className="ck-title p-4">인기 캠페인</h2>
+      <section className="mt-10 px-5">
+        <h2 className="ck-title">인기 캠페인</h2>
 
         <Suspense fallback={<PopularCampaignSkeleton />}>
           <PopularCampaignSection />
         </Suspense>
       </section>
 
-      <section className="mt-10">
+      <section className="mt-10 px-5">
         <AdBanner />
       </section>
 
