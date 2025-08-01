@@ -32,13 +32,13 @@ export default function CampaignApplicate({ campaignId }: Props) {
 
   return (
     <div>
-      <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-gray-200 bg-white shadow-lg">
-        <div className="p-4">
+      <div className="fixed right-0 bottom-0 left-0 z-50 bg-white shadow-lg">
+        <div className="p-4 pt-0">
           <div className="flex items-center gap-2">
             <Button
               onClick={handleSubmit}
               size={'lg'}
-              className="w-full px-6 font-medium "
+              className="ck-body-1-bold h-[53px] w-full rounded-[12px] px-6"
               disabled={hasApplied || isPending}
             >
               {getButtonText()}
