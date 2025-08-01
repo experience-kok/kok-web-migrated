@@ -17,7 +17,7 @@ export default function Home() {
         <MainBannerSection />
       </Suspense>
 
-      <section className="mt-5">
+      <section className="mt-6 px-5">
         <QuickMenu />
       </section>
 

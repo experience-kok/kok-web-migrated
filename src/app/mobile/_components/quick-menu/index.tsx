@@ -13,22 +13,22 @@ export default function QuickMenu() {
     { id: 8, name: '생활용품', icon: 'accommodation' },
     { id: 9, name: '패션', icon: 'accommodation' },
     { id: 10, name: '잡화', icon: 'accommodation' },
+    { id: 11, name: 'AAA', icon: 'accommodation' },
+    { id: 12, name: 'BBB', icon: 'accommodation' },
   ];
 
   return (
-    <div className="scrollbar-hide mb-4 flex space-x-4 overflow-x-auto px-4 whitespace-nowrap">
+    <div className="grid grid-cols-6 gap-x-2 gap-y-4">
       {menuItems.map(item => (
         <div
           key={item.id}
-          className="flex min-w-16 cursor-pointer flex-col items-center justify-center space-y-2"
+          className="flex cursor-pointer flex-col items-center justify-center space-y-2"
         >
           {/* 아이콘 영역 - 추후 실제 아이콘으로 교체 예정 */}
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-300">
-            <div className="h-6 w-6 rounded-full bg-gray-400"></div>
-          </div>
+          <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-gray-300"></div>
 
           {/* 메뉴 텍스트 */}
-          <span className="ck-caption-1 text-foreground text-center">{item.name}</span>
+          <span className="ck-caption-2 text-ck-gray-900 text-center">{item.name}</span>
         </div>
       ))}
     </div>

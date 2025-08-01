@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import Image from 'next/image';
 
@@ -20,30 +20,33 @@ interface Props {
  */
 export default function MainBanner({ banners }: Props) {
   const [api, setApi] = useState<CarouselApi>();
-  // const [current, setCurrent] = useState(banners.length > 0 ? 1 : 0);
-  // const [count, setCount] = useState(banners.length);
+  const autoplayRef = useRef(
+    Autoplay({
+      delay: 5000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: true,
+    }),
+  );
 
   useEffect(() => {
     if (!api) {
       return;
     }
 
-    // 초기 값 설정
-    // setCount(api.scrollSnapList().length);
-    // setCurrent(api.selectedScrollSnap() + 1);
+    // 캐러셀이 마지막에서 처음으로 넘어갈 때 부드럽게 처리
+    const handleSelect = () => {};
 
-    // 슬라이드 변경 이벤트 리스너 추가
-    // const handleSelect = () => {
-    //   setCurrent(api.selectedScrollSnap() + 1);
-    // };
+    api.on('select', handleSelect);
 
-    // api.on('select', handleSelect);
-
-    // 클린업 함수
-    // return () => {
-    //   api.off('select', handleSelect);
-    // };
+    return () => {
+      api.off('select', handleSelect);
+    };
   }, [api]);
+
+  // 배너가 없을 경우 처리
+  if (!banners || banners.length === 0) {
+    return null;
+  }
 
   return (
     <div className="relative w-full">
@@ -52,13 +55,11 @@ export default function MainBanner({ banners }: Props) {
         opts={{
           loop: true,
           align: 'center',
+          skipSnaps: false,
+          dragFree: false,
         }}
         setApi={setApi}
-        plugins={[
-          Autoplay({
-            delay: 5000,
-          }),
-        ]}
+        plugins={[autoplayRef.current]}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {banners.map((banner, index) => (
@@ -73,15 +74,13 @@ export default function MainBanner({ banners }: Props) {
                   fill
                   sizes="(max-width: 768px) 85vw, (max-width: 1200px) 60vw, 45vw"
                   className="rounded-lg object-cover"
+                  priority={index === 0} // 첫 번째 이미지는 우선 로드
                 />
               </AspectRatio>
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
-      {/* <div className="ck-caption-2 absolute right-2 bottom-2 rounded-md bg-black/50 px-2 py-1 text-white backdrop-blur-sm">
-        {current} / {count}
-      </div> */}
     </div>
   );
 }
