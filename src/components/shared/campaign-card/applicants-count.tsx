@@ -11,7 +11,7 @@ interface Props {
  * @param currentApplicants 현재 지원 인원
  * @returns
  */
-export default function ApplicatnsCount({ maxApplicants, currentApplicants }: Props) {
+export default function ApplicantsCount({ maxApplicants, currentApplicants }: Props) {
   return (
     <div className="flex w-full items-center">
       {/* 지원 인원 텍스트 */}

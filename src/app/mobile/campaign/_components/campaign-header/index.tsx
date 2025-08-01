@@ -17,7 +17,7 @@ export default function CampaignHeader() {
           <div className="flex h-full w-full items-center">
             <button
               onClick={handleBack}
-              className="flex items-center justify-center rounded-lg p-2 transition-colors duration-200 hover:bg-gray-100/50"
+              className="flex items-center justify-center"
               aria-label="뒤로가기"
             >
               <ChevronLeft className="text-ck-gray-900" />
