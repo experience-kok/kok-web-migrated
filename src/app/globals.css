@@ -274,11 +274,11 @@
 }
 
 html {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 14px;
+    font-size: 16px;
   }
 }

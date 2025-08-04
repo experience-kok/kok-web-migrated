@@ -18,7 +18,7 @@ export default function QuickMenu() {
   ];
 
   return (
-    <div className="grid grid-cols-6 gap-x-2 gap-y-4">
+    <div className="grid grid-cols-6 gap-x-1 gap-y-4">
       {menuItems.map(item => (
         <div
           key={item.id}
