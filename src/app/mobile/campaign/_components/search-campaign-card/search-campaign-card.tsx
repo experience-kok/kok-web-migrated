@@ -8,10 +8,10 @@ interface Props {
 }
 
 /**
- * 메인 페이지 인기 캠페인 카드 컴포넌트
+ * 캠페인 페이지 캠페인 카드 컴포넌트
  * @returns
  */
-export default function PopularCampaignCard({ campaign }: Props) {
+export default function SearchCampaignCard({ campaign }: Props) {
   return (
     <Link href={`/mobile/campaign/${campaign.id}`}>
       <CampaignCard>
