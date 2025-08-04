@@ -13,7 +13,7 @@ interface Props {
  */
 export default function RankingCampaignCard({ campaign, ranking }: Props) {
   return (
-    <Link href={`/campaign/${campaign.id}`}>
+    <Link href={`/mobile/campaign/${campaign.id}`}>
       <CampaignCard className="flex-row items-center gap-3">
         <div className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-[12px]">
           <CampaignCard.Image imageUrl={campaign.thumbnailUrl} imageAlt={campaign.title} />

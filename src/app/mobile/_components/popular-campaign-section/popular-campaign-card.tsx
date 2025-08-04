@@ -13,7 +13,7 @@ interface Props {
  */
 export default function PopularCampaignCard({ campaign }: Props) {
   return (
-    <Link href={`/campaign/${campaign.id}`}>
+    <Link href={`/mobile/campaign/${campaign.id}`}>
       <CampaignCard>
         <CampaignCard.Image imageUrl={campaign.thumbnailUrl} imageAlt={campaign.title} />
 
