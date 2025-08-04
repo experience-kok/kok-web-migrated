@@ -3,15 +3,15 @@
 import { ChevronLeft } from 'lucide-react';
 
 /**
- * 캠페인 페이지 헤더 컴포넌트
+ * 카테고리 페이지 헤더 컴포넌트
  */
-export default function CampaignHeader() {
+export default function CategoryHeader() {
   const handleBack = () => {
     window.history.back();
   };
 
   return (
-    <header className="relative z-10 flex h-16 w-full border-b border-gray-100/50 bg-white/80 backdrop-blur-xl">
+    <header className="relative z-10 flex h-16 w-full border-b border-gray-100/50 bg-white/80 shadow-[0_2px_8px_0_rgba(0,0,0,0.06)] backdrop-blur-xl">
       <div className="h-full w-full px-5">
         <div className="flex h-full w-full items-center">
           <div className="flex h-full w-full items-center">
