@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 
-import { useSearchParams } from 'next/navigation';
-
 import { 배송카테고리 } from '@/models/campaign';
 
 import { useURLParams } from '@/hooks/use-url-params';
@@ -40,11 +38,10 @@ const CategoryOption: Array<{ value: 배송카테고리 | ''; label: string }> =
  * 카테고리 탭 컴포넌트
  */
 export default function CategoryTab() {
-  const searchParams = useSearchParams();
-  const { updateParams } = useURLParams();
+  const { getParam, updateParams } = useURLParams();
 
-  // 현재 적용된 필터 값들
-  const currentCategory = searchParams.get('categoryName') as 배송카테고리 | null;
+  // 현재 적용된 카테고리 파라미터
+  const currentCategory = getParam('categoryName') as 배송카테고리 | null;
 
   // 로컬 상태
   const [selectedCategory, setSelectedCategory] = useState<배송카테고리 | ''>(

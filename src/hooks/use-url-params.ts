@@ -21,13 +21,16 @@ export function useURLParams(): URLParamsReturn {
   const searchParams = useSearchParams();
 
   const params = useMemo(() => {
-    return new URLSearchParams(Array.from(searchParams.entries()));
+    // searchParams가 비어있어도 새로운 URLSearchParams 인스턴스를 생성
+    return new URLSearchParams(searchParams?.toString() || '');
   }, [searchParams]);
 
   // 여러 파라미터 업데이트
   const updateParams = useCallback(
     (paramsToUpdate: ParamsObject) => {
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
+      // 현재 URL에서 pathname과 search를 분리
+      const url = new URL(window.location.href);
+      const current = new URLSearchParams(url.search);
 
       Object.entries(paramsToUpdate).forEach(([key, value]) => {
         if (value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
@@ -42,37 +45,43 @@ export function useURLParams(): URLParamsReturn {
       const search = current.toString();
       const query = search ? `?${search}` : '';
 
-      router.push(`${window.location.pathname}${query}`);
+      router.replace(`${url.pathname}${query}`);
     },
-    [searchParams, router],
+    [router],
   );
 
   // 특정 파라미터 제거
   const removeParam = useCallback(
     (key: string) => {
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
+      const url = new URL(window.location.href);
+      const current = new URLSearchParams(url.search);
       current.delete(key);
 
       const search = current.toString();
       const query = search ? `?${search}` : '';
 
-      router.push(`${window.location.pathname}${query}`);
+      router.replace(`${url.pathname}${query}`);
     },
-    [searchParams, router],
+    [router],
   );
 
   // 파라미터 값 가져오기
-  const getParam = useCallback(
-    (key: string): string | null => {
-      return searchParams.get(key);
-    },
-    [searchParams],
-  );
+  const getParam = useCallback((key: string): string | null => {
+    const url = new URL(window.location.href);
+    return new URLSearchParams(url.search).get(key);
+  }, []);
 
   // 특정 파라미터만 설정/변경
   const setParam = useCallback(
-    (key: string, value: string | string[]) => {
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
+    (key: string, value: string | string[] | null) => {
+      // 현재 URL에서 직접 파라미터를 가져옴
+      const url = new URL(window.location.href);
+      const current = new URLSearchParams(url.search);
+
+      // 디버깅을 위한 로그
+      console.log('setParam called:', { key, value, type: typeof value });
+      console.log('Current URL:', url.href);
+      console.log('Current params before:', current.toString());
 
       if (Array.isArray(value)) {
         if (value.length === 0) {
@@ -81,19 +90,26 @@ export function useURLParams(): URLParamsReturn {
           current.set(key, value.join(','));
         }
       } else {
-        if (value === '' || value === undefined) {
+        // null, undefined일 때만 삭제. 빈 문자열('')은 그대로 설정
+        if (value === null || value === undefined) {
           current.delete(key);
         } else {
-          current.set(key, value);
+          // 빈 문자열도 포함해서 설정
+          current.set(key, String(value));
         }
       }
 
+      console.log('Current params after:', current.toString());
+
       const search = current.toString();
       const query = search ? `?${search}` : '';
+      const newUrl = `${url.pathname}${query}`;
 
-      router.push(`${window.location.pathname}${query}`);
+      console.log('Navigating to:', newUrl);
+
+      router.replace(newUrl);
     },
-    [searchParams, router],
+    [router],
   );
 
   return {

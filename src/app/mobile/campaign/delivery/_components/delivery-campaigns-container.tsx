@@ -8,6 +8,8 @@ import CampaignList from '@/app/mobile/campaign/_components/campaign-list/campai
 import { CampaignType, Sort, 배송카테고리 } from '@/models/campaign';
 import { useGetDeliveryCampaigns } from '@/service/campaigns/campaigns-query';
 
+import CampaignFilter from './campaign-filter';
+import CampaignSort from './campaign-sort';
 import CategoryTab from './category-tab';
 
 /**
@@ -40,6 +42,10 @@ export default function DeliveryCampaignsContainer() {
   return (
     <>
       <CategoryTab />
+      <div className="flex w-full items-center gap-1 px-5 py-4">
+        <CampaignFilter />
+        <CampaignSort />
+      </div>
       <CampaignList
         campaigns={allCampaigns}
         isLoading={isLoading}
