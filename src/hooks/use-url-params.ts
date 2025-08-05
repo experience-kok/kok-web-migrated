@@ -10,10 +10,11 @@ interface URLParamsReturn {
   updateParams: (params: ParamsObject) => void;
   removeParam: (key: string) => void;
   getParam: (key: string) => string | null;
+  setParam: (key: string, value: string | string[]) => void;
 }
 
 /**
- *
+ * URL 쿼리 파라미터를 관리하는 커스텀 훅
  */
 export function useURLParams(): URLParamsReturn {
   const router = useRouter();
@@ -68,10 +69,38 @@ export function useURLParams(): URLParamsReturn {
     [searchParams],
   );
 
+  // 특정 파라미터만 설정/변경
+  const setParam = useCallback(
+    (key: string, value: string | string[]) => {
+      const current = new URLSearchParams(Array.from(searchParams.entries()));
+
+      if (Array.isArray(value)) {
+        if (value.length === 0) {
+          current.delete(key);
+        } else {
+          current.set(key, value.join(','));
+        }
+      } else {
+        if (value === '' || value === undefined) {
+          current.delete(key);
+        } else {
+          current.set(key, value);
+        }
+      }
+
+      const search = current.toString();
+      const query = search ? `?${search}` : '';
+
+      router.push(`${window.location.pathname}${query}`);
+    },
+    [searchParams, router],
+  );
+
   return {
     params,
     updateParams,
     removeParam,
     getParam,
+    setParam,
   };
 }
