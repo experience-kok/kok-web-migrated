@@ -5,18 +5,23 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import CampaignList from '@/app/mobile/campaign/_components/campaign-list/campaign-list';
-import { useGetCampaignSearch } from '@/service/campaigns/campaigns-query';
+import { CampaignType, Sort, 배송카테고리 } from '@/models/campaign';
+import { useGetDeliveryCampaigns } from '@/service/campaigns/campaigns-query';
+
+import CategoryTab from './category-tab';
 
 /**
- * 캠페인 검색 조회 컨테이너
+ * 배송 캠페인 컨테이너
  */
-export default function SearchCampaignContainer() {
+export default function DeliveryCampaignsContainer() {
   const searchParams = useSearchParams();
 
   const params = useMemo(
     () => ({
       size: searchParams.get('size') ? parseInt(searchParams.get('size')!, 10) : undefined,
-      keyword: searchParams.get('keyword') || '',
+      categoryName: searchParams.get('categoryName') as 배송카테고리 | undefined,
+      campaignTypes: searchParams.get('campaignTypes')?.split(',') as CampaignType[] | undefined,
+      sort: searchParams.get('sort') as Sort | undefined,
     }),
     [searchParams],
   );
@@ -28,12 +33,13 @@ export default function SearchCampaignContainer() {
     hasNextPage,
     fetchNextPage,
     error,
-  } = useGetCampaignSearch(params);
+  } = useGetDeliveryCampaigns(params);
 
   const allCampaigns = campaigns?.pages.flatMap(page => page.campaigns) ?? [];
 
   return (
     <>
+      <CategoryTab />
       <CampaignList
         campaigns={allCampaigns}
         isLoading={isLoading}

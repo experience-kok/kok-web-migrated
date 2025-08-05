@@ -6,6 +6,8 @@ import { Campaign } from '@/models/campaign';
 
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 
+import CampaignListSkeleton from './campaign-list-skeleton';
+
 interface Props {
   campaigns: Campaign[];
   isLoading?: boolean;
@@ -37,7 +39,7 @@ export default function CampaignList({
 
   // 로딩 상태 처리 (초기 로딩)
   if (isLoading && campaigns.length === 0) {
-    // return <CampaignListSkeleton count={12} />;
+    return <CampaignListSkeleton count={12} />;
   }
 
   // 에러 상태 처리
