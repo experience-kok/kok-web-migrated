@@ -42,6 +42,7 @@ export default function CampaignFilter() {
     if (isOpen) {
       setSelectedTypes(getCurrentCampaignTypes());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   // 토글 핸들러

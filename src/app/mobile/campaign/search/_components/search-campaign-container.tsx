@@ -31,11 +31,13 @@ export default function SearchCampaignContainer() {
   } = useGetCampaignSearch(params);
 
   const allCampaigns = campaigns?.pages.flatMap(page => page.campaigns) ?? [];
+  const totalElements = campaigns?.pages[0].pagination.totalElements ?? 0;
 
   return (
     <>
       <CampaignList
         campaigns={allCampaigns}
+        totalElements={totalElements}
         isLoading={isLoading}
         isFetchingNextPage={isFetchingNextPage}
         hasNextPage={hasNextPage}
