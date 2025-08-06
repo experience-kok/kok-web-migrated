@@ -10,6 +10,7 @@ import CampaignListSkeleton from './campaign-list-skeleton';
 
 interface Props {
   campaigns: Campaign[];
+  totalElements: number;
   isLoading?: boolean;
   isFetchingNextPage?: boolean;
   hasNextPage?: boolean;
@@ -22,6 +23,7 @@ interface Props {
  */
 export default function CampaignList({
   campaigns,
+  totalElements,
   isLoading,
   isFetchingNextPage,
   hasNextPage,
@@ -34,6 +36,8 @@ export default function CampaignList({
     isLoading,
     isFetchingNextPage,
   });
+
+  console.log(campaigns);
 
   const isCampaigns = useMemo(() => (campaigns.length > 0 ? true : false), [campaigns]);
 
@@ -53,7 +57,8 @@ export default function CampaignList({
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-6 px-5 py-6">
+      <div className="ck-body-2 text-ck-gray-900 px-5 pb-2">총 {totalElements}개</div>
+      <div className="grid grid-cols-2 gap-6 px-5 pb-6">
         {isCampaigns &&
           campaigns.map((campaign, index) => {
             if (campaigns.length === index + 1) {
