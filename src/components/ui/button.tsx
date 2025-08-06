@@ -23,6 +23,7 @@ const buttonVariants = cva(
         default: 'h-9 px-4 py-2 has-[>svg]:px-3 rounded-[12px]',
         sm: 'h-8 rounded-[12px] gap-1.5 px-3 has-[>svg]:px-2.5',
         lg: 'h-10 rounded-[12px] px-6 has-[>svg]:px-4',
+        mobileBottom: 'h-[53px] rounded-[12px] ck-body-1-bold',
         icon: 'size-9',
       },
     },

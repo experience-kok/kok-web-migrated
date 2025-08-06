@@ -12,6 +12,11 @@ export const DELIVERY_CATEGORIES = ['식품', '화장품', '생활용품', '패�
 export type CampaignCategoryName = 방문카테고리 | 배송카테고리;
 
 export type Sort = 'latest' | 'popular' | 'deadline';
+export const SORT_MAP = {
+  latest: '최신순',
+  popular: '인기순',
+  deadline: '마감임박순',
+} as const;
 
 // 캠페인
 export interface Campaign {

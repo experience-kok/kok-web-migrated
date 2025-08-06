@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 
-import CampaignList from '@/components/shared/campaign-list-new/campaign-list';
+import CampaignList from '@/app/mobile/campaign/_components/campaign-list/campaign-list';
 import { useGetCampaignSearch } from '@/service/campaigns/campaigns-query';
 
 /**
