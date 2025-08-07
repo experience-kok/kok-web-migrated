@@ -42,11 +42,12 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <Provider>{children}</Provider>
+        <Script
+          type="text/javascript"
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_KEY}&libraries=services,clusterer&autoload=false`}
+          strategy="beforeInteractive"
+        />
       </body>
-      <Script
-        type="text/javascript"
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_KEY}&libraries=services,clusterer`}
-      />
       {/* <Script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js" defer />
       <Script src="https://files.bpcontent.cloud/2025/06/12/16/20250612165435-J4VLJ03G.js" defer /> */}
     </html>
