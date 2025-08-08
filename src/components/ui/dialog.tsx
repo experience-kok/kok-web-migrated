@@ -7,6 +7,8 @@ import { XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
+import { Button } from './button';
+
 function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
@@ -42,7 +44,7 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
-  showCloseButton = true,
+  showCloseButton = false,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
@@ -53,7 +55,7 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg',
+          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-3rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-[16px] border px-5 pt-6 pb-5 shadow-lg duration-200 sm:max-w-lg',
           className,
         )}
         {...props}
@@ -77,7 +79,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn('flex flex-col gap-2 text-center sm:text-left', className)}
+      className={cn('flex flex-col gap-2 text-left', className)}
       {...props}
     />
   );
@@ -97,7 +99,7 @@ function DialogTitle({ className, ...props }: React.ComponentProps<typeof Dialog
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn('text-lg leading-none font-semibold', className)}
+      className={cn('ck-title text-ck-gray-800', className)}
       {...props}
     />
   );
@@ -110,9 +112,37 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn('text-muted-foreground text-sm', className)}
+      className={cn('ck-body-1 text-ck-gray-700 break-keep', className)}
       {...props}
     />
+  );
+}
+
+interface DialogButtonProps extends React.PropsWithChildren {
+  variant?: 'ghost' | 'default';
+  className?: string;
+}
+function DialogButton({ variant = 'default', className, children, ...props }: DialogButtonProps) {
+  const ghostStyle = variant === 'ghost' ? 'text-ck-gray-700 bg-ck-gray-200' : '';
+  return (
+    <Button
+      className={cn('ck-sub-title-1 h-[53px]! flex-1', className, ghostStyle)}
+      variant={variant}
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+}
+
+interface DialogCheckTextButtonProps extends React.PropsWithChildren {
+  className?: string;
+}
+function DialogCheckTextButton({ className, children, ...props }: DialogCheckTextButtonProps) {
+  return (
+    <Button variant={'ghost'} className={cn('text-ck-blue-500 ck-body-1', className)} {...props}>
+      {children}
+    </Button>
   );
 }
 
@@ -127,4 +157,6 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  DialogButton,
+  DialogCheckTextButton,
 };
