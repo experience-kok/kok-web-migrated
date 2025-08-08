@@ -45,17 +45,18 @@ export const campaignCreateSchema = z
     missionGuide: z.string().min(1, { message: '미션 가이드를 입력해 주세요.' }),
     missionKeywords: z.string().min(1, { message: '미션 키워드를 입력해 주세요.' }),
 
-    // 업체 정보
-    companyName: z
+    // 방문 정보
+    homepage: z.string().optional(),
+    contactPhone: z
       .string()
-      .min(1, { message: '업체명을 입력해 주세요.' })
-      .max(100, { message: '업체명은 100자 이하로 입력해 주세요.' }),
-    businessRegistrationNumber: z
-      .string()
-      .optional()
-      .refine(val => !val || /^\d{3}-\d{2}-\d{5}$/.test(val), {
-        message: '올바른 사업자등록번호 형식을 입력해 주세요. (예: 123-45-67890)',
+      .min(1, { message: '연락처를 입력해 주세요.' })
+      .max(20, { message: '연락처는 20자 이하로 입력해 주세요.' })
+      .regex(/^\d{3}-\d{4}-\d{4}$/, {
+        message: '올바른 전화번호 형식을 입력해 주세요. (예: 010-1234-5678)',
       }),
+    visitAndReservationInfo: z.string().min(1, { message: '방문 및 예약 안내를 입력해주세요.' }),
+
+    // 업체 정보
     contactPerson: z
       .string()
       .min(1, { message: '담당자명을 입력해 주세요.' })
