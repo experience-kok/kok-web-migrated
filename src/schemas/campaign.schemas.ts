@@ -55,6 +55,7 @@ export const campaignCreateSchema = z
         message: '올바른 전화번호 형식을 입력해 주세요. (예: 010-1234-5678)',
       }),
     visitAndReservationInfo: z.string().min(1, { message: '방문 및 예약 안내를 입력해주세요.' }),
+    businessAddress: z.string(),
 
     // 업체 정보
     contactPerson: z
