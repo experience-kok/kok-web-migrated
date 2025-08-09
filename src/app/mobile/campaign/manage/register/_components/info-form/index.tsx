@@ -42,6 +42,7 @@ export default function InfoForm({ onSubmit }: Props) {
       homepage: '',
       contactPhone: '',
       visitAndReservationInfo: '',
+      businessAddress: '',
       contactPerson: '',
       phoneNumber: '',
       thumbnailUrl: '',
@@ -124,7 +125,7 @@ export default function InfoForm({ onSubmit }: Props) {
       {/* 방문 정보 섹션 */}
       <section className="px-5 pt-8 pb-5">
         <p className="ck-sub-title-1 mb-2">방문 정보</p>
-        <VisitInfoForm register={register} errors={errors} />
+        <VisitInfoForm register={register} errors={errors} setValue={setValue} />
       </section>
     </form>
   );

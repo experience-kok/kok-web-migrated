@@ -19,7 +19,7 @@ import { CampaignCreateForm } from '@/schemas/campaign.schemas';
 interface Props {
   register: UseFormRegister<CampaignCreateForm>;
   errors: FieldErrors<CampaignCreateForm>;
-  setValue?: UseFormSetValue<CampaignCreateForm>;
+  setValue: UseFormSetValue<CampaignCreateForm>;
   watch?: UseFormWatch<CampaignCreateForm>;
 }
 
@@ -37,7 +37,7 @@ interface PlaceResult {
 /**
  * 캠페인 등록 페이지 방문 정보 등록 컴포넌트
  */
-export default function VisitInfoForm({ register, errors, setValue, watch }: Props) {
+export default function VisitInfoForm({ register, errors, setValue }: Props) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResults, setSearchResults] = useState<PlaceResult[]>([]);
@@ -93,11 +93,11 @@ export default function VisitInfoForm({ register, errors, setValue, watch }: Pro
   };
 
   const handleConfirmSelection = () => {
+    console.log(selectedPlace, setValue);
     if (selectedPlace && setValue) {
+      console.log('info 탔음');
+      console.log(selectedPlace);
       setValue('businessAddress', selectedPlace.road_address_name || selectedPlace.address_name);
-      if (selectedPlace.phone && !watch?.('contactPhone')) {
-        setValue('contactPhone', selectedPlace.phone);
-      }
     }
 
     setIsDialogOpen(false);
