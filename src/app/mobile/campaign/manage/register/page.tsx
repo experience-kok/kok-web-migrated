@@ -20,7 +20,7 @@ export default function CampaignRegisterPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const { mutate: handlePostCampaign } = usePostCampaignMutation();
+  const { mutate: handlePostCampaign, isPending } = usePostCampaignMutation();
 
   // 이미지 변경 함수
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,10 +74,17 @@ export default function CampaignRegisterPage() {
         name: formData.categoryName,
       },
       companyInfo: {
-        companyName: formData.companyName,
-        businessRegistrationNumber: formData.businessRegistrationNumber || '',
         contactPerson: formData.contactPerson,
         phoneNumber: formData.phoneNumber,
+      },
+      visitInfo: {
+        homepage: formData.homepage,
+        contactPhone: formData.contactPhone,
+        visitAndReservationInfo: formData.visitAndReservationInfo,
+        businessAddress: formData.businessAddress,
+        businessDetailAddress: formData.businessDetailAddress,
+        lat: formData.lat,
+        lng: formData.lng,
       },
     };
 
@@ -86,14 +93,14 @@ export default function CampaignRegisterPage() {
 
   return (
     <>
-      <section className="px-5 pb-5">
+      <section className="px-5 pt-8 pb-5">
         <p className="ck-sub-title-1 mb-2">썸네일 등록</p>
         <ThumbnailForm preview={preview} onFilechange={handleFileChange} />
       </section>
 
       <SplitBox />
 
-      <InfoForm onSubmit={handleSubmit} />
+      <InfoForm onSubmit={handleSubmit} isPending={isPending} />
     </>
   );
 }

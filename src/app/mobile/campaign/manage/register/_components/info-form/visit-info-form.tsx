@@ -95,9 +95,10 @@ export default function VisitInfoForm({ register, errors, setValue }: Props) {
   const handleConfirmSelection = () => {
     console.log(selectedPlace, setValue);
     if (selectedPlace && setValue) {
-      console.log('info 탔음');
       console.log(selectedPlace);
       setValue('businessAddress', selectedPlace.road_address_name || selectedPlace.address_name);
+      setValue('lat', parseFloat(selectedPlace.y)); // 위도
+      setValue('lng', parseFloat(selectedPlace.x)); // 경도
     }
 
     setIsDialogOpen(false);
@@ -161,6 +162,10 @@ export default function VisitInfoForm({ register, errors, setValue }: Props) {
         <Input {...register('businessAddress')} placeholder="주소가 여기에 표시됩니다" readOnly />
         {errors.businessAddress && (
           <p className="text-ck-red-500 ck-caption-1">{errors.businessAddress.message}</p>
+        )}
+        <Input {...register('businessDetailAddress')} placeholder="OOO빌딩 2층 205호" />
+        {errors.businessDetailAddress && (
+          <p className="text-ck-red-500 ck-caption-1">{errors.businessDetailAddress.message}</p>
         )}
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -272,6 +277,9 @@ export default function VisitInfoForm({ register, errors, setValue }: Props) {
           </DialogContent>
         </Dialog>
       </div>
+
+      {/* 위치 상세 정보 */}
+      <div className="space-y-2"></div>
     </div>
   );
 }

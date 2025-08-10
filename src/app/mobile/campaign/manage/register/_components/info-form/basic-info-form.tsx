@@ -42,7 +42,7 @@ export default function BasicInfoForm({
           name="campaignType"
           control={control}
           render={({ field }) => (
-            <Select value={field.value} onValueChange={handleCategoryTypeChange}>
+            <Select value={field.value} onValueChange={field.onChange}>
               <SelectTrigger>
                 <SelectValue placeholder="캠페인 타입을 선택해주세요" />
               </SelectTrigger>
@@ -70,7 +70,13 @@ export default function BasicInfoForm({
           name="categoryType"
           control={control}
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select
+              value={field.value}
+              onValueChange={value => {
+                field.onChange(value);
+                handleCategoryTypeChange(value as CampaignCategoryType);
+              }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="카테고리 타입을 선택해주세요" />
               </SelectTrigger>
@@ -127,32 +133,6 @@ export default function BasicInfoForm({
         />
         {errors.categoryName && (
           <p className="text-ck-red-500 ck-caption-1">{errors.categoryName.message}</p>
-        )}
-      </div>
-
-      {/* 카테고리 타입 */}
-      <div>
-        <div className="ck-body-2-bold mb-1">
-          카테고리 타입 <span className="text-ck-red-500">*</span>
-        </div>
-
-        <Controller
-          name="categoryType"
-          control={control}
-          render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="카테고리 타입을 선택해주세요" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="방문">방문</SelectItem>
-                <SelectItem value="배송">배송</SelectItem>
-              </SelectContent>
-            </Select>
-          )}
-        />
-        {errors.categoryType && (
-          <p className="text-ck-red-500 ck-caption-1">{errors.categoryType.message}</p>
         )}
       </div>
 

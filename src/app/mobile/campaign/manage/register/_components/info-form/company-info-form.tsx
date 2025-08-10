@@ -21,9 +21,9 @@ export default function CompanyInfoForm({ register, errors }: Props) {
         <div className="ck-body-2-bold mb-1">
           담당자명 <span className="text-ck-red-500">*</span>
         </div>
-        <Input {...register('companyName')} placeholder="담당자명을 입력해주세요 (최대 50자)" />
-        {errors.companyName && (
-          <p className="text-ck-red-500 ck-caption-1">{errors.companyName.message}</p>
+        <Input {...register('contactPerson')} placeholder="담당자명을 입력해주세요 (최대 50자)" />
+        {errors.contactPerson && (
+          <p className="text-ck-red-500 ck-caption-1">{errors.contactPerson.message}</p>
         )}
       </div>
 
@@ -32,11 +32,9 @@ export default function CompanyInfoForm({ register, errors }: Props) {
         <div className="ck-body-2-bold mb-1">
           연락처 <span className="text-ck-red-500">*</span>
         </div>
-        <Input {...register('businessRegistrationNumber')} placeholder="010-1234-5678" />
-        {errors.businessRegistrationNumber && (
-          <p className="text-ck-red-500 ck-caption-1">
-            {errors.businessRegistrationNumber.message}
-          </p>
+        <Input {...register('phoneNumber')} placeholder="010-1234-5678" />
+        {errors.phoneNumber && (
+          <p className="text-ck-red-500 ck-caption-1">{errors.phoneNumber.message}</p>
         )}
       </div>
     </div>

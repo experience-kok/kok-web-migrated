@@ -3,8 +3,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { Button } from '@/components/ui/button';
 import SplitBox from '@/components/ui/split-box';
-import { CampaignCategoryType } from '@/models/campaign';
+import { CampaignCategoryName, CampaignCategoryType } from '@/models/campaign';
 import { CampaignCreateForm, campaignCreateSchema } from '@/schemas/campaign.schemas';
 
 import BasicInfoForm from './basic-info-form';
@@ -15,12 +16,13 @@ import VisitInfoForm from './visit-info-form';
 
 interface Props {
   onSubmit: SubmitHandler<CampaignCreateForm>;
+  isPending: boolean;
 }
 
 /**
  * 캠페인 등록 페이지 정보 등록 폼 컴포넌트
  */
-export default function InfoForm({ onSubmit }: Props) {
+export default function InfoForm({ onSubmit, isPending }: Props) {
   const form = useForm<CampaignCreateForm>({
     resolver: zodResolver(campaignCreateSchema),
     defaultValues: {
@@ -43,9 +45,12 @@ export default function InfoForm({ onSubmit }: Props) {
       contactPhone: '',
       visitAndReservationInfo: '',
       businessAddress: '',
+      businessDetailAddress: '',
       contactPerson: '',
       phoneNumber: '',
       thumbnailUrl: '',
+      lat: undefined,
+      lng: undefined,
     },
   });
 
@@ -55,7 +60,7 @@ export default function InfoForm({ onSubmit }: Props) {
     control,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = form;
 
   const categoryType = watch('categoryType');
@@ -63,7 +68,7 @@ export default function InfoForm({ onSubmit }: Props) {
 
   const handleCategoryTypeChange = (value: CampaignCategoryType) => {
     setValue('categoryType', value);
-    setValue('categoryName', '' as any);
+    setValue('categoryName', '' as CampaignCategoryName);
   };
 
   const handleFormSubmit = (data: CampaignCreateForm) => {
@@ -120,12 +125,21 @@ export default function InfoForm({ onSubmit }: Props) {
         <MissionInfoForm register={register} errors={errors} missionKeywords={missionKeywords} />
       </section>
 
-      <SplitBox />
+      {/* 방문 정보 섹션 - 카테고리 타입이 "방문"일 때만 표시 */}
+      {categoryType === '방문' && (
+        <>
+          <SplitBox />
+          <section className="px-5 pt-8 pb-5">
+            <p className="ck-sub-title-1 mb-2">방문 정보</p>
+            <VisitInfoForm register={register} errors={errors} setValue={setValue} />
+          </section>
+        </>
+      )}
 
-      {/* 방문 정보 섹션 */}
-      <section className="px-5 pt-8 pb-5">
-        <p className="ck-sub-title-1 mb-2">방문 정보</p>
-        <VisitInfoForm register={register} errors={errors} setValue={setValue} />
+      <section className="px-5 pb-5">
+        <Button className="w-full" size="lg" type="submit">
+          {isPending ? '등록 중...' : '등록하기'}
+        </Button>
       </section>
     </form>
   );

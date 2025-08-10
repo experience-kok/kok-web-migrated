@@ -98,6 +98,8 @@ export interface PostCampaignRequest {
     homepage?: string; // 공식 홈페이지 주소
     contactPhone: string; // 일반 유저에게 공개되는 연락처
     visitAndReservationInfo: string; // 방문 및 예약 안내
+    businessAddress: string; // 위치 정보
+    businessDetailAddress: string; // 위치 정보 상세
     lat: number; // 위도
     lng: number; // 경도
   };
