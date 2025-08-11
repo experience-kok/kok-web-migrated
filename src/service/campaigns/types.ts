@@ -94,7 +94,7 @@ export interface PostCampaignRequest {
     contactPerson: string;
     phoneNumber: string;
   };
-  visitInfo: {
+  visitInfo?: {
     homepage?: string; // 공식 홈페이지 주소
     contactPhone: string; // 일반 유저에게 공개되는 연락처
     visitAndReservationInfo: string; // 방문 및 예약 안내

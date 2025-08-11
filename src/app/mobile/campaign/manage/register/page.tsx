@@ -77,16 +77,21 @@ export default function CampaignRegisterPage() {
         contactPerson: formData.contactPerson,
         phoneNumber: formData.phoneNumber,
       },
-      visitInfo: {
-        homepage: formData.homepage,
+    };
+
+    // 카테고리 타입이 '방문'일 때만 visitInfo 추가
+    if (formData.categoryType === '방문') {
+      // !TODO 타입 수정 필요
+      (campaignData as any).visitInfo = {
+        ...(formData.homepage && { homepage: formData.homepage }), // 선택적 필드
         contactPhone: formData.contactPhone,
         visitAndReservationInfo: formData.visitAndReservationInfo,
         businessAddress: formData.businessAddress,
         businessDetailAddress: formData.businessDetailAddress,
         lat: formData.lat,
         lng: formData.lng,
-      },
-    };
+      };
+    }
 
     handlePostCampaign({ file: selectedFile, campaignData });
   };

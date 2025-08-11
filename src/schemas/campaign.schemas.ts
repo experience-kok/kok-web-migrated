@@ -45,20 +45,14 @@ export const campaignCreateSchema = z
     missionGuide: z.string().min(1, { message: '미션 가이드를 입력해 주세요.' }),
     missionKeywords: z.string().min(1, { message: '미션 키워드를 입력해 주세요.' }),
 
-    // 방문 정보
-    homepage: z.string().optional(),
-    contactPhone: z
-      .string()
-      .min(1, { message: '연락처를 입력해 주세요.' })
-      .max(20, { message: '연락처는 20자 이하로 입력해 주세요.' })
-      .regex(/^\d{3}-\d{4}-\d{4}$/, {
-        message: '올바른 전화번호 형식을 입력해 주세요. (예: 010-1234-5678)',
-      }),
-    visitAndReservationInfo: z.string().min(1, { message: '방문 및 예약 안내를 입력해주세요.' }),
-    businessAddress: z.string({ message: '위치 정보를 입력해주세요.' }), // 업체 주소
-    businessDetailAddress: z.string(), // 업체 상세 주소
-    lat: z.number(),
-    lng: z.number(),
+    // 방문 정보 (categoryType이 '방문'일 때만 필수)
+    homepage: z.string().optional(), // 선택적 필드
+    contactPhone: z.string().optional(),
+    visitAndReservationInfo: z.string().optional(),
+    businessAddress: z.string().optional(),
+    businessDetailAddress: z.string().optional(),
+    lat: z.number().optional(),
+    lng: z.number().optional(),
 
     // 업체 정보
     contactPerson: z
@@ -123,6 +117,59 @@ export const campaignCreateSchema = z
     {
       message: '리뷰 제출 마감일은 참가자 선정일과 같거나 늦어야 합니다.',
       path: ['reviewDeadlineDate'],
+    },
+  )
+  // 카테고리 타입이 '방문'일 때만 방문 정보 필드들을 필수로 검증
+  .refine(
+    data => {
+      if (data.categoryType === '방문') {
+        return (
+          data.contactPhone &&
+          data.contactPhone.length > 0 &&
+          /^\d{3}-\d{4}-\d{4}$/.test(data.contactPhone)
+        );
+      }
+      return true;
+    },
+    {
+      message: '올바른 전화번호 형식을 입력해 주세요. (예: 010-1234-5678)',
+      path: ['contactPhone'],
+    },
+  )
+  .refine(
+    data => {
+      if (data.categoryType === '방문') {
+        return data.visitAndReservationInfo && data.visitAndReservationInfo.length > 0;
+      }
+      return true;
+    },
+    {
+      message: '방문 및 예약 안내를 입력해주세요.',
+      path: ['visitAndReservationInfo'],
+    },
+  )
+  .refine(
+    data => {
+      if (data.categoryType === '방문') {
+        return data.businessAddress && data.businessAddress.length > 0;
+      }
+      return true;
+    },
+    {
+      message: '위치 정보를 입력해주세요.',
+      path: ['businessAddress'],
+    },
+  )
+  .refine(
+    data => {
+      if (data.categoryType === '방문') {
+        return typeof data.lat === 'number' && typeof data.lng === 'number';
+      }
+      return true;
+    },
+    {
+      message: '위치 좌표를 설정해주세요.',
+      path: ['lat'],
     },
   );
 
