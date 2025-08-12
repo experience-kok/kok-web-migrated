@@ -113,7 +113,7 @@ export default function CampaignFilter() {
           <div className="flex gap-3">
             {/* 초기화 버튼 */}
             <Button
-              size={'mobileBottom'}
+              size={'mobile'}
               variant="ghost"
               className="text-ck-gray-500 flex-1 gap-0.5"
               onClick={handleReset}
@@ -124,7 +124,7 @@ export default function CampaignFilter() {
 
             {/* 필터 적용 버튼 */}
             <DrawerClose asChild>
-              <Button size={'mobileBottom'} className="flex-[3]" onClick={handleApply}>
+              <Button size={'mobile'} className="flex-[3]" onClick={handleApply}>
                 필터 적용하기
               </Button>
             </DrawerClose>

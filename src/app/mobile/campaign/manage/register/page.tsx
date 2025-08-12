@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { toast } from 'sonner';
 
+import SplitBox from '@/components/ui/split-box';
 import { CampaignCreateForm } from '@/schemas/campaign.schemas';
 import { usePostCampaignMutation } from '@/service/campaigns/campaigns-mutation';
 import { PostCampaignRequest } from '@/service/campaigns/types';
@@ -11,11 +12,15 @@ import { PostCampaignRequest } from '@/service/campaigns/types';
 import InfoForm from './_components/info-form';
 import ThumbnailForm from './_components/thumbnail-form';
 
+/**
+ * 캠페인 등록 페이지
+ * 클라이언트만 접근 가능한 페이지
+ */
 export default function CampaignRegisterPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const { mutate: handlePostCampaign } = usePostCampaignMutation();
+  const { mutate: handlePostCampaign, isPending } = usePostCampaignMutation();
 
   // 이미지 변경 함수
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,30 +74,39 @@ export default function CampaignRegisterPage() {
         name: formData.categoryName,
       },
       companyInfo: {
-        companyName: formData.companyName,
-        businessRegistrationNumber: formData.businessRegistrationNumber || '',
         contactPerson: formData.contactPerson,
         phoneNumber: formData.phoneNumber,
       },
     };
 
+    // 카테고리 타입이 '방문'일 때만 visitInfo 추가
+    if (formData.categoryType === '방문') {
+      // !TODO 타입 수정 필요
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (campaignData as any).visitInfo = {
+        ...(formData.homepage && { homepage: formData.homepage }), // 선택적 필드
+        contactPhone: formData.contactPhone,
+        visitAndReservationInfo: formData.visitAndReservationInfo,
+        businessAddress: formData.businessAddress,
+        businessDetailAddress: formData.businessDetailAddress,
+        lat: formData.lat,
+        lng: formData.lng,
+      };
+    }
+
     handlePostCampaign({ file: selectedFile, campaignData });
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto max-w-4xl px-4 py-8">
-        <div className="mb-8 hidden lg:block">
-          <h1 className="mb-2 text-center text-3xl font-bold">캠페인 등록</h1>
-          <p className="text-muted-foreground text-center">새로운 체험 캠페인을 등록해보세요</p>
-        </div>
+    <>
+      <section className="px-5 pt-8 pb-5">
+        <p className="ck-sub-title-1 mb-2">썸네일 등록</p>
+        <ThumbnailForm preview={preview} onFilechange={handleFileChange} />
+      </section>
 
-        {/* 썸네일 등록 */}
-        <ThumbnailForm preview={preview} onFileChange={handleFileChange} />
+      <SplitBox />
 
-        {/* 기본 정보 - 폼이 자체적으로 관리됨 */}
-        <InfoForm onSubmit={handleSubmit} />
-      </div>
-    </div>
+      <InfoForm onSubmit={handleSubmit} isPending={isPending} />
+    </>
   );
 }

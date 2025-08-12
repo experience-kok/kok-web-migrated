@@ -4,13 +4,15 @@ import {
   getCampaignBasicInfo,
   getCampaignDetailInfo,
   getCampaignKeywords,
+  getCampaignLocation,
   getCampaignMissionGuide,
   getCampaignThumbnail,
 } from '@/service/campaigns/campaigns-api';
+import { GetCampaignLocationInfoResponse } from '@/service/campaigns/types';
 
 import CampaignApplicant from './_components/campaign-applicant';
-import CampaignBasicInfo from './_components/campaign-basic-info';
 import CampaignThumbnail from './_components/campaign-thumbnail';
+import CampaignVisitInfo from './_components/campaign-visit-info';
 
 interface Props {
   params: Promise<{
@@ -31,6 +33,7 @@ export default async function CampaignDetailPage({ params }: Props) {
   const {
     title,
     campaignType,
+    categoryType,
     currentApplicants,
     maxApplicants,
     recruitmentStartDate,
@@ -46,6 +49,12 @@ export default async function CampaignDetailPage({ params }: Props) {
 
   // 캠페인 미션 키워드
   const { missionKeywords } = await getCampaignKeywords(Number(campaignId));
+
+  // 캠페인 위치 정보 (방문 캠페인일 때만 호출)
+  let locationData: GetCampaignLocationInfoResponse | null = null;
+  if (categoryType === '방문') {
+    locationData = await getCampaignLocation(Number(campaignId));
+  }
 
   // 캠페인 키워드
   const parsedMissionKeywords = Array.isArray(missionKeywords)
@@ -71,8 +80,8 @@ export default async function CampaignDetailPage({ params }: Props) {
           <CampaignApplicant currentApplicants={currentApplicants} maxApplicants={maxApplicants} />
 
           <div className="mt-2">
-            <span>캠페인 모집 기간 &nbsp;</span>
-            <span>
+            <span className="ck-caption-1">캠페인 모집 기간 &nbsp;</span>
+            <span className="ck-caption-1">
               {recruitmentStartDate} ~ {recruitmentEndDate}
             </span>
           </div>
@@ -111,8 +120,7 @@ export default async function CampaignDetailPage({ params }: Props) {
 
         <div className="mt-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
           <p className="ck-caption-2 text-yellow-800">
-            <span className="font-medium">⚠️ 주의사항:</span> 허위 정보 기재 시 선발에서 제외될 수
-            있어요.
+            <span>⚠️ 주의사항:</span> 허위 정보 기재 시 선발에서 제외될 수 있어요.
           </p>
         </div>
       </section>
@@ -131,7 +139,7 @@ export default async function CampaignDetailPage({ params }: Props) {
       {/* 캠페인 미션 키워드 */}
       <section className="px-5 pt-8 pb-5">
         <div className="ck-sub-title-1">키워드</div>
-        <div className="mt-2">아래 키워드를 콘텐츠에 포함해주세요.</div>
+        <div className="ck-body-2 mt-2">아래 키워드를 콘텐츠에 포함해주세요.</div>
 
         {/* 키워드 표시 개선 */}
         {parsedMissionKeywords.length > 0 ? (
@@ -139,7 +147,7 @@ export default async function CampaignDetailPage({ params }: Props) {
             {parsedMissionKeywords.map((keyword, index) => (
               <span
                 key={index}
-                className="inline-block rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800"
+                className="ck-caption-2 text-ck-blue-800 bg-ck-blue-100 inline-block rounded-full px-3 py-1"
               >
                 {keyword}
               </span>
@@ -152,10 +160,13 @@ export default async function CampaignDetailPage({ params }: Props) {
 
       <SplitBox />
 
-      {/* 캠페인 기본 정보 */}
-      <CampaignBasicInfo />
-
-      <SplitBox />
+      {/* 방문 캠페인일 때만 위치 정보 표시 */}
+      {categoryType === '방문' && locationData && (
+        <>
+          <CampaignVisitInfo locationData={locationData} />
+          <SplitBox />
+        </>
+      )}
 
       {/* 추가 안내사항 */}
       <section className="px-5 pt-8 pb-5">
