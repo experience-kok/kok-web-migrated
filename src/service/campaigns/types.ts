@@ -91,10 +91,17 @@ export interface PostCampaignRequest {
     name: CampaignCategoryName;
   };
   companyInfo: {
-    companyName: string;
-    businessRegistrationNumber: string;
     contactPerson: string;
     phoneNumber: string;
+  };
+  visitInfo?: {
+    homepage?: string; // 공식 홈페이지 주소
+    contactPhone: string; // 일반 유저에게 공개되는 연락처
+    visitAndReservationInfo: string; // 방문 및 예약 안내
+    businessAddress: string; // 위치 정보
+    businessDetailAddress: string; // 위치 정보 상세
+    lat: number; // 위도
+    lng: number; // 경도
   };
 }
 
@@ -123,6 +130,21 @@ export interface GetCampaignDetailInfoResponse {
   reviewDeadlineDate: string;
   selectionDate: string;
   applicationDeadlineDate: string;
+}
+/**
+ * 캠페인 위치, 방문 정보 조회 (Visit Info)
+ */
+export interface GetCampaignLocationInfoResponse {
+  id: number;
+  campaignId: number;
+  lat: number;
+  lng: number;
+  homepage: string;
+  contactPhone: string;
+  visitAndReservationInfo: string;
+  businessAddress: string;
+  businessDetailAddress: string;
+  hasCoordinates: boolean; // 좌표 보유 여부
 }
 
 /**
