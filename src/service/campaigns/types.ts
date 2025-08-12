@@ -131,6 +131,21 @@ export interface GetCampaignDetailInfoResponse {
   selectionDate: string;
   applicationDeadlineDate: string;
 }
+/**
+ * 캠페인 위치, 방문 정보 조회 (Visit Info)
+ */
+export interface GetCampaignLocationInfoResponse {
+  id: number;
+  campaignId: number;
+  lat: number;
+  lng: number;
+  homepage: string;
+  contactPhone: string;
+  visitAndReservationInfo: string;
+  businessAddress: string;
+  businessDetailAddress: string;
+  hasCoordinates: boolean; // 좌표 보유 여부
+}
 
 /**
  * 캠페인 지원 상태 조회 응답

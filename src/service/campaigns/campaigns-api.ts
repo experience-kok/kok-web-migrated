@@ -6,6 +6,7 @@ import {
   GetCampaignApplicateCheckResponse,
   GetCampaignBasicInfoResponse,
   GetCampaignDetailInfoResponse,
+  GetCampaignLocationInfoResponse,
   GetCampaignSearchRequest,
   GetCampaignSearchResponse,
   GetDeliveryCampaignsRequest,
@@ -166,6 +167,7 @@ export async function postCampaignApplicate(campaignId: number) {
  * - 캠페인 상세 정보 조회
  * - 캠페인 미션 가이드 조회
  * - 캠페인 필수 키워드 조회
+ * - 캠페인 위치 조회
  */
 export async function getCampaignThumbnail(campaignId: number) {
   const response = await fetcher.get<{
@@ -202,6 +204,13 @@ export async function getCampaignKeywords(campaignId: number) {
     campaignId: number;
     missionKeywords: string[];
   }>(`/campaigns/${campaignId}/keywords`);
+
+  return response;
+}
+export async function getCampaignLocation(campaignId: number) {
+  const response = await fetcher.get<GetCampaignLocationInfoResponse>(
+    `/campaigns/${campaignId}/location`,
+  );
 
   return response;
 }
