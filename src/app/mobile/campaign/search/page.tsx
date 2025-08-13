@@ -1,3 +1,4 @@
+import { CampaignType, Sort } from '@/models/campaign';
 import { prefetchCampaignSearch } from '@/service/campaigns/campaigns-prefetch';
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
@@ -15,11 +16,20 @@ export default async function CampaignSearchPage({
   const resolvedSearchParams = await searchParams;
   const keyword = resolvedSearchParams.keyword;
 
+  const campaignTypes = resolvedSearchParams.campaignTypes
+    ? typeof resolvedSearchParams.campaignTypes === 'string'
+      ? resolvedSearchParams.campaignTypes.split(',').map(type => type as CampaignType)
+      : (resolvedSearchParams.campaignTypes as CampaignType[])
+    : undefined;
+  const sort = resolvedSearchParams.sort as Sort | undefined;
+
   // keyword가 undefined인 경우 빈 문자열로 처리
   const searchKeyword = keyword || '';
 
   const queryClient = prefetchCampaignSearch({
     keyword: searchKeyword,
+    campaignTypes,
+    sort,
   });
 
   return (

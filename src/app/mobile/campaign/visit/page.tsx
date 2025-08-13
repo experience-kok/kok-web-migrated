@@ -17,7 +17,7 @@ export default async function CampaignVisitPage({
   const resolvedSearchParams = await searchParams;
 
   const page = resolvedSearchParams.page
-    ? parseInt(resolvedSearchParams.page as string, 10)
+    ? parseInt(resolvedSearchParams.page as string, 1)
     : undefined;
   const size = resolvedSearchParams.size
     ? parseInt(resolvedSearchParams.size as string, 10)
