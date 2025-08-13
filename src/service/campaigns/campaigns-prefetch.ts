@@ -81,16 +81,23 @@ export function prefetchVisitCampaigns({
  * 캠페인 검색 결과 데이터 미리 가져오기
  * @return 쿼리 클라이언트
  */
-export function prefetchCampaignSearch({ size, keyword }: GetCampaignSearchRequest) {
+export function prefetchCampaignSearch({
+  size,
+  keyword,
+  campaignTypes,
+  sort,
+}: GetCampaignSearchRequest) {
   const queryClient = getQueryClient();
 
   void queryClient.prefetchInfiniteQuery({
-    queryKey: ['campaign', keyword, size],
+    queryKey: ['campaign', keyword, size, campaignTypes, sort],
     queryFn: ({ pageParam = 1 }) =>
       getCampaignSearch({
         page: pageParam,
         size,
         keyword,
+        campaignTypes,
+        sort,
       }),
     initialPageParam: 1,
     getNextPageParam: data => {

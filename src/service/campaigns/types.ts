@@ -250,6 +250,8 @@ export interface GetCampaignSearchRequest {
   keyword: string;
   page?: number;
   size?: number;
+  campaignTypes?: CampaignType[];
+  sort?: Sort;
 }
 
 /**

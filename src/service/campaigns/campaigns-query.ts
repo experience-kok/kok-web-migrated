@@ -163,9 +163,14 @@ export function useGetSearchSuggestions(q: string) {
 }
 
 // 캠페인 검색 쿼리
-export function useGetCampaignSearch({ size, keyword }: Omit<GetCampaignSearchRequest, 'page'>) {
+export function useGetCampaignSearch({
+  size,
+  keyword,
+  campaignTypes,
+  sort,
+}: Omit<GetCampaignSearchRequest, 'page'>) {
   return useInfiniteQuery({
-    queryKey: ['campaign', keyword, size],
+    queryKey: ['campaign', keyword, size, campaignTypes, sort],
     queryFn: ({ pageParam = 1 }) =>
       getCampaignSearch({
         page: pageParam,

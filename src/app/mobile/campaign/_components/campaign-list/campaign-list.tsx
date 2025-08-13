@@ -37,8 +37,6 @@ export default function CampaignList({
     isFetchingNextPage,
   });
 
-  console.log(campaigns);
-
   const isCampaigns = useMemo(() => (campaigns.length > 0 ? true : false), [campaigns]);
 
   // 로딩 상태 처리 (초기 로딩)

@@ -65,7 +65,6 @@ export async function getDeliveryCampaigns({
   const queryParams = new URLSearchParams();
   if (page) queryParams.set('page', page.toString());
   if (size) queryParams.set('size', size.toString());
-  if (categoryName) queryParams.set('categoryType', categoryName);
   if (categoryName) queryParams.set('categoryName', categoryName);
   if (sort) queryParams.set('sort', sort);
 
@@ -78,6 +77,8 @@ export async function getDeliveryCampaigns({
     `/campaigns/delivery?${queryParams.toString()}`,
     { requiresAuth: false },
   );
+
+  console.log(response);
 
   return response;
 }
@@ -96,7 +97,6 @@ export async function getVisitCampaigns({
   const queryParams = new URLSearchParams();
   if (page) queryParams.set('page', page.toString());
   if (size) queryParams.set('size', size.toString());
-  if (categoryName) queryParams.set('categoryType', categoryName);
   if (categoryName) queryParams.set('categoryName', categoryName);
   if (sort) queryParams.set('sort', sort);
 
@@ -286,16 +286,31 @@ export async function getSearchRealtime() {
 /**
  * 캠페인 검색
  */
-export async function getCampaignSearch({ page, size, keyword }: GetCampaignSearchRequest) {
+export async function getCampaignSearch({
+  page,
+  size,
+  keyword,
+  campaignTypes,
+  sort,
+}: GetCampaignSearchRequest) {
   const queryParams = new URLSearchParams();
   if (page) queryParams.set('page', page.toString());
   if (size) queryParams.set('size', size.toString());
+  if (sort) queryParams.set('sort', sort);
+
+  if (campaignTypes) {
+    const requestCampaignTypes = campaignTypes.join(',');
+    queryParams.set('campaignTypes', requestCampaignTypes);
+  }
 
   queryParams.set('keyword', keyword.toString());
 
   const response = await fetcher.get<GetCampaignSearchResponse>(
     `/campaigns/search?${queryParams.toString()}`,
+    { requiresAuth: false },
   );
+
+  console.log(response);
 
   return response;
 }
