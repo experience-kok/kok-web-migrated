@@ -36,7 +36,7 @@ export default function ProfileAvatar({ preview, profileImage, onFileChange }: P
               </AvatarImage>
             ) : null}
             <AvatarFallback>
-              <Image src={'/kogi.svg'} width={70} height={70} alt="프로필 이미지" />
+              <Image src={'/kogi.png'} width={70} height={70} alt="프로필 이미지" />
             </AvatarFallback>
           </Avatar>
 

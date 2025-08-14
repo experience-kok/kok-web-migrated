@@ -41,7 +41,7 @@ export default async function CampaignDetailPage({ params }: Props) {
   } = await getCampaignBasicInfo(Number(campaignId));
 
   // 캠페인 주요 일정
-  const { productDetails, selectionCriteria, reviewDeadlineDate, selectionDate } =
+  const { productDetails, selectionCriteria, reviewStartDate, reviewDeadlineDate, selectionDate } =
     await getCampaignDetailInfo(Number(campaignId));
 
   // 캠페인 미션 가이드
@@ -78,13 +78,6 @@ export default async function CampaignDetailPage({ params }: Props) {
           <p className="ck-title">{title}</p>
 
           <CampaignApplicant currentApplicants={currentApplicants} maxApplicants={maxApplicants} />
-
-          <div className="mt-2">
-            <span className="ck-caption-1">캠페인 모집 기간 &nbsp;</span>
-            <span className="ck-caption-1">
-              {recruitmentStartDate} ~ {recruitmentEndDate}
-            </span>
-          </div>
         </div>
       </section>
 
@@ -93,12 +86,22 @@ export default async function CampaignDetailPage({ params }: Props) {
       {/* 캠페인 주요 일정 - 인플루언서 발표일, 리뷰 제출 마감일 */}
       <section className="px-5 pt-8 pb-5">
         <div className="ck-sub-title-1">주요 일정</div>
-
-        <div className="ck-body-2-bold mt-2">인플루언서 발표일</div>
-        <div className="ck-body-2 text-ck-gray-700">{selectionDate}</div>
-
-        <div className="ck-body-2-bold mt-3">리뷰 제출 마감일</div>
-        <div className="ck-body-2 text-ck-gray-700">{reviewDeadlineDate}</div>
+        <div className="mt-2 flex items-center">
+          <div className="ck-body-2-bold w-24">캠페인 모집 기간</div>
+          <div className="ck-body-2 text-ck-gray-700 ml-3">
+            {recruitmentStartDate} ~ {recruitmentEndDate}
+          </div>
+        </div>
+        <div className="mt-1 flex items-center">
+          <div className="ck-body-2-bold w-24">발표일</div>
+          <div className="ck-body-2 text-ck-gray-700 ml-3">{selectionDate}</div>
+        </div>
+        <div className="mt-1 flex items-center">
+          <div className="ck-body-2-bold w-24">체험&리뷰</div>
+          <div className="ck-body-2 text-ck-gray-700 ml-3">
+            {reviewStartDate} ~ {reviewDeadlineDate}
+          </div>
+        </div>
       </section>
 
       <SplitBox />

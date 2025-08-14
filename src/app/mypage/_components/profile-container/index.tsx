@@ -4,7 +4,6 @@ import { Camera } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Tooltip from '@/components/shared/tooltip';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useGetUsersProfile } from '@/service/users/users-query';
 
@@ -23,31 +22,35 @@ export default function ProfileContainer() {
     <section className="px-4 py-6">
       <div className="flex items-center gap-5">
         <ProfileImageUploadDialog user={user}>
-          <Tooltip content="프로필 이미지 변경">
-            <div className="group relative cursor-pointer">
-              <Avatar className="h-20 w-20">
-                <AvatarImage asChild src={user.profileImage ?? undefined}>
-                  <Image
+          <div className="group relative cursor-pointer">
+            <Avatar className="h-20 w-20">
+              <AvatarImage
+                asChild
+                src={user.profileImage ?? '/kogi.png'}
+                width={70}
+                height={70}
+                alt="프로필 이미지"
+              >
+                {/* <Image
                     src={user.profileImage ?? '/kogi.png'}
                     width={70}
                     height={70}
                     alt="프로필 이미지"
-                  />
-                </AvatarImage>
+                  /> */}
+              </AvatarImage>
 
-                <AvatarFallback>
-                  <Image src={'/kogi.svg'} width={70} height={70} alt="프로필 이미지" />
-                </AvatarFallback>
-              </Avatar>
+              <AvatarFallback>
+                <Image src={'/kogi.png'} width={70} height={70} alt="프로필 이미지" />
+              </AvatarFallback>
+            </Avatar>
 
-              {/* 어두운 오버레이 */}
-              <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100" />
+            {/* 어두운 오버레이 */}
+            <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100" />
 
-              <div className="absolute right-0 bottom-0 flex h-8 w-8 items-center justify-center rounded-full border border-white bg-white">
-                <Camera size={20} className="fill-muted-foreground text-white" />
-              </div>
+            <div className="absolute right-0 bottom-0 flex h-8 w-8 items-center justify-center rounded-full border border-white bg-white">
+              <Camera size={20} className="fill-muted-foreground text-white" />
             </div>
-          </Tooltip>
+          </div>
         </ProfileImageUploadDialog>
 
         <div className="flex flex-col items-start">
