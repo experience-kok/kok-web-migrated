@@ -1,5 +1,4 @@
-import FooterMenu from '@/components/layout.tsx/footer-menu';
-import Header from '@/components/layout.tsx/header';
+import CategoryHeader from './_components/category-header';
 
 export default function CategoryLayout({
   children,
@@ -7,14 +6,12 @@ export default function CategoryLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col bg-gray-50">
-      <div>
-        <Header />
-      </div>
-      <main className="bg-background mx-auto h-full w-full max-w-[720px] flex-grow">
-        {children}
-      </main>
-      <FooterMenu />
+    <div className="bg-ck-gray-200 flex min-h-[100dvh] flex-col">
+      <CategoryHeader />
+      <main className="h-full w-full flex-grow">{children}</main>
+
+      {/* pc 버전 스크롤 버튼 */}
+      <div className="fixed right-8 bottom-20 hidden md:block">{/* <ScrollToTopButton /> */}</div>
     </div>
   );
 }

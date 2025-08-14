@@ -6,7 +6,6 @@ import { ClientOnly } from '@suspensive/react';
 import { X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
 
 import { useAuth } from '@/hooks/use-auth';
 import { usePreventScroll } from '@/hooks/use-prevent-scroll'; // 스크롤 방지 훅 추가
@@ -67,30 +66,23 @@ export default function Header() {
           />
 
           {/* 검색바 컨테이너 */}
-          <div className="pointer-events-none fixed inset-0 z-52 flex items-start justify-center p-6 pt-20">
+          <div className="pointer-events-none fixed inset-0 z-52 mx-auto flex max-w-[600px] items-start justify-center p-5">
             <div className="animate-in fade-in-0 zoom-in-95 pointer-events-auto w-full max-w-3xl transform duration-300">
               {/* 헤더 섹션 */}
-              <div className="rounded-t-3xl bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6">
+              <div className="from-ck-blue-100 to-ck-blue-200 rounded-t-[12px] bg-gradient-to-r p-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Text
-                      as="h2"
-                      color={'foreground'}
-                      size={'2xl'}
-                      weight={'bold'}
-                      className="mb-1"
-                    >
-                      캠페인 검색
-                    </Text>
-                    <Text as="p" color={'muted-foreground'} weight={'semibold'}>
+                    <div className="ck-headline-1 text-ck-gray-900 mb-1">캠페인 검색</div>
+
+                    <div className="text-ck-gray-700 ck-body-1-bold">
                       원하는 캠페인을 빠르게 찾아봐요
-                    </Text>
+                    </div>
                   </div>
                   <Button
                     size={'icon'}
                     variant={'ghost'}
                     onClick={handleCloseSearch}
-                    className="bg-background/80 cursor-pointer rounded-full p-3 text-gray-500 shadow-lg backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-gray-700"
+                    className="bg-background/80 text-ck-gray-800 hover:text-ck-gray-900 cursor-pointer rounded-full p-3 shadow-lg backdrop-blur-sm transition-all duration-200 hover:bg-white"
                   >
                     <X className="h-5 w-5" />
                   </Button>
@@ -98,7 +90,7 @@ export default function Header() {
               </div>
 
               {/* 검색 섹션 */}
-              <div className="bg-background relative flex-1 rounded-b-3xl p-8">
+              <div className="bg-background relative flex-1 rounded-b-[12px] p-5">
                 <CampaignSearch onClose={handleCloseSearch} />
               </div>
             </div>
