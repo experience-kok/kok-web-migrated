@@ -6,6 +6,7 @@ import { X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useGetSearchRealtime, useGetSearchSuggestions } from '@/service/campaigns/campaigns-query';
 
 import { useDebounce } from '@/hooks/use-debounce';
@@ -103,14 +104,14 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
     <div className="relative w-full">
       {/* 검색 입력창 */}
       <div className="relative">
-        <input
+        <Input
           type="text"
           placeholder="검색어를 입력해주세요..."
           value={searchQuery}
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
           autoFocus
-          className="focus:border-primary w-full rounded-lg border-2 border-gray-300 px-4 py-4 pr-20 text-lg focus:outline-none"
+          className="focus:border-primary ck-body-1 w-full rounded-lg border-2 px-4 py-4 pr-20 focus:outline-none"
         />
 
         {/* 검색어 초기화 버튼 */}
@@ -119,15 +120,15 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
             variant={'ghost'}
             size={'icon'}
             onClick={handleResetQuery}
-            className="absolute top-1/2 right-3 -translate-y-1/2 p-1 transition-colors hover:bg-gray-100"
+            className="hover:bg-ck-gray-300 absolute top-1/2 right-3 -translate-y-1/2 p-1 transition-colors"
           >
-            <X className="h-5 w-5 text-gray-500" />
+            <X className="text-ck-gray-700 h-5 w-5" />
           </Button>
         )}
       </div>
 
       {/* 검색 결과 목록 */}
-      <div className="absolute top-full right-0 left-0 z-10 mt-2 max-h-80 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-xl">
+      <div className="border-ck-gray-300 absolute top-full right-0 left-0 z-10 mt-2 max-h-80 overflow-y-auto rounded-lg border bg-white shadow-xl">
         {type === 'suggestions' && hasResults ? (
           // 검색어가 있고 결과가 있는 경우
           <div className="py-2">
@@ -142,11 +143,11 @@ export default function CampaignSearch({ onClose }: CampaignSearchProps) {
           </div>
         ) : type === 'suggestions' && !hasResults ? (
           // 검색어는 있는데 결과가 없는 경우
-          <div className="px-4 py-6 text-center text-sm text-gray-500">검색 결과가 없어요.</div>
+          <div className="text-ck-gray-700 px-4 py-6 text-center text-sm">검색 결과가 없어요.</div>
         ) : type === 'realtime' && list.length > 0 ? (
           // 검색어가 없고 실시간 검색어가 있는 경우
           <div className="py-2">
-            <div className="border-b border-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
+            <div className="ck-body-2-bold border-b border-gray-100 px-4 py-2 text-gray-700">
               실시간 검색어
             </div>
             {list.map((item, index) => (

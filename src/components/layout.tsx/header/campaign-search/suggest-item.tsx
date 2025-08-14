@@ -19,7 +19,10 @@ function highlightSearchTerm(text: string, searchTerm: string) {
   return parts.map((part, index) => {
     if (regex.test(part)) {
       return (
-        <mark key={index} className="bg-primary/30 text-foreground rounded px-1 font-medium">
+        <mark
+          key={index}
+          className="bg-ck-blue-500/30 text-ck-gray-900 ck-body-1-bold rounded px-1"
+        >
           {part}
         </mark>
       );
@@ -30,7 +33,6 @@ function highlightSearchTerm(text: string, searchTerm: string) {
 
 export default function SuggestItem({ label, searchQuery, type, onClick }: SuggestItemProps) {
   const highlightedLabel = searchQuery ? highlightSearchTerm(label, searchQuery) : label;
-  console.log(type);
 
   return (
     <div
@@ -38,12 +40,12 @@ export default function SuggestItem({ label, searchQuery, type, onClick }: Sugge
       onClick={onClick}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <div className={`flex-shrink-0 transition-all duration-200`}>
-            <Search className="h-5 w-5" />
+            <Search className="h-4 w-4" />
           </div>
 
-          <span className="font-medium text-gray-700 transition-colors duration-200 group-hover:text-gray-900">
+          <span className="text-ck-gray-900 ck-body-2 line-clamp-1 w-[200px] transition-colors duration-200">
             {highlightedLabel}
           </span>
         </div>
@@ -51,16 +53,16 @@ export default function SuggestItem({ label, searchQuery, type, onClick }: Sugge
         <div className="flex items-center gap-4">
           {type === 'realtime' && (
             <div className="ml-auto">
-              <span className="bg-primary/10 text-primary group-hover:bg-primary/20 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium transition-colors duration-200">
+              <span className="bg-ck-blue-500/10 text-ck-blue-500 group-hover:bg-ck-blue-500/20 ck-caption-2 inline-flex items-center rounded-full px-2 py-1 transition-colors duration-200">
                 인기
               </span>
             </div>
           )}
 
           {/* 호버 시 화살표 */}
-          <div className="ml-auto translate-x-2 transform opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+          <div className="ml-auto hidden translate-x-2 transform opacity-0 transition-all duration-200 group-hover:block group-hover:translate-x-0 group-hover:opacity-100">
             <svg
-              className="h-4 w-4 text-gray-400"
+              className="text-ck-gray-600 h-4 w-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

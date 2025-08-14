@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
   const isProtectedRoute = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
 
   if (isProtectedRoute) {
+    console.log('보호된 경로 접근');
     // 보호된 경로에 접근하는 경우
     const accessToken = request.cookies.get('accessToken')?.value;
     const refreshToken = request.cookies.get('refreshToken')?.value;
