@@ -8,14 +8,14 @@ export const campaignCreateSchema = z
     }),
     title: z
       .string()
-      .min(1, { message: '제목을 입력해 주세요.' })
-      .max(200, { message: '제목은 200자 이하로 입력해 주세요.' }),
+      .min(1, { message: '캠페인 제목을 입력해 주세요.' })
+      .max(200, { message: '캠페인 제목은 200자 이하로 입력해 주세요.' }),
     maxApplicants: z
       .number({
-        required_error: '최대 지원 인원을 입력해 주세요.',
-        invalid_type_error: '최대 지원 인원은 숫자여야 합니다.',
+        required_error: '선정 인원을 입력해 주세요.',
+        invalid_type_error: '선정 인원은 숫자여야 합니다.',
       })
-      .min(1, { message: '최대 지원 인원은 1명 이상이어야 합니다.' }),
+      .min(1, { message: '선정 인원은 1명 이상이어야 합니다.' }),
 
     // 카테고리 정보
     categoryType: z.enum(['방문', '배송'], {
@@ -31,9 +31,9 @@ export const campaignCreateSchema = z
     // 날짜 정보
     recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
     recruitmentEndDate: z.string().min(1, { message: '모집 종료일을 선택해 주세요.' }),
-    applicationDeadlineDate: z.string().min(1, { message: '지원 마감일을 선택해 주세요.' }),
-    selectionDate: z.string().min(1, { message: '참가자 선정일을 선택해 주세요.' }),
-    reviewDeadlineDate: z.string().min(1, { message: '리뷰 제출 마감일을 선택해 주세요.' }),
+    selectionDate: z.string().min(1, { message: '참가자 발표일을 선택해 주세요.' }),
+    reviewStartDate: z.string().min(1, { message: '미션 시작일을 선택해 주세요.' }),
+    reviewDeadlineDate: z.string().min(1, { message: '미션 마감일을 선택해 주세요.' }),
 
     // 상세 정보
     productShortInfo: z
@@ -61,8 +61,8 @@ export const campaignCreateSchema = z
       .max(50, { message: '담당자명은 50자 이하로 입력해 주세요.' }),
     phoneNumber: z
       .string()
-      .min(1, { message: '연락처를 입력해 주세요.' })
-      .max(20, { message: '연락처는 20자 이하로 입력해 주세요.' })
+      .min(1, { message: '담당자 연락처를 입력해 주세요.' })
+      .max(20, { message: '담당자 연락처는 20자 이하로 입력해 주세요.' })
       .regex(/^\d{3}-\d{4}-\d{4}$/, {
         message: '올바른 전화번호 형식을 입력해 주세요. (예: 010-1234-5678)',
       }),
@@ -84,38 +84,37 @@ export const campaignCreateSchema = z
   )
   .refine(
     data => {
-      // 지원 마감일이 모집 시작일 이후이고 종료일 이전인지 확인
-      const startDate = new Date(data.recruitmentStartDate);
-      const endDate = new Date(data.recruitmentEndDate);
-      const applicationDeadline = new Date(data.applicationDeadlineDate);
-      return applicationDeadline >= startDate && applicationDeadline <= endDate;
-    },
-    {
-      message: '지원 마감일은 모집 시작일 이후이고 종료일 이전이어야 합니다.',
-      path: ['applicationDeadlineDate'],
-    },
-  )
-  .refine(
-    data => {
-      // 참가자 선정일이 모집 종료일보다 늦은지 확인
+      // 참가자 발표일이 모집 종료일보다 늦은지 확인
       const endDate = new Date(data.recruitmentEndDate);
       const selectionDate = new Date(data.selectionDate);
       return selectionDate >= endDate;
     },
     {
-      message: '참가자 선정일은 모집 종료일과 같거나 늦어야 합니다.',
+      message: '참가자 발표일은 모집 종료일과 같거나 늦어야 합니다.',
       path: ['selectionDate'],
     },
   )
   .refine(
     data => {
-      // 리뷰 제출 마감일이 참가자 선정일보다 늦은지 확인
+      // 미션 시작일이 참가자 선정일보다 늦은지 확인
       const selectionDate = new Date(data.selectionDate);
-      const reviewDeadline = new Date(data.reviewDeadlineDate);
-      return reviewDeadline >= selectionDate;
+      const reviewStartDate = new Date(data.reviewStartDate);
+      return reviewStartDate >= selectionDate;
     },
     {
-      message: '리뷰 제출 마감일은 참가자 선정일과 같거나 늦어야 합니다.',
+      message: '미션 시작일은 참가자 발표일과 같거나 늦어야 합니다.',
+      path: ['reviewStartDate'],
+    },
+  )
+  .refine(
+    data => {
+      // 미션 마감일이 미션 시작일보다 늦은지 확인
+      const reviewStartDate = new Date(data.reviewStartDate);
+      const reviewDeadlineDate = new Date(data.reviewDeadlineDate);
+      return reviewDeadlineDate >= reviewStartDate;
+    },
+    {
+      message: '미션 마감일은 미션 시작일과 같거나 늦어야 합니다.',
       path: ['reviewDeadlineDate'],
     },
   )

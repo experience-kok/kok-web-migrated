@@ -161,10 +161,10 @@ export default function BasicInfoForm({
         )}
       </div>
 
-      {/* 최대 지원 가능 인원 */}
+      {/* 선정 인원 */}
       <div className="space-y-2">
         <div className="ck-body-2-bold mb-1">
-          최대 지원 가능 인원 <span className="text-ck-red-500">*</span>
+          선정 인원 <span className="text-ck-red-500">*</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -208,21 +208,6 @@ export default function BasicInfoForm({
         </div>
         {errors.recruitmentEndDate && (
           <p className="text-ck-red-500 ck-caption-1">{errors.recruitmentEndDate.message}</p>
-        )}
-      </div>
-
-      {/* 캠페인 지원 마감일 */}
-      <div className="space-y-2">
-        <div className="ck-body-2-bold mb-1">
-          캠페인 지원 마감일 <span className="text-ck-red-500">*</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Calendar className="text-ck-gray-700 size-4" />
-          <Input {...register('applicationDeadlineDate')} type="date" />
-        </div>
-        {errors.applicationDeadlineDate && (
-          <p className="text-ck-red-500 ck-caption-1">{errors.applicationDeadlineDate.message}</p>
         )}
       </div>
     </div>

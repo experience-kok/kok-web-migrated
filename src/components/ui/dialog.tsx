@@ -118,7 +118,7 @@ function DialogDescription({
   );
 }
 
-interface DialogButtonProps extends React.PropsWithChildren {
+interface DialogButtonProps extends React.PropsWithChildren, React.ComponentProps<typeof Button> {
   variant?: 'ghost' | 'default';
   className?: string;
 }

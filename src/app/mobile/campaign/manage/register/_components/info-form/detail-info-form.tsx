@@ -51,7 +51,7 @@ export default function DetailInfoForm({ register, errors }: Props) {
       {/* 참가자 선정일 */}
       <div>
         <div className="ck-body-2-bold mb-1">
-          참가자 선정일 <span className="text-ck-red-500">*</span>
+          참가자 발표일 <span className="text-ck-red-500">*</span>
         </div>
         <div className="flex items-center gap-2">
           <Calendar className="text-ck-gray-700 size-4" />
