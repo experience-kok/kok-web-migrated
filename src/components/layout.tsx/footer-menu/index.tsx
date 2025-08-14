@@ -52,12 +52,12 @@ export default function FooterMenu() {
     <div className="">
       {/* 모바일 환경에서 ScrollToTopButton을 푸터 메뉴 위에 고정 */}
       <div
-        className={`fixed right-4 transition-all duration-300 md:hidden ${scrollDirection === 'down' ? 'bottom-4' : 'bottom-20'}`}
+        className={`fixed right-4 transition-all duration-300 ${scrollDirection === 'down' ? 'bottom-4' : 'bottom-20'}`}
       >
         <ScrollToTopButton />
       </div>
       <div
-        className={`fixed right-0 bottom-0 left-0 h-15 w-full border-t bg-white transition-transform duration-300 md:hidden ${
+        className={`fixed right-0 bottom-0 left-0 mx-auto h-15 w-full max-w-[600px] border-t bg-white transition-transform duration-300 ${
           scrollDirection === 'down' ? 'translate-y-full' : 'translate-y-0'
         }`}
       >
