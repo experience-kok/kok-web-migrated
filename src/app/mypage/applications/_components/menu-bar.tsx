@@ -43,7 +43,7 @@ export default function Menubar() {
       params.delete('status');
     }
 
-    router.push(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`);
   };
 
   return (
@@ -55,13 +55,15 @@ export default function Menubar() {
             variant={'ghost'}
             key={item.key}
             onClick={() => handleTabChange(item.key)}
-            className={`flex-1 justify-center gap-0 rounded-none border-b py-3 font-medium ${
-              activeTab === item.key ? 'text-foreground border-foreground' : 'text-gray-500'
+            className={`ck-body-2 flex-1 justify-center gap-0 rounded-none border-b py-3 font-medium ${
+              activeTab === item.key
+                ? 'text-ck-gray-900 border-ck-gray-700 ck-body-2-bold'
+                : 'text-ck-gray-700'
             }`}
           >
             {item.label}
             {item.count > 0 && (
-              <span className="text-muted-foreground text-sm">({item.count})</span>
+              <span className="text-ck-gray-700 ck-caption-2">({item.count})</span>
             )}
           </Button>
         ))}

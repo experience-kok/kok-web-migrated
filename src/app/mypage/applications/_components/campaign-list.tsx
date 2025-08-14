@@ -57,8 +57,8 @@ export default function CampaignList({
   // 로딩 상태 처리 (초기 로딩)
   if (isLoading && applications.length === 0) {
     return (
-      <div className="flex flex-col gap-6 px-4 py-10 lg:px-16">
-        {Array.from({ length: 12 }, (_, index) => (
+      <div className="flex flex-col gap-6 px-4 py-10">
+        {Array.from({ length: 6 }, (_, index) => (
           <CampaignItemSkeleton key={`campaign-skeleton-${index}`} />
         ))}
       </div>
@@ -78,7 +78,7 @@ export default function CampaignList({
 
   return (
     <>
-      <div className="flex flex-col gap-6 px-4 py-10 lg:px-16">
+      <div className="flex flex-col gap-6 px-4 py-10">
         {isApplications &&
           applications.map((application, index) => {
             // applicationStatus가 COMPLETED 또는 EXPIRED인 경우 grayscale 적용

@@ -21,7 +21,7 @@ export default function ProfileEditContainer() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const { mutate: handlePutProfile } = usePutProfileMutation();
+  const { mutate: handlePutProfile, isPending } = usePutProfileMutation();
 
   // 이미지 변경 함수
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +67,7 @@ export default function ProfileEditContainer() {
           age: user.age ?? 0,
         }}
         onSubmit={handleSubmit}
+        isPending={isPending}
       />
     </>
   );

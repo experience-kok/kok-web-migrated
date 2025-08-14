@@ -4,7 +4,6 @@ import { Camera } from 'lucide-react';
 import Image from 'next/image';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Text } from '@/components/ui/text';
 
 interface Props {
   preview: string | null;
@@ -60,13 +59,8 @@ export default function ProfileAvatar({ preview, profileImage, onFileChange }: P
         />
       </div>
 
-      <Text weight="bold" color="muted-foreground" className="mt-2">
-        프로필 이미지 등록
-      </Text>
-
-      <Text size={'sm'} color="red">
-        JPG 또는 PNG 파일만 업로드할 수 있어요.
-      </Text>
+      <div className="ck-body-1-bold text-ck-gray-700">프로필 이미지 등록</div>
+      <div className="ck-caption-1 text-ck-red-500">JPG 또는 PNG 파일만 업로드할 수 있어요.</div>
     </section>
   );
 }

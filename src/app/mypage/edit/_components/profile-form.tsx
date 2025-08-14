@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Text } from '@/components/ui/text';
 import type { Gender } from '@/models/user';
 import { EditForm, editFormSchema } from '@/schemas/profile.schemas';
 
@@ -19,12 +18,13 @@ interface Props {
     age: number;
   };
   onSubmit: (data: EditForm) => void;
+  isPending: boolean;
 }
 
 /**
  * 내 정보 수정 페이지의 유저 정보 수정 폼 컴포넌트
  */
-export default function ProfileForm({ defaultValues, onSubmit }: Props) {
+export default function ProfileForm({ defaultValues, onSubmit, isPending }: Props) {
   const {
     register,
     handleSubmit,
@@ -35,52 +35,40 @@ export default function ProfileForm({ defaultValues, onSubmit }: Props) {
     defaultValues,
   });
 
+  const isSubmitDisabled = isPending;
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-6 px-6">
-      <div className="grid w-full items-center gap-1.5">
-        <Label className="text-md">
-          닉네임 <span className="text-primary">*</span>
-        </Label>
-        <Input className="h-12" {...register('nickname', { required: true })} />
+    <form onSubmit={handleSubmit(onSubmit)} className="items-center space-y-3 px-6">
+      <div className="grid w-full items-center">
+        <div className="ck-body-2-bold mb-1">
+          닉네임 <span className="text-ck-red-500">*</span>
+        </div>
+        <Input {...register('nickname', { required: true })} />
         {errors.nickname && (
-          <Text color="red" size={'sm'}>
-            {errors.nickname.message}
-          </Text>
+          <p className="text-ck-red-500 ck-caption-1">{errors.nickname.message}</p>
         )}
       </div>
 
-      <div className="grid w-full items-center gap-1.5">
-        <Label className="text-md">
-          전화번호 <span className="text-primary">*</span>
-        </Label>
-        <Input className="h-12" {...register('phone', { required: true })} />
-        {errors.phone && (
-          <Text color="red" size={'sm'}>
-            {errors.phone.message}
-          </Text>
-        )}
+      <div className="grid w-full items-center">
+        <div className="ck-body-2-bold mb-1">
+          전화번호 <span className="text-ck-red-500">*</span>
+        </div>
+        <Input {...register('phone', { required: true })} />
+        {errors.phone && <p className="text-ck-red-500 ck-caption-1">{errors.phone.message}</p>}
       </div>
 
-      <div className="grid w-full items-center gap-1.5">
-        <Label className="text-md">
-          나이 <span className="text-primary">*</span>
-        </Label>
-        <Input
-          type="number"
-          className="h-12"
-          {...register('age', { required: true, valueAsNumber: true })}
-        />
-        {errors.age && (
-          <Text color="red" size={'sm'}>
-            {errors.age.message}
-          </Text>
-        )}
+      <div className="grid w-full items-center">
+        <div className="ck-body-2-bold mb-1">
+          나이 <span className="text-ck-red-500">*</span>
+        </div>
+        <Input type="number" {...register('age', { required: true, valueAsNumber: true })} />
+        {errors.age && <p className="text-ck-red-500 ck-caption-1">{errors.age.message}</p>}
       </div>
 
-      <div className="grid w-full items-center gap-1.5">
-        <Label className="text-md">
-          성별 <span className="text-primary">*</span>
-        </Label>
+      <div className="grid w-full items-center">
+        <div className="ck-body-2-bold mb-1">
+          성별 <span className="text-ck-red-500">*</span>
+        </div>
         <Controller
           control={control}
           name="gender"
@@ -106,15 +94,11 @@ export default function ProfileForm({ defaultValues, onSubmit }: Props) {
             </RadioGroup>
           )}
         />
-        {errors.gender && (
-          <Text color="red" size="sm">
-            {errors.gender.message}
-          </Text>
-        )}
+        {errors.gender && <p className="text-ck-red-500 ck-caption-1">{errors.gender.message}</p>}
       </div>
 
-      <Button className="w-full" size="lg" type="submit">
-        수정하기
+      <Button className="mt-5 w-full" size="lg" type="submit" disabled={isSubmitDisabled}>
+        {isPending ? '수정중...' : '수정하기'}
       </Button>
     </form>
   );
