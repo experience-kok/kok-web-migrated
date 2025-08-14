@@ -17,14 +17,16 @@ import VisitInfoForm from './visit-info-form';
 interface Props {
   onSubmit: SubmitHandler<CampaignCreateForm>;
   isPending: boolean;
+  hasSelectedFile: boolean; // 썸네일 파일 선택 여부
 }
 
 /**
  * 캠페인 등록 페이지 정보 등록 폼 컴포넌트
  */
-export default function InfoForm({ onSubmit, isPending }: Props) {
+export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props) {
   const form = useForm<CampaignCreateForm>({
     resolver: zodResolver(campaignCreateSchema),
+    mode: 'onChange', // 실시간 검증을 위해 추가
     defaultValues: {
       campaignType: undefined,
       categoryType: undefined,
@@ -34,7 +36,6 @@ export default function InfoForm({ onSubmit, isPending }: Props) {
       maxApplicants: undefined,
       recruitmentStartDate: '',
       recruitmentEndDate: '',
-      applicationDeadlineDate: '',
       selectionDate: '',
       reviewDeadlineDate: '',
       productDetails: '',
@@ -60,7 +61,7 @@ export default function InfoForm({ onSubmit, isPending }: Props) {
     control,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = form;
 
   const categoryType = watch('categoryType');
@@ -86,6 +87,9 @@ export default function InfoForm({ onSubmit, isPending }: Props) {
     console.log('제출된 데이터:', processedData);
     onSubmit(processedData);
   };
+
+  // 버튼 비활성화 조건: 폼이 유효하지 않거나, 썸네일이 선택되지 않거나, 등록 중일 때
+  const isSubmitDisabled = !isValid || !hasSelectedFile || isPending;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -137,7 +141,7 @@ export default function InfoForm({ onSubmit, isPending }: Props) {
       )}
 
       <section className="px-5 pb-5">
-        <Button className="w-full" size="lg" type="submit">
+        <Button className="w-full" size="lg" type="submit" disabled={isSubmitDisabled}>
           {isPending ? '등록 중...' : '등록하기'}
         </Button>
       </section>

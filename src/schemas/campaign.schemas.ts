@@ -31,7 +31,6 @@ export const campaignCreateSchema = z
     // 날짜 정보
     recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
     recruitmentEndDate: z.string().min(1, { message: '모집 종료일을 선택해 주세요.' }),
-    applicationDeadlineDate: z.string().min(1, { message: '지원 마감일을 선택해 주세요.' }),
     selectionDate: z.string().min(1, { message: '참가자 선정일을 선택해 주세요.' }),
     reviewDeadlineDate: z.string().min(1, { message: '리뷰 제출 마감일을 선택해 주세요.' }),
 
@@ -80,19 +79,6 @@ export const campaignCreateSchema = z
     {
       message: '모집 종료일은 시작일보다 늦어야 합니다.',
       path: ['recruitmentEndDate'],
-    },
-  )
-  .refine(
-    data => {
-      // 지원 마감일이 모집 시작일 이후이고 종료일 이전인지 확인
-      const startDate = new Date(data.recruitmentStartDate);
-      const endDate = new Date(data.recruitmentEndDate);
-      const applicationDeadline = new Date(data.applicationDeadlineDate);
-      return applicationDeadline >= startDate && applicationDeadline <= endDate;
-    },
-    {
-      message: '지원 마감일은 모집 시작일 이후이고 종료일 이전이어야 합니다.',
-      path: ['applicationDeadlineDate'],
     },
   )
   .refine(

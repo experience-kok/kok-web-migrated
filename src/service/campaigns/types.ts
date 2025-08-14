@@ -80,7 +80,6 @@ export interface PostCampaignRequest {
   productDetails: string;
   recruitmentStartDate: string;
   recruitmentEndDate: string;
-  applicationDeadlineDate: string;
   selectionDate: string;
   reviewDeadlineDate: string;
   selectionCriteria: string;
@@ -129,7 +128,6 @@ export interface GetCampaignDetailInfoResponse {
   selectionCriteria: string;
   reviewDeadlineDate: string;
   selectionDate: string;
-  applicationDeadlineDate: string;
 }
 /**
  * 캠페인 위치, 방문 정보 조회 (Visit Info)

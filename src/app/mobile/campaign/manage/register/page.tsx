@@ -63,7 +63,6 @@ export default function CampaignRegisterPage() {
       productDetails: formData.productDetails,
       recruitmentStartDate: formData.recruitmentStartDate,
       recruitmentEndDate: formData.recruitmentEndDate,
-      applicationDeadlineDate: formData.applicationDeadlineDate,
       selectionDate: formData.selectionDate,
       reviewDeadlineDate: formData.reviewDeadlineDate,
       selectionCriteria: formData.selectionCriteria,
@@ -106,7 +105,7 @@ export default function CampaignRegisterPage() {
 
       <SplitBox />
 
-      <InfoForm onSubmit={handleSubmit} isPending={isPending} />
+      <InfoForm onSubmit={handleSubmit} isPending={isPending} hasSelectedFile={!!selectedFile} />
     </>
   );
 }
