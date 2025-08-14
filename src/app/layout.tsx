@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} bg-ck-gray-300 mx-auto max-w-[600px] antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} bg-ck-gray-200 mx-auto max-w-[600px] antialiased`}
         suppressHydrationWarning={true}
       >
         <Provider>{children}</Provider>

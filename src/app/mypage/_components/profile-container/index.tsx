@@ -28,7 +28,7 @@ export default function ProfileContainer() {
               <Avatar className="h-20 w-20">
                 <AvatarImage asChild src={user.profileImage ?? undefined}>
                   <Image
-                    src={user.profileImage ?? '/kogi.svg'}
+                    src={user.profileImage ?? '/kogi.png'}
                     width={70}
                     height={70}
                     alt="프로필 이미지"

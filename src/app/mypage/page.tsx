@@ -21,7 +21,7 @@ export default function MyPage() {
         </Suspense>
       </ErrorBoundary>
 
-      <SplitBox className="h-2" />
+      <SplitBox />
 
       {/* 내 캠페인 영역 */}
       <section className="px-4 py-6">
@@ -39,7 +39,7 @@ export default function MyPage() {
         </ErrorBoundary>
       </section>
 
-      <SplitBox className="h-2" />
+      <SplitBox />
 
       <section className="px-4 py-6">
         <div className="mb-4 flex items-center justify-between">
@@ -48,7 +48,7 @@ export default function MyPage() {
         <Sns />
       </section>
 
-      <SplitBox className="h-2" />
+      <SplitBox />
 
       {/* 메뉴 목록 영역 */}
       <section className="px-4">
