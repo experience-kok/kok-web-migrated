@@ -56,17 +56,14 @@ export default function MainBanner({ banners }: Props) {
           loop: true,
           align: 'center',
           skipSnaps: false,
-          dragFree: true,
+          dragFree: false,
         }}
         setApi={setApi}
         plugins={[autoplayRef.current]}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {banners.map((banner, index) => (
-            <CarouselItem
-              key={index}
-              className="basis-[85%] pl-2 md:basis-[60%] md:pl-4 lg:basis-[45%]"
-            >
+            <CarouselItem key={index} className="basis-[85%] pl-2">
               <AspectRatio ratio={16 / 9} className="rounded-[12px]">
                 <Image
                   src={banner.bannerUrl}

@@ -40,7 +40,7 @@ export default function AdBanner() {
         <CarouselContent>
           {Array.from({ length: 3 }).map((_, index) => (
             <CarouselItem key={index}>
-              <Image src={AdImage} alt="광고 이미지" className="rounded-[12px]" />
+              <Image src={AdImage} alt="광고 이미지" className="w-full rounded-[12px]" />
             </CarouselItem>
           ))}
         </CarouselContent>
