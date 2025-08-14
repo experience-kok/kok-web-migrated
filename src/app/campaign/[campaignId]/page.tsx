@@ -192,7 +192,7 @@ export default async function CampaignDetailPage({ params }: Props) {
 
         <div className="ck-body-2 mt-1">
           아래 키워드 중 1개 이상을 선택해
-          <span className="ck-body-2-bold text-ck-red-500">반드시 본문</span>에 포함해주세요.
+          <span className="ck-body-2-bold text-ck-red-500"> 반드시 본문</span>에 포함해주세요.
         </div>
         <div className="ck-body-2">
           동일한 키워드는

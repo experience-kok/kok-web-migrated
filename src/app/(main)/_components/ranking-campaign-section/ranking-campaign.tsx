@@ -128,7 +128,7 @@ export default function RankingCampaign({ categoryData }: Props) {
                 ))}
 
                 {data.campaigns.length === 0 && (
-                  <div className="ck-body-2 py-8 text-center text-gray-500">
+                  <div className="ck-body-2 text-ck-gray-700 py-8 text-center">
                     {data.categoryName} 카테고리에 캠페인이 없어요.
                   </div>
                 )}

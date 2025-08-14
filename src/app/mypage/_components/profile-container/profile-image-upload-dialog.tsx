@@ -14,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogPortal,
 } from '@/components/ui/dialog';
 import { Text } from '@/components/ui/text';
 import { User } from '@/models/user';
@@ -76,60 +77,59 @@ export default function ProfileImageUploadDialog({ children, user }: Props) {
 
   return (
     <Dialog onOpenChange={handleCloseDialog}>
-      <DialogTrigger>{children}</DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>프로필 이미지 업로드</DialogTitle>
-        </DialogHeader>
+      <DialogPortal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>프로필 이미지 업로드</DialogTitle>
+          </DialogHeader>
 
-        <section className="flex flex-col items-center justify-center">
-          <div className="group relative">
-            <div className="relative cursor-pointer" onClick={handleAvatarClick}>
-              <Avatar className="h-20 w-20">
-                {preview ? (
-                  <AvatarImage asChild src={preview}>
-                    <Image src={preview} width={70} height={70} alt="프로필 이미지" />
-                  </AvatarImage>
-                ) : user.profileImage ? (
-                  <AvatarImage asChild src={user.profileImage}>
-                    <Image src={user.profileImage} width={70} height={70} alt="프로필 이미지" />
-                  </AvatarImage>
-                ) : null}
-                <AvatarFallback>
-                  <Image src={'/kogi.png'} width={70} height={70} alt="프로필 이미지" />
-                </AvatarFallback>
-              </Avatar>
+          <section className="flex flex-col items-center justify-center">
+            <div className="group relative">
+              <div className="relative cursor-pointer" onClick={handleAvatarClick}>
+                <Avatar className="h-20 w-20">
+                  {preview ? (
+                    <AvatarImage asChild src={preview}>
+                      <Image src={preview} width={70} height={70} alt="프로필 이미지" />
+                    </AvatarImage>
+                  ) : user.profileImage ? (
+                    <AvatarImage asChild src={user.profileImage}>
+                      <Image src={user.profileImage} width={70} height={70} alt="프로필 이미지" />
+                    </AvatarImage>
+                  ) : null}
+                  <AvatarFallback>
+                    <Image src={'/kogi.png'} width={70} height={70} alt="프로필 이미지" />
+                  </AvatarFallback>
+                </Avatar>
 
-              {/* 어두운 오버레이 */}
-              <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100" />
-
-              {/* 카메라 아이콘 */}
-              <div className="absolute right-0 bottom-0 flex h-8 w-8 items-center justify-center rounded-full border border-white bg-white">
-                <Camera size={20} className="fill-muted-foreground text-white" />
+                {/* 카메라 아이콘 */}
+                <div className="absolute right-0 bottom-0 flex h-8 w-8 items-center justify-center rounded-full border border-white bg-white">
+                  <Camera size={20} className="fill-muted-foreground text-white" />
+                </div>
               </div>
+
+              {/* 숨겨진 파일 입력 */}
+              <input
+                id="profile-image-input"
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={handleFileChange}
+                className="hidden"
+              />
             </div>
+            <Text size={'sm'} color="red" className="mt-2">
+              JPG 또는 PNG 파일만 업로드할 수 있어요.
+            </Text>
+          </section>
 
-            {/* 숨겨진 파일 입력 */}
-            <input
-              id="profile-image-input"
-              type="file"
-              accept="image/png, image/jpeg, image/jpg"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-          </div>
-          <Text size={'sm'} color="red" className="mt-2">
-            JPG 또는 PNG 파일만 업로드할 수 있어요.
-          </Text>
-        </section>
-
-        <DialogClose asChild>
-          <Button onClick={handleSubmit} disabled={!selectedFile}>
-            저장
-          </Button>
-        </DialogClose>
-      </DialogContent>
+          <DialogClose asChild>
+            <Button onClick={handleSubmit} disabled={!selectedFile}>
+              저장
+            </Button>
+          </DialogClose>
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   );
 }
