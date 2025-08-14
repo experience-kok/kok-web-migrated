@@ -24,7 +24,7 @@ export default function FooterMenu() {
     {
       icon: <Menu className="h-6 w-6" />,
       title: '카테고리',
-      url: '/mobile/category',
+      url: '/category',
     },
     {
       icon: <AlarmClock className="h-6 w-6" />,
@@ -34,7 +34,7 @@ export default function FooterMenu() {
     {
       icon: <House className="h-6 w-6" />,
       title: '홈',
-      url: '/mobile',
+      url: '/',
     },
     {
       icon: <Heart className="h-6 w-6" />,
@@ -44,7 +44,7 @@ export default function FooterMenu() {
     {
       icon: <UserRound className="h-6 w-6" />,
       title: '마이',
-      url: '/mobile/mypage',
+      url: '/mypage',
     },
   ];
 

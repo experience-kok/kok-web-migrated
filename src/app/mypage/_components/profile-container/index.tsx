@@ -53,7 +53,7 @@ export default function ProfileContainer() {
         <div className="flex flex-col items-start">
           <span className="ck-body-1 font-bold">{user.nickname}</span>
 
-          <Link href="/mobile/mypage/edit">
+          <Link href="/mypage/edit">
             <span className="ck-body-2 text-muted-foreground cursor-pointer underline">
               내 정보 수정
             </span>

@@ -27,7 +27,7 @@ export default function MyPage() {
       <section className="px-4 py-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="ck-title">내 캠페인</h2>
-          <Link className="ck-body-2 text-muted-foreground" href={`/mobile/mypage/applications`}>
+          <Link className="ck-body-2 text-muted-foreground" href={`/mypage/applications`}>
             더보기
           </Link>
         </div>

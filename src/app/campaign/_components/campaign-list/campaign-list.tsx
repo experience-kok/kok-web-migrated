@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import SearchCampaignCard from '@/app/mobile/campaign/_components/search-campaign-card/search-campaign-card';
-import SearchCampaignCardSkeleton from '@/app/mobile/campaign/_components/search-campaign-card/search-campaign-card-skeleton';
+import SearchCampaignCard from '@/app/campaign/_components/search-campaign-card/search-campaign-card';
+import SearchCampaignCardSkeleton from '@/app/campaign/_components/search-campaign-card/search-campaign-card-skeleton';
 import { Campaign } from '@/models/campaign';
 
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';

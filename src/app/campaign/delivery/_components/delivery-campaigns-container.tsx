@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 
-import CampaignList from '@/app/mobile/campaign/_components/campaign-list/campaign-list';
+import CampaignList from '@/app/campaign/_components/campaign-list/campaign-list';
 import { CampaignType, Sort, 배송카테고리 } from '@/models/campaign';
 import { useGetDeliveryCampaigns } from '@/service/campaigns/campaigns-query';
 

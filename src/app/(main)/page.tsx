@@ -1,13 +1,13 @@
 import { Suspense } from '@suspensive/react';
 
-import AdBanner from '../_components/ad-banner';
-import MainBannerSection from '../_components/main-banner-section';
-import MainBannerSkeleton from '../_components/main-banner-section/main-banner-skeleton';
-import PopularCampaignSection from '../_components/popular-campaign-section';
-import PopularCampaignSkeleton from '../_components/popular-campaign-section/popular-campaign-skeleton';
-import QuickMenu from '../_components/quick-menu';
-import RankingCampaignSection from '../_components/ranking-campaign-section';
-import RankingCampaignSkeleton from '../_components/ranking-campaign-section/ranking-campaign-skeleton';
+import AdBanner from './_components/ad-banner';
+import MainBannerSection from './_components/main-banner-section';
+import MainBannerSkeleton from './_components/main-banner-section/main-banner-skeleton';
+import PopularCampaignSection from './_components/popular-campaign-section';
+import PopularCampaignSkeleton from './_components/popular-campaign-section/popular-campaign-skeleton';
+import QuickMenu from './_components/quick-menu';
+import RankingCampaignSection from './_components/ranking-campaign-section';
+import RankingCampaignSkeleton from './_components/ranking-campaign-section/ranking-campaign-skeleton';
 
 export default function Home() {
   return (
