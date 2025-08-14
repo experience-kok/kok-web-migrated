@@ -11,7 +11,7 @@ export default function MobileLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="h-full w-full flex-grow">{children}</main>
+      <main className="h-full w-full flex-grow bg-white">{children}</main>
       <FooterMenu />
       <Footer />
 

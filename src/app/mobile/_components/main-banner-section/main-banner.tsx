@@ -56,7 +56,7 @@ export default function MainBanner({ banners }: Props) {
           loop: true,
           align: 'center',
           skipSnaps: false,
-          dragFree: false,
+          dragFree: true,
         }}
         setApi={setApi}
         plugins={[autoplayRef.current]}

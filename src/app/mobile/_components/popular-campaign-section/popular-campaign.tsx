@@ -22,10 +22,7 @@ export default function PopularCampaign({ campaigns }: Props) {
     >
       <CarouselContent className="-ml-4">
         {campaigns.map((campaign, index) => (
-          <CarouselItem
-            key={index}
-            className="basis-[38%] pl-4 sm:basis-[22%] md:basis-[22%] lg:basis-[15%]"
-          >
+          <CarouselItem key={index} className="basis-[38%] pl-4">
             <PopularCampaignCard campaign={campaign} />
           </CarouselItem>
         ))}

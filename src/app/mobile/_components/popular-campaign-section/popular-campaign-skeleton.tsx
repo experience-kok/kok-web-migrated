@@ -17,10 +17,7 @@ export default function PopularCampaignSkeleton() {
     >
       <CarouselContent className="-ml-4">
         {Array.from({ length: 8 }).map((_, index) => (
-          <CarouselItem
-            key={index}
-            className="basis-[38%] pl-4 sm:basis-[22%] md:basis-[22%] lg:basis-[15%]"
-          >
+          <CarouselItem key={index} className="basis-[38%] pl-4">
             <PopularCampaignCardSkeleton />
           </CarouselItem>
         ))}
