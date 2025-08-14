@@ -11,6 +11,7 @@ import {
 import { GetCampaignLocationInfoResponse } from '@/service/campaigns/types';
 
 import CampaignApplicant from './_components/campaign-applicant';
+import CampaignCategoryTypeBadge from './_components/campaign-category-type-badge';
 import CampaignThumbnail from './_components/campaign-thumbnail';
 import CampaignVisitInfo from './_components/campaign-visit-info';
 
@@ -78,6 +79,9 @@ export default async function CampaignDetailPage({ params }: Props) {
           <p className="ck-title">{title}</p>
 
           <CampaignApplicant currentApplicants={currentApplicants} maxApplicants={maxApplicants} />
+          <div className="mt-2">
+            <CampaignCategoryTypeBadge type={categoryType} />
+          </div>
         </div>
       </section>
 
