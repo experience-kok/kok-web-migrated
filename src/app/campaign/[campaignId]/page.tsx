@@ -169,7 +169,7 @@ export default async function CampaignDetailPage({ params }: Props) {
       )}
 
       {/* 추가 안내사항 */}
-      <section className="px-5 pt-8 pb-5">
+      <section className="px-5 pt-8 pb-40">
         <div className="ck-sub-title-1">안내사항</div>
 
         <div className="mt-2">

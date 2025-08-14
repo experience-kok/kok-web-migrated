@@ -11,7 +11,7 @@ export default function CampaignHeader() {
   };
 
   return (
-    <header className="relative z-10 flex h-16 w-full border-b border-gray-100/50 bg-white/80 backdrop-blur-xl">
+    <header className="relative z-10 flex h-16 w-full border-b border-gray-100/50 bg-white backdrop-blur-xl">
       <div className="h-full w-full px-5">
         <div className="flex h-full w-full items-center">
           <div className="flex h-full w-full items-center">
