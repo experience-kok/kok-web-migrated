@@ -4,6 +4,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogButton,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import SplitBox from '@/components/ui/split-box';
 import { CampaignCategoryName, CampaignCategoryType } from '@/models/campaign';
 import { CampaignCreateForm, campaignCreateSchema } from '@/schemas/campaign.schemas';
@@ -37,6 +48,7 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
       recruitmentStartDate: '',
       recruitmentEndDate: '',
       selectionDate: '',
+      reviewStartDate: '',
       reviewDeadlineDate: '',
       productDetails: '',
       selectionCriteria: '',
@@ -141,9 +153,60 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
       )}
 
       <section className="px-5 pb-5">
-        <Button className="w-full" size="lg" type="submit" disabled={isSubmitDisabled}>
-          {isPending ? '등록 중...' : '등록하기'}
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="w-full" size="lg" disabled={isSubmitDisabled}>
+              {isPending ? '등록 중...' : '등록하기'}
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>캠페인을 등록할까요?</DialogTitle>
+              <DialogDescription asChild>
+                <div className="max-h-[300px] overflow-y-scroll">
+                  <section className="mb-4">
+                    <h3 className="ck-body-1-bold mb-2">등록 후 수정이 불가한 항목</h3>
+                    <ul className="space-y-1" role="list">
+                      <li>• 담당자명</li>
+                      <li>• 연락처</li>
+                    </ul>
+                  </section>
+
+                  <section>
+                    <h3 className="ck-body-1-bold mb-2">지원자가 없는 경우에만 수정 가능한 항목</h3>
+                    <ul className="space-y-1" role="list">
+                      <li>• 캠페인 타입</li>
+                      <li>• 카테고리 타입</li>
+                      <li>• 카테고리</li>
+                      <li>• 제품 서비스 간략 정보</li>
+                      <li>• 캠페인 모집 시작일</li>
+                      <li>• 캠페인 모집 종료일</li>
+                      <li>• 제공 제품/서비스 상세 정보</li>
+                      <li>• 선정 기준</li>
+                      <li>• 참가자 발표일</li>
+                      <li>• 미션 가이드</li>
+                      <li>• 미션 키워드</li>
+                      <li>• 미션 시작일</li>
+                      <li>• 미션 마감일</li>
+                    </ul>
+                  </section>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+
+            <DialogFooter className="flex flex-row items-center justify-end">
+              <DialogClose asChild>
+                <DialogButton variant="ghost">취소</DialogButton>
+              </DialogClose>
+              <DialogClose asChild>
+                <DialogButton onClick={handleSubmit(handleFormSubmit)} disabled={isSubmitDisabled}>
+                  {isPending ? '등록 중...' : '등록하기'}
+                </DialogButton>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </section>
     </form>
   );

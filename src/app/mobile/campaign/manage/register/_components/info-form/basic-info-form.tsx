@@ -161,10 +161,10 @@ export default function BasicInfoForm({
         )}
       </div>
 
-      {/* 최대 지원 가능 인원 */}
+      {/* 선정 인원 */}
       <div className="space-y-2">
         <div className="ck-body-2-bold mb-1">
-          최대 지원 가능 인원 <span className="text-ck-red-500">*</span>
+          선정 인원 <span className="text-ck-red-500">*</span>
         </div>
 
         <div className="flex items-center gap-2">

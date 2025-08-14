@@ -30,7 +30,7 @@ export default function CompanyInfoForm({ register, errors }: Props) {
       {/* 연락처 */}
       <div>
         <div className="ck-body-2-bold mb-1">
-          연락처 <span className="text-ck-red-500">*</span>
+          담당자 연락처 <span className="text-ck-red-500">*</span>
         </div>
         <Input {...register('phoneNumber')} placeholder="010-1234-5678" />
         {errors.phoneNumber && (

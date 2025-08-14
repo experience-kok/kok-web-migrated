@@ -81,6 +81,7 @@ export interface PostCampaignRequest {
   recruitmentStartDate: string;
   recruitmentEndDate: string;
   selectionDate: string;
+  reviewStartDate: string;
   reviewDeadlineDate: string;
   selectionCriteria: string;
   missionGuide: string;
@@ -126,6 +127,7 @@ export interface GetCampaignDetailInfoResponse {
   productShortInfo: string;
   productDetails: string;
   selectionCriteria: string;
+  reviewStartDate: string;
   reviewDeadlineDate: string;
   selectionDate: string;
 }

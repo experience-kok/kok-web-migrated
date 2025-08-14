@@ -64,6 +64,7 @@ export default function CampaignRegisterPage() {
       recruitmentStartDate: formData.recruitmentStartDate,
       recruitmentEndDate: formData.recruitmentEndDate,
       selectionDate: formData.selectionDate,
+      reviewStartDate: formData.reviewStartDate,
       reviewDeadlineDate: formData.reviewDeadlineDate,
       selectionCriteria: formData.selectionCriteria,
       missionGuide: formData.missionGuide,

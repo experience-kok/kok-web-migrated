@@ -89,6 +89,20 @@ export default function MissionInfoForm({ register, errors, missionKeywords }: P
         </div>
       </div>
 
+      {/* 미션 시작일 */}
+      <div>
+        <div className="ck-body-2-bold mb-1">
+          미션 시작일 <span className="text-ck-red-500">*</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Calendar className="text-ck-gray-700 size-4" />
+          <Input {...register('reviewStartDate')} type="date" />
+        </div>
+        {errors.reviewStartDate && (
+          <p className="text-ck-red-500 ck-caption-1">{errors.reviewStartDate.message}</p>
+        )}
+      </div>
+
       {/* 미션 마감일 */}
       <div>
         <div className="ck-body-2-bold mb-1">
