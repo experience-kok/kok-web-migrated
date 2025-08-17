@@ -81,14 +81,21 @@ export interface PostCampaignRequest {
   recruitmentStartDate: string;
   recruitmentEndDate: string;
   selectionDate: string;
-  reviewStartDate: string;
-  reviewDeadlineDate: string;
   selectionCriteria: string;
-  missionGuide: string;
-  missionKeywords: string[];
   category: {
     type: CampaignCategoryType;
     name: CampaignCategoryName;
+  };
+  missionInfo: {
+    titleKeywords: string[];
+    bodyKeywords: string[];
+    numberOfVideo: number;
+    numberOfImage: number;
+    numberOfText: number;
+    isMap: boolean;
+    missionGuide: string;
+    missionStartDate: string;
+    missionDeadlineDate: string;
   };
   companyInfo: {
     contactPerson: string;

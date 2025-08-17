@@ -48,12 +48,17 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
       recruitmentStartDate: '',
       recruitmentEndDate: '',
       selectionDate: '',
-      reviewStartDate: '',
-      reviewDeadlineDate: '',
+      missionStartDate: '',
+      missionDeadlineDate: '',
+      titleKeywords: '',
+      bodyKeywords: '',
+      numberOfVideo: 0,
+      numberOfImage: 0,
+      numberOfText: 0,
+      isMap: false,
       productDetails: '',
       selectionCriteria: '',
       missionGuide: '',
-      missionKeywords: '',
       homepage: '',
       contactPhone: '',
       visitAndReservationInfo: '',
@@ -77,7 +82,8 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
   } = form;
 
   const categoryType = watch('categoryType');
-  const missionKeywords = watch('missionKeywords');
+  const titleKeywords = watch('titleKeywords');
+  const bodyKeywords = watch('bodyKeywords');
 
   const handleCategoryTypeChange = (value: CampaignCategoryType) => {
     setValue('categoryType', value);
@@ -89,7 +95,12 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
 
     const processedData = {
       ...data,
-      missionKeywords: data.missionKeywords
+      titleKeywords: data.titleKeywords
+        .split(',')
+        .map(keyword => keyword.trim())
+        .filter(keyword => keyword.length > 0)
+        .join(', '),
+      bodyKeywords: data.bodyKeywords
         .split(',')
         .map(keyword => keyword.trim())
         .filter(keyword => keyword.length > 0)
@@ -138,7 +149,12 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
       {/* 미션 정보 섹션 */}
       <section className="px-5 pt-8 pb-5">
         <p className="ck-sub-title-1 mb-2">미션 정보</p>
-        <MissionInfoForm register={register} errors={errors} missionKeywords={missionKeywords} />
+        <MissionInfoForm
+          register={register}
+          errors={errors}
+          titleKeywords={titleKeywords}
+          bodyKeywords={bodyKeywords}
+        />
       </section>
 
       {/* 방문 정보 섹션 - 카테고리 타입이 "방문"일 때만 표시 */}

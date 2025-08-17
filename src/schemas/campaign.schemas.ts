@@ -32,8 +32,34 @@ export const campaignCreateSchema = z
     recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
     recruitmentEndDate: z.string().min(1, { message: '모집 종료일을 선택해 주세요.' }),
     selectionDate: z.string().min(1, { message: '참가자 발표일을 선택해 주세요.' }),
-    reviewStartDate: z.string().min(1, { message: '미션 시작일을 선택해 주세요.' }),
-    reviewDeadlineDate: z.string().min(1, { message: '미션 마감일을 선택해 주세요.' }),
+
+    // 미션 정보
+    missionStartDate: z.string().min(1, { message: '미션 시작일을 선택해 주세요.' }),
+    missionDeadlineDate: z.string().min(1, { message: '미션 마감일을 선택해 주세요.' }),
+    titleKeywords: z.string().min(1, { message: '제목 키워드를 입력해 주세요.' }),
+    bodyKeywords: z.string().min(1, { message: '본문 키워드를 입력해 주세요.' }),
+    numberOfVideo: z
+      .number({
+        required_error: '비디오 개수를 입력해 주세요.',
+        invalid_type_error: '비디오 개수는 숫자여야 합니다.',
+      })
+      .min(0, { message: '비디오 개수는 0개 이상이어야 합니다.' }),
+    numberOfImage: z
+      .number({
+        required_error: '이미지 개수를 입력해 주세요.',
+        invalid_type_error: '이미지 개수는 숫자여야 합니다.',
+      })
+      .min(0, { message: '이미지 개수는 0개 이상이어야 합니다.' }),
+    numberOfText: z
+      .number({
+        required_error: '본문 작성 텍스트 수를 입력해 주세요.',
+        invalid_type_error: '본문 작성 텍스트 수는 숫자여야 합니다.',
+      })
+      .min(0, { message: '본문 작성 텍스트 수는 0자 이상이어야 합니다.' }),
+    isMap: z.boolean({
+      required_error: '지도 표시 여부를 선택해 주세요.',
+      invalid_type_error: '지도 표시 여부는 boolean 타입이어야 합니다.',
+    }),
 
     // 상세 정보
     productShortInfo: z
@@ -43,7 +69,6 @@ export const campaignCreateSchema = z
     productDetails: z.string().min(1, { message: '제공 제품/서비스 상세 정보를 입력해 주세요.' }),
     selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
     missionGuide: z.string().min(1, { message: '미션 가이드를 입력해 주세요.' }),
-    missionKeywords: z.string().min(1, { message: '미션 키워드를 입력해 주세요.' }),
 
     // 방문 정보 (categoryType이 '방문'일 때만 필수)
     homepage: z.string().optional(), // 선택적 필드
@@ -98,24 +123,24 @@ export const campaignCreateSchema = z
     data => {
       // 미션 시작일이 참가자 선정일보다 늦은지 확인
       const selectionDate = new Date(data.selectionDate);
-      const reviewStartDate = new Date(data.reviewStartDate);
-      return reviewStartDate >= selectionDate;
+      const missionStartDate = new Date(data.missionStartDate);
+      return missionStartDate >= selectionDate;
     },
     {
       message: '미션 시작일은 참가자 발표일과 같거나 늦어야 합니다.',
-      path: ['reviewStartDate'],
+      path: ['missionStartDate'],
     },
   )
   .refine(
     data => {
       // 미션 마감일이 미션 시작일보다 늦은지 확인
-      const reviewStartDate = new Date(data.reviewStartDate);
-      const reviewDeadlineDate = new Date(data.reviewDeadlineDate);
-      return reviewDeadlineDate >= reviewStartDate;
+      const missionStartDate = new Date(data.missionStartDate);
+      const missionDeadlineDate = new Date(data.missionDeadlineDate);
+      return missionDeadlineDate >= missionStartDate;
     },
     {
       message: '미션 마감일은 미션 시작일과 같거나 늦어야 합니다.',
-      path: ['reviewDeadlineDate'],
+      path: ['missionDeadlineDate'],
     },
   )
   // 카테고리 타입이 '방문'일 때만 방문 정보 필드들을 필수로 검증

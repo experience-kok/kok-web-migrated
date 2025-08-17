@@ -49,7 +49,7 @@ export function usePostCampaignMutation() {
     },
     onSuccess: () => {
       toast.success('캠페인 등록이 완료되었어요.', { position: 'top-center' });
-      router.push('/campaign/manage');
+      router.push('/mypage');
     },
     onError: () => {
       toast.error('캠페인 등록을 실패했어요.', {
