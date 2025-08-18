@@ -50,12 +50,17 @@ export default function CampaignRegisterPage() {
     }
 
     // 미션 키워드를 배열로 변환
-    const missionKeywords = formData.missionKeywords
+    const titleKeywords = formData.titleKeywords
+      .split(',')
+      .map(keyword => keyword.trim())
+      .filter(keyword => keyword.length > 0);
+    const bodyKeywords = formData.bodyKeywords
       .split(',')
       .map(keyword => keyword.trim())
       .filter(keyword => keyword.length > 0);
 
     const campaignData: Omit<PostCampaignRequest, 'thumbnailUrl'> = {
+      isAlwaysOpen: formData.isAlwaysOpen,
       campaignType: formData.campaignType,
       title: formData.title,
       productShortInfo: formData.productShortInfo,
@@ -64,11 +69,18 @@ export default function CampaignRegisterPage() {
       recruitmentStartDate: formData.recruitmentStartDate,
       recruitmentEndDate: formData.recruitmentEndDate,
       selectionDate: formData.selectionDate,
-      reviewStartDate: formData.reviewStartDate,
-      reviewDeadlineDate: formData.reviewDeadlineDate,
       selectionCriteria: formData.selectionCriteria,
-      missionGuide: formData.missionGuide,
-      missionKeywords: missionKeywords,
+      missionInfo: {
+        titleKeywords,
+        bodyKeywords,
+        numberOfVideo: formData.numberOfVideo,
+        numberOfImage: formData.numberOfImage,
+        numberOfText: formData.numberOfText,
+        isMap: formData.isMap,
+        missionStartDate: formData.missionStartDate,
+        missionDeadlineDate: formData.missionDeadlineDate,
+        missionGuide: formData.missionGuide,
+      },
       category: {
         type: formData.categoryType,
         name: formData.categoryName,

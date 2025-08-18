@@ -1,9 +1,10 @@
+import { Image as ImageIcon, Type as TypeIcon, SquarePlay, MapPin } from 'lucide-react';
+
 import CampaignTypeBadge from '@/components/shared/campaign-card/campaign-type-badge';
 import SplitBox from '@/components/ui/split-box';
 import {
   getCampaignBasicInfo,
   getCampaignDetailInfo,
-  getCampaignKeywords,
   getCampaignLocation,
   getCampaignMissionGuide,
   getCampaignThumbnail,
@@ -42,14 +43,22 @@ export default async function CampaignDetailPage({ params }: Props) {
   } = await getCampaignBasicInfo(Number(campaignId));
 
   // 캠페인 주요 일정
-  const { productDetails, selectionCriteria, reviewStartDate, reviewDeadlineDate, selectionDate } =
+  const { isAlwaysOpen, productDetails, selectionCriteria, selectionDate } =
     await getCampaignDetailInfo(Number(campaignId));
 
   // 캠페인 미션 가이드
-  const { missionGuide } = await getCampaignMissionGuide(Number(campaignId));
-
-  // 캠페인 미션 키워드
-  const { missionKeywords } = await getCampaignKeywords(Number(campaignId));
+  const { missionInfo } = await getCampaignMissionGuide(Number(campaignId));
+  const {
+    missionGuide,
+    titleKeywords,
+    bodyKeywords,
+    numberOfVideo,
+    numberOfImage,
+    numberOfText,
+    isMap,
+    missionStartDate,
+    missionDeadlineDate,
+  } = missionInfo || {};
 
   // 캠페인 위치 정보 (방문 캠페인일 때만 호출)
   let locationData: GetCampaignLocationInfoResponse | null = null;
@@ -58,8 +67,13 @@ export default async function CampaignDetailPage({ params }: Props) {
   }
 
   // 캠페인 키워드
-  const parsedMissionKeywords = Array.isArray(missionKeywords)
-    ? missionKeywords
+  const parsedTitleKeywords = Array.isArray(titleKeywords)
+    ? titleKeywords
+        .filter(keyword => keyword && typeof keyword === 'string') // null, undefined, 빈 문자열 필터링
+        .map(keyword => `#${keyword.trim()}`) // 공백 제거 후 # 추가
+    : [];
+  const parsedBodyKeywords = Array.isArray(bodyKeywords)
+    ? bodyKeywords
         .filter(keyword => keyword && typeof keyword === 'string') // null, undefined, 빈 문자열 필터링
         .map(keyword => `#${keyword.trim()}`) // 공백 제거 후 # 추가
     : [];
@@ -93,19 +107,26 @@ export default async function CampaignDetailPage({ params }: Props) {
         <div className="mt-2 flex items-center">
           <div className="ck-body-2-bold w-24">캠페인 모집 기간</div>
           <div className="ck-body-2 text-ck-gray-700 ml-3">
-            {recruitmentStartDate} ~ {recruitmentEndDate}
+            {isAlwaysOpen || !recruitmentEndDate
+              ? '상시 모집'
+              : `${recruitmentStartDate} ~ ${recruitmentEndDate}`}
           </div>
         </div>
-        <div className="mt-1 flex items-center">
-          <div className="ck-body-2-bold w-24">발표일</div>
-          <div className="ck-body-2 text-ck-gray-700 ml-3">{selectionDate}</div>
-        </div>
-        <div className="mt-1 flex items-center">
-          <div className="ck-body-2-bold w-24">체험&리뷰</div>
-          <div className="ck-body-2 text-ck-gray-700 ml-3">
-            {reviewStartDate} ~ {reviewDeadlineDate}
+
+        {!isAlwaysOpen && selectionDate && (
+          <div className="mt-1 flex items-center">
+            <div className="ck-body-2-bold w-24">발표일</div>
+            <div className="ck-body-2 text-ck-gray-700 ml-3">{selectionDate}</div>
           </div>
-        </div>
+        )}
+        {!isAlwaysOpen && missionStartDate && missionDeadlineDate && (
+          <div className="mt-1 flex items-center">
+            <div className="ck-body-2-bold w-24">체험&리뷰</div>
+            <div className="ck-body-2 text-ck-gray-700 ml-3">
+              {missionStartDate} ~ {missionDeadlineDate}
+            </div>
+          </div>
+        )}
       </section>
 
       <SplitBox />
@@ -138,7 +159,30 @@ export default async function CampaignDetailPage({ params }: Props) {
       <section className="px-5 pt-8 pb-5">
         <div className="ck-sub-title-1">미션 가이드</div>
 
-        <div className="ck-body-2 text-ck-gray-700 mt-2">{missionGuide}</div>
+        <div className="mt-2 flex items-center gap-4">
+          <div className="text-ck-gray-900 flex flex-col items-center gap-2">
+            <TypeIcon className="size-6" />
+            <div className="ck-caption-2">{numberOfText}자↑</div>
+          </div>
+          <div className="text-ck-gray-900 flex flex-col items-center gap-2">
+            <ImageIcon className="size-6" />
+            <div className="ck-caption-2">{numberOfImage}장↑</div>
+          </div>
+          <div className="text-ck-gray-900 flex flex-col items-center gap-2">
+            <SquarePlay className="size-6" />
+            <div className="ck-caption-2">{numberOfVideo}개↑</div>
+          </div>
+          {isMap && (
+            <div className="text-ck-gray-900 flex flex-col items-center gap-2">
+              <MapPin className="size-6" />
+              <div className="ck-caption-2">지도필수</div>
+            </div>
+          )}
+        </div>
+
+        <div className="ck-body-2 text-ck-gray-900 mt-3">
+          {missionGuide || '미션 가이드가 없습니다.'}
+        </div>
 
         <div className="mt-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
           <p className="ck-caption-2 text-yellow-800">
@@ -162,9 +206,9 @@ export default async function CampaignDetailPage({ params }: Props) {
         </div>
 
         {/* 제목 키워드 */}
-        {parsedMissionKeywords.length > 0 ? (
+        {parsedTitleKeywords.length > 0 ? (
           <div className="mt-2 flex flex-wrap gap-2">
-            {parsedMissionKeywords.map((keyword, index) => (
+            {parsedTitleKeywords.map((keyword, index) => (
               <span
                 key={index}
                 className="ck-caption-2 text-ck-blue-800 bg-ck-blue-100 inline-block rounded-full px-3 py-1"
@@ -201,9 +245,9 @@ export default async function CampaignDetailPage({ params }: Props) {
         </div>
 
         {/* 본문 키워드 */}
-        {parsedMissionKeywords.length > 0 ? (
+        {parsedBodyKeywords.length > 0 ? (
           <div className="mt-2 flex flex-wrap gap-2">
-            {parsedMissionKeywords.map((keyword, index) => (
+            {parsedBodyKeywords.map((keyword, index) => (
               <span
                 key={index}
                 className="ck-caption-2 text-ck-blue-800 bg-ck-blue-100 inline-block rounded-full px-3 py-1"

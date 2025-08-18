@@ -10,15 +10,16 @@ import { CampaignCreateForm } from '@/schemas/campaign.schemas';
 interface Props {
   register: UseFormRegister<CampaignCreateForm>;
   errors: FieldErrors<CampaignCreateForm>;
+  isAlwaysOpen: boolean;
 }
 
 /**
  * 캠페인 등록 페이지 상세 정보 등록 컴포넌트
  */
-export default function DetailInfoForm({ register, errors }: Props) {
+export default function DetailInfoForm({ register, errors, isAlwaysOpen }: Props) {
   return (
     <div className="space-y-3">
-      {/* 캠페인 타입 */}
+      {/* 제공 제품/서비스 상세 정보 */}
       <div>
         <div className="ck-body-2-bold mb-1">
           제공 제품/서비스 상세 정보 <span className="text-ck-red-500">*</span>
@@ -48,19 +49,21 @@ export default function DetailInfoForm({ register, errors }: Props) {
         )}
       </div>
 
-      {/* 참가자 선정일 */}
-      <div>
-        <div className="ck-body-2-bold mb-1">
-          참가자 발표일 <span className="text-ck-red-500">*</span>
+      {/* 참가자 선정일 - 상시 캠페인이 아닐 때만 표시 */}
+      {!isAlwaysOpen && (
+        <div>
+          <div className="ck-body-2-bold mb-1">
+            참가자 발표일 <span className="text-ck-red-500">*</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Calendar className="text-ck-gray-700 size-4" />
+            <Input {...register('selectionDate')} type="date" />
+          </div>
+          {errors.selectionDate && (
+            <p className="text-ck-red-500 ck-caption-1">{errors.selectionDate.message}</p>
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <Calendar className="text-ck-gray-700 size-4" />
-          <Input {...register('selectionDate')} type="date" />
-        </div>
-        {errors.selectionDate && (
-          <p className="text-ck-red-500 ck-caption-1">{errors.selectionDate.message}</p>
-        )}
-      </div>
+      )}
     </div>
   );
 }

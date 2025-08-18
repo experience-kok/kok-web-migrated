@@ -26,7 +26,7 @@ export interface Campaign {
   productShortInfo: string; // 제공 제품 한 줄
   currentApplicants: number; // 현재 지원 인원
   maxApplicants: number; // 최대 지원 인원
-  applicationDeadlineDate: string; // 지원 마감일
+  recruitmentEndDate: string; // 지원 마감일
   thumbnailUrl: string;
   category: {
     type: CampaignCategoryType;
