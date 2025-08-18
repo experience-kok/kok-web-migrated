@@ -81,7 +81,7 @@ export interface PostCampaignRequest {
   productDetails: string;
   recruitmentStartDate: string; // 모집 시작일
   recruitmentEndDate?: string; // 모집 종료일
-  selectionDate: string; // 선정일
+  selectionDate?: string; // 선정일
   selectionCriteria: string; // 선정 조건
   category: {
     type: CampaignCategoryType;
@@ -123,21 +123,20 @@ export interface GetCampaignBasicInfoResponse {
   categoryType: CampaignCategoryType;
   categoryName: CampaignCategoryName;
   title: string;
-  maxApplicants: number;
+  maxApplicants: number | null;
   currentApplicants: number;
   recruitmentStartDate: string;
-  recruitmentEndDate: string;
+  recruitmentEndDate: string | null;
 }
 /**
  * 캠페인 상세 정보 조회 응답
  */
 export interface GetCampaignDetailInfoResponse {
   campaignId: number;
+  isAlwaysOpen: false;
   productShortInfo: string;
   productDetails: string;
   selectionCriteria: string;
-  reviewStartDate: string;
-  reviewDeadlineDate: string;
   selectionDate: string;
 }
 /**

@@ -156,7 +156,7 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
       {/* 상세 정보 섹션 */}
       <section className="px-5 pt-8 pb-5">
         <p className="ck-sub-title-1 mb-2">상세 정보</p>
-        <DetailInfoForm register={register} errors={errors} />
+        <DetailInfoForm register={register} errors={errors} isAlwaysOpen={isAlwaysOpen} />
       </section>
 
       <SplitBox />

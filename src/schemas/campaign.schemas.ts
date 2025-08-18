@@ -32,7 +32,7 @@ export const campaignCreateSchema = z
     // 날짜 정보
     recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
     recruitmentEndDate: z.string().optional(),
-    selectionDate: z.string().min(1, { message: '참가자 발표일을 선택해 주세요.' }),
+    selectionDate: z.string().optional(),
     selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
 
     // 카테고리 정보
@@ -89,7 +89,7 @@ export const campaignCreateSchema = z
       }),
 
     // 방문 정보 (categoryType이 '방문'일 때만 필수)
-    homepage: z.string().optional(), // 선택적 필드
+    homepage: z.string().optional(),
     contactPhone: z.string().optional(),
     visitAndReservationInfo: z.string().optional(),
     businessAddress: z.string().optional(),
@@ -123,11 +123,23 @@ export const campaignCreateSchema = z
       path: ['recruitmentEndDate'],
     },
   )
-  // 상시 캠페인이 아닐 경우에만 날짜 검증
+  // 상시 캠페인이 아닐 경우 selectionDate 필수 검증
+  .refine(
+    data => {
+      if (!data.isAlwaysOpen) {
+        return data.selectionDate && data.selectionDate.length > 0;
+      }
+      return true;
+    },
+    {
+      message: '참가자 발표일을 선택해 주세요.',
+      path: ['selectionDate'],
+    },
+  )
+  // 상시 캠페인이 아닐 경우에만 날짜 검증 - 모집 종료일이 시작일보다 늦은지 확인
   .refine(
     data => {
       if (!data.isAlwaysOpen && data.recruitmentEndDate) {
-        // 모집 종료일이 시작일보다 늦은지 확인
         const startDate = new Date(data.recruitmentStartDate);
         const endDate = new Date(data.recruitmentEndDate);
         return endDate > startDate;
@@ -139,10 +151,10 @@ export const campaignCreateSchema = z
       path: ['recruitmentEndDate'],
     },
   )
+  // 상시 캠페인이 아닐 경우에만 날짜 검증 - 참가자 발표일이 모집 종료일보다 늦은지 확인
   .refine(
     data => {
-      if (!data.isAlwaysOpen && data.recruitmentEndDate) {
-        // 참가자 발표일이 모집 종료일보다 늦은지 확인
+      if (!data.isAlwaysOpen && data.recruitmentEndDate && data.selectionDate) {
         const endDate = new Date(data.recruitmentEndDate);
         const selectionDate = new Date(data.selectionDate);
         return selectionDate >= endDate;
@@ -179,10 +191,10 @@ export const campaignCreateSchema = z
       path: ['missionDeadlineDate'],
     },
   )
+  // 상시 캠페인이 아닐 경우에만 미션 시작일이 참가자 선정일보다 늦은지 확인
   .refine(
     data => {
-      // 상시 캠페인이 아닐 경우에만 미션 시작일이 참가자 선정일보다 늦은지 확인
-      if (!data.isAlwaysOpen && data.missionStartDate) {
+      if (!data.isAlwaysOpen && data.missionStartDate && data.selectionDate) {
         const selectionDate = new Date(data.selectionDate);
         const missionStartDate = new Date(data.missionStartDate);
         return missionStartDate >= selectionDate;
@@ -194,9 +206,9 @@ export const campaignCreateSchema = z
       path: ['missionStartDate'],
     },
   )
+  // 상시 캠페인이 아닐 경우에만 미션 마감일이 미션 시작일보다 늦은지 확인
   .refine(
     data => {
-      // 상시 캠페인이 아닐 경우에만 미션 마감일이 미션 시작일보다 늦은지 확인
       if (!data.isAlwaysOpen && data.missionStartDate && data.missionDeadlineDate) {
         const missionStartDate = new Date(data.missionStartDate);
         const missionDeadlineDate = new Date(data.missionDeadlineDate);
