@@ -201,10 +201,17 @@ export default function BasicInfoForm({
           <div className="flex items-center gap-2">
             <Users className="text-ck-gray-700 size-4" />
             <Input
-              {...register('maxApplicants', { valueAsNumber: true })}
+              {...register('maxApplicants', {
+                setValueAs: v => {
+                  if (v === '' || v === null || v === undefined) return undefined; // optional 통과
+                  const n = Number(v);
+                  return Number.isFinite(n) ? n : undefined; // 숫자가 아니면 undefined로
+                },
+              })}
               type="number"
               placeholder="10"
-              min="1"
+              min={1}
+              step={1}
             />
           </div>
           {errors.maxApplicants && (
