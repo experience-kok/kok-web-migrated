@@ -7,6 +7,7 @@ import {
   GetCampaignBasicInfoResponse,
   GetCampaignDetailInfoResponse,
   GetCampaignLocationInfoResponse,
+  GetCampaignMissionInfoResponse,
   GetCampaignSearchRequest,
   GetCampaignSearchResponse,
   GetDeliveryCampaignsRequest,
@@ -192,10 +193,9 @@ export async function getCampaignDetailInfo(campaignId: number) {
   return response;
 }
 export async function getCampaignMissionGuide(campaignId: number) {
-  const response = await fetcher.get<{
-    campaignId: number;
-    missionGuide: string;
-  }>(`/campaigns/${campaignId}/mission-guide`);
+  const response = await fetcher.get<GetCampaignMissionInfoResponse>(
+    `/campaigns/${campaignId}/mission-guide`,
+  );
 
   return response;
 }

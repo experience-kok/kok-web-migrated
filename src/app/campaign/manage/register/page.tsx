@@ -60,6 +60,7 @@ export default function CampaignRegisterPage() {
       .filter(keyword => keyword.length > 0);
 
     const campaignData: Omit<PostCampaignRequest, 'thumbnailUrl'> = {
+      isAlwaysOpen: formData.isAlwaysOpen,
       campaignType: formData.campaignType,
       title: formData.title,
       productShortInfo: formData.productShortInfo,

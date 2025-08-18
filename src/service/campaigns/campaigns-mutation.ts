@@ -42,7 +42,6 @@ export function usePostCampaignMutation() {
         thumbnailUrl: presignedUrl,
         ...campaignData,
       };
-      console.log(requestData);
 
       // 캠페인 등록
       await postCampaign(requestData);

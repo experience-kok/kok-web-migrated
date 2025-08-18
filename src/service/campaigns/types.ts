@@ -72,16 +72,17 @@ export interface GetVisitCampaignsResponse {
  * 캠페인 등록 요청
  */
 export interface PostCampaignRequest {
+  isAlwaysOpen: boolean; // 상시 캠페인 여부
   thumbnailUrl: string;
   campaignType: CampaignType;
   title: string;
   productShortInfo: string;
   maxApplicants: number;
   productDetails: string;
-  recruitmentStartDate: string;
-  recruitmentEndDate: string;
-  selectionDate: string;
-  selectionCriteria: string;
+  recruitmentStartDate: string; // 모집 시작일
+  recruitmentEndDate: string; // 모집 종료일
+  selectionDate: string; // 선정일
+  selectionCriteria: string; // 선정 조건
   category: {
     type: CampaignCategoryType;
     name: CampaignCategoryName;
@@ -94,14 +95,15 @@ export interface PostCampaignRequest {
     numberOfText: number;
     isMap: boolean;
     missionGuide: string;
-    missionStartDate: string;
-    missionDeadlineDate: string;
+    missionStartDate: string; // 미션 시작일
+    missionDeadlineDate: string; // 미션 종료일
   };
   companyInfo: {
     contactPerson: string;
     phoneNumber: string;
   };
   visitInfo?: {
+    // 방문 캠페인일 경우에만 사용
     homepage?: string; // 공식 홈페이지 주소
     contactPhone: string; // 일반 유저에게 공개되는 연락처
     visitAndReservationInfo: string; // 방문 및 예약 안내
@@ -152,6 +154,23 @@ export interface GetCampaignLocationInfoResponse {
   businessAddress: string;
   businessDetailAddress: string;
   hasCoordinates: boolean; // 좌표 보유 여부
+}
+/**
+ * 캠페인 미션 정보 조회
+ */
+export interface GetCampaignMissionInfoResponse {
+  campaignId: number;
+  missionInfo: {
+    missionGuide: string;
+    titleKeywords: string[];
+    bodyKeywords: string[];
+    numberOfVideo: number;
+    numberOfImage: number;
+    numberOfText: number;
+    isMap: boolean;
+    missionStartDate: string;
+    missionDeadlineDate: string;
+  };
 }
 
 /**

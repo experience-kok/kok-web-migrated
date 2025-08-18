@@ -46,7 +46,7 @@ export default async function CampaignDetailPage({ params }: Props) {
     await getCampaignDetailInfo(Number(campaignId));
 
   // 캠페인 미션 가이드
-  const { missionGuide } = await getCampaignMissionGuide(Number(campaignId));
+  const { missionInfo } = await getCampaignMissionGuide(Number(campaignId));
 
   // 캠페인 미션 키워드
   const { missionKeywords } = await getCampaignKeywords(Number(campaignId));
@@ -138,7 +138,7 @@ export default async function CampaignDetailPage({ params }: Props) {
       <section className="px-5 pt-8 pb-5">
         <div className="ck-sub-title-1">미션 가이드</div>
 
-        <div className="ck-body-2 text-ck-gray-700 mt-2">{missionGuide}</div>
+        <div className="ck-body-2 text-ck-gray-700 mt-2">{missionInfo.missionGuide}</div>
 
         <div className="mt-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
           <p className="ck-caption-2 text-yellow-800">

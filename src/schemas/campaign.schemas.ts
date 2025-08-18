@@ -2,6 +2,12 @@ import z from 'zod';
 
 export const campaignCreateSchema = z
   .object({
+    // 상시 캠페인 여부
+    isAlwaysOpen: z.boolean({
+      required_error: '상시 캠페인 여부를 선택해 주세요.',
+      invalid_type_error: '상시 캠페인 여부는 boolean 타입이어야 합니다.',
+    }),
+
     // 기본 정보
     campaignType: z.enum(['인스타그램', '블로그', '유튜브', '틱톡'], {
       errorMap: () => ({ message: '캠페인 타입을 선택해 주세요.' }),
@@ -10,12 +16,23 @@ export const campaignCreateSchema = z
       .string()
       .min(1, { message: '캠페인 제목을 입력해 주세요.' })
       .max(200, { message: '캠페인 제목은 200자 이하로 입력해 주세요.' }),
+    productShortInfo: z
+      .string()
+      .min(1, { message: '제품/서비스 간략 정보를 입력해 주세요.' })
+      .max(20, { message: '간략 정보는 20자 이하로 입력해 주세요.' }),
     maxApplicants: z
       .number({
         required_error: '선정 인원을 입력해 주세요.',
         invalid_type_error: '선정 인원은 숫자여야 합니다.',
       })
       .min(1, { message: '선정 인원은 1명 이상이어야 합니다.' }),
+    productDetails: z.string().min(1, { message: '제공 제품/서비스 상세 정보를 입력해 주세요.' }),
+
+    // 날짜 정보
+    recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
+    recruitmentEndDate: z.string().min(1, { message: '모집 종료일을 선택해 주세요.' }),
+    selectionDate: z.string().min(1, { message: '참가자 발표일을 선택해 주세요.' }),
+    selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
 
     // 카테고리 정보
     categoryType: z.enum(['방문', '배송'], {
@@ -28,14 +45,7 @@ export const campaignCreateSchema = z
       },
     ),
 
-    // 날짜 정보
-    recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
-    recruitmentEndDate: z.string().min(1, { message: '모집 종료일을 선택해 주세요.' }),
-    selectionDate: z.string().min(1, { message: '참가자 발표일을 선택해 주세요.' }),
-
     // 미션 정보
-    missionStartDate: z.string().min(1, { message: '미션 시작일을 선택해 주세요.' }),
-    missionDeadlineDate: z.string().min(1, { message: '미션 마감일을 선택해 주세요.' }),
     titleKeywords: z.string().min(1, { message: '제목 키워드를 입력해 주세요.' }),
     bodyKeywords: z.string().min(1, { message: '본문 키워드를 입력해 주세요.' }),
     numberOfVideo: z
@@ -60,24 +70,9 @@ export const campaignCreateSchema = z
       required_error: '지도 표시 여부를 선택해 주세요.',
       invalid_type_error: '지도 표시 여부는 boolean 타입이어야 합니다.',
     }),
-
-    // 상세 정보
-    productShortInfo: z
-      .string()
-      .min(1, { message: '제품/서비스 간략 정보를 입력해 주세요.' })
-      .max(20, { message: '간략 정보는 20자 이하로 입력해 주세요.' }),
-    productDetails: z.string().min(1, { message: '제공 제품/서비스 상세 정보를 입력해 주세요.' }),
-    selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
     missionGuide: z.string().min(1, { message: '미션 가이드를 입력해 주세요.' }),
-
-    // 방문 정보 (categoryType이 '방문'일 때만 필수)
-    homepage: z.string().optional(), // 선택적 필드
-    contactPhone: z.string().optional(),
-    visitAndReservationInfo: z.string().optional(),
-    businessAddress: z.string().optional(),
-    businessDetailAddress: z.string().optional(),
-    lat: z.number().optional(),
-    lng: z.number().optional(),
+    missionStartDate: z.string().min(1, { message: '미션 시작일을 선택해 주세요.' }),
+    missionDeadlineDate: z.string().min(1, { message: '미션 마감일을 선택해 주세요.' }),
 
     // 업체 정보
     contactPerson: z
@@ -92,8 +87,14 @@ export const campaignCreateSchema = z
         message: '올바른 전화번호 형식을 입력해 주세요. (예: 010-1234-5678)',
       }),
 
-    // 썸네일 (옵셔널)
-    thumbnailUrl: z.string().optional(),
+    // 방문 정보 (categoryType이 '방문'일 때만 필수)
+    homepage: z.string().optional(), // 선택적 필드
+    contactPhone: z.string().optional(),
+    visitAndReservationInfo: z.string().optional(),
+    businessAddress: z.string().optional(),
+    businessDetailAddress: z.string().optional(),
+    lat: z.number().optional(),
+    lng: z.number().optional(),
   })
   .refine(
     data => {
