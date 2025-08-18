@@ -46,6 +46,7 @@ export async function getPopularCampaigns({
     `/campaigns/popular?${queryParams.toString()}`,
     {
       requiresAuth: false,
+      next: { revalidate: 60 },
     },
   );
 
