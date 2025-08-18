@@ -167,6 +167,9 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
         <MissionInfoForm
           register={register}
           errors={errors}
+          control={control}
+          categoryType={categoryType}
+          isAlwaysOpen={isAlwaysOpen}
           titleKeywords={titleKeywords}
           bodyKeywords={bodyKeywords}
         />

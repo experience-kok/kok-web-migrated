@@ -72,8 +72,8 @@ export const campaignCreateSchema = z
       invalid_type_error: '지도 표시 여부는 boolean 타입이어야 해요.',
     }),
     missionGuide: z.string().min(1, { message: '미션 가이드를 입력해 주세요.' }),
-    missionStartDate: z.string().min(1, { message: '미션 시작일을 선택해 주세요.' }),
-    missionDeadlineDate: z.string().min(1, { message: '미션 마감일을 선택해 주세요.' }),
+    missionStartDate: z.string().optional(),
+    missionDeadlineDate: z.string().optional(),
 
     // 업체 정보
     contactPerson: z
@@ -154,12 +154,40 @@ export const campaignCreateSchema = z
       path: ['selectionDate'],
     },
   )
+  // 상시 캠페인이 아닐 경우 미션 날짜 필드들 필수 검증
   .refine(
     data => {
-      // 미션 시작일이 참가자 선정일보다 늦은지 확인
-      const selectionDate = new Date(data.selectionDate);
-      const missionStartDate = new Date(data.missionStartDate);
-      return missionStartDate >= selectionDate;
+      if (!data.isAlwaysOpen) {
+        return data.missionStartDate && data.missionStartDate.length > 0;
+      }
+      return true;
+    },
+    {
+      message: '미션 시작일을 선택해 주세요.',
+      path: ['missionStartDate'],
+    },
+  )
+  .refine(
+    data => {
+      if (!data.isAlwaysOpen) {
+        return data.missionDeadlineDate && data.missionDeadlineDate.length > 0;
+      }
+      return true;
+    },
+    {
+      message: '미션 마감일을 선택해 주세요.',
+      path: ['missionDeadlineDate'],
+    },
+  )
+  .refine(
+    data => {
+      // 상시 캠페인이 아닐 경우에만 미션 시작일이 참가자 선정일보다 늦은지 확인
+      if (!data.isAlwaysOpen && data.missionStartDate) {
+        const selectionDate = new Date(data.selectionDate);
+        const missionStartDate = new Date(data.missionStartDate);
+        return missionStartDate >= selectionDate;
+      }
+      return true;
     },
     {
       message: '미션 시작일은 참가자 발표일과 같거나 늦어야 해요.',
@@ -168,10 +196,13 @@ export const campaignCreateSchema = z
   )
   .refine(
     data => {
-      // 미션 마감일이 미션 시작일보다 늦은지 확인
-      const missionStartDate = new Date(data.missionStartDate);
-      const missionDeadlineDate = new Date(data.missionDeadlineDate);
-      return missionDeadlineDate >= missionStartDate;
+      // 상시 캠페인이 아닐 경우에만 미션 마감일이 미션 시작일보다 늦은지 확인
+      if (!data.isAlwaysOpen && data.missionStartDate && data.missionDeadlineDate) {
+        const missionStartDate = new Date(data.missionStartDate);
+        const missionDeadlineDate = new Date(data.missionDeadlineDate);
+        return missionDeadlineDate >= missionStartDate;
+      }
+      return true;
     },
     {
       message: '미션 마감일은 미션 시작일과 같거나 늦어야 해요.',

@@ -1,13 +1,18 @@
 import { Calendar, Image as ImageIcon, Video, FileText, MapPin } from 'lucide-react';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
 
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { CampaignCategoryType } from '@/models/campaign';
 import { CampaignCreateForm } from '@/schemas/campaign.schemas';
 
 interface Props {
   register: UseFormRegister<CampaignCreateForm>;
   errors: FieldErrors<CampaignCreateForm>;
+  control: Control<CampaignCreateForm>;
+  categoryType: CampaignCategoryType | undefined;
+  isAlwaysOpen: boolean;
   titleKeywords: string;
   bodyKeywords: string;
 }
@@ -15,7 +20,15 @@ interface Props {
 /**
  * 캠페인 등록 페이지 미션 정보 등록 컴포넌트
  */
-export default function MissionInfoForm({ register, errors, titleKeywords, bodyKeywords }: Props) {
+export default function MissionInfoForm({
+  register,
+  errors,
+  control,
+  categoryType,
+  isAlwaysOpen,
+  titleKeywords,
+  bodyKeywords,
+}: Props) {
   // 미션 키워드를 배열로 변환
   const titleKeywordArray = titleKeywords
     ? titleKeywords
@@ -138,7 +151,7 @@ export default function MissionInfoForm({ register, errors, titleKeywords, bodyK
 
       {/* 콘텐츠 요구사항 */}
       <div className="border-ck-gray-300 bg-ck-gray-50 rounded-[12px] border p-5">
-        <div className="ck-body-2-bold text-ck-gray-900 mb-4">
+        <div className="ck-body-2-bold text-ck-gray-900 mb-1">
           콘텐츠 요구사항 <span className="text-ck-red-500">*</span>
         </div>
         <div className="ck-body-2 text-ck-gray-700 mb-6">
@@ -203,59 +216,66 @@ export default function MissionInfoForm({ register, errors, titleKeywords, bodyK
             </div>
           </div>
 
-          {/* 지도 표시 옵션 */}
-          <div className="border-ck-gray-200 border-t pt-4">
-            <div className="flex items-center gap-3">
-              <input
-                {...register('isMap')}
-                type="checkbox"
-                id="isMap"
-                className="border-ck-gray-300 text-ck-blue-500 focus:ring-ck-blue-500 size-4 rounded"
-              />
-              <label
-                htmlFor="isMap"
-                className="ck-body-2-bold text-ck-gray-900 flex cursor-pointer items-center gap-2"
-              >
-                <MapPin className="text-ck-red-500 size-4" />
-                지도 정보 포함 필수
-              </label>
+          {/* 지도 표시 옵션 - 방문 캠페인일 때만 표시 */}
+          {categoryType === '방문' && (
+            <div className="border-ck-gray-200 border-t pt-4">
+              <div className="flex items-center gap-3">
+                <Controller
+                  name="isMap"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox id="isMap" checked={field.value} onCheckedChange={field.onChange} />
+                  )}
+                />
+                <label
+                  htmlFor="isMap"
+                  className="ck-body-2-bold text-ck-gray-900 flex cursor-pointer items-center gap-2"
+                >
+                  <MapPin className="text-ck-red-500 size-4" />
+                  지도 정보 포함 필수
+                </label>
+              </div>
+              <div className="ck-caption-1 text-ck-gray-600 mt-1 ml-7">
+                체크 시, 리뷰어는 반드시 위치 정보(지도)를 포함해야 합니다.
+              </div>
+              {errors.isMap && (
+                <p className="text-ck-red-500 ck-caption-1 mt-1">{errors.isMap.message}</p>
+              )}
             </div>
-            <div className="ck-caption-1 text-ck-gray-600 mt-1 ml-7">
-              체크 시, 리뷰어는 반드시 위치 정보(지도)를 포함해야 합니다.
+          )}
+        </div>
+
+        {/* 미션 시작일 - 상시 캠페인이 아닐 때만 표시 */}
+        {!isAlwaysOpen && (
+          <div>
+            <div className="ck-body-2-bold mb-1">
+              미션 시작일 <span className="text-ck-red-500">*</span>
             </div>
-            {errors.isMap && (
-              <p className="text-ck-red-500 ck-caption-1 mt-1">{errors.isMap.message}</p>
+            <div className="flex items-center gap-2">
+              <Calendar className="text-ck-gray-700 size-4" />
+              <Input {...register('missionStartDate')} type="date" />
+            </div>
+            {errors.missionStartDate && (
+              <p className="text-ck-red-500 ck-caption-1">{errors.missionStartDate.message}</p>
             )}
           </div>
-        </div>
+        )}
 
-        {/* 미션 시작일 */}
-        <div>
-          <div className="ck-body-2-bold mb-1">
-            미션 시작일 <span className="text-ck-red-500">*</span>
+        {/* 미션 마감일 - 상시 캠페인이 아닐 때만 표시 */}
+        {!isAlwaysOpen && (
+          <div className="mt-3">
+            <div className="ck-body-2-bold mb-1">
+              미션 마감일 <span className="text-ck-red-500">*</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="text-ck-gray-700 size-4" />
+              <Input {...register('missionDeadlineDate')} type="date" />
+            </div>
+            {errors.missionDeadlineDate && (
+              <p className="text-ck-red-500 ck-caption-1">{errors.missionDeadlineDate.message}</p>
+            )}
           </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="text-ck-gray-700 size-4" />
-            <Input {...register('missionStartDate')} type="date" />
-          </div>
-          {errors.missionStartDate && (
-            <p className="text-ck-red-500 ck-caption-1">{errors.missionStartDate.message}</p>
-          )}
-        </div>
-
-        {/* 미션 마감일 */}
-        <div className="mt-3">
-          <div className="ck-body-2-bold mb-1">
-            미션 마감일 <span className="text-ck-red-500">*</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="text-ck-gray-700 size-4" />
-            <Input {...register('missionDeadlineDate')} type="date" />
-          </div>
-          {errors.missionDeadlineDate && (
-            <p className="text-ck-red-500 ck-caption-1">{errors.missionDeadlineDate.message}</p>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
