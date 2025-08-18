@@ -39,29 +39,47 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
     resolver: zodResolver(campaignCreateSchema),
     mode: 'onChange', // 실시간 검증을 위해 추가
     defaultValues: {
+      // 상시 캠페인 여부
+      isAlwaysOpen: false,
+
+      // 기본 정보
       campaignType: undefined,
-      categoryType: undefined,
-      categoryName: undefined,
       title: '',
       productShortInfo: '',
       maxApplicants: undefined,
+      productDetails: '',
+
+      // 날짜 정보
       recruitmentStartDate: '',
       recruitmentEndDate: '',
       selectionDate: '',
-      reviewStartDate: '',
-      reviewDeadlineDate: '',
-      productDetails: '',
       selectionCriteria: '',
+
+      // 카테고리 정보
+      categoryType: undefined,
+      categoryName: undefined,
+
+      // 미션 정보
+      titleKeywords: '',
+      bodyKeywords: '',
+      numberOfVideo: 0,
+      numberOfImage: 0,
+      numberOfText: 0,
+      isMap: false,
       missionGuide: '',
-      missionKeywords: '',
+      missionStartDate: '',
+      missionDeadlineDate: '',
+
+      // 업체 정보
+      contactPerson: '',
+      phoneNumber: '',
+
+      // 방문 정보
       homepage: '',
       contactPhone: '',
       visitAndReservationInfo: '',
       businessAddress: '',
       businessDetailAddress: '',
-      contactPerson: '',
-      phoneNumber: '',
-      thumbnailUrl: '',
       lat: undefined,
       lng: undefined,
     },
@@ -77,7 +95,9 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
   } = form;
 
   const categoryType = watch('categoryType');
-  const missionKeywords = watch('missionKeywords');
+  const titleKeywords = watch('titleKeywords');
+  const bodyKeywords = watch('bodyKeywords');
+  const isAlwaysOpen = watch('isAlwaysOpen');
 
   const handleCategoryTypeChange = (value: CampaignCategoryType) => {
     setValue('categoryType', value);
@@ -89,7 +109,12 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
 
     const processedData = {
       ...data,
-      missionKeywords: data.missionKeywords
+      titleKeywords: data.titleKeywords
+        .split(',')
+        .map(keyword => keyword.trim())
+        .filter(keyword => keyword.length > 0)
+        .join(', '),
+      bodyKeywords: data.bodyKeywords
         .split(',')
         .map(keyword => keyword.trim())
         .filter(keyword => keyword.length > 0)
@@ -121,6 +146,7 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
           control={control}
           errors={errors}
           categoryType={categoryType}
+          isAlwaysOpen={isAlwaysOpen}
           handleCategoryTypeChange={handleCategoryTypeChange}
         />
       </section>
@@ -130,7 +156,7 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
       {/* 상세 정보 섹션 */}
       <section className="px-5 pt-8 pb-5">
         <p className="ck-sub-title-1 mb-2">상세 정보</p>
-        <DetailInfoForm register={register} errors={errors} />
+        <DetailInfoForm register={register} errors={errors} isAlwaysOpen={isAlwaysOpen} />
       </section>
 
       <SplitBox />
@@ -138,7 +164,15 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
       {/* 미션 정보 섹션 */}
       <section className="px-5 pt-8 pb-5">
         <p className="ck-sub-title-1 mb-2">미션 정보</p>
-        <MissionInfoForm register={register} errors={errors} missionKeywords={missionKeywords} />
+        <MissionInfoForm
+          register={register}
+          errors={errors}
+          control={control}
+          categoryType={categoryType}
+          isAlwaysOpen={isAlwaysOpen}
+          titleKeywords={titleKeywords}
+          bodyKeywords={bodyKeywords}
+        />
       </section>
 
       {/* 방문 정보 섹션 - 카테고리 타입이 "방문"일 때만 표시 */}
