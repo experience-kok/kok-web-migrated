@@ -180,7 +180,7 @@ export default function BasicInfoForm({
                   onCheckedChange={field.onChange}
                 />
                 <label htmlFor="isAlwaysOpen" className="ck-body-2 text-ck-gray-800">
-                  상시 캠페인으로 운영합니다
+                  상시 캠페인으로 운영할래요
                 </label>
               </div>
             )}
