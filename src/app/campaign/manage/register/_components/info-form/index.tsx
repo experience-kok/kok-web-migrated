@@ -39,34 +39,47 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
     resolver: zodResolver(campaignCreateSchema),
     mode: 'onChange', // 실시간 검증을 위해 추가
     defaultValues: {
+      // 상시 캠페인 여부
+      isAlwaysOpen: false,
+
+      // 기본 정보
       campaignType: undefined,
-      categoryType: undefined,
-      categoryName: undefined,
       title: '',
       productShortInfo: '',
       maxApplicants: undefined,
+      productDetails: '',
+
+      // 날짜 정보
       recruitmentStartDate: '',
       recruitmentEndDate: '',
       selectionDate: '',
-      missionStartDate: '',
-      missionDeadlineDate: '',
+      selectionCriteria: '',
+
+      // 카테고리 정보
+      categoryType: undefined,
+      categoryName: undefined,
+
+      // 미션 정보
       titleKeywords: '',
       bodyKeywords: '',
       numberOfVideo: 0,
       numberOfImage: 0,
       numberOfText: 0,
       isMap: false,
-      productDetails: '',
-      selectionCriteria: '',
       missionGuide: '',
+      missionStartDate: '',
+      missionDeadlineDate: '',
+
+      // 업체 정보
+      contactPerson: '',
+      phoneNumber: '',
+
+      // 방문 정보
       homepage: '',
       contactPhone: '',
       visitAndReservationInfo: '',
       businessAddress: '',
       businessDetailAddress: '',
-      contactPerson: '',
-      phoneNumber: '',
-      thumbnailUrl: '',
       lat: undefined,
       lng: undefined,
     },
@@ -84,6 +97,7 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
   const categoryType = watch('categoryType');
   const titleKeywords = watch('titleKeywords');
   const bodyKeywords = watch('bodyKeywords');
+  const isAlwaysOpen = watch('isAlwaysOpen');
 
   const handleCategoryTypeChange = (value: CampaignCategoryType) => {
     setValue('categoryType', value);
@@ -132,6 +146,7 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
           control={control}
           errors={errors}
           categoryType={categoryType}
+          isAlwaysOpen={isAlwaysOpen}
           handleCategoryTypeChange={handleCategoryTypeChange}
         />
       </section>

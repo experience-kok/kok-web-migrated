@@ -5,7 +5,7 @@ export const campaignCreateSchema = z
     // 상시 캠페인 여부
     isAlwaysOpen: z.boolean({
       required_error: '상시 캠페인 여부를 선택해 주세요.',
-      invalid_type_error: '상시 캠페인 여부는 boolean 타입이어야 합니다.',
+      invalid_type_error: '상시 캠페인 여부는 boolean 타입이어야 해요.',
     }),
 
     // 기본 정보
@@ -23,14 +23,15 @@ export const campaignCreateSchema = z
     maxApplicants: z
       .number({
         required_error: '선정 인원을 입력해 주세요.',
-        invalid_type_error: '선정 인원은 숫자여야 합니다.',
+        invalid_type_error: '선정 인원은 숫자여야 해요.',
       })
-      .min(1, { message: '선정 인원은 1명 이상이어야 합니다.' }),
+      .min(1, { message: '선정 인원은 1명 이상이어야 해요.' })
+      .optional(),
     productDetails: z.string().min(1, { message: '제공 제품/서비스 상세 정보를 입력해 주세요.' }),
 
     // 날짜 정보
     recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
-    recruitmentEndDate: z.string().min(1, { message: '모집 종료일을 선택해 주세요.' }),
+    recruitmentEndDate: z.string().optional(),
     selectionDate: z.string().min(1, { message: '참가자 발표일을 선택해 주세요.' }),
     selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
 
@@ -51,24 +52,24 @@ export const campaignCreateSchema = z
     numberOfVideo: z
       .number({
         required_error: '비디오 개수를 입력해 주세요.',
-        invalid_type_error: '비디오 개수는 숫자여야 합니다.',
+        invalid_type_error: '비디오 개수는 숫자여야 해요.',
       })
-      .min(0, { message: '비디오 개수는 0개 이상이어야 합니다.' }),
+      .min(0, { message: '비디오 개수는 0개 이상이어야 해요.' }),
     numberOfImage: z
       .number({
         required_error: '이미지 개수를 입력해 주세요.',
-        invalid_type_error: '이미지 개수는 숫자여야 합니다.',
+        invalid_type_error: '이미지 개수는 숫자여야 해요.',
       })
-      .min(0, { message: '이미지 개수는 0개 이상이어야 합니다.' }),
+      .min(0, { message: '이미지 개수는 0개 이상이어야 해요.' }),
     numberOfText: z
       .number({
         required_error: '본문 작성 텍스트 수를 입력해 주세요.',
-        invalid_type_error: '본문 작성 텍스트 수는 숫자여야 합니다.',
+        invalid_type_error: '본문 작성 텍스트 수는 숫자여야 해요.',
       })
-      .min(0, { message: '본문 작성 텍스트 수는 0자 이상이어야 합니다.' }),
+      .min(0, { message: '본문 작성 텍스트 수는 0자 이상이어야 해요.' }),
     isMap: z.boolean({
       required_error: '지도 표시 여부를 선택해 주세요.',
-      invalid_type_error: '지도 표시 여부는 boolean 타입이어야 합니다.',
+      invalid_type_error: '지도 표시 여부는 boolean 타입이어야 해요.',
     }),
     missionGuide: z.string().min(1, { message: '미션 가이드를 입력해 주세요.' }),
     missionStartDate: z.string().min(1, { message: '미션 시작일을 선택해 주세요.' }),
@@ -96,27 +97,60 @@ export const campaignCreateSchema = z
     lat: z.number().optional(),
     lng: z.number().optional(),
   })
+  // 상시 캠페인이 아닐 경우 maxApplicants 필수 검증
   .refine(
     data => {
-      // 모집 종료일이 시작일보다 늦은지 확인
-      const startDate = new Date(data.recruitmentStartDate);
-      const endDate = new Date(data.recruitmentEndDate);
-      return endDate > startDate;
+      if (!data.isAlwaysOpen) {
+        return typeof data.maxApplicants === 'number' && data.maxApplicants >= 1;
+      }
+      return true;
     },
     {
-      message: '모집 종료일은 시작일보다 늦어야 합니다.',
+      message: '선정 인원을 입력해 주세요.',
+      path: ['maxApplicants'],
+    },
+  )
+  // 상시 캠페인이 아닐 경우 recruitmentEndDate 필수 검증
+  .refine(
+    data => {
+      if (!data.isAlwaysOpen) {
+        return data.recruitmentEndDate && data.recruitmentEndDate.length > 0;
+      }
+      return true;
+    },
+    {
+      message: '모집 종료일을 선택해 주세요.',
+      path: ['recruitmentEndDate'],
+    },
+  )
+  // 상시 캠페인이 아닐 경우에만 날짜 검증
+  .refine(
+    data => {
+      if (!data.isAlwaysOpen && data.recruitmentEndDate) {
+        // 모집 종료일이 시작일보다 늦은지 확인
+        const startDate = new Date(data.recruitmentStartDate);
+        const endDate = new Date(data.recruitmentEndDate);
+        return endDate > startDate;
+      }
+      return true;
+    },
+    {
+      message: '모집 종료일은 시작일보다 늦어야 해요.',
       path: ['recruitmentEndDate'],
     },
   )
   .refine(
     data => {
-      // 참가자 발표일이 모집 종료일보다 늦은지 확인
-      const endDate = new Date(data.recruitmentEndDate);
-      const selectionDate = new Date(data.selectionDate);
-      return selectionDate >= endDate;
+      if (!data.isAlwaysOpen && data.recruitmentEndDate) {
+        // 참가자 발표일이 모집 종료일보다 늦은지 확인
+        const endDate = new Date(data.recruitmentEndDate);
+        const selectionDate = new Date(data.selectionDate);
+        return selectionDate >= endDate;
+      }
+      return true;
     },
     {
-      message: '참가자 발표일은 모집 종료일과 같거나 늦어야 합니다.',
+      message: '참가자 발표일은 모집 종료일과 같거나 늦어야 해요.',
       path: ['selectionDate'],
     },
   )
@@ -128,7 +162,7 @@ export const campaignCreateSchema = z
       return missionStartDate >= selectionDate;
     },
     {
-      message: '미션 시작일은 참가자 발표일과 같거나 늦어야 합니다.',
+      message: '미션 시작일은 참가자 발표일과 같거나 늦어야 해요.',
       path: ['missionStartDate'],
     },
   )
@@ -140,7 +174,7 @@ export const campaignCreateSchema = z
       return missionDeadlineDate >= missionStartDate;
     },
     {
-      message: '미션 마감일은 미션 시작일과 같거나 늦어야 합니다.',
+      message: '미션 마감일은 미션 시작일과 같거나 늦어야 해요.',
       path: ['missionDeadlineDate'],
     },
   )

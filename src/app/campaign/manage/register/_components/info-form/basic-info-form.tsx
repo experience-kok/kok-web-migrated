@@ -1,6 +1,7 @@
 import { Calendar, Users } from 'lucide-react';
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
 
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -17,6 +18,7 @@ interface Props {
   control: Control<CampaignCreateForm>;
   errors: FieldErrors<CampaignCreateForm>;
   categoryType: CampaignCategoryType | undefined;
+  isAlwaysOpen: boolean;
   handleCategoryTypeChange: (value: CampaignCategoryType) => void;
 }
 
@@ -28,6 +30,7 @@ export default function BasicInfoForm({
   control,
   errors,
   categoryType,
+  isAlwaysOpen,
   handleCategoryTypeChange,
 }: Props) {
   return (
@@ -161,25 +164,54 @@ export default function BasicInfoForm({
         )}
       </div>
 
-      {/* 선정 인원 */}
-      <div className="space-y-2">
-        <div className="ck-body-2-bold mb-1">
-          선정 인원 <span className="text-ck-red-500">*</span>
-        </div>
+      {/* 상시 캠페인 여부 - 방문 캠페인일 때만 표시 */}
+      {categoryType === '방문' && (
+        <div className="space-y-2">
+          <div className="ck-body-2-bold mb-1">상시 캠페인</div>
 
-        <div className="flex items-center gap-2">
-          <Users className="text-ck-gray-700 size-4" />
-          <Input
-            {...register('maxApplicants', { valueAsNumber: true })}
-            type="number"
-            placeholder="10"
-            min="1"
+          <Controller
+            name="isAlwaysOpen"
+            control={control}
+            render={({ field }) => (
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="isAlwaysOpen"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+                <label htmlFor="isAlwaysOpen" className="ck-body-2 text-ck-gray-800">
+                  상시 캠페인으로 운영합니다
+                </label>
+              </div>
+            )}
           />
+          {errors.isAlwaysOpen && (
+            <p className="text-ck-red-500 ck-caption-1">{errors.isAlwaysOpen.message}</p>
+          )}
         </div>
-        {errors.maxApplicants && (
-          <p className="text-ck-red-500 ck-caption-1">{errors.maxApplicants.message}</p>
-        )}
-      </div>
+      )}
+
+      {/* 선정 인원 - 상시 캠페인이 아닐 때만 표시 */}
+      {!isAlwaysOpen && (
+        <div className="space-y-2">
+          <div className="ck-body-2-bold mb-1">
+            선정 인원 <span className="text-ck-red-500">*</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Users className="text-ck-gray-700 size-4" />
+            <Input
+              {...register('maxApplicants', { valueAsNumber: true })}
+              type="number"
+              placeholder="10"
+              min="1"
+            />
+          </div>
+          {errors.maxApplicants && (
+            <p className="text-ck-red-500 ck-caption-1">{errors.maxApplicants.message}</p>
+          )}
+        </div>
+      )}
 
       {/* 캠페인 모집 시작일 */}
       <div className="space-y-2">
@@ -196,20 +228,22 @@ export default function BasicInfoForm({
         )}
       </div>
 
-      {/* 캠페인 모집 종료일 */}
-      <div className="space-y-2">
-        <div className="ck-body-2-bold mb-1">
-          캠페인 모집 종료일 <span className="text-ck-red-500">*</span>
-        </div>
+      {/* 캠페인 모집 종료일 - 상시 캠페인이 아닐 때만 표시 */}
+      {!isAlwaysOpen && (
+        <div className="space-y-2">
+          <div className="ck-body-2-bold mb-1">
+            캠페인 모집 종료일 <span className="text-ck-red-500">*</span>
+          </div>
 
-        <div className="flex items-center gap-2">
-          <Calendar className="text-ck-gray-700 size-4" />
-          <Input {...register('recruitmentEndDate')} type="date" />
+          <div className="flex items-center gap-2">
+            <Calendar className="text-ck-gray-700 size-4" />
+            <Input {...register('recruitmentEndDate')} type="date" />
+          </div>
+          {errors.recruitmentEndDate && (
+            <p className="text-ck-red-500 ck-caption-1">{errors.recruitmentEndDate.message}</p>
+          )}
         </div>
-        {errors.recruitmentEndDate && (
-          <p className="text-ck-red-500 ck-caption-1">{errors.recruitmentEndDate.message}</p>
-        )}
-      </div>
+      )}
     </div>
   );
 }

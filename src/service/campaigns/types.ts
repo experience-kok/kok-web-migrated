@@ -77,10 +77,10 @@ export interface PostCampaignRequest {
   campaignType: CampaignType;
   title: string;
   productShortInfo: string;
-  maxApplicants: number;
+  maxApplicants?: number;
   productDetails: string;
   recruitmentStartDate: string; // 모집 시작일
-  recruitmentEndDate: string; // 모집 종료일
+  recruitmentEndDate?: string; // 모집 종료일
   selectionDate: string; // 선정일
   selectionCriteria: string; // 선정 조건
   category: {
