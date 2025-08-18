@@ -95,8 +95,8 @@ export interface PostCampaignRequest {
     numberOfText: number;
     isMap: boolean;
     missionGuide: string;
-    missionStartDate: string; // 미션 시작일
-    missionDeadlineDate: string; // 미션 종료일
+    missionStartDate?: string; // 미션 시작일
+    missionDeadlineDate?: string; // 미션 종료일
   };
   companyInfo: {
     contactPerson: string;
