@@ -199,14 +199,6 @@ export async function getCampaignMissionGuide(campaignId: number) {
 
   return response;
 }
-export async function getCampaignKeywords(campaignId: number) {
-  const response = await fetcher.get<{
-    campaignId: number;
-    missionKeywords: string[];
-  }>(`/campaigns/${campaignId}/keywords`);
-
-  return response;
-}
 export async function getCampaignLocation(campaignId: number) {
   const response = await fetcher.get<GetCampaignLocationInfoResponse>(
     `/campaigns/${campaignId}/location`,
