@@ -2,7 +2,7 @@ import z from 'zod';
 
 export const campaignCreateSchema = z
   .object({
-    // 상시 캠페인 여부
+    // 상시 캠페인 여부 (UI는 배송일 때만 노출하지만, 백엔드는 값이 들어와도 안정적으로 동작하도록 둡니다)
     isAlwaysOpen: z.boolean({
       required_error: '상시 캠페인 여부를 선택해 주세요.',
       invalid_type_error: '상시 캠페인 여부는 boolean 타입이어야 해요.',
@@ -29,10 +29,10 @@ export const campaignCreateSchema = z
       .optional(),
     productDetails: z.string().min(1, { message: '제공 제품/서비스 상세 정보를 입력해 주세요.' }),
 
-    // 날짜 정보
+    // 날짜 정보 - 빈 문자열도 허용하되, refine에서 검증
     recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
-    recruitmentEndDate: z.string().optional(),
-    selectionDate: z.string().optional(),
+    recruitmentEndDate: z.string(),
+    selectionDate: z.string(),
     selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
 
     // 카테고리 정보
@@ -72,8 +72,8 @@ export const campaignCreateSchema = z
       invalid_type_error: '지도 표시 여부는 boolean 타입이어야 해요.',
     }),
     missionGuide: z.string().min(1, { message: '미션 가이드를 입력해 주세요.' }),
-    missionStartDate: z.string().optional(),
-    missionDeadlineDate: z.string().optional(),
+    missionStartDate: z.string(),
+    missionDeadlineDate: z.string(),
 
     // 업체 정보
     contactPerson: z
@@ -97,131 +97,145 @@ export const campaignCreateSchema = z
     lat: z.number().optional(),
     lng: z.number().optional(),
   })
-  // 상시 캠페인이 아닐 경우 maxApplicants 필수 검증
+  // === 여기부터 조건부 필수: "배송 + 비상시(!isAlwaysOpen)" 일 때만 필수 ===
+
+  // (1) 선정 인원
   .refine(
     data => {
-      if (!data.isAlwaysOpen) {
+      if (data.categoryType === '배송' && !data.isAlwaysOpen) {
         return typeof data.maxApplicants === 'number' && data.maxApplicants >= 1;
       }
       return true;
     },
-    {
-      message: '선정 인원을 입력해 주세요.',
-      path: ['maxApplicants'],
-    },
+    { message: '선정 인원을 입력해 주세요.', path: ['maxApplicants'] },
   )
-  // 상시 캠페인이 아닐 경우 recruitmentEndDate 필수 검증
+
+  // (2) 모집 종료일
   .refine(
     data => {
-      if (!data.isAlwaysOpen) {
-        return data.recruitmentEndDate && data.recruitmentEndDate.length > 0;
+      if (data.categoryType === '배송' && !data.isAlwaysOpen) {
+        return data.recruitmentEndDate && data.recruitmentEndDate.trim().length > 0;
       }
       return true;
     },
-    {
-      message: '모집 종료일을 선택해 주세요.',
-      path: ['recruitmentEndDate'],
-    },
+    { message: '모집 종료일을 선택해 주세요.', path: ['recruitmentEndDate'] },
   )
-  // 상시 캠페인이 아닐 경우 selectionDate 필수 검증
+
+  // (3) 참가자 발표일
   .refine(
     data => {
-      if (!data.isAlwaysOpen) {
-        return data.selectionDate && data.selectionDate.length > 0;
+      if (data.categoryType === '배송' && !data.isAlwaysOpen) {
+        return data.selectionDate && data.selectionDate.trim().length > 0;
       }
       return true;
     },
-    {
-      message: '참가자 발표일을 선택해 주세요.',
-      path: ['selectionDate'],
-    },
+    { message: '참가자 발표일을 선택해 주세요.', path: ['selectionDate'] },
   )
-  // 상시 캠페인이 아닐 경우에만 날짜 검증 - 모집 종료일이 시작일보다 늦은지 확인
+
+  // (4) 미션 시작일
   .refine(
     data => {
-      if (!data.isAlwaysOpen && data.recruitmentEndDate) {
+      if (data.categoryType === '배송' && !data.isAlwaysOpen) {
+        return data.missionStartDate && data.missionStartDate.trim().length > 0;
+      }
+      return true;
+    },
+    { message: '미션 시작일을 선택해 주세요.', path: ['missionStartDate'] },
+  )
+
+  // (5) 미션 마감일
+  .refine(
+    data => {
+      if (data.categoryType === '배송' && !data.isAlwaysOpen) {
+        return data.missionDeadlineDate && data.missionDeadlineDate.trim().length > 0;
+      }
+      return true;
+    },
+    { message: '미션 마감일을 선택해 주세요.', path: ['missionDeadlineDate'] },
+  )
+
+  // === 날짜 간 관계 검증도 동일하게 "배송 + 비상시" 상황에서만 적용 ===
+
+  // 모집 종료일 > 시작일
+  .refine(
+    data => {
+      if (
+        data.categoryType === '배송' &&
+        !data.isAlwaysOpen &&
+        data.recruitmentEndDate &&
+        data.recruitmentEndDate.trim().length > 0
+      ) {
         const startDate = new Date(data.recruitmentStartDate);
         const endDate = new Date(data.recruitmentEndDate);
         return endDate > startDate;
       }
       return true;
     },
-    {
-      message: '모집 종료일은 시작일보다 늦어야 해요.',
-      path: ['recruitmentEndDate'],
-    },
+    { message: '모집 종료일은 시작일보다 늦어야 해요.', path: ['recruitmentEndDate'] },
   )
-  // 상시 캠페인이 아닐 경우에만 날짜 검증 - 참가자 발표일이 모집 종료일보다 늦은지 확인
+
+  // 참가자 발표일 >= 모집 종료일
   .refine(
     data => {
-      if (!data.isAlwaysOpen && data.recruitmentEndDate && data.selectionDate) {
+      if (
+        data.categoryType === '배송' &&
+        !data.isAlwaysOpen &&
+        data.recruitmentEndDate &&
+        data.recruitmentEndDate.trim().length > 0 &&
+        data.selectionDate &&
+        data.selectionDate.trim().length > 0
+      ) {
         const endDate = new Date(data.recruitmentEndDate);
         const selectionDate = new Date(data.selectionDate);
         return selectionDate >= endDate;
       }
       return true;
     },
-    {
-      message: '참가자 발표일은 모집 종료일과 같거나 늦어야 해요.',
-      path: ['selectionDate'],
-    },
+    { message: '참가자 발표일은 모집 종료일과 같거나 늦어야 해요.', path: ['selectionDate'] },
   )
-  // 상시 캠페인이 아닐 경우 미션 날짜 필드들 필수 검증
+
+  // 미션 시작일 >= 발표일
   .refine(
     data => {
-      if (!data.isAlwaysOpen) {
-        return data.missionStartDate && data.missionStartDate.length > 0;
-      }
-      return true;
-    },
-    {
-      message: '미션 시작일을 선택해 주세요.',
-      path: ['missionStartDate'],
-    },
-  )
-  .refine(
-    data => {
-      if (!data.isAlwaysOpen) {
-        return data.missionDeadlineDate && data.missionDeadlineDate.length > 0;
-      }
-      return true;
-    },
-    {
-      message: '미션 마감일을 선택해 주세요.',
-      path: ['missionDeadlineDate'],
-    },
-  )
-  // 상시 캠페인이 아닐 경우에만 미션 시작일이 참가자 선정일보다 늦은지 확인
-  .refine(
-    data => {
-      if (!data.isAlwaysOpen && data.missionStartDate && data.selectionDate) {
+      if (
+        data.categoryType === '배송' &&
+        !data.isAlwaysOpen &&
+        data.missionStartDate &&
+        data.missionStartDate.trim().length > 0 &&
+        data.selectionDate &&
+        data.selectionDate.trim().length > 0
+      ) {
         const selectionDate = new Date(data.selectionDate);
         const missionStartDate = new Date(data.missionStartDate);
         return missionStartDate >= selectionDate;
       }
       return true;
     },
-    {
-      message: '미션 시작일은 참가자 발표일과 같거나 늦어야 해요.',
-      path: ['missionStartDate'],
-    },
+    { message: '미션 시작일은 참가자 발표일과 같거나 늦어야 해요.', path: ['missionStartDate'] },
   )
-  // 상시 캠페인이 아닐 경우에만 미션 마감일이 미션 시작일보다 늦은지 확인
+
+  // 미션 마감일 >= 미션 시작일
   .refine(
     data => {
-      if (!data.isAlwaysOpen && data.missionStartDate && data.missionDeadlineDate) {
+      if (
+        data.categoryType === '배송' &&
+        !data.isAlwaysOpen &&
+        data.missionStartDate &&
+        data.missionStartDate.trim().length > 0 &&
+        data.missionDeadlineDate &&
+        data.missionDeadlineDate.trim().length > 0
+      ) {
         const missionStartDate = new Date(data.missionStartDate);
         const missionDeadlineDate = new Date(data.missionDeadlineDate);
         return missionDeadlineDate >= missionStartDate;
       }
       return true;
     },
-    {
-      message: '미션 마감일은 미션 시작일과 같거나 늦어야 해요.',
-      path: ['missionDeadlineDate'],
-    },
+    { message: '미션 마감일은 미션 시작일과 같거나 늦어야 해요.', path: ['missionDeadlineDate'] },
   )
-  // 카테고리 타입이 '방문'일 때만 방문 정보 필드들을 필수로 검증
+
+  // === 방문 캠페인 전용 필드 검증(기존 유지) ===
+
   .refine(
     data => {
       if (data.categoryType === '방문') {
@@ -245,10 +259,7 @@ export const campaignCreateSchema = z
       }
       return true;
     },
-    {
-      message: '방문 및 예약 안내를 입력해주세요.',
-      path: ['visitAndReservationInfo'],
-    },
+    { message: '방문 및 예약 안내를 입력해주세요.', path: ['visitAndReservationInfo'] },
   )
   .refine(
     data => {
@@ -257,10 +268,7 @@ export const campaignCreateSchema = z
       }
       return true;
     },
-    {
-      message: '위치 정보를 입력해주세요.',
-      path: ['businessAddress'],
-    },
+    { message: '위치 정보를 입력해주세요.', path: ['businessAddress'] },
   )
   .refine(
     data => {
@@ -269,10 +277,7 @@ export const campaignCreateSchema = z
       }
       return true;
     },
-    {
-      message: '위치 좌표를 설정해주세요.',
-      path: ['lat'],
-    },
+    { message: '위치 좌표를 설정해주세요.', path: ['lat'] },
   );
 
 export type CampaignCreateForm = z.infer<typeof campaignCreateSchema>;

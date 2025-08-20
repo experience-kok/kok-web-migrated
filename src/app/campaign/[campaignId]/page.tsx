@@ -144,7 +144,9 @@ export default async function CampaignDetailPage({ params }: Props) {
       <section className="px-5 pt-8 pb-5">
         <div className="ck-sub-title-1">지원 조건</div>
 
-        <div className="ck-body-2 text-ck-gray-700 mt-2">{selectionCriteria}</div>
+        <div className="ck-body-2 text-ck-gray-700 mt-2 whitespace-pre-line">
+          {selectionCriteria}
+        </div>
 
         <div className="mt-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
           <p className="ck-caption-2 text-yellow-800">
@@ -160,27 +162,27 @@ export default async function CampaignDetailPage({ params }: Props) {
         <div className="ck-sub-title-1">미션 가이드</div>
 
         <div className="mt-2 flex items-center gap-4">
-          <div className="text-ck-gray-900 flex flex-col items-center gap-2">
+          <div className="text-ck-gray-900 flex w-14 flex-col items-center gap-2">
             <TypeIcon className="size-6" />
             <div className="ck-caption-2">{numberOfText}자↑</div>
           </div>
-          <div className="text-ck-gray-900 flex flex-col items-center gap-2">
+          <div className="text-ck-gray-900 flex w-14 flex-col items-center gap-2">
             <ImageIcon className="size-6" />
             <div className="ck-caption-2">{numberOfImage}장↑</div>
           </div>
-          <div className="text-ck-gray-900 flex flex-col items-center gap-2">
+          <div className="text-ck-gray-900 flex w-14 flex-col items-center gap-2">
             <SquarePlay className="size-6" />
             <div className="ck-caption-2">{numberOfVideo}개↑</div>
           </div>
           {isMap && (
-            <div className="text-ck-gray-900 flex flex-col items-center gap-2">
+            <div className="text-ck-gray-900 flex w-14 flex-col items-center gap-2">
               <MapPin className="size-6" />
               <div className="ck-caption-2">지도필수</div>
             </div>
           )}
         </div>
 
-        <div className="ck-body-2 text-ck-gray-900 mt-3">
+        <div className="ck-body-2 text-ck-gray-900 mt-3 whitespace-pre-line">
           {missionGuide || '미션 가이드가 없습니다.'}
         </div>
 
