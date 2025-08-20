@@ -37,6 +37,12 @@ export class FetcherError extends Error {
   }
 }
 
+export function isFetcherError(error: unknown): error is FetcherError {
+  return (
+    error instanceof Error && error.name === 'FetcherError' && 'status' in error && 'data' in error
+  );
+}
+
 export class CustomFetcher {
   private config: Required<FetcherConfig>;
 

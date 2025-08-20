@@ -121,7 +121,6 @@ export default function InfoForm({ onSubmit, isPending, hasSelectedFile }: Props
         .join(', '),
     };
 
-    console.log('제출된 데이터:', processedData);
     onSubmit(processedData);
   };
 
