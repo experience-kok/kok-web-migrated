@@ -100,7 +100,7 @@ export default function CampaignVisitInfo({ locationData }: Props) {
         )}
 
         {visitAndReservationInfo && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-pre-line">
             <Clock className="text-ck-gray-700 w-3.5" />
             <div className="ck-body-2">{visitAndReservationInfo}</div>
           </div>

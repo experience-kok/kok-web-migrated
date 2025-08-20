@@ -144,7 +144,9 @@ export default async function CampaignDetailPage({ params }: Props) {
       <section className="px-5 pt-8 pb-5">
         <div className="ck-sub-title-1">지원 조건</div>
 
-        <div className="ck-body-2 text-ck-gray-700 mt-2">{selectionCriteria}</div>
+        <div className="ck-body-2 text-ck-gray-700 mt-2 whitespace-pre-line">
+          {selectionCriteria}
+        </div>
 
         <div className="mt-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
           <p className="ck-caption-2 text-yellow-800">
@@ -180,7 +182,7 @@ export default async function CampaignDetailPage({ params }: Props) {
           )}
         </div>
 
-        <div className="ck-body-2 text-ck-gray-900 mt-3">
+        <div className="ck-body-2 text-ck-gray-900 mt-3 whitespace-pre-line">
           {missionGuide || '미션 가이드가 없습니다.'}
         </div>
 
