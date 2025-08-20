@@ -38,3 +38,19 @@ export const CLIENT_CAMPAIGN_STATUS_LABELS: Record<ClientApplicationCampaignStat
   REJECTED: '거절됨',
   EXPIRED: '만료됨',
 };
+
+// 캠페인
+export interface Campaign {
+  id: number;
+  campaignType: CampaignType;
+  title: string;
+  productShortInfo: string; // 제공 제품 한 줄
+  currentApplicants: number; // 현재 지원 인원
+  maxApplicants: number; // 최대 지원 인원
+  recruitmentEndDate: string; // 지원 마감일
+  thumbnailUrl: string;
+  category: {
+    type: CampaignCategoryType;
+    name: CampaignCategoryName;
+  };
+}
