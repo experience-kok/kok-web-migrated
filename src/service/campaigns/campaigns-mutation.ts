@@ -75,10 +75,5 @@ export function usePostCampaignApplicateMutation(campaignId: number) {
         position: 'top-center',
       });
     },
-    onError: () => {
-      toast.error('캠페인 지원을 실패했어요.', {
-        position: 'top-center',
-      });
-    },
   });
 }

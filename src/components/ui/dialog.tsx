@@ -112,7 +112,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn('ck-body-1 text-ck-gray-700 break-keep', className)}
+      className={cn('ck-body-1 text-ck-gray-700 break-keep whitespace-pre-line', className)}
       {...props}
     />
   );
@@ -135,7 +135,9 @@ function DialogButton({ variant = 'default', className, children, ...props }: Di
   );
 }
 
-interface DialogCheckTextButtonProps extends React.PropsWithChildren {
+interface DialogCheckTextButtonProps
+  extends React.PropsWithChildren,
+    React.ComponentProps<typeof Button> {
   className?: string;
 }
 function DialogCheckTextButton({ className, children, ...props }: DialogCheckTextButtonProps) {
