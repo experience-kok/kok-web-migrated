@@ -1,9 +1,12 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
+import { GetCampaignApplicationsRequest } from '@/types/campaigns/requests';
+
 import { useInfiniteQuery, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import {
   getCampaignApplicateCheck,
+  getCampaignApplications,
   getCampaignSearch,
   getDeliveryCampaigns,
   getMyApplications,
@@ -200,5 +203,30 @@ export function useGetSearchRealtime() {
     // 10분 캐싱
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 10,
+  });
+}
+
+// 캠페인 신청자 목록 조회 쿼리
+export function useGetCampaignApplications({
+  size,
+  campaignId,
+}: Omit<GetCampaignApplicationsRequest, 'page'>) {
+  return useInfiniteQuery({
+    queryKey: ['campaigns', 'applications', size, campaignId],
+    queryFn: ({ pageParam }) =>
+      getCampaignApplications({
+        page: pageParam,
+        size,
+        campaignId,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: data => {
+      if (data.pagination.last) {
+        return undefined;
+      }
+      return data.pagination.pageNumber + 1;
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 }

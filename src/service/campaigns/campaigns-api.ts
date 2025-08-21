@@ -1,5 +1,7 @@
 import { fetcher } from '@/lib/fetcher';
 
+import { GetCampaignApplicationsRequest } from '@/types/campaigns/requests';
+import { GetCampaignApplicationsResponse } from '@/types/campaigns/responses';
 import { SuccessResponse } from '@/types/response';
 
 import {
@@ -303,7 +305,25 @@ export async function getCampaignSearch({
     { requiresAuth: false },
   );
 
-  console.log(response);
+  return response;
+}
+
+/**
+ * 캠페인 신청자 목록 조회
+ */
+export async function getCampaignApplications({
+  page,
+  size,
+  campaignId,
+}: GetCampaignApplicationsRequest) {
+  const queryParams = new URLSearchParams();
+  if (page) queryParams.set('page', page.toString());
+  if (size) queryParams.set('size', size.toString());
+
+  const response = await fetcher.get<GetCampaignApplicationsResponse>(
+    `/campaign-applications/campaigns/${campaignId}/applicants`,
+    { requiresAuth: true },
+  );
 
   return response;
 }

@@ -1,4 +1,4 @@
-import { Role } from '@/models/user';
+import { Gender, Role } from '@/models/user';
 
 import { Pagination } from '../response';
 
@@ -196,4 +196,25 @@ export interface GetCampaignSearchResponse {
  */
 export interface GetSearchRealtimeResponse {
   suggestions: string[];
+}
+
+/**
+ * 캠페인 신청자 목록 조회 응답
+ */
+export interface GetCampaignApplicationsResponse {
+  campaign: {
+    id: number;
+    title: string;
+    totalApplicants: number;
+  };
+  applicants: Array<{
+    applicationId: number;
+    user: {
+      id: number;
+      nickname: string;
+      phone: string;
+      gender: Gender;
+    };
+  }>;
+  pagination: Pagination;
 }

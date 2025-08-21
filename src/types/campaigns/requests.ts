@@ -106,3 +106,12 @@ export interface GetCampaignSearchRequest {
   campaignTypes?: CampaignType[];
   sort?: Sort;
 }
+
+/**
+ * 캠페인 신청자 목록 조회
+ */
+export interface GetCampaignApplicationsRequest {
+  campaignId: number;
+  page?: number;
+  size?: number;
+}
