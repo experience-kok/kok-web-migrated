@@ -6,6 +6,8 @@ import { CampaignCard } from '@/components/shared/campaign-card-new';
 import { Button } from '@/components/ui/button';
 import { CampaignApplicationStatus, CampaignType } from '@/models/campaign';
 
+import CampaignProgressStatusDialog from './campaign-progress-status-dialog';
+
 interface Props {
   id: number;
   thumbnailUrl: string;
@@ -45,16 +47,6 @@ export default function CampaignItem({
   // APPROVED 상태일 때만 버튼 활성화
   const isButtonEnabled = applicationStatus === 'APPROVED';
 
-  // 지원자 보기 버튼 클릭 핸들러
-  const handleApplicantsClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // Link의 기본 동작(라우팅) 방지
-    e.stopPropagation(); // 이벤트 버블링 방지
-
-    if (!isButtonEnabled) return; // 비활성화 상태면 실행하지 않음
-
-    console.log('t');
-  };
-
   return (
     <Link href={`/campaign/${id}`}>
       <CampaignCard className="flex flex-row transition-transform duration-150 active:scale-95">
@@ -84,14 +76,21 @@ export default function CampaignItem({
         </div>
 
         {isButtonEnabled && (
-          <div className="flex items-center">
-            <Button
-              variant="secondary"
-              onClick={handleApplicantsClick}
-              className="ck-body-2 transition-transform duration-150 active:scale-95"
-            >
-              진행상태
-            </Button>
+          <div
+            className="flex items-center"
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+            <CampaignProgressStatusDialog campaignId={id}>
+              <Button
+                variant="secondary"
+                className="ck-body-2 transition-transform duration-150 active:scale-95"
+              >
+                진행상태
+              </Button>
+            </CampaignProgressStatusDialog>
           </div>
         )}
       </CampaignCard>
