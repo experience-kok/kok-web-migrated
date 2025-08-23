@@ -18,7 +18,7 @@ export const SORT_MAP = {
   deadline: '마감임박순',
 } as const;
 
-// 캠페인 상태
+// 캠페인 등록 상태
 export type UserApplicationCampaignStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'COMPLETED';
 export type ClientApplicationCampaignStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'EXPIRED';
 export type CampaignApplicationStatus =
@@ -37,6 +37,19 @@ export const CLIENT_CAMPAIGN_STATUS_LABELS: Record<ClientApplicationCampaignStat
   APPROVED: '승인됨',
   REJECTED: '거절됨',
   EXPIRED: '만료됨',
+};
+
+// 캠페인 진행 상태
+export type CampaignProgressStatus =
+  | 'RECRUITMENT_COMPLETED'
+  | 'SELECTION_COMPLETED'
+  | 'MISSION_IN_PROGRESS'
+  | 'CONTENT_REVIEW_PENDING';
+export const CAMPAIGN_PROGRESS_STATUS_LABELS: Record<CampaignProgressStatus, string> = {
+  RECRUITMENT_COMPLETED: '지원자 모집이 완료되었어요.',
+  SELECTION_COMPLETED: '지원자 선정이 완료되었어요. 현재는 미션 시작일까지 기다리는 중이에요.',
+  MISSION_IN_PROGRESS: '선정된 지원자들이 미션을 수행 중이에요.',
+  CONTENT_REVIEW_PENDING: '미션 제출이 완료되었어요. 업체의 검토가 필요해요.',
 };
 
 // 캠페인

@@ -7,6 +7,7 @@ import { useInfiniteQuery, useQuery, useSuspenseQuery } from '@tanstack/react-qu
 import {
   getCampaignApplicateCheck,
   getCampaignApplications,
+  getCampaignProgressStatus,
   getCampaignSearch,
   getDeliveryCampaigns,
   getMyApplications,
@@ -59,6 +60,10 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
   realtime: () => ({
     queryKey: ['keyword'],
     queryFn: () => getSearchRealtime(),
+  }),
+  progress: (campaignId: number) => ({
+    queryKey: ['progress', campaignId],
+    queryFn: () => getCampaignProgressStatus(campaignId),
   }),
 });
 
@@ -128,6 +133,11 @@ export function useGetCampaignApplicateCheck(campaignId: number) {
 // 내 캠페인 요약 조회 쿼리
 export function useGetMyCampaigns() {
   return useSuspenseQuery(campaignsQueryKeys.my());
+}
+
+// 캠페인 진행 상태 조회 쿼리
+export function useGetCampaignProgressStatus(campaignId: number) {
+  return useSuspenseQuery(campaignsQueryKeys.progress(campaignId));
 }
 
 // 내 캠페인 지원 목록 조회 - 쿼리키 사용 안하고 있어서 이부분 추후 수정 필요

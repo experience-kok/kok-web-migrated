@@ -1,7 +1,10 @@
 import { fetcher } from '@/lib/fetcher';
 
 import { GetCampaignApplicationsRequest } from '@/types/campaigns/requests';
-import { GetCampaignApplicationsResponse } from '@/types/campaigns/responses';
+import {
+  GetCampaignApplicationsResponse,
+  GetCampaignProgressStatusResponse,
+} from '@/types/campaigns/responses';
 import { SuccessResponse } from '@/types/response';
 
 import {
@@ -323,6 +326,17 @@ export async function getCampaignApplications({
   const response = await fetcher.get<GetCampaignApplicationsResponse>(
     `/campaign-applications/campaigns/${campaignId}/applicants`,
     { requiresAuth: true },
+  );
+
+  return response;
+}
+
+/**
+ * 캠페인 진행 상태 조회
+ */
+export async function getCampaignProgressStatus(campaignId: number) {
+  const response = await fetcher.get<GetCampaignProgressStatusResponse>(
+    `/campaigns/status/${campaignId}/progress`,
   );
 
   return response;

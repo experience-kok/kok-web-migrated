@@ -7,6 +7,7 @@ import {
   CampaignApplicationStatus,
   CampaignCategoryName,
   CampaignCategoryType,
+  CampaignProgressStatus,
   CampaignType,
 } from './models';
 
@@ -217,4 +218,17 @@ export interface GetCampaignApplicationsResponse {
     };
   }>;
   pagination: Pagination;
+}
+
+/**
+ * 캠페인 진행 상태 조회 응답
+ */
+export interface GetCampaignProgressStatusResponse {
+  campaignId: number;
+  campaignTitle: string;
+  isAlwaysOpen: boolean;
+  progress: {
+    status: CampaignProgressStatus;
+    message: string;
+  };
 }

@@ -114,4 +114,12 @@ export interface GetCampaignApplicationsRequest {
   campaignId: number;
   page?: number;
   size?: number;
+  applicationStatus: 
+}
+
+/**
+ * 캠페인 진행 상태 조회 요청
+ */
+export interface GetCampaignProgressStatusRequest {
+  campaignId: number;
 }
