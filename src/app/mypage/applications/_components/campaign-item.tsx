@@ -1,12 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { CampaignCard } from '@/components/shared/campaign-card-new';
 import { Button } from '@/components/ui/button';
 import { CampaignApplicationStatus, CampaignType } from '@/models/campaign';
-
-import CampaignProgressStatusDialog from './campaign-progress-status-dialog';
 
 interface Props {
   id: number;
@@ -31,6 +30,8 @@ export default function CampaignItem({
   applicationStatus,
   grayscale = false,
 }: Props) {
+  const router = useRouter();
+
   console.log({
     id,
     thumbnailUrl,
@@ -47,9 +48,16 @@ export default function CampaignItem({
   // APPROVED 상태일 때만 버튼 활성화
   const isButtonEnabled = applicationStatus === 'APPROVED';
 
+  // 진행상태 버튼 클릭 핸들러
+  const handleProgressStatusClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/mypage/applications/status/${id}`);
+  };
+
   return (
-    <Link href={`/campaign/${id}`}>
-      <CampaignCard className="flex flex-row transition-transform duration-150 active:scale-95">
+    <Link href={`/campaign/${id}`} prefetch={true}>
+      <CampaignCard className="flex flex-row">
         {/* 이미지 컨테이너에 flex-shrink-0 적용하여 크기 고정 */}
         <div className="flex-shrink-0">
           <CampaignCard.Image
@@ -76,21 +84,10 @@ export default function CampaignItem({
         </div>
 
         {isButtonEnabled && (
-          <div
-            className="flex items-center"
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            <CampaignProgressStatusDialog campaignId={id}>
-              <Button
-                variant="secondary"
-                className="ck-body-2 transition-transform duration-150 active:scale-95"
-              >
-                진행상태
-              </Button>
-            </CampaignProgressStatusDialog>
+          <div className="flex items-center" onClick={handleProgressStatusClick}>
+            <Button variant="secondary" className="ck-body-2">
+              진행상태
+            </Button>
           </div>
         )}
       </CampaignCard>
