@@ -318,10 +318,12 @@ export async function getCampaignApplications({
   page,
   size,
   campaignId,
+  applicationStatus,
 }: GetCampaignApplicationsRequest) {
   const queryParams = new URLSearchParams();
   if (page) queryParams.set('page', page.toString());
   if (size) queryParams.set('size', size.toString());
+  if (applicationStatus) queryParams.set('applicationStatus', applicationStatus.toString());
 
   const response = await fetcher.get<GetCampaignApplicationsResponse>(
     `/campaign-applications/campaigns/${campaignId}/applicants`,
@@ -337,6 +339,7 @@ export async function getCampaignApplications({
 export async function getCampaignProgressStatus(campaignId: number) {
   const response = await fetcher.get<GetCampaignProgressStatusResponse>(
     `/campaigns/status/${campaignId}/progress`,
+    { requiresAuth: true },
   );
 
   return response;

@@ -2,7 +2,7 @@
 
 import { useGetCampaignProgressStatus } from '@/service/campaigns/campaigns-query';
 
-import ProgressStatusBar from '../progress-status-bar';
+import ProgressStatusBar from './progress-status-bar';
 
 interface Props {
   campaignId: number;

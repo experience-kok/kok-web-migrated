@@ -4,6 +4,7 @@ import {
   CampaignCategoryType,
   CampaignType,
   Sort,
+  UserApplicationCampaignStatus,
   방문카테고리,
   배송카테고리,
 } from './models';
@@ -114,7 +115,7 @@ export interface GetCampaignApplicationsRequest {
   campaignId: number;
   page?: number;
   size?: number;
-  applicationStatus: 
+  applicationStatus?: UserApplicationCampaignStatus;
 }
 
 /**

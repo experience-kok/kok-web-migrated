@@ -18,8 +18,13 @@ export const SORT_MAP = {
   deadline: '마감임박순',
 } as const;
 
-// 캠페인 등록 상태
-export type UserApplicationCampaignStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'COMPLETED';
+// 캠페인 등록/지원 상태
+export type UserApplicationCampaignStatus =
+  | 'APPLIED'
+  | 'PENDING'
+  | 'SELECTED'
+  | 'COMPLETED'
+  | 'REJECTED';
 export type ClientApplicationCampaignStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'EXPIRED';
 export type CampaignApplicationStatus =
   | UserApplicationCampaignStatus
@@ -27,10 +32,11 @@ export type CampaignApplicationStatus =
 
 // 캠페인 상태별 라벨 매핑
 export const USER_CAMPAIGN_STATUS_LABELS: Record<UserApplicationCampaignStatus, string> = {
-  PENDING: '지원',
-  APPROVED: '대기중',
-  REJECTED: '선정',
-  COMPLETED: '완료',
+  APPLIED: '지원 완료',
+  PENDING: '대기중',
+  SELECTED: '선정된',
+  COMPLETED: '완료됨',
+  REJECTED: '반려됨',
 };
 export const CLIENT_CAMPAIGN_STATUS_LABELS: Record<ClientApplicationCampaignStatus, string> = {
   PENDING: '대기중',
@@ -41,11 +47,13 @@ export const CLIENT_CAMPAIGN_STATUS_LABELS: Record<ClientApplicationCampaignStat
 
 // 캠페인 진행 상태
 export type CampaignProgressStatus =
+  | 'RECRUITING'
   | 'RECRUITMENT_COMPLETED'
   | 'SELECTION_COMPLETED'
   | 'MISSION_IN_PROGRESS'
   | 'CONTENT_REVIEW_PENDING';
 export const CAMPAIGN_PROGRESS_STATUS_LABELS: Record<CampaignProgressStatus, string> = {
+  RECRUITING: '지원자를 모집하고 있어요.',
   RECRUITMENT_COMPLETED: '지원자 모집이 완료되었어요.',
   SELECTION_COMPLETED: '지원자 선정이 완료되었어요. 현재는 미션 시작일까지 기다리는 중이에요.',
   MISSION_IN_PROGRESS: '선정된 지원자들이 미션을 수행 중이에요.',

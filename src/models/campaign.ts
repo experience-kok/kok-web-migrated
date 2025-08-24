@@ -21,11 +21,12 @@ export const SORT_MAP = {
 // 캠페인
 export interface Campaign {
   id: number;
+  isAlwaysOpen: boolean;
   campaignType: CampaignType;
   title: string;
   productShortInfo: string; // 제공 제품 한 줄
   currentApplicants: number; // 현재 지원 인원
-  maxApplicants: number; // 최대 지원 인원
+  maxApplicants: number | null; // 최대 지원 인원
   recruitmentEndDate: string; // 지원 마감일
   thumbnailUrl: string;
   category: {

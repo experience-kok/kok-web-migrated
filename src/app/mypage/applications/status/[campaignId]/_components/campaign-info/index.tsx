@@ -1,30 +1,41 @@
-import { GetCampaignBasicInfoResponse } from '@/types/campaigns/responses';
+import { CampaignCard } from '@/components/shared/campaign-card-new';
 
-import CampaignThumbnail from './campaign-thumbnail';
+import { GetCampaignBasicInfoResponse } from '@/types/campaigns/responses';
 
 interface Props {
   thumbnailUrl: string;
   basicInfo: GetCampaignBasicInfoResponse;
+  isAlwaysOpen: boolean;
 }
 
 /**
  * 캠페인 정보 컴포넌트
  */
-export default function CampaignInfo({ thumbnailUrl, basicInfo }: Props) {
-  const { title, currentApplicants, maxApplicants } = basicInfo;
+export default function CampaignInfo({ thumbnailUrl, basicInfo, isAlwaysOpen }: Props) {
+  const { title, currentApplicants, maxApplicants, campaignType } = basicInfo;
   return (
     <>
-      <section className="relative flex w-full items-start gap-3 px-5">
-        <div className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-[12px]">
-          <CampaignThumbnail thumnailUrl={thumbnailUrl} />
-        </div>
+      <section className="px-5">
+        <CampaignCard className="flex flex-row">
+          <CampaignCard.Image
+            imageUrl={thumbnailUrl}
+            imageAlt={`${title} 이미지`}
+            width={115}
+            height={115}
+          />
 
-        <div className="flex flex-col gap-2">
-          <div>캠페인 제목 : {title}</div>
-          <div>
-            지원자 수 : {currentApplicants} / {maxApplicants}명
+          <div className="flex flex-col items-start px-0">
+            <div className="scrollbar-hide mb-2 flex w-full items-center gap-2 overflow-x-auto">
+              <CampaignCard.Badge campaignType={campaignType} />
+            </div>
+            <CampaignCard.Title title={title} />
+            <CampaignCard.Applicant
+              currentApplicants={currentApplicants}
+              maxApplicants={maxApplicants}
+              isAlwaysOpen={isAlwaysOpen}
+            />
           </div>
-        </div>
+        </CampaignCard>
       </section>
     </>
   );

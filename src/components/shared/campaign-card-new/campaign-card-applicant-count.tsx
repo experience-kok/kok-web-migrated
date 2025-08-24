@@ -1,5 +1,5 @@
 interface Props {
-  maxApplicants: number;
+  maxApplicants: number | null;
   currentApplicants: number;
   isAlwaysOpen: boolean;
 }
