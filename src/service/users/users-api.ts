@@ -1,12 +1,16 @@
 import { fetcher } from '@/lib/fetcher';
 
 import {
-  GetUsersProfileResponse,
   PatchProfileImageRequest,
-  PatchProfileImageResponse,
+  PostPlatformsConnectRequest,
   PutProfileRequest,
+} from '@/types/users/requests';
+import {
+  GetSNSPlatformResponse,
+  GetUsersProfileResponse,
+  PatchProfileImageResponse,
   PutProfileResponse,
-} from './types';
+} from '@/types/users/responses';
 
 /**
  * 내 정보 조회
@@ -44,6 +48,32 @@ export async function patchProfileImage({ profileImage }: PatchProfileImageReque
     requestBody,
     { requiresAuth: true },
   );
+
+  return response;
+}
+
+/**
+ * SNS 플랫폼 목록 조회
+ */
+export async function getSNSPlatforms() {
+  const response = await fetcher.get<GetSNSPlatformResponse>(`/platforms`, {
+    requiresAuth: true,
+  });
+
+  return response;
+}
+
+/**
+ * SNS 플랫폼 연동
+ */
+export async function postSNSPlatform({ type, url }: PostPlatformsConnectRequest) {
+  const requestBody = {
+    type,
+    url,
+  };
+  const response = await fetcher.post(`/platforms/connect`, requestBody, {
+    requiresAuth: true,
+  });
 
   return response;
 }

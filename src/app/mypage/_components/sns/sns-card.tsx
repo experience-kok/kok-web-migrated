@@ -1,38 +1,100 @@
-import { Plus } from 'lucide-react';
+import { SNSPlatformType } from '@/types/users/models';
+
+import SNSConnectDialog from './sns-connect-dialog';
 
 const SNS_TYPE = {
   YOUTUBE: {
     title: '유튜브 연결하기',
+    connectedTitle: '유튜브',
+    koreanName: '유튜브',
   },
   INSTAGRAM: {
     title: '인스타그램 연결하기',
+    connectedTitle: '인스타그램',
+    koreanName: '인스타그램',
   },
-  NAVER_BLOG: {
+  BLOG: {
     title: '블로그 연결하기',
+    connectedTitle: '블로그',
+    koreanName: '블로그',
+  },
+  TIKTOK: {
+    title: '틱톡 연결하기',
+    connectedTitle: '틱톡',
+    koreanName: '틱톡',
   },
 } as const;
 
-type SnsTypeKey = keyof typeof SNS_TYPE;
-
 interface Props {
-  type: SnsTypeKey;
-  isRegistration: boolean; // !TODO sns 등록 여부 -> 서버에서 필드명 확정되면 수정 필요
+  platform: {
+    platformType: SNSPlatformType;
+    isConnected: boolean;
+    id?: number;
+    accountUrl?: string;
+  };
 }
 
 /**
  * SNS 카드
  */
-export default function SnsCard({ type, isRegistration }: Props) {
-  const { title } = SNS_TYPE[type];
-  return (
-    <div
-      className={`flex h-40 w-full flex-1 items-center justify-between rounded-md border-[1px] px-4 py-3 ${
-        isRegistration ? 'border-solid' : 'border-dashed'
-      }`}
-    >
-      <span className="ck-body-2 text-muted-foreground">{title}</span>
+export default function SnsCard({ platform }: Props) {
+  const { platformType, isConnected, accountUrl } = platform;
+  const snsInfo = SNS_TYPE[platformType];
 
-      <Plus size={16} className="text-muted-foreground" />
-    </div>
+  if (!snsInfo) {
+    return null; // 지원하지 않는 플랫폼의 경우
+  }
+
+  const { title } = snsInfo;
+
+  // 플랫폼별 연결된 상태 스타일
+  const getConnectedBackgroundStyle = (type: SNSPlatformType) => {
+    if (!isConnected) return 'border-dashed border-gray-300 bg-white';
+
+    switch (type) {
+      case 'YOUTUBE':
+        return 'bg-red-500';
+      case 'BLOG':
+        return 'bg-green-500';
+      case 'INSTAGRAM':
+        return 'bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500';
+      case 'TIKTOK':
+        return 'bg-black';
+      default:
+        return 'bg-gray-300';
+    }
+  };
+
+  // 카드 클릭 핸들러
+  const handleCardClick = () => {
+    if (isConnected && accountUrl) {
+      window.open(accountUrl, '_blank');
+    }
+  };
+
+  return (
+    <>
+      <div
+        className={`flex h-40 w-full flex-1 items-center justify-between rounded-[12px] px-4 py-3 ${
+          isConnected ? 'cursor-pointer' : ''
+        } ${getConnectedBackgroundStyle(platformType)} ${!isConnected ? 'border-[1px]' : ''}`}
+        onClick={handleCardClick}
+      >
+        <div className="flex flex-col gap-1">
+          {!isConnected && accountUrl === null && (
+            <span className={`ck-body-2-bold ck-gray-700`}>{title}</span>
+          )}
+
+          {isConnected && accountUrl && (
+            <span className={`ck-body-2-bold max-w-[280px] truncate text-white/80`}>
+              {accountUrl}
+            </span>
+          )}
+        </div>
+        <div onClick={e => e.stopPropagation()}>
+          <SNSConnectDialog currentPlatform={platformType} isConnected={isConnected} />
+        </div>
+      </div>
+    </>
   );
 }
