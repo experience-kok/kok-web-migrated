@@ -1,6 +1,7 @@
 import { SNSPlatformType } from '@/types/users/models';
 
 import SNSConnectDialog from './sns-connect-dialog';
+import SNSRemoveDialog from './sns-remove-dialog';
 
 const SNS_TYPE = {
   YOUTUBE: {
@@ -92,7 +93,11 @@ export default function SnsCard({ platform }: Props) {
           )}
         </div>
         <div onClick={e => e.stopPropagation()}>
-          <SNSConnectDialog currentPlatform={platformType} isConnected={isConnected} />
+          {isConnected && platform.id ? (
+            <SNSRemoveDialog snsId={platform.id} />
+          ) : (
+            <SNSConnectDialog currentPlatform={platformType} />
+          )}
         </div>
       </div>
     </>

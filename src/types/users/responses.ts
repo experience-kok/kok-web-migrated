@@ -29,3 +29,11 @@ export interface GetSNSPlatformResponse {
     accountUrl?: string;
   }>;
 }
+
+// SNS 플랫폼 등록 해제 응답
+export interface DeleteSNSPlatformResponse {
+  platformId: number;
+  platformType: SNSPlatformType;
+  accountUrl: string;
+  message: string;
+}

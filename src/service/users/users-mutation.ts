@@ -18,7 +18,7 @@ import { useMutation } from '@tanstack/react-query';
 import { postPresignedUrl } from '../images/images-api';
 import { ImageExtension } from '../images/types';
 
-import { postSNSPlatform, putProfile } from './users-api';
+import { deleteSNSPlatform, postSNSPlatform, putProfile } from './users-api';
 import { usersQueryKeys } from './users-query';
 
 /**
@@ -119,7 +119,7 @@ export function usePutProfileMutation() {
 /**
  * SNS 등록 뮤테이션
  */
-export function usePostSNSPlatform() {
+export function usePostSNSPlatformMutation() {
   const queryClient = getQueryClient();
 
   return useMutation({
@@ -142,6 +142,32 @@ export function usePostSNSPlatform() {
       }
 
       toast.error(errorMessage, {
+        position: 'top-center',
+      });
+    },
+  });
+}
+
+/**
+ * SNS 등록 해제 뮤테이션
+ */
+export function useDeleteSNSPlatformMutation() {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: deleteSNSPlatform,
+
+    onSuccess: () => {
+      // SNS 플랫폼 목록 초기화
+      queryClient.invalidateQueries({
+        queryKey: usersQueryKeys.sns().queryKey,
+      });
+      toast.success('SNS 연결을 해제했어요.', {
+        position: 'top-center',
+      });
+    },
+    onError: () => {
+      toast.error('SNS 연결 해제를 실패했어요.', {
         position: 'top-center',
       });
     },

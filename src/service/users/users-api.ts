@@ -6,6 +6,7 @@ import {
   PutProfileRequest,
 } from '@/types/users/requests';
 import {
+  DeleteSNSPlatformResponse,
   GetSNSPlatformResponse,
   GetUsersProfileResponse,
   PatchProfileImageResponse,
@@ -72,6 +73,17 @@ export async function postSNSPlatform({ type, url }: PostPlatformsConnectRequest
     url,
   };
   const response = await fetcher.post(`/platforms/connect`, requestBody, {
+    requiresAuth: true,
+  });
+
+  return response;
+}
+
+/**
+ * SNS 플랫폼 연동 해제
+ */
+export async function deleteSNSPlatform(platformId: number) {
+  const response = await fetcher.delete<DeleteSNSPlatformResponse>(`/platforms/${platformId}`, {
     requiresAuth: true,
   });
 

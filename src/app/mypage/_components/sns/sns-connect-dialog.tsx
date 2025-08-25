@@ -1,6 +1,8 @@
+'use client';
+
 import { useState } from 'react';
 
-import { PlusIcon, MinusIcon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -12,7 +14,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { usePostSNSPlatform } from '@/service/users/users-mutation';
+import { usePostSNSPlatformMutation } from '@/service/users/users-mutation';
 
 import { SNSPlatformType } from '@/types/users/models';
 
@@ -38,17 +40,16 @@ const PLATFORM_INFO = {
 
 interface Props {
   currentPlatform: SNSPlatformType;
-  isConnected?: boolean; // 연결 상태 prop 추가
 }
 
 /**
  * SNS 연결 다이얼로그
  */
-export default function SNSConnectDialog({ currentPlatform, isConnected = false }: Props) {
+export default function SNSConnectDialog({ currentPlatform }: Props) {
   const [snsUrl, setSnsUrl] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: postSNSPlatform, isPending } = usePostSNSPlatform();
+  const { mutate: postSNSPlatform, isPending } = usePostSNSPlatformMutation();
 
   const handleSubmit = () => {
     if (!snsUrl.trim()) {
@@ -75,12 +76,8 @@ export default function SNSConnectDialog({ currentPlatform, isConnected = false 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          size={'icon'}
-          variant={'ghost'}
-          className={isConnected ? 'text-white hover:text-white/80' : ''}
-        >
-          {isConnected ? <MinusIcon /> : <PlusIcon />}
+        <Button size={'icon'} variant={'ghost'} className="text-ck-gray-900">
+          <PlusIcon />
         </Button>
       </DialogTrigger>
 
@@ -108,7 +105,7 @@ export default function SNSConnectDialog({ currentPlatform, isConnected = false 
               disabled={!snsUrl.trim() || isPending}
               className="flex-1"
             >
-              {isPending ? '등록 중...' : '연결'}
+              {isPending ? '등록 중...' : '연결하기'}
             </DialogButton>
           </div>
         </div>
