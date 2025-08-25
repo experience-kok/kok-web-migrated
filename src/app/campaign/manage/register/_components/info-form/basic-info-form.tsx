@@ -53,7 +53,7 @@ export default function BasicInfoForm({
                 <SelectItem value="인스타그램">인스타그램</SelectItem>
                 <SelectItem value="블로그">블로그</SelectItem>
                 <SelectItem value="유튜브">유튜브</SelectItem>
-                <SelectItem value="틱톡">틱톡</SelectItem>
+                {/* <SelectItem value="틱톡">틱톡</SelectItem> */}
               </SelectContent>
             </Select>
           )}

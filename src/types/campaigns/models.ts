@@ -1,5 +1,5 @@
-export type CampaignType = '인스타그램' | '블로그' | '유튜브' | '틱톡';
-export const CAMPAIGN_TYPES = ['인스타그램', '블로그', '유튜브', '틱톡'] as const;
+export type CampaignType = '인스타그램' | '블로그' | '유튜브';
+export const CAMPAIGN_TYPES = ['인스타그램', '블로그', '유튜브'] as const;
 
 export type CampaignCategoryType = '방문' | '배송';
 export const CAMPAIGN_CATEGORY_TYPES = ['방문', '배송'] as const;

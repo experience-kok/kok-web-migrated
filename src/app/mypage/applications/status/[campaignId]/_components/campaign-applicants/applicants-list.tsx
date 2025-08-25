@@ -5,6 +5,7 @@ import { Gender } from '@/models/user';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 
 import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
+import { SNSPlatformType } from '@/types/users/models';
 
 import ApplicantsCard from './applicants-card';
 
@@ -17,7 +18,10 @@ interface Props {
       phone: string;
       gender: Gender;
     };
-    snsUrl: string;
+    allSnsUrls: Array<{
+      platformType: SNSPlatformType;
+      snsUrl: string;
+    }>;
   }>;
   applicationStatus: UserApplicationCampaignStatus;
   totalElements: number;

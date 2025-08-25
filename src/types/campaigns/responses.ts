@@ -1,6 +1,7 @@
 import { Gender, Role } from '@/models/user';
 
 import { Pagination } from '../response';
+import { SNSPlatformType } from '../users/models';
 
 import {
   Campaign,
@@ -216,8 +217,8 @@ export interface GetCampaignApplicationsResponse {
       phone: string;
       gender: Gender;
     };
-    snsUrl: Array<{
-      platformType: string;
+    allSnsUrls: Array<{
+      platformType: SNSPlatformType;
       snsUrl: string;
     }>;
   }>;

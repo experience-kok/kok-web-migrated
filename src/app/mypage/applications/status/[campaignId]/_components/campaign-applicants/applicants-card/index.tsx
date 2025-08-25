@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Gender } from '@/models/user';
 
 import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
+import { SNSPlatformType } from '@/types/users/models';
 
 import ApplicantsInfoBox from './applicants-info-box';
 import ApplicantsSNS from './applicants-sns';
@@ -21,8 +22,8 @@ interface Props {
       phone: string;
       gender: Gender;
     };
-    snsUrl: Array<{
-      platformType: string;
+    allSnsUrls: Array<{
+      platformType: SNSPlatformType;
       snsUrl: string;
     }>;
   };
@@ -147,7 +148,7 @@ export default function ApplicantsCard({ status, applicant }: Props) {
           <div className="flex items-center space-x-3">
             <ApplicantsInfoBox nickname={applicant.user.nickname} profileUrl={'/kogi.png'} />
 
-            <ApplicantsSNS />
+            <ApplicantsSNS snsAccounts={applicant.allSnsUrls} />
           </div>
 
           {/* 드롭다운 메뉴 */}
