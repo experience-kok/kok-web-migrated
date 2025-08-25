@@ -237,3 +237,21 @@ export interface GetCampaignProgressStatusResponse {
     message: string;
   };
 }
+
+/**
+ * 인플루언서가 유저 미션 이력 조회 응답
+ */
+export interface GetUserMissionsHistoryResponse {
+  histories: Array<{
+    id: number;
+    campaign: {
+      title: string;
+      category: string;
+    };
+    mission: {
+      missionUrl: string;
+      isCompleted: true;
+      completionDate: string;
+    };
+  }>;
+}

@@ -4,6 +4,7 @@ import { GetCampaignApplicationsRequest } from '@/types/campaigns/requests';
 import {
   GetCampaignApplicationsResponse,
   GetCampaignProgressStatusResponse,
+  GetUserMissionsHistoryResponse,
 } from '@/types/campaigns/responses';
 import { SuccessResponse } from '@/types/response';
 
@@ -372,6 +373,19 @@ export async function postApplicationsReject(campaignId: number, applicationId: 
     `/campaign-applications/campaigns/${campaignId}/applications/reject`,
     requestBody,
     { requiresAuth: true },
+  );
+
+  return response;
+}
+/**
+ * 인플루언서가 유저 미션 이력 조회
+ */
+export async function getUserMissionsHistory(userId: number) {
+  const response = await fetcher.get<GetUserMissionsHistoryResponse>(
+    `/missions/${userId}/history`,
+    {
+      requiresAuth: true,
+    },
   );
 
   return response;

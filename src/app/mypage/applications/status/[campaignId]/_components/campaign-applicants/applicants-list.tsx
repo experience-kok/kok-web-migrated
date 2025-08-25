@@ -8,6 +8,7 @@ import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
 import { SNSPlatformType } from '@/types/users/models';
 
 import ApplicantsCard from './applicants-card';
+import ApplicantsListSkeleton from './applicants-list-skeleton';
 
 interface Props {
   campaignId: number;
@@ -58,11 +59,7 @@ export default function ApplicantsList({
 
   // 로딩 상태 처리
   if (isLoading && applicants.length === 0) {
-    return (
-      <div className="flex w-full items-center justify-center py-6">
-        <p className="ck-body-2 text-ck-gray-700">지원자를 불러오는 중...</p>
-      </div>
-    );
+    return <ApplicantsListSkeleton />;
   }
 
   // 에러 상태 처리

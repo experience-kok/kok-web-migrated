@@ -16,6 +16,7 @@ import { SNSPlatformType } from '@/types/users/models';
 
 import ApplicantsInfoBox from './applicants-info-box';
 import ApplicantsSNS from './applicants-sns';
+import MissionHistoryDialog from './mission-history-dialog';
 
 interface Props {
   campaignId: number;
@@ -40,6 +41,7 @@ interface Props {
  */
 export default function ApplicantsCard({ campaignId, status, applicant }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMissionHistoryOpen, setIsMissionHistoryOpen] = useState(false);
   const [alertDialog, setAlertDialog] = useState<{
     isOpen: boolean;
     title?: string;
@@ -59,8 +61,7 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
 
   // 각 옵션별 실행 함수들
   const handleMissionHistory = () => {
-    console.log(`미션 이력 for applicant ${applicant?.user.nickname}`);
-    // 실제 API 호출 로직 - 미션 이력 페이지로 이동하거나 모달 띄우기
+    setIsMissionHistoryOpen(true);
   };
 
   const handleSelect = () => {
@@ -211,6 +212,13 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
         actionText={alertDialog.actionText}
         onAction={alertDialog.onAction}
         closeText="취소"
+      />
+
+      {/* 미션 이력 다이얼로그 */}
+      <MissionHistoryDialog
+        isOpen={isMissionHistoryOpen}
+        onOpenChange={setIsMissionHistoryOpen}
+        applicantNickname={applicant.user.nickname}
       />
     </>
   );
