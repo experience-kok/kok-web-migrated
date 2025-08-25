@@ -91,7 +91,29 @@ export function usePostApplicationsSelectMutation(campaignId: number, applicatio
 
   return useMutation({
     mutationFn: () => postApplicationsSelect(campaignId, applicationId),
-    onSuccess: () => {},
+    onSuccess: () => {
+      // 선정, 대기 지원자 쿼리 초기화
+      queryClient.invalidateQueries({
+        queryKey: ['campaigns', 'applications'],
+        // PENDING, SELECTED 상태의 쿼리만 무효화
+        predicate: query => {
+          const queryKey = query.queryKey;
+          return (
+            queryKey.includes(campaignId) &&
+            (queryKey.includes('PENDING') || queryKey.includes('SELECTED'))
+          );
+        },
+      });
+
+      toast.success('지원자 선정이 완료되었어요.', {
+        position: 'top-center',
+      });
+    },
+    onError: () => {
+      toast.error('지원자 선정을 실패했어요. 잠시 후 다시 시도해주세요.', {
+        position: 'top-center',
+      });
+    },
   });
 }
 
@@ -103,5 +125,28 @@ export function usePostApplicationsRejectMutation(campaignId: number, applicatio
 
   return useMutation({
     mutationFn: () => postApplicationsReject(campaignId, applicationId),
+    onSuccess: () => {
+      // 대기, 거절 지원자 쿼리 초기화
+      queryClient.invalidateQueries({
+        queryKey: ['campaigns', 'applications'],
+        // PENDING, REJECTED 상태의 쿼리만 무효화
+        predicate: query => {
+          const queryKey = query.queryKey;
+          return (
+            queryKey.includes(campaignId) &&
+            (queryKey.includes('PENDING') || queryKey.includes('REJECTED'))
+          );
+        },
+      });
+
+      toast.success('지원자 거절이 완료되었어요.', {
+        position: 'top-center',
+      });
+    },
+    onError: () => {
+      toast.error('지원자 거절을 실패했어요. 잠시 후 다시 시도해주세요.', {
+        position: 'top-center',
+      });
+    },
   });
 }

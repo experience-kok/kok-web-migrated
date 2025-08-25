@@ -1,10 +1,15 @@
 import { useState } from 'react';
 
 import { ChevronDown, MoreVertical } from 'lucide-react';
+import { toast } from 'sonner';
 
 import AlertDialog from '@/components/shared/alert-dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import { Gender } from '@/models/user';
+import {
+  usePostApplicationsRejectMutation,
+  usePostApplicationsSelectMutation,
+} from '@/service/campaigns/campaigns-mutation';
 
 import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
 import { SNSPlatformType } from '@/types/users/models';
@@ -13,6 +18,7 @@ import ApplicantsInfoBox from './applicants-info-box';
 import ApplicantsSNS from './applicants-sns';
 
 interface Props {
+  campaignId: number;
   status: UserApplicationCampaignStatus;
   applicant: {
     applicationId: number;
@@ -32,7 +38,7 @@ interface Props {
 /**
  * 지원자 카드 컴포넌트
  */
-export default function ApplicantsCard({ status, applicant }: Props) {
+export default function ApplicantsCard({ campaignId, status, applicant }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [alertDialog, setAlertDialog] = useState<{
     isOpen: boolean;
@@ -44,6 +50,13 @@ export default function ApplicantsCard({ status, applicant }: Props) {
     isOpen: false,
   });
 
+  const { mutate: postApplicationSelect } = usePostApplicationsSelectMutation(campaignId, [
+    applicant.applicationId,
+  ]);
+  const { mutate: postApplicationReject } = usePostApplicationsRejectMutation(campaignId, [
+    applicant.applicationId,
+  ]);
+
   // 각 옵션별 실행 함수들
   const handleMissionHistory = () => {
     console.log(`미션 이력 for applicant ${applicant?.user.nickname}`);
@@ -53,13 +66,18 @@ export default function ApplicantsCard({ status, applicant }: Props) {
   const handleSelect = () => {
     setAlertDialog({
       isOpen: true,
-      title: '지원자를 선정할까요??',
+      title: '지원자를 선정할까요?',
       description: `${applicant?.user.nickname || '지원자'}님을 최종 선정해요. 
       선정 후에는 취소가 불가능하니 신중하게 결정해 주세요.`,
       actionText: '선정하기',
       onAction: () => {
-        console.log(`선정하기 for applicant ${applicant?.user.nickname}`);
-        // 실제 API 호출 로직
+        postApplicationSelect(undefined, {
+          onSuccess: () => {
+            toast.success(`${applicant?.user.nickname}님을 선정했어요.`, {
+              position: 'top-center',
+            });
+          },
+        });
       },
     });
   };
@@ -72,8 +90,13 @@ export default function ApplicantsCard({ status, applicant }: Props) {
       거절 후에는 취소가 불가능하니 신중하게 결정해 주세요.`,
       actionText: '거절하기',
       onAction: () => {
-        console.log(`거절하기 for applicant ${applicant?.user.nickname}`);
-        // 실제 API 호출 로직
+        postApplicationReject(undefined, {
+          onSuccess: () => {
+            toast.success(`${applicant?.user.nickname}님을 거절했어요.`, {
+              position: 'top-center',
+            });
+          },
+        });
       },
     });
   };

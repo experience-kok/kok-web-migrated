@@ -14,7 +14,7 @@ export default function ApplicantsInfoBox({ profileUrl, nickname }: Props) {
       <div className="flex items-center">
         <Image src={profileUrl} alt={`${nickname}의 프로필 사진`} width={36} height={36} />
 
-        <div className="ck-body-2-bold ml-2 w-[120px] truncate" title={nickname}>
+        <div className="ck-body-2-bold ml-2 w-[110px] truncate" title={nickname}>
           {nickname}
         </div>
       </div>

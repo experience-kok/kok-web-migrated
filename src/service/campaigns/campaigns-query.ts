@@ -146,7 +146,7 @@ export function useGetMyApplications({
   applicationStatus,
 }: Omit<GetMyApplicationsRequest, 'page'>) {
   return useInfiniteQuery({
-    queryKey: ['campaigns', 'applications', size, applicationStatus],
+    queryKey: ['campaigns', 'applications', applicationStatus],
     queryFn: ({ pageParam = 1 }) =>
       getMyApplications({
         page: pageParam,
@@ -223,7 +223,7 @@ export function useGetCampaignApplications({
   applicationStatus,
 }: Omit<GetCampaignApplicationsRequest, 'page'>) {
   return useInfiniteQuery({
-    queryKey: ['campaigns', 'applications', size, campaignId, applicationStatus],
+    queryKey: ['campaigns', 'applications', campaignId, applicationStatus],
     queryFn: ({ pageParam }) =>
       getCampaignApplications({
         page: pageParam,

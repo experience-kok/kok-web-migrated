@@ -10,6 +10,7 @@ import { SNSPlatformType } from '@/types/users/models';
 import ApplicantsCard from './applicants-card';
 
 interface Props {
+  campaignId: number;
   applicants: Array<{
     applicationId: number;
     user: {
@@ -36,6 +37,7 @@ interface Props {
  * 지원자 목록 컴포넌트
  */
 export default function ApplicantsList({
+  campaignId,
   applicants,
   applicationStatus,
   totalElements,
@@ -89,12 +91,17 @@ export default function ApplicantsList({
               if (applicants.length === index + 1) {
                 return (
                   <div ref={lastElementRef} key={`${applicant.user.id}-${index}`}>
-                    <ApplicantsCard status={applicationStatus} applicant={applicant} />
+                    <ApplicantsCard
+                      campaignId={campaignId}
+                      status={applicationStatus}
+                      applicant={applicant}
+                    />
                   </div>
                 );
               } else {
                 return (
                   <ApplicantsCard
+                    campaignId={campaignId}
                     status={applicationStatus}
                     applicant={applicant}
                     key={`${applicant.user.id}-${index}`}

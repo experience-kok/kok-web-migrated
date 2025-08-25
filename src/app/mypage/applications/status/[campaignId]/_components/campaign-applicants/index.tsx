@@ -84,6 +84,7 @@ export default function CampaignApplicants({ campaignId }: Props) {
       <ApplicationStatusTab activeTab={activeTab} onValueChange={handleTabChange} />
 
       <ApplicantsList
+        campaignId={campaignId}
         applicants={allApplicants}
         applicationStatus={activeTab}
         totalElements={totalElements}

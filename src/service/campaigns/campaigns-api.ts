@@ -351,7 +351,7 @@ export async function getCampaignProgressStatus(campaignId: number) {
  */
 export async function postApplicationsSelect(campaignId: number, applicationId: number[]) {
   const requestBody = {
-    applicationsIds: applicationId,
+    applicationIds: applicationId,
   };
   const response = await fetcher.post<null>(
     `/campaign-applications/campaigns/${campaignId}/applications/select`,
@@ -366,7 +366,7 @@ export async function postApplicationsSelect(campaignId: number, applicationId: 
  */
 export async function postApplicationsReject(campaignId: number, applicationId: number[]) {
   const requestBody = {
-    applicationsIds: applicationId,
+    applicationIds: applicationId,
   };
   const response = await fetcher.post<null>(
     `/campaign-applications/campaigns/${campaignId}/applications/reject`,
