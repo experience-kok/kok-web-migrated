@@ -2,6 +2,7 @@ import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+import { isFetcherError } from '@/lib/fetcher';
 import { User } from '@/models/user';
 import { EditForm } from '@/schemas/profile.schemas';
 
@@ -9,13 +10,15 @@ import { getQueryClient } from '@/configs/tanstack-query/get-query-client';
 
 import { userAtom } from '@/stores/user.atom';
 
+import { getSNSPlatformsErrorMessage } from '@/types/users/errors';
+import { PutProfileRequest } from '@/types/users/requests';
+
 import { useMutation } from '@tanstack/react-query';
 
 import { postPresignedUrl } from '../images/images-api';
 import { ImageExtension } from '../images/types';
 
-import { PutProfileRequest } from './types';
-import { putProfile } from './users-api';
+import { deleteSNSPlatform, postSNSPlatform, putProfile } from './users-api';
 import { usersQueryKeys } from './users-query';
 
 /**
@@ -107,6 +110,64 @@ export function usePutProfileMutation() {
     },
     onError: () => {
       toast.error('프로필 정보 변경을 실패했어요.', {
+        position: 'top-center',
+      });
+    },
+  });
+}
+
+/**
+ * SNS 등록 뮤테이션
+ */
+export function usePostSNSPlatformMutation() {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: postSNSPlatform,
+
+    onSuccess: () => {
+      // SNS 플랫폼 목록 초기화
+      queryClient.invalidateQueries({
+        queryKey: usersQueryKeys.sns().queryKey,
+      });
+      toast.success('SNS 연결을 성공했어요.', {
+        position: 'top-center',
+      });
+    },
+    onError: error => {
+      let errorMessage = 'SNS 연결을 실패했어요.';
+      if (isFetcherError(error) && error.data?.errorCode) {
+        const errorCode = error?.data?.errorCode;
+        errorMessage = getSNSPlatformsErrorMessage(errorCode);
+      }
+
+      toast.error(errorMessage, {
+        position: 'top-center',
+      });
+    },
+  });
+}
+
+/**
+ * SNS 등록 해제 뮤테이션
+ */
+export function useDeleteSNSPlatformMutation() {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: deleteSNSPlatform,
+
+    onSuccess: () => {
+      // SNS 플랫폼 목록 초기화
+      queryClient.invalidateQueries({
+        queryKey: usersQueryKeys.sns().queryKey,
+      });
+      toast.success('SNS 연결을 해제했어요.', {
+        position: 'top-center',
+      });
+    },
+    onError: () => {
+      toast.error('SNS 연결 해제를 실패했어요.', {
         position: 'top-center',
       });
     },

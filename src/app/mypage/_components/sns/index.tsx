@@ -1,12 +1,18 @@
+'use client';
+
+import { useGetSNSPlatforms } from '@/service/users/users-query';
+
 import SnsCard from './sns-card';
 
 export default function Sns() {
+  const { data: snsList } = useGetSNSPlatforms();
+
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2">
-        <SnsCard type="NAVER_BLOG" isRegistration={true} />
-        <SnsCard type="INSTAGRAM" isRegistration={false} />
-        <SnsCard type="YOUTUBE" isRegistration={true} />
+        {snsList.platforms.map((platform, index) => (
+          <SnsCard platform={platform} key={platform.id || index} />
+        ))}
       </div>
     </>
   );

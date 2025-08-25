@@ -43,7 +43,7 @@ export default function MyPage() {
 
       <section className="px-4 py-6">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="ck-title">등록된 SNS</h2>
+          <h2 className="ck-title">연결된 SNS</h2>
         </div>
         <Sns />
       </section>
