@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 
-import { useGetCampaignApplications } from '@/service/campaigns/campaigns-query';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-import { useURLParams } from '@/hooks/use-url-params';
+import { useGetCampaignApplications } from '@/service/campaigns/campaigns-query';
 
 import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
 
@@ -19,11 +19,14 @@ interface Props {
  * 캠페인 지원자 관리 탭 컴포넌트
  */
 export default function CampaignApplicants({ campaignId }: Props) {
-  const { getParam, updateParams } = useURLParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   // URL 파라미터에서 applicationStatus 가져오기
   const getApplicationStatus = (): UserApplicationCampaignStatus | undefined => {
-    const status = getParam('applicationStatus');
+    const status = searchParams.get('applicationStatus');
+
+    console.log('Status from searchParams:', status); // 디버깅용
 
     if (!status) return undefined;
 
@@ -51,18 +54,23 @@ export default function CampaignApplicants({ campaignId }: Props) {
   // API 호출 파라미터 설정
   const params = {
     campaignId,
-    page: getParam('page') ? parseInt(getParam('page')!, 10) : undefined,
-    size: getParam('size') ? parseInt(getParam('size')!, 10) : undefined,
+    page: searchParams.get('page') ? parseInt(searchParams.get('page')!, 10) : undefined,
+    size: searchParams.get('size') ? parseInt(searchParams.get('size')!, 10) : undefined,
     applicationStatus: getApplicationStatus(),
   };
 
   // 탭 변경 함수
   const handleTabChange = (tab: UserApplicationCampaignStatus) => {
     setActiveTab(tab);
-    updateParams({
-      page: '1',
-      applicationStatus: tab,
-    });
+
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set('page', '1');
+    current.set('applicationStatus', tab);
+
+    const search = current.toString();
+    const query = search ? `?${search}` : '';
+
+    router.push(`${window.location.pathname}${query}`);
   };
 
   const {

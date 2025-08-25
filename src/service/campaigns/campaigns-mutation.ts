@@ -8,7 +8,12 @@ import { useMutation } from '@tanstack/react-query';
 import { postPresignedUrl } from '../images/images-api';
 import { ImageExtension } from '../images/types';
 
-import { postCampaign, postCampaignApplicate } from './campaigns-api';
+import {
+  postApplicationsReject,
+  postApplicationsSelect,
+  postCampaign,
+  postCampaignApplicate,
+} from './campaigns-api';
 import { campaignsQueryKeys } from './campaigns-query';
 import { PostCampaignRequest } from './types';
 
@@ -75,5 +80,27 @@ export function usePostCampaignApplicateMutation(campaignId: number) {
         position: 'top-center',
       });
     },
+  });
+}
+
+/**
+ * 지원자 선정 뮤테이션
+ */
+export function usePostApplicationsSelectMutation(campaignId: number, applicationId: number[]) {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: () => postApplicationsSelect(campaignId, applicationId),
+  });
+}
+
+/**
+ * 지원자 거절(반려) 뮤테이션
+ */
+export function usePostApplicationsRejectMutation(campaignId: number, applicationId: number[]) {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: () => postApplicationsReject(campaignId, applicationId),
   });
 }

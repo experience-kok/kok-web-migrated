@@ -323,6 +323,7 @@ export async function getCampaignApplications({
   const queryParams = new URLSearchParams();
   if (page) queryParams.set('page', page.toString());
   if (size) queryParams.set('size', size.toString());
+  console.log(applicationStatus);
   if (applicationStatus) queryParams.set('applicationStatus', applicationStatus.toString());
 
   const response = await fetcher.get<GetCampaignApplicationsResponse>(
@@ -339,6 +340,37 @@ export async function getCampaignApplications({
 export async function getCampaignProgressStatus(campaignId: number) {
   const response = await fetcher.get<GetCampaignProgressStatusResponse>(
     `/campaigns/status/${campaignId}/progress`,
+    { requiresAuth: true },
+  );
+
+  return response;
+}
+
+/**
+ * 인플루언서 선정
+ */
+export async function postApplicationsSelect(campaignId: number, applicationId: number[]) {
+  const requestBody = {
+    applicationsIds: applicationId,
+  };
+  const response = await fetcher.post<null>(
+    `/campaign-applications/campaigns/${campaignId}/applications/select`,
+    requestBody,
+    { requiresAuth: true },
+  );
+
+  return response;
+}
+/**
+ * 인플루언서 반려(거절)
+ */
+export async function postApplicationsReject(campaignId: number, applicationId: number[]) {
+  const requestBody = {
+    applicationsIds: applicationId,
+  };
+  const response = await fetcher.post<null>(
+    `/campaign-applications/campaigns/${campaignId}/applications/reject`,
+    requestBody,
     { requiresAuth: true },
   );
 
