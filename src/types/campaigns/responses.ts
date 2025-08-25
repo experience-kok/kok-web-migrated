@@ -216,7 +216,10 @@ export interface GetCampaignApplicationsResponse {
       phone: string;
       gender: Gender;
     };
-    snsUrl: string;
+    snsUrl: Array<{
+      platformType: string;
+      snsUrl: string;
+    }>;
   }>;
   pagination: Pagination;
 }

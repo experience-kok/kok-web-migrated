@@ -21,7 +21,10 @@ interface Props {
       phone: string;
       gender: Gender;
     };
-    snsUrl: string;
+    snsUrl: Array<{
+      platformType: string;
+      snsUrl: string;
+    }>;
   };
 }
 
