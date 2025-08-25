@@ -4,6 +4,8 @@ import { Gender } from '@/models/user';
 
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 
+import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
+
 import ApplicantsCard from './applicants-card';
 
 interface Props {
@@ -17,6 +19,7 @@ interface Props {
     };
     snsUrl: string;
   }>;
+  applicationStatus: UserApplicationCampaignStatus;
   totalElements: number;
   isLoading?: boolean;
   isFetchingNextPage?: boolean;
@@ -30,6 +33,7 @@ interface Props {
  */
 export default function ApplicantsList({
   applicants,
+  applicationStatus,
   totalElements,
   isLoading,
   isFetchingNextPage,
@@ -64,18 +68,20 @@ export default function ApplicantsList({
       <div className="ck-body-2">총 {totalElements}명</div>
 
       <div className="grid gap-3 pb-6">
-        <ApplicantsCard />
-        <ApplicantsCard />
+        <ApplicantsCard status={applicationStatus} />
+        <ApplicantsCard status={applicationStatus} />
         {isApplicants &&
           applicants.map((applicant, index) => {
             if (applicants.length === index + 1) {
               return (
                 <div ref={lastElementRef} key={`${applicant.user.id}-${index}`}>
-                  <ApplicantsCard />
+                  <ApplicantsCard status={applicationStatus} />
                 </div>
               );
             } else {
-              return <ApplicantsCard key={`${applicant.user.id}-${index}`} />;
+              return (
+                <ApplicantsCard status={applicationStatus} key={`${applicant.user.id}-${index}`} />
+              );
             }
           })}
 

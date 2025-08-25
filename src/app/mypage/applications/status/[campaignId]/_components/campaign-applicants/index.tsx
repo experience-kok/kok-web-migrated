@@ -2,11 +2,6 @@
 
 import { useState } from 'react';
 
-import { useSearchParams } from 'next/navigation';
-
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGetCampaignApplications } from '@/service/campaigns/campaigns-query';
 
 import { useURLParams } from '@/hooks/use-url-params';
@@ -24,7 +19,6 @@ interface Props {
  * 캠페인 지원자 관리 탭 컴포넌트
  */
 export default function CampaignApplicants({ campaignId }: Props) {
-  const searchParams = useSearchParams();
   const { getParam, updateParams } = useURLParams();
 
   // URL 파라미터에서 applicationStatus 가져오기
@@ -91,6 +85,7 @@ export default function CampaignApplicants({ campaignId }: Props) {
 
       <ApplicantsList
         applicants={allApplicants}
+        applicationStatus={activeTab}
         totalElements={totalElements}
         isLoading={isLoading}
         isFetchingNextPage={isFetchingNextPage}
