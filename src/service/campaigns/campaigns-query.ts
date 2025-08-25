@@ -220,9 +220,10 @@ export function useGetSearchRealtime() {
 export function useGetCampaignApplications({
   size,
   campaignId,
+  applicationStatus,
 }: Omit<GetCampaignApplicationsRequest, 'page'>) {
   return useInfiniteQuery({
-    queryKey: ['campaigns', 'applications', size, campaignId],
+    queryKey: ['campaigns', 'applications', size, campaignId, applicationStatus],
     queryFn: ({ pageParam }) =>
       getCampaignApplications({
         page: pageParam,

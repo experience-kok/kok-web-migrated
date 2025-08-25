@@ -6,6 +6,7 @@ import {
   getCampaignThumbnail,
 } from '@/service/campaigns/campaigns-api';
 
+import CampaignApplicants from './_components/campaign-applicants';
 import CampaignInfo from './_components/campaign-info';
 import CampaignProgress from './_components/campaign-progress';
 import CampaignProgressSkeleton from './_components/campaign-progress/campaign-progress-skeleton';
@@ -49,7 +50,9 @@ export default async function CampaignStatusPage({ params }: Props) {
       </Suspense>
 
       {/* 캠페인 지원자 목록 조회 컴포넌트 */}
-      <Suspense></Suspense>
+      <Suspense>
+        <CampaignApplicants campaignId={Number(campaignId)} />
+      </Suspense>
     </>
   );
 }

@@ -50,7 +50,7 @@ export default function ProgressStatusBar({ currentStatus, isAlwaysOpen = false 
   const progressValue = getProgressValue();
 
   return (
-    <div className="w-full px-5 py-8">
+    <div className="w-full px-5 pt-8 pb-10">
       {/* Progress Bar */}
       <div className="relative">
         <Progress value={progressValue} className="bg-ck-gray-300 h-2" />
