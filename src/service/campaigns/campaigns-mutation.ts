@@ -91,6 +91,7 @@ export function usePostApplicationsSelectMutation(campaignId: number, applicatio
 
   return useMutation({
     mutationFn: () => postApplicationsSelect(campaignId, applicationId),
+    onSuccess: () => {},
   });
 }
 

@@ -229,6 +229,7 @@ export function useGetCampaignApplications({
         page: pageParam,
         size,
         campaignId,
+        applicationStatus,
       }),
     initialPageParam: 1,
     getNextPageParam: data => {

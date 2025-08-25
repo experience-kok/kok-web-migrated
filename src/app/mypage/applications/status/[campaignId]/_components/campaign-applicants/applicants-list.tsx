@@ -119,7 +119,7 @@ export default function ApplicantsList({
       {/* 지원자가 없는 경우 */}
       {!isApplicants && !isLoading && (
         <div className="flex w-full items-center justify-center py-6">
-          <p className="ck-body-2 text-ck-gray-700">지원한 유저가 없어요.</p>
+          <p className="ck-body-2 text-ck-gray-700">지원자가 없어요.</p>
         </div>
       )}
     </>

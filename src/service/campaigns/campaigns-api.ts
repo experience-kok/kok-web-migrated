@@ -327,7 +327,7 @@ export async function getCampaignApplications({
   if (applicationStatus) queryParams.set('applicationStatus', applicationStatus.toString());
 
   const response = await fetcher.get<GetCampaignApplicationsResponse>(
-    `/campaign-applications/campaigns/${campaignId}/applicants`,
+    `/campaign-applications/campaigns/${campaignId}/applicants?${queryParams.toString()}`,
     { requiresAuth: true },
   );
 

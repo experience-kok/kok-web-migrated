@@ -22,41 +22,33 @@ export default function CampaignApplicants({ campaignId }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // URL 파라미터에서 applicationStatus 가져오기
-  const getApplicationStatus = (): UserApplicationCampaignStatus | undefined => {
-    const status = searchParams.get('applicationStatus');
+  // URL 파라미터에서 직접 가져오기
+  const urlApplicationStatus = searchParams.get('applicationStatus');
 
-    console.log('Status from searchParams:', status); // 디버깅용
+  // 유효한 상태 값인지 검증하고 기본값 설정
+  const validStatuses: UserApplicationCampaignStatus[] = [
+    'APPLIED',
+    'PENDING',
+    'SELECTED',
+    'COMPLETED',
+    'REJECTED',
+  ];
 
-    if (!status) return undefined;
-
-    // UserApplicationCampaignStatus 타입인지 검증
-    const validStatuses: UserApplicationCampaignStatus[] = [
-      'APPLIED',
-      'PENDING',
-      'SELECTED',
-      'COMPLETED',
-      'REJECTED',
-    ];
-
-    if (validStatuses.includes(status as UserApplicationCampaignStatus)) {
-      return status as UserApplicationCampaignStatus;
-    }
-
-    return undefined;
-  };
+  const initialStatus = validStatuses.includes(
+    urlApplicationStatus as UserApplicationCampaignStatus,
+  )
+    ? (urlApplicationStatus as UserApplicationCampaignStatus)
+    : 'APPLIED';
 
   // 활성 탭 상태
-  const [activeTab, setActiveTab] = useState<UserApplicationCampaignStatus>(
-    getApplicationStatus() || 'APPLIED',
-  );
+  const [activeTab, setActiveTab] = useState<UserApplicationCampaignStatus>(initialStatus);
 
   // API 호출 파라미터 설정
   const params = {
     campaignId,
     page: searchParams.get('page') ? parseInt(searchParams.get('page')!, 10) : undefined,
     size: searchParams.get('size') ? parseInt(searchParams.get('size')!, 10) : undefined,
-    applicationStatus: getApplicationStatus(),
+    applicationStatus: activeTab, // activeTab 상태를 직접 사용
   };
 
   // 탭 변경 함수
