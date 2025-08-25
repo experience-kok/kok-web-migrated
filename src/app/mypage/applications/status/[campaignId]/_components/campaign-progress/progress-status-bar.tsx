@@ -41,7 +41,7 @@ const progressSteps = [
 export default function ProgressStatusBar({ currentStatus, isAlwaysOpen = false }: Props) {
   const currentIndex = progressSteps.findIndex(step => step.status === currentStatus);
 
-  // 진행률 계산 (0, 25, 50, 75, 100)
+  // 진행률 계산 (0, 20, 40, 60, 80, 100)
   const getProgressValue = () => {
     if (currentIndex < 0 || isAlwaysOpen) return 0;
     return ((currentIndex + 1) / progressSteps.length) * 100;
@@ -61,16 +61,7 @@ export default function ProgressStatusBar({ currentStatus, isAlwaysOpen = false 
             const isCurrent = !isAlwaysOpen && index === currentIndex;
 
             return (
-              <div
-                key={step.status}
-                className={`flex flex-col items-center ${
-                  index === 0
-                    ? 'justify-self-start'
-                    : index === progressSteps.length - 1
-                      ? 'justify-self-end'
-                      : 'justify-self-center'
-                }`}
-              >
+              <div key={step.status} className="flex flex-col items-center justify-self-center">
                 {/* 원형 마커 */}
                 <div
                   className={`relative z-10 h-4 w-4 rounded-full border-2 bg-white transition-all duration-300 ${

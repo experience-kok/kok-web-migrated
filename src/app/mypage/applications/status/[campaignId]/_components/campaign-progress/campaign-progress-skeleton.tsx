@@ -5,27 +5,29 @@ import { Skeleton } from '@/components/ui/skeleton';
  */
 export default function CampaignProgressSkeleton() {
   // 진행 단계 수 (원본 컴포넌트와 동일하게 4개)
-  const stepCount = 4;
+  const stepCount = 5;
 
   return (
     <div className="w-full px-5 py-8">
       {/* 진행 바 컨테이너 */}
-      <div className="relative flex w-full items-center justify-between">
+      <div className="relative">
         {/* 배경 연결선 스켈레톤 */}
-        <Skeleton className="absolute top-2 left-0 z-0 h-0.5 w-full" />
+        <Skeleton className="bg-ck-gray-300 h-2 w-full" />
 
         {/* 진행 점들 스켈레톤 */}
-        {Array.from({ length: stepCount }, (_, index) => (
-          <div key={index} className="relative z-20 flex flex-col items-center">
-            {/* 원형 점 스켈레톤 */}
-            <Skeleton className="h-4 w-4 rounded-full" />
+        <div className="absolute -top-1 right-0 left-0 grid grid-cols-5">
+          {Array.from({ length: stepCount }, (_, index) => (
+            <div key={index} className="flex flex-col items-center justify-self-center">
+              {/* 원형 점 스켈레톤 */}
+              <Skeleton className="h-4 w-4 rounded-full" />
 
-            {/* 레이블 텍스트 스켈레톤 */}
-            <div className="mt-3 text-center">
-              <Skeleton className="h-4 w-16" />
+              {/* 레이블 텍스트 스켈레톤 */}
+              <div className="mt-3 text-center">
+                <Skeleton className="h-4 w-16" />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* 현재 상태 설명 스켈레톤 */}
