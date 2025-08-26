@@ -14,9 +14,10 @@ import {
 import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
 import { SNSPlatformType } from '@/types/users/models';
 
+import MissionHistoryDialog from '../mission-history/mission-history-dialog';
+
 import ApplicantsInfoBox from './applicants-info-box';
 import ApplicantsSNS from './applicants-sns';
-import MissionHistoryDialog from './mission-history-dialog';
 
 interface Props {
   campaignId: number;
@@ -216,6 +217,7 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
 
       {/* 미션 이력 다이얼로그 */}
       <MissionHistoryDialog
+        userId={applicant.user.id}
         isOpen={isMissionHistoryOpen}
         onOpenChange={setIsMissionHistoryOpen}
         applicantNickname={applicant.user.nickname}

@@ -10,6 +10,7 @@ import {
   CampaignCategoryType,
   CampaignProgressStatus,
   CampaignType,
+  ClientMission,
 } from './models';
 
 /**
@@ -248,10 +249,6 @@ export interface GetUserMissionsHistoryResponse {
       title: string;
       category: string;
     };
-    mission: {
-      missionUrl: string;
-      isCompleted: true;
-      completionDate: string;
-    };
+    mission: ClientMission;
   }>;
 }

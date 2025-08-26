@@ -15,6 +15,7 @@ import {
   getPopularCampaigns,
   getSearchRealtime,
   getSearchSuggestions,
+  getUserMissionsHistory,
   getVisitCampaigns,
 } from './campaigns-api';
 import {
@@ -64,6 +65,10 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
   progress: (campaignId: number) => ({
     queryKey: ['progress', campaignId],
     queryFn: () => getCampaignProgressStatus(campaignId),
+  }),
+  missionHistory: (userId: number) => ({
+    queryKey: ['mission', 'history', userId],
+    queryFn: () => getUserMissionsHistory(userId),
   }),
 });
 
@@ -138,6 +143,11 @@ export function useGetMyCampaigns() {
 // 캠페인 진행 상태 조회 쿼리
 export function useGetCampaignProgressStatus(campaignId: number) {
   return useSuspenseQuery(campaignsQueryKeys.progress(campaignId));
+}
+
+// 유저 미션 이력 조회
+export function useGetUserMissionHistory(userId: number) {
+  return useSuspenseQuery(campaignsQueryKeys.missionHistory(userId));
 }
 
 // 내 캠페인 지원 목록 조회 - 쿼리키 사용 안하고 있어서 이부분 추후 수정 필요

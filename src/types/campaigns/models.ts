@@ -18,6 +18,15 @@ export const SORT_MAP = {
   deadline: '마감임박순',
 } as const;
 
+export type ClientMission = {
+  missionUrl: string;
+  isCompleted: boolean;
+  completionDate: string;
+};
+export type UserMission = ClientMission & {
+  clientReview: string;
+};
+
 // 캠페인 등록/지원 상태
 export type UserApplicationCampaignStatus =
   | 'APPLIED'
