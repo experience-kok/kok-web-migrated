@@ -56,6 +56,19 @@ export default function CampaignCard({ campaign }: Props) {
         </AspectRatio>
         <div className="absolute right-2 bottom-2">
           <LikeButton />
+        </div><div className="flex items-center gap-8">
+          <div className="flex items-center gap-2">
+            <div className="bg-ck-red-500 size-2 rounded-full"></div>
+            <span>미제출</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="bg-ck-blue-500 size-2 rounded-full"></div>
+            <span>제출됨</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="size-2 rounded-full bg-yellow-500"></div>
+            <span>수정요청</span>
+          </div>
         </div>
       </CardContent>
       <CardFooter className="flex cursor-pointer flex-col items-start px-0">

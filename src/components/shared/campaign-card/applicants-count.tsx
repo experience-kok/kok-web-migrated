@@ -1,7 +1,7 @@
 import { Text } from '@/components/ui/text';
 
 interface Props {
-  maxApplicants: number;
+  maxApplicants: number | null;
   currentApplicants: number;
 }
 
