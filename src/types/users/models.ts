@@ -27,5 +27,5 @@ export interface User {
 }
 
 // SNS 타입
-export type SNSPlatformType = 'INSTAGRAM' | 'BLOG' | 'YOUTUBE';
-export const SNS_PLATFORM_TYPES = ['INSTAGRAM', 'BLOG', 'YOUTUBE'] as const;
+export type SNSPlatformType = 'INSTAGRAM' | 'BLOG' | 'YOUTUBE' | 'TIKTOK';
+export const SNS_PLATFORM_TYPES = ['INSTAGRAM', 'BLOG', 'YOUTUBE', 'TIKTOK'] as const;
