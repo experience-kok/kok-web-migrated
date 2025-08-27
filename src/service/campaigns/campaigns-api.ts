@@ -1,5 +1,14 @@
 import { fetcher } from '@/lib/fetcher';
 
+import {
+  GetCampaignApplicationsRequest,
+  PostMissionReviewRequest,
+} from '@/types/campaigns/requests';
+import {
+  GetCampaignApplicationsResponse,
+  GetCampaignProgressStatusResponse,
+  GetUserMissionsHistoryResponse,
+} from '@/types/campaigns/responses';
 import { SuccessResponse } from '@/types/response';
 
 import {
@@ -303,7 +312,103 @@ export async function getCampaignSearch({
     { requiresAuth: false },
   );
 
-  console.log(response);
+  return response;
+}
+
+/**
+ * 캠페인 신청자 목록 조회
+ */
+export async function getCampaignApplications({
+  page,
+  size,
+  campaignId,
+  applicationStatus,
+}: GetCampaignApplicationsRequest) {
+  const queryParams = new URLSearchParams();
+  if (page) queryParams.set('page', page.toString());
+  if (size) queryParams.set('size', size.toString());
+  console.log(applicationStatus);
+  if (applicationStatus) queryParams.set('applicationStatus', applicationStatus.toString());
+
+  const response = await fetcher.get<GetCampaignApplicationsResponse>(
+    `/campaign-applications/campaigns/${campaignId}/applicants?${queryParams.toString()}`,
+    { requiresAuth: true },
+  );
+
+  return response;
+}
+
+/**
+ * 캠페인 진행 상태 조회
+ */
+export async function getCampaignProgressStatus(campaignId: number) {
+  const response = await fetcher.get<GetCampaignProgressStatusResponse>(
+    `/campaigns/status/${campaignId}/progress`,
+    { requiresAuth: true },
+  );
+
+  return response;
+}
+
+/**
+ * 인플루언서 선정
+ */
+export async function postApplicationsSelect(campaignId: number, applicationId: number[]) {
+  const requestBody = {
+    applicationIds: applicationId,
+  };
+  const response = await fetcher.post<null>(
+    `/campaign-applications/campaigns/${campaignId}/applications/select`,
+    requestBody,
+    { requiresAuth: true },
+  );
+
+  return response;
+}
+/**
+ * 인플루언서 반려(거절)
+ */
+export async function postApplicationsReject(campaignId: number, applicationId: number[]) {
+  const requestBody = {
+    applicationIds: applicationId,
+  };
+  const response = await fetcher.post<null>(
+    `/campaign-applications/campaigns/${campaignId}/applications/reject`,
+    requestBody,
+    { requiresAuth: true },
+  );
+
+  return response;
+}
+/**
+ * 인플루언서가 유저 미션 이력 조회
+ */
+export async function getUserMissionsHistory(userId: number) {
+  const response = await fetcher.get<GetUserMissionsHistoryResponse>(
+    `/missions/${userId}/history`,
+    {
+      requiresAuth: true,
+    },
+  );
+
+  return response;
+}
+
+/**
+ * 미션 검토(승인/수정 요청)
+ */
+export async function postMissionReview({
+  missionId,
+  clientFeedback,
+  revisionReason,
+}: PostMissionReviewRequest) {
+  const requestBody = {
+    clientFeedback: clientFeedback || null,
+    revisionReason: revisionReason || null,
+  };
+  const response = await fetcher.post(`/missions/${missionId}/review`, requestBody, {
+    requiresAuth: true,
+  });
 
   return response;
 }

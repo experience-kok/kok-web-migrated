@@ -8,7 +8,13 @@ import { useMutation } from '@tanstack/react-query';
 import { postPresignedUrl } from '../images/images-api';
 import { ImageExtension } from '../images/types';
 
-import { postCampaign, postCampaignApplicate } from './campaigns-api';
+import {
+  postApplicationsReject,
+  postApplicationsSelect,
+  postCampaign,
+  postCampaignApplicate,
+  postMissionReview,
+} from './campaigns-api';
 import { campaignsQueryKeys } from './campaigns-query';
 import { PostCampaignRequest } from './types';
 
@@ -73,6 +79,83 @@ export function usePostCampaignApplicateMutation(campaignId: number) {
 
       toast.success('캠페인 지원을 완료했어요.', {
         position: 'top-center',
+      });
+    },
+  });
+}
+
+/**
+ * 지원자 선정 뮤테이션
+ */
+export function usePostApplicationsSelectMutation(campaignId: number, applicationId: number[]) {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: () => postApplicationsSelect(campaignId, applicationId),
+    onSuccess: () => {
+      // 선정, 대기 지원자 쿼리 초기화
+      queryClient.invalidateQueries({
+        queryKey: ['campaigns', 'applications'],
+        // PENDING, SELECTED 상태의 쿼리만 무효화
+        predicate: query => {
+          const queryKey = query.queryKey;
+          return (
+            queryKey.includes(campaignId) &&
+            (queryKey.includes('PENDING') || queryKey.includes('SELECTED'))
+          );
+        },
+      });
+    },
+    onError: () => {
+      toast.error('지원자 선정을 실패했어요. 잠시 후 다시 시도해주세요.', {
+        position: 'top-center',
+      });
+    },
+  });
+}
+
+/**
+ * 지원자 거절(반려) 뮤테이션
+ */
+export function usePostApplicationsRejectMutation(campaignId: number, applicationId: number[]) {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: () => postApplicationsReject(campaignId, applicationId),
+    onSuccess: () => {
+      // 대기, 거절 지원자 쿼리 초기화
+      queryClient.invalidateQueries({
+        queryKey: ['campaigns', 'applications'],
+        // PENDING, REJECTED 상태의 쿼리만 무효화
+        predicate: query => {
+          const queryKey = query.queryKey;
+          return (
+            queryKey.includes(campaignId) &&
+            (queryKey.includes('PENDING') || queryKey.includes('REJECTED'))
+          );
+        },
+      });
+    },
+  });
+}
+
+/**
+ * 미션 검토 뮤테이션
+ */
+export function usePostMissionReviewMutation() {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: postMissionReview,
+    onSuccess: () => {
+      // 대기, 거절 지원자 쿼리 초기화
+      queryClient.invalidateQueries({
+        queryKey: ['campaigns', 'applications'],
+        // SELECTED, COMPLETED 상태의 쿼리만 무효화
+        predicate: query => {
+          const queryKey = query.queryKey;
+          return queryKey.includes('SELECTED') || queryKey.includes('COMPLETED');
+        },
       });
     },
   });

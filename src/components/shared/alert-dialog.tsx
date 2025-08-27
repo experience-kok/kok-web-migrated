@@ -15,7 +15,7 @@ import {
 interface Props {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  trigger?: ReactNode;
+  children?: ReactNode;
 
   title?: string;
   description?: ReactNode;
@@ -45,7 +45,7 @@ export interface AlertDialogConfig {
 export default function AlertDialog({
   isOpen,
   onOpenChange,
-  trigger,
+  children,
   title = '프로필 등록 후 지원할 수 있어요',
   description,
   actionText = '확인',
@@ -60,7 +60,7 @@ export default function AlertDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      {trigger && <DialogTrigger>{trigger}</DialogTrigger>}
+      {children && <DialogTrigger>{children}</DialogTrigger>}
 
       <DialogContent>
         <DialogHeader>

@@ -1,5 +1,5 @@
-export type CampaignType = '인스타그램' | '블로그' | '유튜브' | '틱톡';
-export const CAMPAIGN_TYPES = ['인스타그램', '블로그', '유튜브', '틱톡'] as const;
+export type CampaignType = '인스타그램' | '블로그' | '유튜브';
+export const CAMPAIGN_TYPES = ['인스타그램', '블로그', '유튜브'] as const;
 
 export type CampaignCategoryType = '방문' | '배송';
 export const CAMPAIGN_CATEGORY_TYPES = ['방문', '배송'] as const;
@@ -21,11 +21,12 @@ export const SORT_MAP = {
 // 캠페인
 export interface Campaign {
   id: number;
+  isAlwaysOpen: boolean;
   campaignType: CampaignType;
   title: string;
   productShortInfo: string; // 제공 제품 한 줄
   currentApplicants: number; // 현재 지원 인원
-  maxApplicants: number; // 최대 지원 인원
+  maxApplicants: number | null; // 최대 지원 인원
   recruitmentEndDate: string; // 지원 마감일
   thumbnailUrl: string;
   category: {

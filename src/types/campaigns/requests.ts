@@ -4,6 +4,7 @@ import {
   CampaignCategoryType,
   CampaignType,
   Sort,
+  UserApplicationCampaignStatus,
   방문카테고리,
   배송카테고리,
 } from './models';
@@ -105,4 +106,30 @@ export interface GetCampaignSearchRequest {
   size?: number;
   campaignTypes?: CampaignType[];
   sort?: Sort;
+}
+
+/**
+ * 캠페인 신청자 목록 조회
+ */
+export interface GetCampaignApplicationsRequest {
+  campaignId: number;
+  page?: number;
+  size?: number;
+  applicationStatus?: UserApplicationCampaignStatus;
+}
+
+/**
+ * 캠페인 진행 상태 조회 요청
+ */
+export interface GetCampaignProgressStatusRequest {
+  campaignId: number;
+}
+
+/**
+ * 미션 검토(승인/수정) 요청
+ */
+export interface PostMissionReviewRequest {
+  missionId: number;
+  clientFeedback?: string;
+  revisionReason?: string;
 }

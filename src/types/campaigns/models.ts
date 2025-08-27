@@ -1,5 +1,5 @@
-export type CampaignType = '인스타그램' | '블로그' | '유튜브' | '틱톡';
-export const CAMPAIGN_TYPES = ['인스타그램', '블로그', '유튜브', '틱톡'] as const;
+export type CampaignType = '인스타그램' | '블로그' | '유튜브';
+export const CAMPAIGN_TYPES = ['인스타그램', '블로그', '유튜브'] as const;
 
 export type CampaignCategoryType = '방문' | '배송';
 export const CAMPAIGN_CATEGORY_TYPES = ['방문', '배송'] as const;
@@ -18,8 +18,30 @@ export const SORT_MAP = {
   deadline: '마감임박순',
 } as const;
 
-// 캠페인 상태
-export type UserApplicationCampaignStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'COMPLETED';
+// 미션 진행 상태
+export type MissionStatusType = 'NOT_SUBMITTED' | 'SUBMITTED' | 'REVISION_REQUESTED' | 'COMPLETED';
+export const MISSION_STATUSES_LABELS: Record<MissionStatusType, string> = {
+  NOT_SUBMITTED: '미제출',
+  SUBMITTED: '제출됨',
+  REVISION_REQUESTED: '수정요청',
+  COMPLETED: '완료',
+};
+export type ClientMission = {
+  missionUrl: string;
+  isCompleted: boolean;
+  completionDate: string;
+};
+export type UserMission = ClientMission & {
+  clientReview: string;
+};
+
+// 캠페인 등록/지원 상태
+export type UserApplicationCampaignStatus =
+  | 'APPLIED'
+  | 'PENDING'
+  | 'SELECTED'
+  | 'COMPLETED'
+  | 'REJECTED';
 export type ClientApplicationCampaignStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'EXPIRED';
 export type CampaignApplicationStatus =
   | UserApplicationCampaignStatus
@@ -27,16 +49,32 @@ export type CampaignApplicationStatus =
 
 // 캠페인 상태별 라벨 매핑
 export const USER_CAMPAIGN_STATUS_LABELS: Record<UserApplicationCampaignStatus, string> = {
-  PENDING: '지원',
-  APPROVED: '대기중',
-  REJECTED: '선정',
-  COMPLETED: '완료',
+  APPLIED: '지원 완료',
+  PENDING: '대기중',
+  SELECTED: '선정된',
+  COMPLETED: '완료됨',
+  REJECTED: '반려됨',
 };
 export const CLIENT_CAMPAIGN_STATUS_LABELS: Record<ClientApplicationCampaignStatus, string> = {
   PENDING: '대기중',
   APPROVED: '승인됨',
   REJECTED: '거절됨',
   EXPIRED: '만료됨',
+};
+
+// 캠페인 진행 상태
+export type CampaignProgressStatus =
+  | 'RECRUITING'
+  | 'RECRUITMENT_COMPLETED'
+  | 'SELECTION_COMPLETED'
+  | 'MISSION_IN_PROGRESS'
+  | 'CONTENT_REVIEW_PENDING';
+export const CAMPAIGN_PROGRESS_STATUS_LABELS: Record<CampaignProgressStatus, string> = {
+  RECRUITING: '지원자를 모집하고 있어요.',
+  RECRUITMENT_COMPLETED: '지원자 모집이 완료되었어요.',
+  SELECTION_COMPLETED: '지원자 선정이 완료되었어요. 현재는 미션 시작일까지 기다리는 중이에요.',
+  MISSION_IN_PROGRESS: '선정된 지원자들이 미션을 수행 중이에요.',
+  CONTENT_REVIEW_PENDING: '미션 제출이 완료되었어요. 업체의 검토가 필요해요.',
 };
 
 // 캠페인

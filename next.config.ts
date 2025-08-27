@@ -30,6 +30,16 @@ const nextConfig: NextConfig = {
         hostname: 'imagescdn.gettyimagesbank.com',
         port: '',
       },
+      {
+        protocol: 'http',
+        hostname: 'k.kakaocdn.net',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'k.kakaocdn.net',
+        port: '',
+      },
     ],
   },
   webpack: config => {
