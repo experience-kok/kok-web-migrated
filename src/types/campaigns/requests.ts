@@ -124,3 +124,12 @@ export interface GetCampaignApplicationsRequest {
 export interface GetCampaignProgressStatusRequest {
   campaignId: number;
 }
+
+/**
+ * 미션 검토(승인/수정) 요청
+ */
+export interface PostMissionReviewRequest {
+  missionId: number;
+  clientFeedback?: string;
+  revisionReason?: string;
+}

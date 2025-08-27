@@ -1,6 +1,9 @@
 import { fetcher } from '@/lib/fetcher';
 
-import { GetCampaignApplicationsRequest } from '@/types/campaigns/requests';
+import {
+  GetCampaignApplicationsRequest,
+  PostMissionReviewRequest,
+} from '@/types/campaigns/requests';
 import {
   GetCampaignApplicationsResponse,
   GetCampaignProgressStatusResponse,
@@ -387,6 +390,25 @@ export async function getUserMissionsHistory(userId: number) {
       requiresAuth: true,
     },
   );
+
+  return response;
+}
+
+/**
+ * 미션 검토(승인/수정 요청)
+ */
+export async function postMissionReview({
+  missionId,
+  clientFeedback,
+  revisionReason,
+}: PostMissionReviewRequest) {
+  const requestBody = {
+    clientFeedback: clientFeedback || null,
+    revisionReason: revisionReason || null,
+  };
+  const response = await fetcher.post(`/missions/${missionId}/review`, requestBody, {
+    requiresAuth: true,
+  });
 
   return response;
 }

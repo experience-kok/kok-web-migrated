@@ -11,6 +11,7 @@ import {
   CampaignProgressStatus,
   CampaignType,
   ClientMission,
+  MissionStatusType,
 } from './models';
 
 /**
@@ -222,6 +223,11 @@ export interface GetCampaignApplicationsResponse {
       platformType: SNSPlatformType;
       snsUrl: string;
     }>;
+    mission: {
+      missionId: number;
+      missionUrl: string;
+      missionStatus: MissionStatusType;
+    };
   }>;
   pagination: Pagination;
 }

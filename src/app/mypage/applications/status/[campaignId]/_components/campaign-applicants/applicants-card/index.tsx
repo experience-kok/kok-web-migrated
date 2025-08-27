@@ -11,10 +11,11 @@ import {
   usePostApplicationsSelectMutation,
 } from '@/service/campaigns/campaigns-mutation';
 
-import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
+import { MissionStatusType, UserApplicationCampaignStatus } from '@/types/campaigns/models';
 import { SNSPlatformType } from '@/types/users/models';
 
 import MissionHistoryDialog from '../mission-history/mission-history-dialog';
+import MissionReviewDialog from '../mission-review/mission-review-dialog';
 
 import ApplicantsInfoBox from './applicants-info-box';
 import ApplicantsSNS from './applicants-sns';
@@ -34,6 +35,11 @@ interface Props {
       platformType: SNSPlatformType;
       snsUrl: string;
     }>;
+    mission: {
+      missionStatus: MissionStatusType;
+      missionUrl: string;
+      missionId: number;
+    };
   };
 }
 
@@ -42,7 +48,12 @@ interface Props {
  */
 export default function ApplicantsCard({ campaignId, status, applicant }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // 다이얼로그 상태
   const [isMissionHistoryOpen, setIsMissionHistoryOpen] = useState(false);
+  const [isMissionReviewOpen, setIsMissionReviewOpen] = useState(false);
+  const [missionReviewType, setMissionReviewType] = useState<'COMPLETE' | 'REVISION'>('COMPLETE');
+
   const [alertDialog, setAlertDialog] = useState<{
     isOpen: boolean;
     title?: string;
@@ -63,6 +74,14 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
   // 각 옵션별 실행 함수들
   const handleMissionHistory = () => {
     setIsMissionHistoryOpen(true);
+  };
+  const handleMissionComplete = () => {
+    setMissionReviewType('COMPLETE');
+    setIsMissionReviewOpen(true);
+  };
+  const handleMissionRevisionRequest = () => {
+    setMissionReviewType('REVISION');
+    setIsMissionReviewOpen(true);
   };
 
   const handleSelect = () => {
@@ -103,33 +122,6 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
     });
   };
 
-  const handleMissionComplete = () => {
-    setAlertDialog({
-      isOpen: true,
-      title: '미션을 완료 처리할까요?',
-      description: `${applicant?.user.nickname || '지원자'}님의 미션을 완료 처리해요.
-      완료 후에는 취소가 불가능하니 신중하게 결정해 주세요.`,
-      actionText: '완료 처리',
-      onAction: () => {
-        console.log(`미션 완료 for applicant ${applicant?.user.nickname}`);
-        // 실제 API 호출 로직
-      },
-    });
-  };
-
-  const handleMissionRevisionRequest = () => {
-    setAlertDialog({
-      isOpen: true,
-      title: '미션 수정을 요청할까요?',
-      description: `${applicant?.user.nickname || '지원자'}님에게 미션 수정을 요청해요.`,
-      actionText: '수정 요청',
-      onAction: () => {
-        console.log(`미션 수정 요청 for applicant ${applicant?.user.nickname}`);
-        // 실제 API 호출 로직
-      },
-    });
-  };
-
   const handleChangeStatus = () => {
     console.log(`상태 변경 for applicant ${applicant?.user.nickname}`);
     // 실제 API 호출 로직
@@ -144,6 +136,7 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
         return [
           { label: '선정하기', onClick: handleSelect },
           { label: '거절하기', onClick: handleReject },
+          { label: '미션 이력', onClick: handleMissionHistory },
         ];
       case 'SELECTED':
         return [
@@ -220,6 +213,15 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
         userId={applicant.user.id}
         isOpen={isMissionHistoryOpen}
         onOpenChange={setIsMissionHistoryOpen}
+        applicantNickname={applicant.user.nickname}
+      />
+
+      {/* 미션 리뷰 다이얼로그 */}
+      <MissionReviewDialog
+        isOpen={isMissionReviewOpen}
+        onOpenChange={setIsMissionReviewOpen}
+        missionReviewType={missionReviewType}
+        missionId={applicant.mission.missionId}
         applicantNickname={applicant.user.nickname}
       />
     </>

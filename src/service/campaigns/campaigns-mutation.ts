@@ -13,6 +13,7 @@ import {
   postApplicationsSelect,
   postCampaign,
   postCampaignApplicate,
+  postMissionReview,
 } from './campaigns-api';
 import { campaignsQueryKeys } from './campaigns-query';
 import { PostCampaignRequest } from './types';
@@ -104,10 +105,6 @@ export function usePostApplicationsSelectMutation(campaignId: number, applicatio
           );
         },
       });
-
-      toast.success('지원자 선정이 완료되었어요.', {
-        position: 'top-center',
-      });
     },
     onError: () => {
       toast.error('지원자 선정을 실패했어요. 잠시 후 다시 시도해주세요.', {
@@ -138,15 +135,19 @@ export function usePostApplicationsRejectMutation(campaignId: number, applicatio
           );
         },
       });
+    },
+  });
+}
 
-      toast.success('지원자 거절이 완료되었어요.', {
-        position: 'top-center',
-      });
-    },
-    onError: () => {
-      toast.error('지원자 거절을 실패했어요. 잠시 후 다시 시도해주세요.', {
-        position: 'top-center',
-      });
-    },
+/**
+ * 미션 검토 뮤테이션
+ */
+export function usePostMissionReviewMutation() {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: postMissionReview,
+    onSuccess: () => {},
+    onError: () => {},
   });
 }

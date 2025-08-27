@@ -18,6 +18,14 @@ export const SORT_MAP = {
   deadline: '마감임박순',
 } as const;
 
+// 미션 진행 상태
+export type MissionStatusType = 'NOT_SUBMITTED' | 'SUBMITTED' | 'REVISION_REQUESTED' | 'COMPLETED';
+export const MISSION_STATUSES_LABELS: Record<MissionStatusType, string> = {
+  NOT_SUBMITTED: '미제출',
+  SUBMITTED: '제출됨',
+  REVISION_REQUESTED: '수정요청',
+  COMPLETED: '완료',
+};
 export type ClientMission = {
   missionUrl: string;
   isCompleted: boolean;
