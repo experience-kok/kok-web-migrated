@@ -147,7 +147,16 @@ export function usePostMissionReviewMutation() {
 
   return useMutation({
     mutationFn: postMissionReview,
-    onSuccess: () => {},
-    onError: () => {},
+    onSuccess: () => {
+      // 대기, 거절 지원자 쿼리 초기화
+      queryClient.invalidateQueries({
+        queryKey: ['campaigns', 'applications'],
+        // SELECTED, COMPLETED 상태의 쿼리만 무효화
+        predicate: query => {
+          const queryKey = query.queryKey;
+          return queryKey.includes('SELECTED') || queryKey.includes('COMPLETED');
+        },
+      });
+    },
   });
 }

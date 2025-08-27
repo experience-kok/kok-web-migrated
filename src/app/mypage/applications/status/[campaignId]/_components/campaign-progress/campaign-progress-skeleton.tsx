@@ -22,7 +22,7 @@ export default function CampaignProgressSkeleton() {
               <Skeleton className="h-4 w-4 rounded-full" />
 
               {/* 레이블 텍스트 스켈레톤 */}
-              <div className="mt-3 text-center">
+              <div className="mt-4 text-center">
                 <Skeleton className="h-4 w-16" />
               </div>
             </div>
@@ -31,9 +31,8 @@ export default function CampaignProgressSkeleton() {
       </div>
 
       {/* 현재 상태 설명 스켈레톤 */}
-      <div className="mt-8 text-center">
-        <div className="bg-ck-gray-100 rounded-lg px-4 py-3">
-          <Skeleton className="mx-auto h-4 w-full max-w-md" />
+      <div className="mt-11 text-center">
+        <div className="bg-ck-gray-100 rounded-[12px] px-4 py-3">
           <Skeleton className="mx-auto mt-2 h-4 w-3/4" />
         </div>
       </div>

@@ -4,6 +4,7 @@ import { ChevronDown, MoreVertical } from 'lucide-react';
 import { toast } from 'sonner';
 
 import AlertDialog from '@/components/shared/alert-dialog';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Gender } from '@/models/user';
 import {
@@ -159,9 +160,25 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
 
   const dropdownOptions = getDropdownOptions();
 
+  const missionStatusStyle = (() => {
+    if (status === 'SELECTED') {
+      switch (applicant.mission.missionStatus) {
+        case 'NOT_SUBMITTED':
+          return 'border border-ck-red-500'; // 미션 대기 중
+        case 'SUBMITTED':
+          return 'border border-ck-blue-500'; // 미션 완료
+        case 'REVISION_REQUESTED':
+          return 'border border-yellow-500'; // 미션 수정 요청
+        default:
+          return '';
+      }
+    }
+    return '';
+  })();
+
   return (
     <>
-      <Card>
+      <Card className={`${status === 'SELECTED' ? missionStatusStyle : ''}`}>
         <CardContent className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <ApplicantsInfoBox nickname={applicant.user.nickname} profileUrl={'/kogi.png'} />
@@ -171,22 +188,23 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
 
           {/* 드롭다운 메뉴 */}
           <div className="relative">
-            <button
+            <Button
+              variant={'ghost'}
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center space-x-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="ck-caption-1 border-ck-gray-300 hover:bg-ck-gray-100 flex items-center space-x-1 rounded-[12px] border bg-white px-3 py-2 focus:outline-none"
             >
               <MoreVertical className="h-4 w-4" />
               <ChevronDown className="h-4 w-4" />
-            </button>
+            </Button>
 
             {/* 드롭다운 메뉴 */}
             {isDropdownOpen && (
-              <div className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-gray-200 bg-white py-1 shadow-lg">
+              <div className="border-ck-gray-200 absolute right-0 z-10 mt-2 w-48 rounded-[12px] border bg-white py-1 shadow-lg">
                 {dropdownOptions.map(option => (
                   <button
                     key={option.label}
                     onClick={() => handleDropdownClick(option)}
-                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                    className="ck-body-2 text-ck-gray-900 block w-full px-4 py-2 text-left focus:outline-none"
                   >
                     {option.label}
                   </button>
