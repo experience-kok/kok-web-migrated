@@ -20,10 +20,10 @@ const BADGE_TYPE: Record<CampaignType, { label: string; style: string }> = {
     style: 'bg-pink-100 text-pink-500',
   },
   // 틱톡
-  틱톡: {
-    label: '틱톡',
-    style: 'bg-black text-white',
-  },
+  // 틱톡: {
+  //   label: '틱톡',
+  //   style: 'bg-black text-white',
+  // },
 } as const;
 
 interface Props extends PropsWithChildren {
@@ -34,7 +34,7 @@ export default function CampaignCardBadge({ campaignType, children }: Props) {
   const { label, style } = BADGE_TYPE[campaignType];
 
   return (
-    <Badge className={`hover:none  font-semibold ${style}`} variant="secondary">
+    <Badge className={`hover:none font-semibold ${style}`} variant="secondary">
       {children ?? label}
     </Badge>
   );

@@ -26,7 +26,8 @@ export const getCampaignApplicationErrorTitle = (errorCode?: string) => {
 export const CAMPAIGN_APPLICATION_ERROR_MESSAGES: Record<CampaignApplicationErrorCode, string> = {
   PROFILE_INCOMPLETE: '캠페인 지원을 위해 프로필을 완성해주세요.', // 프로필 설정 페이지로 이동
   SNS_CONNECTION_REQUIRED: '캠페인 지원을 위해 SNS 계정을 연결해주세요.',
-  PLATFORM_MISMATCH: '등록하신 SNS 계정으로는 지원할 수 없는 캠페인이에요.',
+  PLATFORM_MISMATCH:
+    '등록하신 SNS 계정으로는 지원할 수 없는 캠페인이에요. 캠페인이 요구하는 SNS 계정을 연결하러 갈까요?',
   INSUFFICIENT_ROLE: '일반 회원 계정으로 다시 시도해 주세요.',
 };
 export const getCampaignApplicationErrorMessage = (errorCode?: string) => {

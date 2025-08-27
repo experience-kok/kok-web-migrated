@@ -9,7 +9,7 @@ export const campaignCreateSchema = z
     }),
 
     // 기본 정보
-    campaignType: z.enum(['인스타그램', '블로그', '유튜브', '틱톡'], {
+    campaignType: z.enum(['인스타그램', '블로그', '유튜브'], {
       errorMap: () => ({ message: '캠페인 타입을 선택해 주세요.' }),
     }),
     title: z

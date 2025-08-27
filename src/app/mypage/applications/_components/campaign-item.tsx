@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { CampaignCard } from '@/components/shared/campaign-card-new';
-import { CampaignType } from '@/models/campaign';
+import { Button } from '@/components/ui/button';
+import { CampaignApplicationStatus, CampaignType } from '@/models/campaign';
 
 interface Props {
   id: number;
@@ -11,6 +13,7 @@ interface Props {
   title: string;
   productShortInfo: string;
   campaignType: CampaignType;
+  applicationStatus: CampaignApplicationStatus;
   /** 이미지를 흑백으로 표시할지 여부 */
   grayscale?: boolean;
 }
@@ -24,22 +27,36 @@ export default function CampaignItem({
   title,
   productShortInfo,
   campaignType,
+  applicationStatus,
   grayscale = false,
 }: Props) {
+  const router = useRouter();
+
   console.log({
     id,
     thumbnailUrl,
     title,
     productShortInfo,
     campaignType,
+    applicationStatus,
     grayscale,
   });
 
   // 이미지 필터 클래스 생성
   const imageFilterClass = grayscale ? 'filter grayscale' : '';
 
+  // APPROVED 상태일 때만 버튼 활성화
+  const isButtonEnabled = applicationStatus === 'APPROVED';
+
+  // 진행상태 버튼 클릭 핸들러
+  const handleProgressStatusClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/mypage/applications/status/${id}`);
+  };
+
   return (
-    <Link href={`/campaign/${id}`}>
+    <Link href={`/campaign/${id}`} prefetch={true}>
       <CampaignCard className="flex flex-row">
         {/* 이미지 컨테이너에 flex-shrink-0 적용하여 크기 고정 */}
         <div className="flex-shrink-0">
@@ -65,6 +82,14 @@ export default function CampaignItem({
             <CampaignCard.ShortInfo productShortInfo={productShortInfo} />
           </div>
         </div>
+
+        {isButtonEnabled && (
+          <div className="flex items-center" onClick={handleProgressStatusClick}>
+            <Button variant="secondary" className="ck-body-2">
+              진행상태
+            </Button>
+          </div>
+        )}
       </CampaignCard>
     </Link>
   );

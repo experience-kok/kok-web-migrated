@@ -1,13 +1,17 @@
-import { Role } from '@/models/user';
+import { Gender, Role } from '@/models/user';
 
 import { Pagination } from '../response';
+import { SNSPlatformType } from '../users/models';
 
 import {
   Campaign,
   CampaignApplicationStatus,
   CampaignCategoryName,
   CampaignCategoryType,
+  CampaignProgressStatus,
   CampaignType,
+  ClientMission,
+  MissionStatusType,
 } from './models';
 
 /**
@@ -196,4 +200,61 @@ export interface GetCampaignSearchResponse {
  */
 export interface GetSearchRealtimeResponse {
   suggestions: string[];
+}
+
+/**
+ * 캠페인 신청자 목록 조회 응답
+ */
+export interface GetCampaignApplicationsResponse {
+  campaign: {
+    id: number;
+    title: string;
+    totalApplicants: number;
+  };
+  applicants: Array<{
+    applicationId: number;
+    user: {
+      id: number;
+      nickname: string;
+      phone: string;
+      gender: Gender;
+    };
+    allSnsUrls: Array<{
+      platformType: SNSPlatformType;
+      snsUrl: string;
+    }>;
+    mission: {
+      missionId: number;
+      missionUrl: string;
+      missionStatus: MissionStatusType;
+    };
+  }>;
+  pagination: Pagination;
+}
+
+/**
+ * 캠페인 진행 상태 조회 응답
+ */
+export interface GetCampaignProgressStatusResponse {
+  campaignId: number;
+  campaignTitle: string;
+  isAlwaysOpen: boolean;
+  progress: {
+    status: CampaignProgressStatus;
+    message: string;
+  };
+}
+
+/**
+ * 인플루언서가 유저 미션 이력 조회 응답
+ */
+export interface GetUserMissionsHistoryResponse {
+  histories: Array<{
+    id: number;
+    campaign: {
+      title: string;
+      category: string;
+    };
+    mission: ClientMission;
+  }>;
 }

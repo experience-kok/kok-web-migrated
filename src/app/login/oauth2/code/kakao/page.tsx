@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useSetAtom } from 'jotai';
 import dynamic from 'next/dynamic';
@@ -21,9 +21,14 @@ export default function KakaoCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setUser = useSetAtom(userAtom);
+  const hasProcessed = useRef(false);
 
   useEffect(() => {
+    if (hasProcessed.current) return;
+
     const handleCallback = async () => {
+      hasProcessed.current = true;
+
       const code = searchParams.get('code'); // redirect uri에서 코드 추출
       const provider = window.location.pathname.split('/').pop(); // 'kakao' 추출
 
@@ -65,6 +70,7 @@ export default function KakaoCallbackPage() {
           router.push('/welcome');
         }
       } catch (error) {
+        hasProcessed.current = false; // 에러시 재시도 가능하도록
         console.error('로그인 에러: ', error);
         toast.error(error instanceof Error ? error.message : '잠시 후 다시 시도해주세요.', {
           position: 'top-center',

@@ -9,14 +9,14 @@ export default function QuickMenu() {
     { id: 2, name: '맛집', icon: '/restaurant.svg' },
     { id: 3, name: '카페', icon: '/cafe.svg' },
     { id: 4, name: '뷰티', icon: '/beauty.svg' },
-    { id: 5, name: '숙박', icon: '/' },
-    { id: 6, name: '식품', icon: '/' },
-    { id: 7, name: '화장품', icon: '/' },
-    { id: 8, name: '생활용품', icon: '/' },
-    { id: 9, name: '패션', icon: '/' },
-    { id: 10, name: '잡화', icon: '/' },
-    { id: 11, name: 'AAA', icon: '/' },
-    { id: 12, name: 'BBB', icon: '/' },
+    { id: 5, name: '숙박', icon: '/lodge.svg' },
+    { id: 6, name: '기타', icon: '/another.svg' },
+    // { id: 7, name: '화장품', icon: '/' },
+    // { id: 8, name: '생활용품', icon: '/' },
+    // { id: 9, name: '패션', icon: '/' },
+    // { id: 10, name: '잡화', icon: '/' },
+    // { id: 11, name: 'AAA', icon: '/' },
+    // { id: 12, name: 'BBB', icon: '/' },
   ];
 
   return (

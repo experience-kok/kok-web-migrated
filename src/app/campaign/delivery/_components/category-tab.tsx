@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 
-import { 배송카테고리 } from '@/models/campaign';
+import { useSearchParams, useRouter } from 'next/navigation';
 
-import { useURLParams } from '@/hooks/use-url-params';
+import { 배송카테고리 } from '@/models/campaign';
 
 // 카테고리 옵션
 const CategoryOption: Array<{ value: 배송카테고리 | ''; label: string }> = [
@@ -38,10 +38,11 @@ const CategoryOption: Array<{ value: 배송카테고리 | ''; label: string }> =
  * 카테고리 탭 컴포넌트
  */
 export default function CategoryTab() {
-  const { getParam, updateParams } = useURLParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   // 현재 적용된 카테고리 파라미터
-  const currentCategory = getParam('categoryName') as 배송카테고리 | null;
+  const currentCategory = searchParams.get('categoryName') as 배송카테고리 | null;
 
   // 로컬 상태
   const [selectedCategory, setSelectedCategory] = useState<배송카테고리 | ''>(
@@ -51,10 +52,24 @@ export default function CategoryTab() {
   // 카테고리 변경 함수
   const handleCategoryChange = (category: 배송카테고리 | '') => {
     setSelectedCategory(category);
-    updateParams({
-      categoryName: category,
-      page: '1',
-    });
+
+    // 현재 URL 파라미터들을 복사
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+
+    // 카테고리와 페이지 파라미터 업데이트
+    if (category) {
+      current.set('categoryName', category);
+    } else {
+      current.delete('categoryName'); // 전체 선택시 파라미터 제거
+    }
+    current.set('page', '1');
+
+    // 새로운 URL 생성
+    const search = current.toString();
+    const query = search ? `?${search}` : '';
+
+    // 페이지 이동
+    router.replace(`${window.location.pathname}${query}`);
   };
 
   return (

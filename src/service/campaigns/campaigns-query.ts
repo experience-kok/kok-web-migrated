@@ -1,9 +1,13 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
+import { GetCampaignApplicationsRequest } from '@/types/campaigns/requests';
+
 import { useInfiniteQuery, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import {
   getCampaignApplicateCheck,
+  getCampaignApplications,
+  getCampaignProgressStatus,
   getCampaignSearch,
   getDeliveryCampaigns,
   getMyApplications,
@@ -11,6 +15,7 @@ import {
   getPopularCampaigns,
   getSearchRealtime,
   getSearchSuggestions,
+  getUserMissionsHistory,
   getVisitCampaigns,
 } from './campaigns-api';
 import {
@@ -56,6 +61,14 @@ export const campaignsQueryKeys = createQueryKeys('campaigns', {
   realtime: () => ({
     queryKey: ['keyword'],
     queryFn: () => getSearchRealtime(),
+  }),
+  progress: (campaignId: number) => ({
+    queryKey: ['progress', campaignId],
+    queryFn: () => getCampaignProgressStatus(campaignId),
+  }),
+  missionHistory: (userId: number) => ({
+    queryKey: ['mission', 'history', userId],
+    queryFn: () => getUserMissionsHistory(userId),
   }),
 });
 
@@ -127,13 +140,23 @@ export function useGetMyCampaigns() {
   return useSuspenseQuery(campaignsQueryKeys.my());
 }
 
+// 캠페인 진행 상태 조회 쿼리
+export function useGetCampaignProgressStatus(campaignId: number) {
+  return useSuspenseQuery(campaignsQueryKeys.progress(campaignId));
+}
+
+// 유저 미션 이력 조회
+export function useGetUserMissionHistory(userId: number) {
+  return useSuspenseQuery(campaignsQueryKeys.missionHistory(userId));
+}
+
 // 내 캠페인 지원 목록 조회 - 쿼리키 사용 안하고 있어서 이부분 추후 수정 필요
 export function useGetMyApplications({
   size,
   applicationStatus,
 }: Omit<GetMyApplicationsRequest, 'page'>) {
   return useInfiniteQuery({
-    queryKey: ['campaigns', 'applications', size, applicationStatus],
+    queryKey: ['campaigns', 'applications', applicationStatus],
     queryFn: ({ pageParam = 1 }) =>
       getMyApplications({
         page: pageParam,
@@ -200,5 +223,32 @@ export function useGetSearchRealtime() {
     // 10분 캐싱
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 10,
+  });
+}
+
+// 캠페인 신청자 목록 조회 쿼리
+export function useGetCampaignApplications({
+  size,
+  campaignId,
+  applicationStatus,
+}: Omit<GetCampaignApplicationsRequest, 'page'>) {
+  return useInfiniteQuery({
+    queryKey: ['campaigns', 'applications', campaignId, applicationStatus],
+    queryFn: ({ pageParam }) =>
+      getCampaignApplications({
+        page: pageParam,
+        size,
+        campaignId,
+        applicationStatus,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: data => {
+      if (data.pagination.last) {
+        return undefined;
+      }
+      return data.pagination.pageNumber + 1;
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 }

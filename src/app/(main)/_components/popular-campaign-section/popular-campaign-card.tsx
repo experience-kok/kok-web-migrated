@@ -26,6 +26,7 @@ export default function PopularCampaignCard({ campaign }: Props) {
           <CampaignCard.Applicant
             currentApplicants={campaign.currentApplicants}
             maxApplicants={campaign.maxApplicants}
+            isAlwaysOpen={campaign.isAlwaysOpen}
           />
         </div>
       </CampaignCard>

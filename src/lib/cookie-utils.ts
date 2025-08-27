@@ -103,8 +103,11 @@ export async function getRefreshToken(): Promise<string | null> {
  * @param options 쿠키 옵션
  */
 export function setAccessToken(token: string, options: CookieOptions = {}): void {
+  // 기존 쿠키 삭제 후 설정
+  removeCookie('accessToken');
+
   const defaultOptions: CookieOptions = {
-    maxAge: 60 * 60 * 24, // 1일
+    maxAge: 60 * 60 * 24,
     secure: true,
     sameSite: 'lax',
     ...options,
@@ -119,11 +122,14 @@ export function setAccessToken(token: string, options: CookieOptions = {}): void
  * @param options 쿠키 옵션
  */
 export function setRefreshToken(token: string, options: CookieOptions = {}): void {
+  // 기존 쿠키 삭제 후 설정
+  removeCookie('refreshToken');
+
   const defaultOptions: CookieOptions = {
-    maxAge: 60 * 60 * 24 * 7, // 7일
+    maxAge: 60 * 60 * 24 * 7,
     secure: true,
     sameSite: 'lax',
-    httpOnly: false, // Note: client-side accessible for token refresh
+    httpOnly: false,
     ...options,
   };
 
