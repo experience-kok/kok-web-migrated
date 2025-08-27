@@ -45,8 +45,8 @@ export default function ApplicantsSNS({ snsAccounts }: Props) {
     }
   };
 
-  // 모든 SNS 플랫폼 목록
-  const allPlatforms = Object.keys(SNS_INFO) as SNSPlatformType[];
+  // 모든 SNS 플랫폼 목록 (SNS_INFO에 정의된 키만 사용)
+  const allPlatforms = Object.keys(SNS_INFO) as Array<keyof typeof SNS_INFO>;
 
   return (
     <>
@@ -54,7 +54,9 @@ export default function ApplicantsSNS({ snsAccounts }: Props) {
         <ul className="flex gap-0.5">
           {allPlatforms.map(platformType => {
             const snsInfo = SNS_INFO[platformType];
-            const registeredSNS = snsAccounts.find(sns => sns.platformType === platformType);
+            const registeredSNS = snsAccounts.find(
+              sns => sns.platformType === (platformType as unknown as SNSPlatformType),
+            );
             const hasUrl =
               registeredSNS && registeredSNS.snsUrl && registeredSNS.snsUrl.trim() !== '';
 
