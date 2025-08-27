@@ -4,7 +4,7 @@ import { Gender } from '@/models/user';
 
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 
-import { UserApplicationCampaignStatus } from '@/types/campaigns/models';
+import { MissionStatusType, UserApplicationCampaignStatus } from '@/types/campaigns/models';
 import { SNSPlatformType } from '@/types/users/models';
 
 import ApplicantsCard from './applicants-card';
@@ -24,6 +24,11 @@ interface Props {
       platformType: SNSPlatformType;
       snsUrl: string;
     }>;
+    mission: {
+      missionId: number;
+      missionUrl: string;
+      missionStatus: MissionStatusType;
+    };
   }>;
   applicationStatus: UserApplicationCampaignStatus;
   totalElements: number;
@@ -74,6 +79,23 @@ export default function ApplicantsList({
   return (
     <>
       <div className="ck-body-2 mb-4">총 {totalElements}명</div>
+
+      {applicationStatus === 'SELECTED' && (
+        <div className="mb-2 flex items-center gap-8">
+          <div className="flex items-center gap-2">
+            <div className="bg-ck-red-500 size-2 rounded-full" />
+            <span>미제출</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="bg-ck-blue-500 size-2 rounded-full" />
+            <span>제출됨</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="size-2 rounded-full bg-yellow-500" />
+            <span>수정요청</span>
+          </div>
+        </div>
+      )}
 
       {/* 스크롤 가능한 컨테이너 - 최대 5개 카드 높이로 제한 */}
       <div

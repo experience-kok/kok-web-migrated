@@ -166,7 +166,7 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
         case 'NOT_SUBMITTED':
           return 'border border-ck-red-500'; // 미션 대기 중
         case 'SUBMITTED':
-          return 'border border-ck-blue-500'; // 미션 완료
+          return 'border border-ck-blue-500'; // 미션 제출
         case 'REVISION_REQUESTED':
           return 'border border-yellow-500'; // 미션 수정 요청
         default:
