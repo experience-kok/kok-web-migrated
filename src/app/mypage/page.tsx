@@ -41,11 +41,16 @@ export default function MyPage() {
 
       <SplitBox />
 
+      {/* 여기서 에러 발생 */}
       <section className="px-4 py-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="ck-title">연결된 SNS</h2>
         </div>
-        <Sns />
+        <ErrorBoundary fallback={ErrorFallback}>
+          <Suspense clientOnly>
+            <Sns />
+          </Suspense>
+        </ErrorBoundary>
       </section>
 
       <SplitBox />
