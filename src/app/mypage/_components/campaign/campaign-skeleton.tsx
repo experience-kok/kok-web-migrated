@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
  */
 export default function CampaignSkeleton() {
   return (
-    <div className="grid grid-cols-4 divide-x">
+    <div className="flex justify-around divide-x">
       {new Array(4).fill(0).map((_, index) => (
         <div className="flex flex-col items-center gap-1" key={index}>
           <Skeleton className="h-7 w-8" />

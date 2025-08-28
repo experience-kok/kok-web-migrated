@@ -60,6 +60,14 @@ export default function ProfileForm({ defaultValues, onSubmit, isPending }: Prop
 
       <div className="grid w-full items-center">
         <div className="ck-body-2-bold mb-1">
+          이메일 <span className="text-ck-red-500">*</span>
+        </div>
+        <Input {...register('email', { required: true })} />
+        {errors.email && <p className="text-ck-red-500 ck-caption-1">{errors.email.message}</p>}
+      </div>
+
+      <div className="grid w-full items-center">
+        <div className="ck-body-2-bold mb-1">
           나이 <span className="text-ck-red-500">*</span>
         </div>
         <Input type="number" {...register('age', { required: true, valueAsNumber: true })} />
