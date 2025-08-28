@@ -10,6 +10,7 @@ import CampaignSkeleton from './_components/campaign/campaign-skeleton';
 import ProfileContainer from './_components/profile-container';
 import ProfileContainerSkeleton from './_components/profile-container/profile-container-skeleton';
 import Sns from './_components/sns';
+import SnsSkeleton from './_components/sns/sns-skeleton';
 
 export default function MyPage() {
   return (
@@ -47,7 +48,7 @@ export default function MyPage() {
           <h2 className="ck-title">연결된 SNS</h2>
         </div>
         <ErrorBoundary fallback={ErrorFallback}>
-          <Suspense clientOnly>
+          <Suspense clientOnly fallback={<SnsSkeleton />}>
             <Sns />
           </Suspense>
         </ErrorBoundary>
