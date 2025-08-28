@@ -39,7 +39,13 @@ export async function postLogin({ email, password }: PostLoginRequest) {
  * 로그아웃
  */
 export async function postLogout() {
-  const response = await fetcher.post(`/auth/logout`);
+  const response = await fetcher.post(
+    `/auth/logout`,
+    {},
+    {
+      requiresAuth: true,
+    },
+  );
 
   return response;
 }

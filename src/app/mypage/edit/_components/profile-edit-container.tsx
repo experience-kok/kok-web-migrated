@@ -61,6 +61,7 @@ export default function ProfileEditContainer() {
       />
       <ProfileForm
         defaultValues={{
+          email: user.email ?? '',
           nickname: user.nickname,
           phone: user.phone ?? '',
           gender: user.gender,

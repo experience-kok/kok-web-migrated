@@ -12,6 +12,7 @@ import { EditForm, editFormSchema } from '@/schemas/profile.schemas';
 
 interface Props {
   defaultValues: {
+    email: string;
     nickname: string;
     phone: string;
     gender: Gender;

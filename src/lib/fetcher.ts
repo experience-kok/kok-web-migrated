@@ -98,6 +98,7 @@ export class CustomFetcher {
       const currentAccessToken = await getAccessToken();
 
       // 액세스 토큰 리프레시 - Authorization 헤더에 현재 토큰 추가
+      console.log('토큰 요청');
       const refreshResponse = await this.post<{ accessToken: string; refreshToken: string }>(
         '/auth/refresh',
         {
