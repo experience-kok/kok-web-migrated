@@ -62,6 +62,12 @@ export default function MyPage() {
           <span className="ck-body-2 font-semibold">공지사항</span>
           <ChevronRight width={16} height={16} className="text-muted-foreground" />
         </div>
+        <Link href={'/client/register'}>
+          <div className="flex w-full items-center justify-between py-5">
+            <span className="ck-body-2 font-semibold">클라이언트 계정으로 전환하기</span>
+            <ChevronRight width={16} height={16} className="text-muted-foreground" />
+          </div>
+        </Link>
       </section>
     </>
   );

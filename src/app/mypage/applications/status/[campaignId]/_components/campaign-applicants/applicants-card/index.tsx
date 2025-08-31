@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ChevronDown, MoreVertical } from 'lucide-react';
 import { toast } from 'sonner';
 
-import AlertDialog from '@/components/shared/alert-dialog';
+import AlertDialog, { AlertDialogConfig } from '@/components/shared/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Gender } from '@/models/user';
@@ -55,13 +55,7 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
   const [isMissionReviewOpen, setIsMissionReviewOpen] = useState(false);
   const [missionReviewType, setMissionReviewType] = useState<'COMPLETE' | 'REVISION'>('COMPLETE');
 
-  const [alertDialog, setAlertDialog] = useState<{
-    isOpen: boolean;
-    title?: string;
-    description?: string;
-    actionText?: string;
-    onAction?: () => void;
-  }>({
+  const [alertDialog, setAlertDialog] = useState<AlertDialogConfig>({
     isOpen: false,
   });
 
@@ -125,7 +119,6 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
 
   const handleChangeStatus = () => {
     console.log(`상태 변경 for applicant ${applicant?.user.nickname}`);
-    // 실제 API 호출 로직
   };
 
   // 상태별 드롭다운 메뉴 옵션
