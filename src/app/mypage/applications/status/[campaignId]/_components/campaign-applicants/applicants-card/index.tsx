@@ -117,6 +117,11 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
     });
   };
 
+  // 미션 페이지로 이동
+  const handleRouteToMission = () => {
+    window.open(applicant.mission.missionUrl, '_blank');
+  };
+
   const handleChangeStatus = () => {
     console.log(`상태 변경 for applicant ${applicant?.user.nickname}`);
   };
@@ -133,10 +138,17 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
           { label: '미션 이력', onClick: handleMissionHistory },
         ];
       case 'SELECTED':
-        return [
+        const baseOptions = [
           { label: '미션 완료', onClick: handleMissionComplete },
           { label: '미션 수정 요청', onClick: handleMissionRevisionRequest },
         ];
+
+        // missionStatus가 'SUBMITTED'일 때만 '제출 된 미션 확인하기' 옵션 추가
+        if (applicant.mission.missionStatus === 'SUBMITTED') {
+          baseOptions.push({ label: '제출 된 미션 확인하기', onClick: handleRouteToMission });
+        }
+
+        return baseOptions;
       case 'COMPLETED':
         return [{ label: '미션 이력', onClick: handleMissionHistory }];
       case 'REJECTED':

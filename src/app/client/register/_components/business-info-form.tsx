@@ -73,7 +73,9 @@ export function BusinessInfoForm() {
     setAlertDialog({
       isOpen: true,
       title: '클라이언트 계정을 신청할까요?',
-      description: `신청 이후에 정보 수정은 체험콕 문의를 통해서만 가능해요.`,
+      description: `신청 이후에 수정은 문의를 통해서만 가능해요.
+
+      신청 결과는 이메일 또는 연락처로 전달해드릴 예정이에요.`,
       actionText: '신청하기',
       closeText: '취소',
       onAction: () =>
