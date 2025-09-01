@@ -12,11 +12,14 @@ import AlertDialog, { AlertDialogConfig } from '@/components/shared/alert-dialog
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { isFetcherError } from '@/lib/fetcher';
 import {
   clientBusinessInfoSchema,
   type ClientBusinessInfoRegisterForm,
 } from '@/schemas/client.schemas';
 import { usePostBusinessInfoMutation } from '@/service/clients/clients-mutation';
+
+import { getBusinessInfoErrorMessage } from '@/types/clients/errors';
 
 export function BusinessInfoForm() {
   const router = useRouter();
@@ -86,10 +89,14 @@ export function BusinessInfoForm() {
             });
             router.push('/mypage');
           },
-          onError: () => {
-            toast.error('신청을 실패했어요.', {
-              position: 'top-center',
-            });
+          onError: error => {
+            if (isFetcherError(error) && error.data?.errorCode) {
+              const errorCode = error.data.errorCode;
+              const message = getBusinessInfoErrorMessage(errorCode);
+              toast.error(message, {
+                position: 'top-center',
+              });
+            }
           },
         }),
     });
