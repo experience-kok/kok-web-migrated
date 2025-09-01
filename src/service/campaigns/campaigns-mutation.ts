@@ -13,6 +13,7 @@ import {
   postApplicationsSelect,
   postCampaign,
   postCampaignApplicate,
+  postMission,
   postMissionReview,
 } from './campaigns-api';
 import { campaignsQueryKeys } from './campaigns-query';
@@ -53,7 +54,7 @@ export function usePostCampaignMutation() {
       await postCampaign(requestData);
     },
     onSuccess: () => {
-      toast.success('캠페인 등록이 완료되었어요.', { position: 'top-center' });
+      toast.success('캠페인을 등록했어요.', { position: 'top-center' });
       router.push('/mypage');
     },
     onError: () => {
@@ -77,7 +78,7 @@ export function usePostCampaignApplicateMutation(campaignId: number) {
         queryKey: campaignsQueryKeys.applicate(campaignId).queryKey,
       });
 
-      toast.success('캠페인 지원을 완료했어요.', {
+      toast.success('캠페인을 지원했어요.', {
         position: 'top-center',
       });
     },
@@ -158,5 +159,16 @@ export function usePostMissionReviewMutation() {
         },
       });
     },
+  });
+}
+
+/**
+ * 미션 제출 뮤테이션
+ */
+export function usePostMissionMutation() {
+  const queryClient = getQueryClient();
+
+  return useMutation({
+    mutationFn: postMission,
   });
 }

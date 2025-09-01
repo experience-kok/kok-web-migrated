@@ -58,7 +58,7 @@ export function usePatchProfileImageMutation() {
       // atom 상태도 user 객체로 직접 업데이트
       setUser(newUser);
 
-      toast.success('프로필 이미지가 성공적으로 업데이트되었어요.', {
+      toast.success('프로필 이미지를 업데이트했어요.', {
         position: 'top-center',
       });
 

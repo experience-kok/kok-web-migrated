@@ -81,7 +81,7 @@ export function BusinessInfoForm() {
       onAction: () =>
         postBusinessInfo(data, {
           onSuccess: () => {
-            toast.success('신청이 완료됐어요.', {
+            toast.success('클라이언트 계정을 신청했어요.', {
               position: 'top-center',
             });
             router.push('/mypage');
