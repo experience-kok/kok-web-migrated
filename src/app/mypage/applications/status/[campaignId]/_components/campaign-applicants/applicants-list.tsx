@@ -99,7 +99,7 @@ export default function ApplicantsList({
 
       {/* 스크롤 가능한 컨테이너 - 최대 5개 카드 높이로 제한 */}
       <div
-        className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 max-h-[500px] overflow-y-auto"
+        className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 min-h-[500px] overflow-y-auto"
         style={{
           maxHeight: 'calc(5 * (100px + 12px))',
         }}
