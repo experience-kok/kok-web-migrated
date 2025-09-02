@@ -20,6 +20,9 @@ export default function VisitSection() {
         <Link href={`/campaign/visit?categoryName=${encodeURIComponent('숙박')}`}>
           <div className="ck-body-2-bold">숙박</div>
         </Link>
+        <Link href={`/campaign/visit?categoryName=${encodeURIComponent('기타')}`}>
+          <div className="ck-body-2-bold">기타</div>
+        </Link>
       </div>
     </section>
   );

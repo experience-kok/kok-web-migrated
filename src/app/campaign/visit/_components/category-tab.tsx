@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import { 방문카테고리 } from '@/models/campaign';
+import { 방문카테고리 } from '@/types/campaigns/models';
 
 // 카테고리 옵션
 const CategoryOption: Array<{ value: 방문카테고리 | ''; label: string }> = [
@@ -27,6 +27,10 @@ const CategoryOption: Array<{ value: 방문카테고리 | ''; label: string }> =
   {
     value: '숙박',
     label: '숙박',
+  },
+  {
+    value: '기타',
+    label: '기타',
   },
 ];
 

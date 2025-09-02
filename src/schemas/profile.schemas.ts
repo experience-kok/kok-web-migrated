@@ -2,6 +2,11 @@ import z from 'zod';
 
 // 내 정보 수정 폼 스키마
 export const editFormSchema = z.object({
+  email: z
+    .string()
+    .nonempty('이메일을 입력해 주세요.')
+    .email('올바른 이메일 형식으로 입력해 주세요.')
+    .max(254, { message: '이메일이 너무 깁니다.' }),
   nickname: z
     .string()
     .nonempty('닉네임을 입력해 주세요.')

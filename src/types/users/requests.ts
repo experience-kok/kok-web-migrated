@@ -7,6 +7,7 @@ export interface PatchProfileImageRequest {
 
 // 내 정보 수정 요청
 export interface PutProfileRequest {
+  email: string;
   nickname: string;
   profileImage: string | null;
   phone: string;

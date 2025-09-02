@@ -43,8 +43,15 @@ export function isFetcherError(error: unknown): error is FetcherError {
   );
 }
 
+interface QueuedRequest {
+  resolve: (token: string) => void;
+  reject: (error: Error) => void;
+}
+
 export class CustomFetcher {
   private config: Required<FetcherConfig>;
+  private refreshPromise: Promise<string> | null = null;
+  private requestQueue: QueuedRequest[] = [];
 
   constructor(config: FetcherConfig = {}) {
     this.config = {
@@ -79,7 +86,7 @@ export class CustomFetcher {
     }
   }
 
-  private async refreshTokenAndRetry<T>(url: string, options: RequestOptions): Promise<T> {
+  private async performTokenRefresh(): Promise<string> {
     const refreshToken = await getRefreshToken();
 
     if (!refreshToken) {
@@ -98,26 +105,43 @@ export class CustomFetcher {
       const currentAccessToken = await getAccessToken();
 
       // 액세스 토큰 리프레시 - Authorization 헤더에 현재 토큰 추가
-      const refreshResponse = await this.post<{ accessToken: string; refreshToken: string }>(
-        '/auth/refresh',
-        {
-          refreshToken,
-        },
-        {
-          // 현재 액세스 토큰을 Authorization 헤더에 추가
-          token: currentAccessToken || undefined,
-        },
-      );
+      console.log('토큰 요청');
+
+      // Create a direct fetch request to avoid recursion
+      const url = `${this.config.baseURL}/auth/refresh`;
+      const headers: Record<string, string> = {
+        ...this.config.defaultHeaders,
+      };
+
+      if (currentAccessToken) {
+        headers.Authorization = `Bearer ${currentAccessToken}`;
+      }
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ refreshToken }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Token refresh failed');
+      }
+
+      const refreshResponse = await response.json();
+      let tokenData: { accessToken: string; refreshToken: string };
+
+      // Handle both SuccessResponse and direct response formats
+      if (refreshResponse.success === true && refreshResponse.data) {
+        tokenData = refreshResponse.data;
+      } else {
+        tokenData = refreshResponse;
+      }
 
       // 새로운 액세스 토큰 저장
-      setAccessToken(refreshResponse.accessToken);
-      setRefreshToken(refreshResponse.refreshToken);
+      setAccessToken(tokenData.accessToken);
+      setRefreshToken(tokenData.refreshToken);
 
-      // 원래 요청 다시 시도
-      return this.request<T>(url, {
-        ...options,
-        token: refreshResponse.accessToken,
-      });
+      return tokenData.accessToken;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (refreshError) {
       // 리프레시 실패, 로그아웃
@@ -129,6 +153,73 @@ export class CustomFetcher {
         success: false,
       });
     }
+  }
+
+  private async getValidToken(): Promise<string> {
+    // If there's already a refresh in progress, wait for it
+    if (this.refreshPromise) {
+      try {
+        return await this.refreshPromise;
+      } catch (error) {
+        // If the current refresh fails, clear it and let the new request try
+        this.refreshPromise = null;
+        throw error;
+      }
+    }
+
+    // Start a new refresh process
+    this.refreshPromise = this.performTokenRefresh();
+
+    try {
+      const newToken = await this.refreshPromise;
+
+      // Process queued requests
+      const queue = [...this.requestQueue];
+      this.requestQueue = [];
+
+      queue.forEach(({ resolve }) => {
+        resolve(newToken);
+      });
+
+      return newToken;
+    } catch (error) {
+      // Reject all queued requests
+      const queue = [...this.requestQueue];
+      this.requestQueue = [];
+
+      queue.forEach(({ reject }) => {
+        reject(error as Error);
+      });
+
+      throw error;
+    } finally {
+      // Clear the refresh promise
+      this.refreshPromise = null;
+    }
+  }
+
+  private async waitForTokenRefresh(): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      this.requestQueue.push({ resolve, reject });
+    });
+  }
+
+  private async refreshTokenAndRetry<T>(url: string, options: RequestOptions): Promise<T> {
+    let newToken: string;
+
+    if (this.refreshPromise) {
+      // If refresh is already in progress, wait for it
+      newToken = await this.waitForTokenRefresh();
+    } else {
+      // Start new refresh
+      newToken = await this.getValidToken();
+    }
+
+    // 원래 요청 다시 시도
+    return this.request<T>(url, {
+      ...options,
+      token: newToken,
+    });
   }
 
   private async handleAuthError<T>(

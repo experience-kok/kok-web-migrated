@@ -97,7 +97,7 @@ export function usePutProfileMutation() {
       // atom 상태도 user 객체로 직접 업데이트
       setUser(newUser);
 
-      toast.success('프로필 정보를 성공적으로 업데이트했어요.', {
+      toast.success('프로필 정보를 업데이트했어요.', {
         position: 'top-center',
       });
 
@@ -130,7 +130,7 @@ export function usePostSNSPlatformMutation() {
       queryClient.invalidateQueries({
         queryKey: usersQueryKeys.sns().queryKey,
       });
-      toast.success('SNS 연결을 성공했어요.', {
+      toast.success('SNS를 연결했어요.', {
         position: 'top-center',
       });
     },
