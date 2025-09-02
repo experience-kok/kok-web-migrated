@@ -1,5 +1,7 @@
 import { Image as ImageIcon, Type as TypeIcon, SquarePlay, MapPin } from 'lucide-react';
 
+import { Metadata } from 'next';
+
 import CampaignTypeBadge from '@/components/shared/campaign-card/campaign-type-badge';
 import SplitBox from '@/components/ui/split-box';
 import {
@@ -20,6 +22,15 @@ interface Props {
   params: Promise<{
     campaignId: string;
   }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { campaignId } = await params;
+  const { title } = await getCampaignBasicInfo(Number(campaignId));
+
+  return {
+    title: `${title} | 체험콕`,
+  };
 }
 
 /**
