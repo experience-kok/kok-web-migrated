@@ -45,4 +45,11 @@ export const siteConfig: Metadata = {
   icons: {
     icon: '/favicon.icon',
   },
+  // 검색엔진 인증
+  verification: {
+    google: 'JDd7pGBGwV1XUDhcvirBj_Q-ioCQffmb5iuxKHb0SqQ',
+  },
+  other: {
+    'naver-site-verification': '549aba30f2b1b5a29f084ceebe5d0e7a52bf19b4',
+  },
 };
