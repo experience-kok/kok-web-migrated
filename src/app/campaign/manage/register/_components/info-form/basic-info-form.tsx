@@ -228,7 +228,11 @@ export default function BasicInfoForm({
 
         <div className="flex items-center gap-2">
           <Calendar className="text-ck-gray-700 size-4" />
-          <Input {...register('recruitmentStartDate')} type="date" />
+          <Input
+            {...register('recruitmentStartDate')}
+            type="date"
+            min={new Date().toISOString().split('T')[0]} // 오늘 이전 날짜 선택 불가
+          />
         </div>
         {errors.recruitmentStartDate && (
           <p className="text-ck-red-500 ck-caption-1">{errors.recruitmentStartDate.message}</p>

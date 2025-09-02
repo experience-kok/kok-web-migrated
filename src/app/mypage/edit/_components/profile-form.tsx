@@ -12,6 +12,7 @@ import { EditForm, editFormSchema } from '@/schemas/profile.schemas';
 
 interface Props {
   defaultValues: {
+    email: string;
     nickname: string;
     phone: string;
     gender: Gender;
@@ -55,6 +56,14 @@ export default function ProfileForm({ defaultValues, onSubmit, isPending }: Prop
         </div>
         <Input {...register('phone', { required: true })} />
         {errors.phone && <p className="text-ck-red-500 ck-caption-1">{errors.phone.message}</p>}
+      </div>
+
+      <div className="grid w-full items-center">
+        <div className="ck-body-2-bold mb-1">
+          이메일 <span className="text-ck-red-500">*</span>
+        </div>
+        <Input {...register('email', { required: true })} />
+        {errors.email && <p className="text-ck-red-500 ck-caption-1">{errors.email.message}</p>}
       </div>
 
       <div className="grid w-full items-center">

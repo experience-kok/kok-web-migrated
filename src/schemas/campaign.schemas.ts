@@ -97,6 +97,18 @@ export const campaignCreateSchema = z
     lat: z.number().optional(),
     lng: z.number().optional(),
   })
+  // === 모집 시작일은 오늘 이후여야 함 ===
+  .refine(
+    data => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정하여 날짜만 비교
+      const startDate = new Date(data.recruitmentStartDate);
+      startDate.setHours(0, 0, 0, 0);
+      return startDate >= today;
+    },
+    { message: '모집 시작일은 오늘 이후로 선택해 주세요.', path: ['recruitmentStartDate'] },
+  )
+
   // === 여기부터 조건부 필수: "배송 + 비상시(!isAlwaysOpen)" 일 때만 필수 ===
 
   // (1) 선정 인원

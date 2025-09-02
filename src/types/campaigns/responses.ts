@@ -158,6 +158,10 @@ export interface GetMyCampaignsSummaryResponse {
       count: number;
       label: string;
     };
+    rejected: {
+      count: number;
+      label: string;
+    };
     completed: {
       count: number;
       label: string;

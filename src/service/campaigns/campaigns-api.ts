@@ -412,3 +412,24 @@ export async function postMissionReview({
 
   return response;
 }
+
+/**
+ * 미션 제출
+ */
+export async function postMission({
+  applicationId,
+  missionUrl,
+}: {
+  applicationId: number;
+  missionUrl: string;
+}) {
+  const requestBody = {
+    missionUrl,
+  };
+
+  const response = await fetcher.post(`/missions/${applicationId}/submit`, requestBody, {
+    requiresAuth: true,
+  });
+
+  return response;
+}

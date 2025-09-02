@@ -10,6 +10,7 @@ import CampaignSkeleton from './_components/campaign/campaign-skeleton';
 import ProfileContainer from './_components/profile-container';
 import ProfileContainerSkeleton from './_components/profile-container/profile-container-skeleton';
 import Sns from './_components/sns';
+import SnsSkeleton from './_components/sns/sns-skeleton';
 
 export default function MyPage() {
   return (
@@ -47,7 +48,7 @@ export default function MyPage() {
           <h2 className="ck-title">연결된 SNS</h2>
         </div>
         <ErrorBoundary fallback={ErrorFallback}>
-          <Suspense clientOnly>
+          <Suspense clientOnly fallback={<SnsSkeleton />}>
             <Sns />
           </Suspense>
         </ErrorBoundary>
@@ -61,6 +62,12 @@ export default function MyPage() {
           <span className="ck-body-2 font-semibold">공지사항</span>
           <ChevronRight width={16} height={16} className="text-muted-foreground" />
         </div>
+        <Link href={'/client/register'}>
+          <div className="flex w-full items-center justify-between py-5">
+            <span className="ck-body-2 font-semibold">클라이언트 계정으로 전환하기</span>
+            <ChevronRight width={16} height={16} className="text-muted-foreground" />
+          </div>
+        </Link>
       </section>
     </>
   );

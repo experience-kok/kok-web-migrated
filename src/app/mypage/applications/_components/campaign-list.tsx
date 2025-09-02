@@ -4,9 +4,10 @@ import { useMemo } from 'react';
 
 import CampaignCardSkeleton from '@/components/shared/campaign-card/campaign-card-skeleton';
 import { Text } from '@/components/ui/text';
-import { CampaignApplicationStatus, CampaignType } from '@/models/campaign';
 
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
+
+import { CampaignApplicationStatus, CampaignType } from '@/types/campaigns/models';
 
 import CampaignItem from './campaign-item';
 import CampaignItemSkeleton from './campaign-item-skeleton';
