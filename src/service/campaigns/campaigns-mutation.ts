@@ -166,8 +166,6 @@ export function usePostMissionReviewMutation() {
  * 미션 제출 뮤테이션
  */
 export function usePostMissionMutation() {
-  const queryClient = getQueryClient();
-
   return useMutation({
     mutationFn: postMission,
   });
