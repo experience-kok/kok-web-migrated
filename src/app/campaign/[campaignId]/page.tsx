@@ -26,10 +26,17 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { campaignId } = await params;
-  const { title } = await getCampaignBasicInfo(Number(campaignId));
+
+  const [{ title }, { thumbnailUrl }] = await Promise.all([
+    getCampaignBasicInfo(Number(campaignId)),
+    getCampaignThumbnail(Number(campaignId)),
+  ]);
 
   return {
     title: `${title} | 체험콕`,
+    openGraph: {
+      images: [{ url: thumbnailUrl }],
+    },
   };
 }
 
