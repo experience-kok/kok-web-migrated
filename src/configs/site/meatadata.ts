@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 
 export const site_url = 'https://chkok.kr';
-export const site_description =
-  '체험콕은 블로그, 인스타그램, 유튜브 등의 인플루언서를 위한 무료 체험단 플랫폼이에요.';
+export const site_description = '체험단과 함께 우리 가게의 스토리를, 콕!';
 
 export const siteConfig: Metadata = {
   title: '체험콕',
