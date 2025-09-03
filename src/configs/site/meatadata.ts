@@ -1,12 +1,14 @@
 import { Metadata } from 'next';
 
-export const site_url = 'https://chkok.kr';
-export const site_description =
-  '체험콕은 블로그, 인스타그램, 유튜브 등의 인플루언서를 위한 무료 체험단 플랫폼이에요.';
+const site_url =
+  process.env.NODE_ENV === 'production' ? 'https://chkok.kr' : 'http://localhost:3000';
+
+export const site_description = '체험단과 함께 우리 가게의 스토리를, 콕!';
 
 export const siteConfig: Metadata = {
   title: '체험콕',
   description: site_description,
+  metadataBase: new URL('https://chkok.kr'),
   keywords: [
     '체험단',
     '체험단 플랫폼',
@@ -31,7 +33,7 @@ export const siteConfig: Metadata = {
     locale: 'ko_KR',
     images: [
       {
-        url: 'https://chkok.kr/opengraph-image.png',
+        url: '/opengraph-image.png',
       },
     ],
   },
