@@ -6,7 +6,7 @@ const site_url =
 export const site_description = '체험단과 함께 우리 가게의 스토리를, 콕!';
 
 export const siteConfig: Metadata = {
-  title: '체험콕',
+  title: '체험콕 | 다양한 체험 캠페인',
   description: site_description,
   metadataBase: new URL('https://chkok.kr'),
   keywords: [
