@@ -27,9 +27,9 @@ export const siteConfig: Metadata = {
   openGraph: {
     type: 'website',
     url: site_url,
-    title: '체험콕',
+    title: '체험콕 | 다양한 체험 캠페인',
     description: site_description,
-    siteName: '체험콕',
+    siteName: '체험콕 | 다양한 체험 캠페인',
     locale: 'ko_KR',
     images: [
       {
@@ -39,7 +39,7 @@ export const siteConfig: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '체험콕',
+    title: '체험콕 | 다양한 체험 캠페인',
     description: site_description,
     images: 'https://chkok.kr/opengraph-image.png',
     creator: '@chkok',
