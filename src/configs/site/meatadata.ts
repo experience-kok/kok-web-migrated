@@ -3,7 +3,8 @@ import { Metadata } from 'next';
 const site_url =
   process.env.NODE_ENV === 'production' ? 'https://chkok.kr' : 'http://localhost:3000';
 
-export const site_description = '체험단과 함께 우리 가게의 스토리를, 콕!';
+export const site_description =
+  '체험단과 함께 우리 가게의 스토리를, 콕! 맛집, 카페, 뷰티, 숙박, 식품, 화장품 등 다양한 분야의 체험단을 모집해요. 새로운 체험과 리뷰를 통해 브랜드 스토리를 함께 만들어봐요.';
 
 export const siteConfig: Metadata = {
   title: '체험콕 | 다양한 체험 캠페인',
@@ -43,9 +44,6 @@ export const siteConfig: Metadata = {
     description: site_description,
     images: 'https://chkok.kr/opengraph-image.png',
     creator: '@chkok',
-  },
-  icons: {
-    icon: '/favicon.icon',
   },
   // 검색엔진 인증
   verification: {
