@@ -71,7 +71,6 @@ export default function KakaoCallbackPage() {
         }
       } catch (error) {
         hasProcessed.current = false; // 에러시 재시도 가능하도록
-        console.error('로그인 에러: ', error);
         toast.error(error instanceof Error ? error.message : '잠시 후 다시 시도해주세요.', {
           position: 'top-center',
           duration: 3000,

@@ -66,9 +66,8 @@ export function usePatchProfileImageMutation() {
         queryKey: usersQueryKeys.profile().queryKey,
       });
     },
-    onError: error => {
+    onError: () => {
       toast.error('프로필 이미지 등록을 실패했어요.');
-      console.error(error);
     },
   });
 }
