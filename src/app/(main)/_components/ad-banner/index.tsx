@@ -54,6 +54,7 @@ export default function AdBanner() {
             className={`h-2 w-2 rounded-full transition-all duration-300 ${
               current === index + 1 ? 'bg-foreground w-4' : 'bg-gray-300'
             }`}
+            aria-label={`광고 ${index}번째 버튼`}
             onClick={() => api?.scrollTo(index)}
           />
         ))}

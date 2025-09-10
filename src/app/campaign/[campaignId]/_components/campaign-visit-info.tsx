@@ -39,9 +39,8 @@ export default function CampaignVisitInfo({ locationData }: Props) {
       });
       setCopied(true);
       setTimeout(() => setCopied(false), 2000); // 2초 후 원래 상태로
-    } catch (err) {
-      console.error('주소 복사 실패:', err);
-    }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {}
   };
 
   return (

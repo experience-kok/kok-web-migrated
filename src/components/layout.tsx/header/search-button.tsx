@@ -11,8 +11,8 @@ interface Props {
  */
 export default function SearchButton({ onClick }: Props) {
   return (
-    <Button className="text-ck-gray-500 size-5" variant="ghost" onClick={onClick}>
-      <Search className="size-6" />
+    <Button className="text-ck-gray-500 size-5" variant="ghost" onClick={onClick} aria-label="검색">
+      <Search className="size-6" aria-hidden={true} />
     </Button>
   );
 }
