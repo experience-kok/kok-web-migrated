@@ -58,6 +58,9 @@ export default function QuickMenu() {
                   width={48}
                   height={48}
                   alt={`${item.name} 아이콘`}
+                  quality={100}
+                  priority
+                  unoptimized
                 />
               </>
             ) : (
