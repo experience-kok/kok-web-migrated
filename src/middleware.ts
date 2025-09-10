@@ -33,7 +33,6 @@ export async function middleware(request: NextRequest) {
         });
 
         if (!response.ok) {
-          console.error('클라이언트 인증 실패:', response.status, response.statusText);
           return NextResponse.redirect(new URL('/not-found', request.url));
         }
 

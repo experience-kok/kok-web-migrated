@@ -4,8 +4,6 @@ import { getPopularCampaigns } from '@/service/campaigns/campaigns-api';
 import RankingCampaign from './ranking-campaign';
 
 export default async function RankingCampaignSection() {
-  await new Promise(resolve => setTimeout(resolve, 4500));
-
   // 카테고리 랭킹 캠페인 목록 요청
   const categoryRankingData = await Promise.all([
     // 방문 카테고리 인기 캠페인 목록
