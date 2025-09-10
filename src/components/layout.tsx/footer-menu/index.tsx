@@ -4,8 +4,6 @@ import React from 'react';
 
 import { House, AlarmClock, Menu, UserRound, Heart } from 'lucide-react';
 
-import ScrollToTopButton from '@/components/shared/scroll-to-top-button';
-
 import { useScrollDirection } from '@/hooks/use-scroll-direction';
 
 import MenuItem from './menu-item';
@@ -51,11 +49,11 @@ export default function FooterMenu() {
   return (
     <div className="">
       {/* 모바일 환경에서 ScrollToTopButton을 푸터 메뉴 위에 고정 */}
-      <div
+      {/* <div
         className={`fixed right-4 transition-all duration-300 ${scrollDirection === 'down' ? 'bottom-4' : 'bottom-20'}`}
       >
         <ScrollToTopButton />
-      </div>
+      </div> */}
       <div
         className={`fixed right-0 bottom-0 left-0 mx-auto h-15 w-full max-w-[600px] border-t bg-white transition-transform duration-300 ${
           scrollDirection === 'down' ? 'translate-y-full' : 'translate-y-0'
