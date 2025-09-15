@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import localFont from 'next/font/local';
 import Script from 'next/script';
 
@@ -7,7 +8,6 @@ import { Geist, Geist_Mono } from 'next/font/google';
 
 import './globals.css';
 import Provider from '@/components/provider';
-import GoogleAnalytics from '@/components/provider/google-analytics';
 
 import { siteConfig } from '@/configs/site/meatadata';
 
@@ -43,9 +43,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
-        )}
         <div id="portal-root" className="relative">
           {/* 메인 앱 컨테이너 - 중앙 정렬 및 모바일 사이즈 제한 */}
           <div className="bg-ck-gray-200 relative mx-auto min-h-screen max-w-[600px]">
@@ -58,6 +55,10 @@ export default function RootLayout({
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_KEY}&libraries=services,clusterer&autoload=false`}
           strategy="beforeInteractive"
         />
+
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_KEY && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_KEY} />
+        )}
       </body>
     </html>
   );
