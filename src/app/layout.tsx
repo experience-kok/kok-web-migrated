@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 
 import './globals.css';
 import Provider from '@/components/provider';
+import GoogleAnalytics from '@/components/provider/google-analytics';
 
 import { siteConfig } from '@/configs/site/meatadata';
 
@@ -42,6 +43,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} antialiased`}
         suppressHydrationWarning={true}
       >
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+        )}
         <div id="portal-root" className="relative">
           {/* 메인 앱 컨테이너 - 중앙 정렬 및 모바일 사이즈 제한 */}
           <div className="bg-ck-gray-200 relative mx-auto min-h-screen max-w-[600px]">
