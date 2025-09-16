@@ -40,12 +40,12 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} bg-ck-gray-200 antialiased`}
         suppressHydrationWarning={true}
       >
         <div id="portal-root" className="relative">
           {/* 메인 앱 컨테이너 - 중앙 정렬 및 모바일 사이즈 제한 */}
-          <div className="bg-ck-gray-200 relative mx-auto min-h-screen max-w-[600px]">
+          <div className="relative mx-auto min-h-screen max-w-[600px] bg-white">
             <Provider>{children}</Provider>
           </div>
         </div>
