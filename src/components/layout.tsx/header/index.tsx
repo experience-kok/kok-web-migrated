@@ -2,25 +2,20 @@
 
 import { useState } from 'react';
 
-import { ClientOnly } from '@suspensive/react';
 import { X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-import { useAuth } from '@/hooks/use-auth';
 import { usePreventScroll } from '@/hooks/use-prevent-scroll'; // 스크롤 방지 훅 추가
 
 import CampaignSearch from './campaign-search';
 import HeaderLogo from './header-logo';
-import LoginButton from './login-button';
-import ProfileDropdown from './profile-dropdown';
 import SearchButton from './search-button';
 
 /**
  * 헤더 레이아웃 컴포넌트
  */
 export default function Header() {
-  const auth = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // 검색 모달이 열렸을 때 스크롤 방지
@@ -40,7 +35,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="relative z-10 flex h-16 w-full bg-white/80 backdrop-blur-xl md:h-18">
+      <header className="relative z-10 flex h-16 w-full bg-white backdrop-blur-xl md:h-18">
         <div className="h-full w-full px-5">
           <div className="flex h-full w-full items-center">
             <div className="flex h-full w-full items-center">
@@ -48,9 +43,9 @@ export default function Header() {
             </div>
             <div className="flex items-center gap-3">
               <SearchButton onClick={handleClickSearchButton} />
-              <div className="hidden md:block">
+              {/* <div className="hidden md:block">
                 <ClientOnly>{auth.isLoggedIn ? <ProfileDropdown /> : <LoginButton />}</ClientOnly>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
