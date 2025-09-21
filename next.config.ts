@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-  output: 'standalone',
+  // output: 'standalone',
   images: {
     remotePatterns: [
       {

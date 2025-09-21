@@ -6,70 +6,62 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+# pnpm 활성화
+RUN corepack enable pnpm
+
 # pnpm만 사용하므로 pnpm 관련 파일만 복사
 COPY package.json pnpm-lock.yaml .npmrc* ./
 
 # pnpm으로 의존성 설치
-RUN corepack enable pnpm && pnpm i --frozen-lockfile
+RUN pnpm i --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
+
+# pnpm 활성화
+RUN corepack enable pnpm
+
+# 의존성과 소스 코드 복사
 COPY --from=deps /app/node_modules ./node_modules
-
-# 🔑 중요: NODE_ENV를 먼저 설정 (환경 변수 로딩보다 우선)
-ENV NODE_ENV=production
-
-# 🔑 중요: 모든 파일을 복사 (환경 파일들 포함)
 COPY . .
 
-# Next.js telemetry 비활성화 (선택사항)
+# Next.js 빌드 실행
 ENV NEXT_TELEMETRY_DISABLED=1
-
-# 🔧 디버깅: 환경 변수와 파일 존재 확인 (선택사항 - 문제 해결 후 제거 가능)
-RUN echo "=== 환경 변수 확인 ==="
-RUN echo "NODE_ENV: $NODE_ENV"
-RUN echo "=== 환경 파일 존재 확인 ==="
-RUN ls -la .env*
-RUN echo "=== .env.production 내용 확인 ==="
-RUN head -5 .env.production || echo ".env.production 파일을 읽을 수 없습니다"
-
-# pnpm으로 빌드 (이제 .env.production이 자동으로 로드됨)
-RUN corepack enable pnpm && pnpm run build
+RUN pnpm build
 
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
-# 환경 변수 설정
+# pnpm 활성화
+RUN corepack enable pnpm
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# 사용자 생성
+# 시스템 사용자 생성
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# 퍼블릭 파일 복사
+# package.json과 pnpm-lock.yaml 복사
+COPY package.json pnpm-lock.yaml ./
+
+# 프로덕션 의존성만 설치
+RUN pnpm i --frozen-lockfile --prod
+
+# 필요한 파일들 복사
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
 
-# 🔑 환경 파일들 복사 (런타임에서도 접근 가능하도록)
-COPY --from=builder /app/.env* ./
+# .next 디렉토리 권한 설정
+RUN chown -R nextjs:nodejs .next
 
-# Next.js standalone 빌드 산출물 복사
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-# 소유권 변경
 USER nextjs
 
-# 포트 설정
 EXPOSE 3000
+
 ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
 
-# 🔧 런타임 디버깅 (선택사항 - 문제 해결 후 제거 가능)
-RUN echo "=== 최종 파일 구조 ==="
-RUN ls -la
-
-# server.js는 Next.js standalone 빌드 결과물에 포함됨
-CMD ["node", "server.js"]
+# Next.js 애플리케이션 실행
+CMD ["pnpm", "start"]
