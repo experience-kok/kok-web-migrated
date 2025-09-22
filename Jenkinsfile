@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docer { image 'node:220alpine' }
+        docker { image 'node:220alpine' }
     }
     environment {
         SLACK_CHANNEL = credentials('jenkins-alert-channel')
