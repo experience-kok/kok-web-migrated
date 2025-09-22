@@ -40,24 +40,6 @@ pipeline {
                 }
             }
         }
-        stage("Install pnpm") {
-            agent {
-                docker {
-                    image 'node:22-alpine'
-                }
-            }
-            steps {
-                echo "STAGE: Installing pnpm"
-                sh """
-                    # Corepack을 사용하여 pnpm 설치
-                    corepack enable
-                    corepack prepare pnpm@latest --activate
-                    
-                    # pnpm 버전 확인
-                    pnpm --version
-                """
-            }
-        }
         stage("Build Next.js") {
             agent {
                 docker {
