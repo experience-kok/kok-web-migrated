@@ -60,10 +60,18 @@ pipeline {
                     # 의존성 설치 및 빌드
                     pnpm install --frozen-lockfile
                     pnpm run build
-
-                    cp -r .next/standalone ${env.WORKSPACE}/standalone
-                    cp -r .next/static ${env.WORKSPACE}/static
                 """
+            }
+        }
+        stage('Upload Static Files to S3') {
+            steps {
+                echo "🚀 Uploading .next/static to S3..."
+                s3Upload(
+                    bucket: 'kok-main-service-bucket',
+                    source: '.next/static/**',
+                    path: '_next/static/'
+                )
+                echo "✅ Upload complete."
             }
         }
     }
