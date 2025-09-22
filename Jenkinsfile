@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        docker { image 'node:22-alpine' }
-    }
+    agent any
     environment {
         SLACK_CHANNEL = credentials('jenkins-alert-channel')
         SLACK_CREDENTIAL_ID = 'slack-token'
@@ -28,21 +26,6 @@ pipeline {
                 }
             }
         }
-
-        stage("Install pnpm") {
-            steps {
-                echo "STAGE: Installing pnpm"
-                sh """
-                    # Corepack을 사용하여 pnpm 설치
-                    corepack enable
-                    corepack prepare pnpm@latest --activate
-                    
-                    # pnpm 버전 확인
-                    pnpm --version
-                """
-            }
-        }
-
         stage("Copy Env Files") {
             steps {
                 echo "STAGE: Copy Env Files"
@@ -57,69 +40,36 @@ pipeline {
                 }
             }
         }
-        
+        stage("Install pnpm") {
+            agent {
+                docker {
+                    image 'node:22-alpine'
+                }
+            }
+            steps {
+                echo "STAGE: Installing pnpm"
+                sh """
+                    # Corepack을 사용하여 pnpm 설치
+                    corepack enable
+                    corepack prepare pnpm@latest --activate
+                    
+                    # pnpm 버전 확인
+                    pnpm --version
+                """
+            }
+        }
         stage("Build Next.js") {
+            agent {
+                docker {
+                    image 'pnpm/node:22-alpine'
+                }
+            }
             steps {
                 echo "STAGE: Build Next.js Application"
                 sh """
                     pnpm install --frozen-lockfile
                     pnpm run build
                 """
-            }
-        }
-
-        stage('Upload Static Files to S3') {
-            steps {
-                script {
-                    // 👈 리전은 실제 사용하는 AWS 리전으로 변경하세요.
-                    withAWS(credentials: 'kok-aws-s3-credentials', region: 'ap-northeast-2') {
-                        echo "🚀 Uploading static files (.next/static) to S3..."
-                        s3Upload(
-                            bucket: 'kok-main-service-bucket', // 👈 실제 S3 버킷 이름으로 변경!
-                            source: '.next/static/**',
-                            path: '_next/static/'
-                        )
-                        echo "✅ S3 Upload complete."
-                    }
-                }
-            }
-        }
-
-        stage("Deploy Application to Docker Server") {
-            when {
-                expression { return target == "production" }
-            }
-            steps {
-                echo "STAGE: Deploy Application"
-                script {
-                    sshagent(credentials: ['chkok-ssh-key']) {
-                        // 실행에 필요한 파일들 압축
-                        sh """
-                            tar -czf non-standalone-app.tar.gz \\
-                                .next \\
-                                public \\
-                                package.json \\
-                                pnpm-lock.yaml \\
-                                .env.production \\
-                                docker-compose.yml \\
-                                Dockerfile
-                        """
-                        
-                        // 👈 압축 파일을 전송할 원격 서버 경로로 변경하세요.
-                        sh "scp -o StrictHostKeyChecking=no non-standalone-app.tar.gz ${remoteService}:/home/ec2-user/kok-main-next-app/"
-                        
-                        // 원격 서버에서 압축 해제 및 Docker Compose 실행
-                        sh """
-                            ssh -o StrictHostKeyChecking=no ${remoteService} << 'EOL'
-                                cd /home/ec2-user/kok-main-next-app/
-                                tar -xzf non-standalone-app.tar.gz
-                                docker compose down
-                                docker compose up --build -d
-                                echo "✅ Deployment complete on remote server."
-                            EOL
-                        """
-                    }
-                }
             }
         }
     }
