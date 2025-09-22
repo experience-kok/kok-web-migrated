@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        docer { image 'node:220alpine' }
+    }
     environment {
         SLACK_CHANNEL = credentials('jenkins-alert-channel')
         SLACK_CREDENTIAL_ID = 'slack-token'
@@ -18,8 +20,8 @@ pipeline {
                     // !TODO main 브랜치로 변경하려면 "origin/main" 수정
                     if (env.GIT_BRANCH == "origin/test/output-performance") {
                         echo "✅ Target branch is test branch. Proceeding with the job."
-                        target = "production"
-                        remoteService = REMOTE_SERVICE_PRD
+                        def target = "production"
+                        def remoteService = REMOTE_SERVICE_PRD
                     } else {
                         error ":bangbang: This job only runs on the configured branch."
                     }
