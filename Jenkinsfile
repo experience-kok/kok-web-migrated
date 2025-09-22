@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo "STAGE: Copy Env Files"
                 configFileProvider([
-                    configFile(fileId: '4a830e68-b5ec-4eed-98b3-750d9a368d6', variable: 'MAIN_ENV'),
+                    configFile(fileId: '4a830e68-b5ec-4eed-98b3-b750d9a368d6', variable: 'MAIN_ENV'),
                     configFile(fileId: 'a81709e5-198a-415c-bc86-9fe464f2ca6b', variable: 'PRD_ENV')
                 ]) {
                     sh """
