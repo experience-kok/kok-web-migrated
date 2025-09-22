@@ -67,7 +67,7 @@ pipeline {
                     bucket: 'kok-main-service-bucket',
                     workingDir: """${env.WORKSPACE}/.next""",   // 기준 디렉터리
                     includePathPattern: 'static/**', // 업로드할 파일/폴더 패턴
-                    path: '_next/static/'         // S3 상 경로
+                    path: '_next/'         // S3 상 경로
                 )
                 echo "✅ Upload complete."
             }
