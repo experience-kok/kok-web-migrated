@@ -20,14 +20,29 @@ pipeline {
                     // !TODO main 브랜치로 변경하려면 "origin/main" 수정
                     if (env.GIT_BRANCH == "origin/test/output-performance") {
                         echo "✅ Target branch is test branch. Proceeding with the job."
-                        def target = "production"
-                        def remoteService = REMOTE_SERVICE_PRD
+                        target = "production"
+                        remoteService = REMOTE_SERVICE_PRD
                     } else {
                         error ":bangbang: This job only runs on the configured branch."
                     }
                 }
             }
         }
+
+        stage("Install pnpm") {
+            steps {
+                echo "STAGE: Installing pnpm"
+                sh """
+                    # Corepack을 사용하여 pnpm 설치
+                    corepack enable
+                    corepack prepare pnpm@latest --activate
+                    
+                    # pnpm 버전 확인
+                    pnpm --version
+                """
+            }
+        }
+
         stage("Copy Env Files") {
             steps {
                 echo "STAGE: Copy Env Files"
