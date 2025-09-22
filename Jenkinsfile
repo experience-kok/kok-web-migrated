@@ -60,6 +60,9 @@ pipeline {
                     # 의존성 설치 및 빌드
                     pnpm install --frozen-lockfile
                     pnpm run build
+
+                    cp -r .next/standalone ${env.WORKSPACE}/standalone
+                    cp -r .next/static ${env.WORKSPACE}/static
                 """
             }
         }
