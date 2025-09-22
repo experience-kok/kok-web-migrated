@@ -47,6 +47,7 @@ pipeline {
             steps {
                 echo "STAGE: Build Next.js Application"
                 sh """
+                    corepack enable pnpm
                     pnpm install --frozen-lockfile
                     pnpm run build
                 """
