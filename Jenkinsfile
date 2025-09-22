@@ -68,8 +68,9 @@ pipeline {
                 echo "🚀 Uploading .next/static to S3..."
                 s3Upload(
                     bucket: 'kok-main-service-bucket',
-                    source: '.next/static/**',
-                    path: '_next/static/'
+                    workingDir: '.next',          // 기준 디렉터리
+                    includePathPattern: 'static/**', // 업로드할 파일/폴더 패턴
+                    path: '_next/static/'         // S3 상 경로
                 )
                 echo "✅ Upload complete."
             }
