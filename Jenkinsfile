@@ -40,33 +40,24 @@ pipeline {
                 }
             }
         }
-        stage("Install pnpm") {
+        stage("Install pnpm & Build Next.js") {
             agent {
                 docker {
                     image 'node:22-alpine'
-                    args '-u root'
+                    args '-u root'   // root 권한으로 설치 문제 방지
                 }
             }
             steps {
-                echo "STAGE: Installing pnpm"
+                echo "STAGE: Installing pnpm and Building Next.js Application"
                 sh """
                     # Corepack을 사용하여 pnpm 설치
-                    npm install -g pnpm
+                    corepack enable
+                    corepack prepare pnpm@latest --activate
                     
                     # pnpm 버전 확인
                     pnpm --version
-                """
-            }
-        }
-        stage("Build Next.js") {
-            agent {
-                docker {
-                    image 'pnpm/node:22-alpine'
-                }
-            }
-            steps {
-                echo "STAGE: Build Next.js Application"
-                sh """
+                    
+                    # 의존성 설치 및 빌드
                     pnpm install --frozen-lockfile
                     pnpm run build
                 """
