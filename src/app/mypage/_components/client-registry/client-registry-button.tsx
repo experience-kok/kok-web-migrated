@@ -5,6 +5,9 @@ import Link from 'next/link';
 
 import { useAuth } from '@/hooks/use-auth';
 
+/**
+ * 클라이언트 계정 전환 버튼 컴포넌트
+ */
 export default function ClientRegistryButton() {
   const { user } = useAuth();
 

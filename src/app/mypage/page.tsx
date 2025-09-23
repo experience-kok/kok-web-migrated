@@ -7,6 +7,7 @@ import SplitBox from '@/components/ui/split-box';
 
 import Campaign from './_components/campaign';
 import CampaignSkeleton from './_components/campaign/campaign-skeleton';
+import CampaignRegisterRouteButton from './_components/campaign-register-route-button';
 import ClientRegistryButton from './_components/client-registry/client-registry-button';
 import ProfileContainer from './_components/profile-container';
 import ProfileContainerSkeleton from './_components/profile-container/profile-container-skeleton';
@@ -40,6 +41,8 @@ export default function MyPage() {
           </Suspense>
         </ErrorBoundary>
       </section>
+
+      <CampaignRegisterRouteButton />
 
       <SplitBox />
 
