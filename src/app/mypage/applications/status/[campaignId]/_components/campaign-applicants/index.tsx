@@ -62,7 +62,7 @@ export default function CampaignApplicants({ campaignId }: Props) {
     const search = current.toString();
     const query = search ? `?${search}` : '';
 
-    router.push(`${window.location.pathname}${query}`);
+    router.replace(`${window.location.pathname}${query}`);
   };
 
   const {
