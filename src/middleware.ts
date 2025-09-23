@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const PROTECTED_ROUTES = ['/mypage'];
-const ONLY_CLIENT_ROUTES = ['/mypage/applications/status'];
+// 로그인시 접근 가능한 페이지
+const PROTECTED_ROUTES = ['/mypage', '/campaign/manage/register'];
+
+// 클라이언트 유저만 접근 가능한 페이지
+const ONLY_CLIENT_ROUTES = ['/mypage/applications/status', '/campaign/manage/register'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = new URL(request.url);
