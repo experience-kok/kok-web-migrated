@@ -16,8 +16,8 @@ function FloatingInput({ className, type = 'text', label, ...props }: FloatingIn
         data-slot="input"
         className={cn(
           'peer ck-sub-title-1 w-full bg-transparent px-0 pt-4 pb-1 transition-colors outline-none',
-          'border-ck-gray-300 border-0 border-b border-solid',
-          'focus:border-ck-blue-500 focus:border-b-2',
+          'border-ck-gray-300 border-0 border-b-2 border-solid',
+          'focus:border-ck-blue-500',
           'autofill:bg-transparent autofill:shadow-[inset_0_0_0px_1000px_transparent] disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}

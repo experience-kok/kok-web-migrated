@@ -80,6 +80,9 @@ importers:
       '@types/canvas-confetti':
         specifier: ^1.9.0
         version: 1.9.0
+      '@use-funnel/browser':
+        specifier: ^0.0.15
+        version: 0.0.15(react@19.1.0)
       canvas-confetti:
         specifier: ^1.9.3
         version: 1.9.3
@@ -2164,6 +2167,16 @@ packages:
     resolution: {integrity: sha512-hHKFx+opG5BA3/owMXon8ypwSotBGTdblG6oda/iOu9+OEYnk0cxD2uIcGyGT8jCK578kV+xMrNxqbn8Zjlpgw==}
     cpu: [x64]
     os: [win32]
+
+  '@use-funnel/browser@0.0.15':
+    resolution: {integrity: sha512-tHMyxZdvmuQw/pmeE0n3bOn81huxjfCG3TblmW0A/ivbdQN7unAp0Gn8CCeeiIbbztDL6IDw1v255WL2PR9MoQ==}
+    peerDependencies:
+      react: '>=16.8'
+
+  '@use-funnel/core@0.0.12':
+    resolution: {integrity: sha512-IikmJCqiQxbqxMAKdIEvX4MiuaM4nu0mfuAdnbI4CKf1FFLy/c4GHGKHW2+zm4aQAdEtxCuwou/wOwDhrTSWbg==}
+    peerDependencies:
+      react: '>=16.8'
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -5844,6 +5857,15 @@ snapshots:
 
   '@unrs/resolver-binding-win32-x64-msvc@1.7.8':
     optional: true
+
+  '@use-funnel/browser@0.0.15(react@19.1.0)':
+    dependencies:
+      '@use-funnel/core': 0.0.12(react@19.1.0)
+      react: 19.1.0
+
+  '@use-funnel/core@0.0.12(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
 
   acorn-jsx@5.3.2(acorn@8.14.1):
     dependencies:

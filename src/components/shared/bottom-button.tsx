@@ -11,7 +11,7 @@ export default function BottomButton({ children, ...rest }: Props) {
         <div className="flex items-center gap-2">
           <Button
             size={'lg'}
-            className="ck-body-1-bold mx-auto h-[53px] w-full max-w-[600px] rounded-[12px] px-6"
+            className="ck-body-1-bold mx-auto h-[53px] w-full max-w-[600px] rounded-[12px] px-6 transition-transform duration-150 ease-in-out active:scale-95"
             {...rest}
           >
             {children}

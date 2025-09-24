@@ -36,6 +36,7 @@
     "@tanstack/react-query-devtools": "^5.79.0",
     "@tanstack/react-query-next-experimental": "^5.79.0",
     "@types/canvas-confetti": "^1.9.0",
+    "@use-funnel/browser": "^0.0.15",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
