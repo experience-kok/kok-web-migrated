@@ -28,7 +28,7 @@ export const categorySchema = z.object({
     },
   ),
   campaignType: z.enum(['인스타그램', '블로그', '유튜브'], {
-    errorMap: () => ({ message: '캠페인 타입을 선택해 주세요.' }),
+    errorMap: () => ({ message: '캠페인이 진행될 플랫폼을 선택해 주세요.' }),
   }),
 });
 export type CategoryData = z.infer<typeof categorySchema>;
