@@ -9,7 +9,7 @@ interface FloatingInputProps extends Omit<React.ComponentProps<'input'>, 'placeh
 
 function FloatingInput({ className, type = 'text', label, ...props }: FloatingInputProps) {
   return (
-    <div className="relative w-full">
+    <div className="ck-interactive-scale relative w-full">
       <input
         type={type}
         placeholder=" "
@@ -19,6 +19,7 @@ function FloatingInput({ className, type = 'text', label, ...props }: FloatingIn
           'border-ck-gray-300 border-0 border-b-2 border-solid',
           'focus:border-ck-blue-500',
           'autofill:bg-transparent autofill:shadow-[inset_0_0_0px_1000px_transparent] disabled:cursor-not-allowed disabled:opacity-50',
+          { 'ck-hide-spin-buttons': type === 'number' },
           className,
         )}
         {...props}

@@ -250,6 +250,11 @@
     line-height: 12px;
     letter-spacing: 0;
   }
+
+  /* 애니메이션 */
+  .ck-interactive-scale {
+    @apply touch-manipulation transition-transform duration-150 ease-in-out active:scale-95;
+  }
 }
 
 @layer utilities {
@@ -258,6 +263,17 @@
       display: none;
     }
     scrollbar-width: none;
+  }
+
+  .ck-hide-spin-buttons {
+    /* Firefox */
+    -moz-appearance: textfield;
+  }
+  .ck-hide-spin-buttons::-webkit-outer-spin-button,
+  .ck-hide-spin-buttons::-webkit-inner-spin-button {
+    /* Chrome, Safari, Edge, Opera */
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 
