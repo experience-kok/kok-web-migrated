@@ -40,6 +40,7 @@ export const thumbnailSchema = z.object({
 export type ThumbnailData = z.infer<typeof thumbnailSchema>;
 
 // 4. 캠페인 정보
+// 4. 캠페인 정보
 export const campaignSchema = z
   .object({
     title: z
@@ -57,17 +58,96 @@ export const campaignSchema = z
       })
       .min(1, { message: '선정 인원은 1명 이상이어야 해요.' })
       .optional(),
-    recruitmentStartDate: z.string().min(1, { message: '모집 시작일을 선택해 주세요.' }),
-    recruitmentEndDate: z.string(),
+    recruitmentStartDate: z.coerce.date({
+      required_error: '모집 시작일을 선택해 주세요.',
+      invalid_type_error: '유효한 날짜를 선택해 주세요.',
+    }),
+    recruitmentEndDate: z.coerce.date().optional(),
   })
+  // 상시 모집 캠페인이 아닌 경우 필수 필드 검증
+  .refine(
+    data => {
+      // 상시 모집이 아닌 경우, maxApplicants가 필수
+      if (!data.isAlwaysOpen) {
+        return data.maxApplicants !== undefined && data.maxApplicants !== null;
+      }
+      return true;
+    },
+    {
+      message: '일반 캠페인은 선정 인원을 입력해야 해요.',
+      path: ['maxApplicants'],
+    },
+  )
+  .refine(
+    data => {
+      // 상시 모집이 아닌 경우, recruitmentEndDate가 필수
+      if (!data.isAlwaysOpen) {
+        return data.recruitmentEndDate !== undefined && data.recruitmentEndDate !== null;
+      }
+      return true;
+    },
+    {
+      message: '일반 캠페인은 모집 종료일을 선택해야 해요.',
+      path: ['recruitmentEndDate'],
+    },
+  )
+  // 상시 모집 캠페인인 경우 불필요한 필드 검증
+  .refine(
+    data => {
+      // 상시 모집인 경우, maxApplicants가 없어야 함
+      if (data.isAlwaysOpen) {
+        return data.maxApplicants === undefined || data.maxApplicants === null;
+      }
+      return true;
+    },
+    {
+      message: '상시 모집 캠페인은 선정 인원을 설정할 수 없어요.',
+      path: ['maxApplicants'],
+    },
+  )
+  .refine(
+    data => {
+      // 상시 모집인 경우, recruitmentEndDate가 없어야 함
+      if (data.isAlwaysOpen) {
+        return data.recruitmentEndDate === undefined || data.recruitmentEndDate === null;
+      }
+      return true;
+    },
+    {
+      message: '상시 모집 캠페인은 모집 종료일을 설정할 수 없어요.',
+      path: ['recruitmentEndDate'],
+    },
+  )
+  // 모집 시작일이 오늘 이후인지 검증
   .refine(
     data => {
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정하여 날짜만 비교
+      today.setHours(0, 0, 0, 0);
       const startDate = new Date(data.recruitmentStartDate);
       startDate.setHours(0, 0, 0, 0);
       return startDate >= today;
     },
-    { message: '모집 시작일은 오늘 이후로 선택해 주세요.', path: ['recruitmentStartDate'] },
+    {
+      message: '모집 시작일은 오늘 이후로 선택해 주세요.',
+      path: ['recruitmentStartDate'],
+    },
+  )
+  // 모집 종료일이 시작일보다 늦은지 검증 (일반 캠페인만)
+  .refine(
+    data => {
+      if (!data.isAlwaysOpen && data.recruitmentStartDate && data.recruitmentEndDate) {
+        const startDate = new Date(data.recruitmentStartDate);
+        const endDate = new Date(data.recruitmentEndDate);
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(0, 0, 0, 0);
+        return endDate >= startDate;
+      }
+      return true;
+    },
+    {
+      message: '모집 종료일은 모집 시작일보다 빠를 수 없어요.',
+      path: ['recruitmentEndDate'],
+    },
   );
+
 export type CampaignData = z.infer<typeof campaignSchema>;

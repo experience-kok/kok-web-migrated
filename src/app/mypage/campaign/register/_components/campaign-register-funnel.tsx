@@ -4,10 +4,17 @@ import { useFunnel } from '@use-funnel/browser';
 
 import { DELIVERY_CATEGORIES, VISIT_CATEGORIES } from '@/types/campaigns/models';
 
-import { CompanyData, CategoryData } from '../_schemas/company-register-schemas';
+import {
+  CompanyData,
+  CategoryData,
+  CampaignData,
+  ThumbnailData,
+} from '../_schemas/company-register-schemas';
 
+import CampaignInfoStep from './campaign-info-step';
 import CategoryInfoStep from './category-info-step';
 import CompanyInfoStep from './company-info-step';
+import ThumbnailInfoStep from './thumbnail-info-step';
 
 /**
  * 캠페인 등록 퍼널 컴포넌트
@@ -16,9 +23,17 @@ export default function CampaignRegisterFunnel() {
   const funnel = useFunnel<{
     업체정보: { companyInfo?: CompanyData };
     카테고리정보: { companyInfo: CompanyData; categoryInfo?: CategoryData };
-    썸네일정보: { companyInfo: CompanyData; categoryInfo: CategoryData; thumbnailUrl?: string };
-
-    // 완료: { company: CompanyData; category: CategoryData };
+    썸네일정보: {
+      companyInfo: CompanyData;
+      categoryInfo: CategoryData;
+      thumbnailUrl?: ThumbnailData;
+    };
+    캠페인정보: {
+      companyInfo: CompanyData;
+      categoryInfo: CategoryData;
+      thumbnailUrl: ThumbnailData;
+      campaignInfo?: CampaignData;
+    };
   }>({
     id: 'campaign-register',
     initial: {
@@ -51,6 +66,18 @@ export default function CampaignRegisterFunnel() {
             }}
           />
         )}
+        썸네일정보={({ history, context }) => (
+          <ThumbnailInfoStep
+            context={context}
+            onNext={data => {
+              history.push('캠페인정보', {
+                ...context,
+                thumbnailUrl: data,
+              });
+            }}
+          />
+        )}
+        캠페인정보={({ history, context }) => <CampaignInfoStep context={context} />}
       />
     </>
   );
