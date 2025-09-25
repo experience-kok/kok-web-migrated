@@ -49,95 +49,104 @@ export default function CategoryInfoStep({ onNext, context }: Props) {
     <form onSubmit={handleSubmit(onNext)} className="px-5">
       <div className="ck-title pt-5 pb-10">어떤 캠페인을 생성할까요?</div>
 
-      <div className="space-y-6">
+      <div className="space-y-10">
         {/* 플랫폼 선택 */}
-        <label className="ck-body-2 text-ck-gray-700 mb-2 block">플랫폼</label>
-        <Controller
-          name="campaignType"
-          control={control}
-          render={({ field }) => (
-            <Select
-              value={field.value || ''}
-              onValueChange={value => {
-                field.onChange(value);
-              }}
-            >
-              <SelectTrigger className="h-10 w-full">
-                <SelectValue placeholder="플랫폼을 선택해주세요" />
-              </SelectTrigger>
-              <SelectContent>
-                {CAMPAIGN_TYPES.map(type => (
-                  <SelectItem key={type} value={type}>
-                    {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-        />
-
-        {/* 카테고리 선택 */}
-        <label className="ck-body-2 text-ck-gray-700 mb-2 block">카테고리 타입</label>
-        <Controller
-          name="categoryType"
-          control={control}
-          render={({ field }) => (
-            <Select
-              value={field.value || ''}
-              onValueChange={value => {
-                field.onChange(value);
-                // 카테고리 타입 변경 시 하위 필드(세부 카테고리)를 초기화
-                resetField('categoryName');
-              }}
-              disabled={!watchedCampaignType}
-            >
-              <SelectTrigger className="h-10 w-full">
-                <SelectValue
-                  placeholder={
-                    !watchedCampaignType
-                      ? '플랫폼을 먼저 선택해주세요'
-                      : '카테고리 타입을 선택해주세요'
-                  }
-                />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="방문">방문</SelectItem>
-              </SelectContent>
-            </Select>
-          )}
-        />
-
-        {/* 세부 카테고리 선택 */}
-        <label className="ck-body-2 text-ck-gray-700 mb-2 block">세부 카테고리</label>
-        <Controller
-          name="categoryName"
-          control={control}
-          render={({ field }) => (
-            <Select
-              value={field.value || ''}
-              onValueChange={field.onChange}
-              disabled={!watchedCategoryType}
-            >
-              <SelectTrigger className="h-10 w-full">
-                <SelectValue
-                  placeholder={
-                    !watchedCategoryType
-                      ? '카테고리 타입을 먼저 선택해주세요'
-                      : '세부 카테고리를 선택해주세요'
-                  }
-                />
-              </SelectTrigger>
-              <SelectContent>
-                {watchedCategoryType &&
-                  CATEGORY_OPTIONS[watchedCategoryType].map(category => (
-                    <SelectItem key={category} value={category}>
-                      {category}
+        <div>
+          <label className="ck-body-2 text-ck-gray-700 mb-2 block">플랫폼</label>
+          <Controller
+            name="campaignType"
+            control={control}
+            render={({ field }) => (
+              <Select
+                value={field.value || ''}
+                onValueChange={value => {
+                  field.onChange(value);
+                }}
+              >
+                <SelectTrigger className="h-10 w-full">
+                  <SelectValue placeholder="플랫폼을 선택해주세요" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CAMPAIGN_TYPES.map(type => (
+                    <SelectItem key={type} value={type}>
+                      {type}
                     </SelectItem>
                   ))}
-              </SelectContent>
-            </Select>
-          )}
-        />
+                </SelectContent>
+              </Select>
+            )}
+          />
+        </div>
+
+        {/* 카테고리 선택 */}
+        <div>
+          <label className="ck-body-2 text-ck-gray-700 mb-2 block">카테고리 타입</label>
+          <Controller
+            name="categoryType"
+            control={control}
+            render={({ field }) => (
+              <Select
+                value={field.value || ''}
+                onValueChange={value => {
+                  field.onChange(value);
+                  // 카테고리 타입 변경 시 하위 필드(세부 카테고리)를 초기화
+                  resetField('categoryName');
+                }}
+                disabled={!watchedCampaignType}
+              >
+                <SelectTrigger className="h-10 w-full">
+                  <SelectValue
+                    placeholder={
+                      !watchedCampaignType
+                        ? '플랫폼을 먼저 선택해주세요'
+                        : '카테고리 타입을 선택해주세요'
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="방문">방문</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          <p className="ck-caption-1 text-ck-gray-600 mt-1">
+            *지금은 방문 캠페인만 생성할 수 있어요.
+          </p>
+        </div>
+
+        {/* 세부 카테고리 선택 */}
+        <div>
+          <label className="ck-body-2 text-ck-gray-700 mb-2 block">세부 카테고리</label>
+          <Controller
+            name="categoryName"
+            control={control}
+            render={({ field }) => (
+              <Select
+                value={field.value || ''}
+                onValueChange={field.onChange}
+                disabled={!watchedCategoryType}
+              >
+                <SelectTrigger className="h-10 w-full">
+                  <SelectValue
+                    placeholder={
+                      !watchedCategoryType
+                        ? '카테고리 타입을 먼저 선택해주세요'
+                        : '세부 카테고리를 선택해주세요'
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {watchedCategoryType &&
+                    CATEGORY_OPTIONS[watchedCategoryType].map(category => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+        </div>
       </div>
 
       <BottomButton disabled={!watchedCategoryName}>다음으로</BottomButton>

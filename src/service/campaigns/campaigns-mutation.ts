@@ -20,6 +20,34 @@ import { campaignsQueryKeys } from './campaigns-query';
 import { PostCampaignRequest } from './types';
 
 /**
+ * 캠페인 썸네일 등록 뮤테이션
+ */
+export function usePostPresignedUrlMutation() {
+  return useMutation({
+    mutationFn: async (file: File) => {
+      // 파일 확장자 추출
+      const fileExtension = file.name.split('.').pop()?.toLowerCase() as ImageExtension;
+
+      // presigned-url 발급
+      const { presignedUrl } = await postPresignedUrl(fileExtension, 'campaign');
+
+      // 발급 받은 url에 이미지 업로드
+      const response = await fetch(presignedUrl, {
+        method: 'PUT',
+        body: file,
+      });
+
+      if (!response.ok) {
+        throw new Error('썸네일 업로드를 실패했어요.');
+      }
+
+      const finalUrl = presignedUrl.split('?')[0];
+      return finalUrl;
+    },
+  });
+}
+
+/**
  * 캠페인 등록 뮤테이션
  */
 export function usePostCampaignMutation() {
