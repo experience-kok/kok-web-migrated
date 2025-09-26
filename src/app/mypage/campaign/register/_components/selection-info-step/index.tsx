@@ -33,7 +33,7 @@ export default function SelectionInfoStep({ context, onNext }: Props) {
     <form onSubmit={handleSubmit(onNext)} className="px-5">
       <div className="ck-title pt-5 pb-10">
         캠페인에서 선정할 <br />
-        인플루언서 기준에 대해 알려주세요
+        인플루언서 정보를 알려주세요
       </div>
 
       <FloatingTextarea

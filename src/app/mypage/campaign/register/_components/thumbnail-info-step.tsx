@@ -112,7 +112,7 @@ export default function ThumbnailInfoStep({ context, onNext }: Props) {
     <>
       <div className="px-5">
         <div className="ck-title pt-5 pb-10">
-          인플루언서에게 보여질 <br />
+          캠페인을 대표할 <br />
           썸네일을 등록해주세요
         </div>
 

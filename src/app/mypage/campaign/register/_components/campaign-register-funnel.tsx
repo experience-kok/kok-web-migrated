@@ -54,7 +54,7 @@ export default function CampaignRegisterFunnel() {
   }>({
     id: 'campaign-register',
     initial: {
-      step: '인플루언서_선정정보',
+      step: '업체정보',
       context: {},
     },
   });

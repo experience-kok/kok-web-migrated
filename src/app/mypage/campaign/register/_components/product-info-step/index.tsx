@@ -30,7 +30,7 @@ export default function ProductInfoStep({ context, onNext }: Props) {
   return (
     <form onSubmit={handleSubmit(onNext)} className="px-5">
       <div className="ck-title pt-5 pb-10">
-        사장님께서 제공해주실 <br />
+        캠페인을 통해 제공되는 <br />
         제품/서비스에 대해 알려주세요
       </div>
 
