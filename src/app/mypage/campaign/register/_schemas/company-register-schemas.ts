@@ -40,7 +40,6 @@ export const thumbnailSchema = z.object({
 export type ThumbnailData = z.infer<typeof thumbnailSchema>;
 
 // 4. 캠페인 정보
-// 4. 캠페인 정보
 export const campaignSchema = z
   .object({
     title: z
@@ -151,3 +150,23 @@ export const campaignSchema = z
   );
 
 export type CampaignData = z.infer<typeof campaignSchema>;
+
+// 5. 제품/서비스 정보
+export const productSchema = z.object({
+  productShortInfo: z
+    .string()
+    .min(1, { message: '제품/서비스 간략 정보를 입력해 주세요.' })
+    .max(20, { message: '간략 정보는 20자 이하로 입력해 주세요.' }),
+  productDetails: z.string().min(1, { message: '제공 제품/서비스 상세 정보를 입력해 주세요.' }),
+});
+export type ProductData = z.infer<typeof productSchema>;
+
+// 6. 인플루언서 선정 정보
+export const selectionSchema = z.object({
+  selectionDate: z.coerce.date({
+    required_error: '인플루언서 선정일을 선택해 주세요.',
+    invalid_type_error: '유효한 날짜를 선택해 주세요.',
+  }),
+  selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
+});
+export type SelectionData = z.infer<typeof selectionSchema>;

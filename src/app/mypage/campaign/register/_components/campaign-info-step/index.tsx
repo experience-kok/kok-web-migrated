@@ -7,12 +7,12 @@ import { Controller, useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 
-import { CampaignData, campaignSchema } from '../_schemas/company-register-schemas';
+import { CampaignData, campaignSchema } from '../../_schemas/company-register-schemas';
 
-import AlwaysOpenCheckBox from './campaign-info-step/always-open-check-box';
-import CampaignTitleInput from './campaign-info-step/campaign-title-input';
-import MaxApplicantsInput from './campaign-info-step/max-applicants-input';
-import RecruitmentDatePicker from './campaign-info-step/recruitment-date-picker';
+import AlwaysOpenCheckBox from './always-open-check-box';
+import CampaignTitleInput from './campaign-title-input';
+import MaxApplicantsInput from './max-applicants-input';
+import RecruitmentDatePicker from './recruitment-date-picker';
 
 interface Props {
   onNext: (data: CampaignData) => void;
@@ -20,7 +20,7 @@ interface Props {
 }
 
 /**
- * 캠페인 정보 입력 스텝 컴포넌트
+ * 캠페인 정보 입력 스텝 컴포넌트입니다.
  */
 export default function CampaignInfoStep({ context, onNext }: Props) {
   console.log('캠페인 정보', context);
