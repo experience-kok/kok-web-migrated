@@ -1,15 +1,27 @@
+import { useMemo } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
 import { Controller, useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingTextarea } from '@/components/ui/floating-textarea';
 
-import { SelectionData, selectionSchema } from '../../_schemas/company-register-schemas';
+import {
+  SelectionData,
+  createSelectionSchemaWithCampaignValidation,
+} from '../../_schemas/company-register-schemas';
 
 import SelectionDatePicker from './selection-date-picker';
 
 interface Props {
-  context: any;
+  context: {
+    campaignInfo: {
+      isAlwaysOpen: boolean;
+      recruitmentEndDate?: Date;
+      recruitmentStartDate: Date;
+    };
+  };
   onNext: (data: SelectionData) => void;
 }
 
@@ -19,15 +31,34 @@ interface Props {
 export default function SelectionInfoStep({ context, onNext }: Props) {
   console.log('인플루언서 선정 정보', context);
 
+  // 캠페인 정보에 따라 동적으로 스키마 생성
+  const validationSchema = useMemo(() => {
+    return createSelectionSchemaWithCampaignValidation(context.campaignInfo);
+  }, [context.campaignInfo]);
+
   const {
     register,
     handleSubmit,
     control,
     formState: { errors, isValid },
   } = useForm<SelectionData>({
-    resolver: zodResolver(selectionSchema),
+    resolver: zodResolver(validationSchema),
     mode: 'onChange',
   });
+
+  // 도움말 메시지 생성
+  const getHelperMessage = () => {
+    if (!context.campaignInfo) return '';
+
+    if (context.campaignInfo.isAlwaysOpen) {
+      const startDate = new Date(context.campaignInfo.recruitmentStartDate);
+      return `모집 시작일(${format(startDate, 'yyyy-MM-dd')}) 이후로 선택해 주세요.`;
+    } else if (context.campaignInfo.recruitmentEndDate) {
+      const endDate = new Date(context.campaignInfo.recruitmentEndDate);
+      return `모집 종료일(${format(endDate, 'yyyy-MM-dd')}) 이후로 선택해 주세요.`;
+    }
+    return '';
+  };
 
   return (
     <form onSubmit={handleSubmit(onNext)} className="px-5">
@@ -42,7 +73,7 @@ export default function SelectionInfoStep({ context, onNext }: Props) {
         className="h-[100px]"
       />
       {errors.selectionCriteria && (
-        <p className="text-ck-red-500 ck-caption-1">{errors.selectionCriteria.message}</p>
+        <p className="text-ck-red-500 ck-caption-1 mt-1">{errors.selectionCriteria.message}</p>
       )}
 
       <div className="h-10"></div>
@@ -52,11 +83,15 @@ export default function SelectionInfoStep({ context, onNext }: Props) {
         name="selectionDate"
         control={control}
         render={({ field }) => (
-          <SelectionDatePicker
-            date={field.value}
-            setDate={field.onChange}
-            error={errors.selectionDate?.message}
-          />
+          <div>
+            <SelectionDatePicker
+              date={field.value}
+              setDate={field.onChange}
+              error={errors.selectionDate?.message}
+            />
+            {/* 도움말 메시지 */}
+            <p className="ck-caption-2 text-ck-gray-600 mt-2">{getHelperMessage()}</p>
+          </div>
         )}
       />
 

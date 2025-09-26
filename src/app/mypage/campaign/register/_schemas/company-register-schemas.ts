@@ -169,4 +169,37 @@ export const selectionSchema = z.object({
   }),
   selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
 });
+
+// 캠페인 정보와 선정 정보를 함께 검증하는 스키마
+export const createSelectionSchemaWithCampaignValidation = (campaignInfo: {
+  isAlwaysOpen: boolean;
+  recruitmentEndDate?: Date;
+  recruitmentStartDate: Date;
+}) => {
+  return selectionSchema.refine(
+    data => {
+      const selectedDate = new Date(data.selectionDate);
+      selectedDate.setHours(0, 0, 0, 0);
+
+      if (!campaignInfo.isAlwaysOpen && campaignInfo.recruitmentEndDate) {
+        // 일반 캠페인: 모집 종료일 이후여야 함
+        const endDate = new Date(campaignInfo.recruitmentEndDate);
+        endDate.setHours(0, 0, 0, 0);
+        return selectedDate >= endDate;
+      } else {
+        // 상시 캠페인: 모집 시작일 이후여야 함
+        const startDate = new Date(campaignInfo.recruitmentStartDate);
+        startDate.setHours(0, 0, 0, 0);
+        return selectedDate >= startDate;
+      }
+    },
+    {
+      message: campaignInfo.isAlwaysOpen
+        ? '인플루언서 선정일은 모집 시작일 이후여야 해요.'
+        : '인플루언서 선정일은 모집 종료일 이후여야 해요.',
+      path: ['selectionDate'],
+    },
+  );
+};
+
 export type SelectionData = z.infer<typeof selectionSchema>;
