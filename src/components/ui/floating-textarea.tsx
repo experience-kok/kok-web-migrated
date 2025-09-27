@@ -14,23 +14,28 @@ function FloatingTextarea({ className, label, ...props }: FloatingTextareaProps)
         placeholder=" "
         data-slot="textarea"
         className={cn(
-          'peer ck-sub-title-1 min-h-[80px] w-full resize-y bg-transparent px-0 pt-4 pb-1 transition-colors outline-none',
-          'border-ck-gray-300 border-0 border-b-2 border-solid',
+          'peer ck-body-1 w-full resize-y bg-transparent px-4 pt-5 pb-3 outline-none',
+          'border-ck-gray-300 rounded-lg border-2',
+          'transition-[border-color] duration-200',
           'focus:border-ck-blue-500',
-          'disabled:cursor-not-allowed disabled:opacity-50',
+          'hover:border-ck-gray-400',
+          'disabled:hover:border-ck-gray-300 disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}
         {...props}
       />
       <label
         className={cn(
-          'pointer-events-none absolute top-4 left-0 origin-left transition-all duration-200 ease-out',
+          'pointer-events-none absolute left-3 px-1 transition-all duration-200 ease-out',
           'text-ck-gray-500 dark:text-ck-gray-400',
-          'peer-focus:text-ck-blue-500 peer-focus:translate-y-[-1.5rem] peer-focus:scale-75',
-          'peer-[:not(:placeholder-shown)]:translate-y-[-1.5rem] peer-[:not(:placeholder-shown)]:scale-75',
+          'top-5',
+          'peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:scale-75',
+          'peer-focus:text-ck-blue-500 dark:peer-focus:bg-ck-gray-900 peer-focus:bg-white',
+          'peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:scale-75',
+          'dark:peer-[:not(:placeholder-shown)]:bg-ck-gray-900 peer-[:not(:placeholder-shown)]:bg-white',
         )}
       >
-        {label}
+        <span className="relative">{label}</span>
       </label>
     </div>
   );

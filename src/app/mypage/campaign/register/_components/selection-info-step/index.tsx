@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -70,7 +72,7 @@ export default function SelectionInfoStep({ context, onNext }: Props) {
       <FloatingTextarea
         label="인플루언서 선정 기준"
         {...register('selectionCriteria')}
-        className="h-[100px]"
+        className="h-[200px]"
       />
       {errors.selectionCriteria && (
         <p className="text-ck-red-500 ck-caption-1 mt-1">{errors.selectionCriteria.message}</p>
@@ -90,7 +92,7 @@ export default function SelectionInfoStep({ context, onNext }: Props) {
               error={errors.selectionDate?.message}
             />
             {/* 도움말 메시지 */}
-            <p className="ck-caption-2 text-ck-gray-600 mt-2">{getHelperMessage()}</p>
+            <p className="ck-caption-2 text-ck-gray-600 mt-1">{getHelperMessage()}</p>
           </div>
         )}
       />

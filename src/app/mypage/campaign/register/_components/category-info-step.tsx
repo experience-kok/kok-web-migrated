@@ -109,8 +109,8 @@ export default function CategoryInfoStep({ onNext, context }: Props) {
               </Select>
             )}
           />
-          <p className="ck-caption-1 text-ck-gray-600 mt-1">
-            *지금은 방문 캠페인만 생성할 수 있어요.
+          <p className="ck-caption-2 text-ck-gray-600 mt-1">
+            * 지금은 방문 캠페인만 생성할 수 있어요.
           </p>
         </div>
 
