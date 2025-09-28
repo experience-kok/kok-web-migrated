@@ -113,7 +113,6 @@ export default function CampaignRegisterFunnel() {
       <funnel.Render
         업체정보={({ history, context }) => (
           <CompanyInfoStep
-            context={context}
             companyData={context.companyInfo}
             onNext={data => {
               history.push('카테고리정보', { companyInfo: data });
@@ -122,7 +121,6 @@ export default function CampaignRegisterFunnel() {
         )}
         카테고리정보={({ history, context }) => (
           <CategoryInfoStep
-            context={context}
             onNext={data => {
               history.push('썸네일정보', {
                 ...context,
@@ -133,7 +131,6 @@ export default function CampaignRegisterFunnel() {
         )}
         썸네일정보={({ history, context }) => (
           <ThumbnailInfoStep
-            context={context}
             onNext={data => {
               history.push('캠페인정보', {
                 ...context,
@@ -144,7 +141,6 @@ export default function CampaignRegisterFunnel() {
         )}
         캠페인정보={({ history, context }) => (
           <CampaignInfoStep
-            context={context}
             onNext={data => {
               history.push('제품정보', {
                 ...context,
@@ -155,7 +151,6 @@ export default function CampaignRegisterFunnel() {
         )}
         제품정보={({ history, context }) => (
           <ProductInfoStep
-            context={context}
             onNext={data => {
               history.push('인플루언서_선정정보', {
                 ...context,
@@ -177,7 +172,6 @@ export default function CampaignRegisterFunnel() {
         )}
         미션정보={({ history, context }) => (
           <MissionInfoStep
-            context={context}
             onNext={data => {
               history.push('미션콘텐츠정보', {
                 ...context,
@@ -208,7 +202,6 @@ export default function CampaignRegisterFunnel() {
         )}
         방문정보={({ history, context }) => (
           <VisitInfoStep
-            context={context}
             onNext={data => {
               history.push('캠페인생성', {
                 ...context,
@@ -217,7 +210,7 @@ export default function CampaignRegisterFunnel() {
             }}
           />
         )}
-        캠페인생성={({ history, context }) => <CreateCampaignStep context={context} />}
+        캠페인생성={({ context }) => <CreateCampaignStep context={context} />}
       />
     </>
   );

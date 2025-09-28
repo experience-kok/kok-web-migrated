@@ -12,15 +12,15 @@ import { VisitData, visitSchema } from '../../_schemas/company-register-schemas'
 import MapPicker from './map-picker';
 
 interface Props {
-  context: {
-    categoryInfo: {
-      categoryType: '방문' | '배송';
-    };
-  };
+  // context: {
+  //   categoryInfo: {
+  //     categoryType: '방문' | '배송';
+  //   };
+  // };
   onNext: (data: VisitData) => void;
 }
 
-export default function VisitInfoStep({ context, onNext }: Props) {
+export default function VisitInfoStep({ onNext }: Props) {
   const {
     register,
     handleSubmit,

@@ -52,6 +52,9 @@ export function usePostCampaignMutationNew() {
 
   return useMutation({
     mutationFn: postCampaign,
+    onSuccess: () => {
+      router.push(`/mypage/applications?status=PENDING`);
+    },
   });
 }
 

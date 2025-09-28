@@ -25,14 +25,13 @@ import { usePostPresignedUrlMutation } from '@/service/campaigns/campaigns-mutat
 import { ThumbnailData, thumbnailSchema } from '../_schemas/company-register-schemas';
 
 interface Props {
-  context: any;
   onNext: (data: ThumbnailData) => void;
 }
 
 /**
  * 썸네일 업로드 스텝 컴포넌트
  */
-export default function ThumbnailInfoStep({ context, onNext }: Props) {
+export default function ThumbnailInfoStep({ onNext }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { setValue, getValues } = useForm<ThumbnailData>({

@@ -28,13 +28,12 @@ const CATEGORY_OPTIONS: Record<CampaignCategoryType, readonly string[]> = {
 
 interface Props {
   onNext: (data: CategoryData) => void;
-  context: any;
 }
 
 /**
  * 카테고리 선택 스텝 컴포넌트 (순서 변경)
  */
-export default function CategoryInfoStep({ onNext, context }: Props) {
+export default function CategoryInfoStep({ onNext }: Props) {
   const { control, handleSubmit, watch, resetField } = useForm<CategoryData>({
     resolver: zodResolver(categorySchema),
     mode: 'onChange',

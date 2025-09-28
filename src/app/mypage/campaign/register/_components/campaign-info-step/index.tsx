@@ -16,15 +16,12 @@ import RecruitmentDatePicker from './recruitment-date-picker';
 
 interface Props {
   onNext: (data: CampaignData) => void;
-  context: any;
 }
 
 /**
  * 캠페인 정보 입력 스텝 컴포넌트입니다.
  */
-export default function CampaignInfoStep({ context, onNext }: Props) {
-  console.log('캠페인 정보', context);
-
+export default function CampaignInfoStep({ onNext }: Props) {
   const {
     register,
     control,

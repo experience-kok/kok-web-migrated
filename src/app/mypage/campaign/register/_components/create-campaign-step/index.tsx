@@ -4,12 +4,22 @@ import { format } from 'date-fns';
 import { ImageIcon, MapPin, SquarePlay, TypeIcon } from 'lucide-react';
 import Image from 'next/image';
 
-import CampaignApplicant from '@/app/campaign/[campaignId]/_components/campaign-applicant';
 import CampaignCategoryTypeBadge from '@/app/campaign/[campaignId]/_components/campaign-category-type-badge';
 import CampaignThumbnail from '@/app/campaign/[campaignId]/_components/campaign-thumbnail';
 import CampaignVisitInfo from '@/app/campaign/[campaignId]/_components/campaign-visit-info';
 import BottomButton from '@/components/shared/bottom-button';
 import CampaignTypeBadge from '@/components/shared/campaign-card/campaign-type-badge';
+import {
+  Dialog,
+  DialogButton,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import SplitBox from '@/components/ui/split-box';
 import { usePostCampaignMutationNew } from '@/service/campaigns/campaigns-mutation';
 
@@ -58,12 +68,13 @@ export default function CreateCampaignStep({ context }: Props) {
     visitInfo,
   } = context;
 
-  const { mutate: postCampaign } = usePostCampaignMutationNew();
+  const { mutate: postCampaign, isPending } = usePostCampaignMutationNew();
 
   const handlePostCampaign = () => {
     const requestBody: PostCampaignRequest = {
       isAlwaysOpen: campaignInfo.isAlwaysOpen,
       thumbnailUrl: thumbnailUrl.thumbnailUrl,
+      campaignType: categoryInfo.campaignType,
       title: campaignInfo.title,
       productShortInfo: productInfo.productShortInfo,
       maxApplicants: campaignInfo.maxApplicants,
@@ -125,6 +136,49 @@ export default function CreateCampaignStep({ context }: Props) {
   const parsedMissionTitleKeywords = getKeywordsArray(missionInfo.titleKeywords);
   const parsedMissionBodyKeywords = getKeywordsArray(missionInfo.bodyKeywords);
 
+  // isPending 상태일 때 로딩 애니메이션 표시
+  if (isPending) {
+    return (
+      <>
+        <style jsx global>{`
+          @keyframes float {
+            0% {
+              transform: translateY(0px);
+            }
+            50% {
+              transform: translateY(-20px);
+            }
+            100% {
+              transform: translateY(0px);
+            }
+          }
+
+          .kogi-float-animation {
+            animation: float 3s ease-in-out infinite;
+          }
+        `}</style>
+
+        <div className="flex h-[calc(100vh-4rem)] w-full flex-col items-center justify-center space-y-4 text-center">
+          <Image
+            src="/kogi-make.svg"
+            alt="캠페인을 생성중인 코기"
+            width={200}
+            height={200}
+            priority
+            className="kogi-float-animation"
+          />
+          <p className="ck-title">
+            캠페인을 안전하게
+            <br />
+            생성하고 있어요
+          </p>
+          <p className="ck-body-1 text-ck-gray-600">잠시만 기다려주세요!</p>
+        </div>
+      </>
+    );
+  }
+
+  // 미리보기 화면
   return (
     <div>
       <div className="ck-title px-5 pt-5 pb-10">
@@ -380,41 +434,34 @@ export default function CreateCampaignStep({ context }: Props) {
         </div>
       </section>
 
-      <BottomButton>캠페인 생성하기</BottomButton>
-      {/* <style jsx global>{`
-        @keyframes float {
-          0% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-          100% {
-            transform: translateY(0px);
-          }
-        }
+      <Dialog>
+        <DialogTrigger asChild>
+          <BottomButton>캠페인 생성하기</BottomButton>
+        </DialogTrigger>
 
-        .kogi-float-animation {
-          animation: float 3s ease-in-out infinite;
-        }
-      `}</style>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>캠페인을 생성할까요?</DialogTitle>
+            <DialogDescription>
+              <>
+                캠페인은 담당자 검토를 거친 후, <br /> 결과를 이메일로 안내드려요.
+                <br />
+                캠페인 생성 후에는 정보 수정이 어려우니,
+                <br /> 제출 전 내용을 꼼꼼히 확인해 주세요.
+              </>
+            </DialogDescription>
+          </DialogHeader>
 
-      <div className="flex h-[calc(100vh-4rem)] w-full flex-col items-center justify-center space-y-4 text-center">
-        <Image
-          src="/kogi-make.svg"
-          alt="캠페인을 생성중인 코기"
-          width={200}
-          height={200}
-          priority
-          className="kogi-float-animation"
-        />
-        <p className="ck-title">
-          캠페인을 안전하게
-          <br />
-          생성하고 있어요
-        </p>
-        <p className="ck-body-1 text-ck-gray-600">잠시만 기다려주세요!</p>
-      </div> */}
+          <DialogFooter className="flex flex-row items-center justify-end">
+            <DialogClose asChild>
+              <DialogButton variant="ghost">취소</DialogButton>
+            </DialogClose>
+            <DialogButton onClick={handlePostCampaign} disabled={isPending}>
+              {isPending ? '생성 중...' : '생성하기'}
+            </DialogButton>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

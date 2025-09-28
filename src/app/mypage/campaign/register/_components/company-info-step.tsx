@@ -11,14 +11,12 @@ import { CompanyData, companySchema } from '../_schemas/company-register-schemas
 interface Props {
   onNext: (data: CompanyData) => void;
   companyData?: CompanyData;
-  context: any;
 }
 
 /**
  * 업체 정보 입력 스텝 컴포넌트
  */
-export default function CompanyInfoStep({ onNext, companyData, context }: Props) {
-  console.log('업체 정보', context);
+export default function CompanyInfoStep({ onNext, companyData }: Props) {
   const {
     register,
     handleSubmit,

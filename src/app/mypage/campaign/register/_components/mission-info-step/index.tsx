@@ -11,16 +11,13 @@ import { MissionData, missionSchema } from '../../_schemas/company-register-sche
 import MissionKeywords from './mission-keywords';
 
 interface Props {
-  context: any;
   onNext: (data: MissionData) => void;
 }
 
 /**
  * 미션 정보 입력 스텝 컴포넌트입니다.
  */
-export default function MissionInfoStep({ context, onNext }: Props) {
-  console.log('미션정보', context);
-
+export default function MissionInfoStep({ onNext }: Props) {
   const {
     register,
     handleSubmit,
