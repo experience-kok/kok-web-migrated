@@ -9,11 +9,15 @@ import {
   ThumbnailData,
   ProductData,
   SelectionData,
+  MissionData,
+  MissionContentData,
 } from '../_schemas/company-register-schemas';
 
 import CampaignInfoStep from './campaign-info-step';
 import CategoryInfoStep from './category-info-step';
 import CompanyInfoStep from './company-info-step';
+import MissionContentInfoStep from './mission-content-info-step';
+import MissionInfoStep from './mission-info-step';
 import ProductInfoStep from './product-info-step';
 import SelectionInfoStep from './selection-info-step';
 import ThumbnailInfoStep from './thumbnail-info-step';
@@ -50,6 +54,35 @@ export default function CampaignRegisterFunnel() {
       campaignInfo: CampaignData;
       productInfo: ProductData;
       selectionInfo?: SelectionData;
+    };
+    미션정보: {
+      companyInfo: CompanyData;
+      categoryInfo: CategoryData;
+      thumbnailUrl: ThumbnailData;
+      campaignInfo: CampaignData;
+      productInfo: ProductData;
+      selectionInfo: SelectionData;
+      missionInfo?: MissionData;
+    };
+    미션콘텐츠정보: {
+      companyInfo: CompanyData;
+      categoryInfo: CategoryData;
+      thumbnailUrl: ThumbnailData;
+      campaignInfo: CampaignData;
+      productInfo: ProductData;
+      selectionInfo: SelectionData;
+      missionInfo: MissionData;
+      missionContentInfo?: MissionContentData;
+    };
+    방문정보: {
+      companyInfo: CompanyData;
+      categoryInfo: CategoryData;
+      thumbnailUrl: ThumbnailData;
+      campaignInfo: CampaignData;
+      productInfo: ProductData;
+      selectionInfo: SelectionData;
+      missionInfo: MissionData;
+      missionContentInfo: MissionContentData;
     };
   }>({
     id: 'campaign-register',
@@ -120,12 +153,46 @@ export default function CampaignRegisterFunnel() {
           <SelectionInfoStep
             context={context}
             onNext={data => {
-              history.push('', {
+              history.push('미션정보', {
                 ...context,
                 selectionInfo: data,
               });
             }}
           />
+        )}
+        미션정보={({ history, context }) => (
+          <MissionInfoStep
+            context={context}
+            onNext={data => {
+              history.push('미션콘텐츠정보', {
+                ...context,
+                missionInfo: data,
+              });
+            }}
+          />
+        )}
+        미션콘텐츠정보={({ history, context }) => (
+          <MissionContentInfoStep
+            context={context}
+            onNext={data => {
+              const 방문캠페인 = context.categoryInfo.categoryType === '방문';
+
+              if (방문캠페인) {
+                history.push('방문정보', {
+                  ...context,
+                  missionContentInfo: data,
+                });
+              } else {
+                history.push('완료', {
+                  ...context,
+                  missionContentInfo: data,
+                });
+              }
+            }}
+          />
+        )}
+        방문정보={({history, context}) => (
+          
         )}
       />
     </>

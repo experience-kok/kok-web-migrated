@@ -35,11 +35,7 @@ interface Props {
 export default function ThumbnailInfoStep({ context, onNext }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const {
-    setValue,
-    getValues,
-    formState: { isValid },
-  } = useForm<ThumbnailData>({
+  const { setValue, getValues } = useForm<ThumbnailData>({
     resolver: zodResolver(thumbnailSchema),
     defaultValues: {
       thumbnailUrl: '',

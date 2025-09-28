@@ -34,21 +34,25 @@ export default function ProductInfoStep({ context, onNext }: Props) {
         제품/서비스에 대해 알려주세요
       </div>
 
-      <FloatingInput label="제품/서비스 간략 정보" {...register('productShortInfo')} />
-      {errors.productShortInfo && (
-        <p className="text-ck-red-500 ck-caption-1">{errors.productShortInfo.message}</p>
-      )}
+      <div className="space-y-1">
+        <FloatingInput label="제품/서비스 간략 정보" {...register('productShortInfo')} />
+        {errors.productShortInfo && (
+          <p className="text-ck-red-500 ck-caption-1">{errors.productShortInfo.message}</p>
+        )}
+      </div>
 
       <div className="h-10"></div>
-      
-      <FloatingTextarea
-        label="제품/서비스 상세 정보"
-        {...register('productDetails')}
-        className="h-[300px]"
-      />
-      {errors.productDetails && (
-        <p className="text-ck-red-500 ck-caption-1">{errors.productDetails.message}</p>
-      )}
+
+      <div className="space-y-1">
+        <FloatingTextarea
+          label="제품/서비스 상세 정보"
+          {...register('productDetails')}
+          className="h-[300px]"
+        />
+        {errors.productDetails && (
+          <p className="text-ck-red-500 ck-caption-1">{errors.productDetails.message}</p>
+        )}
+      </div>
 
       <BottomButton disabled={!isValid}>다음으로</BottomButton>
     </form>

@@ -69,14 +69,16 @@ export default function SelectionInfoStep({ context, onNext }: Props) {
         인플루언서 정보를 알려주세요
       </div>
 
-      <FloatingTextarea
-        label="인플루언서 선정 기준"
-        {...register('selectionCriteria')}
-        className="h-[200px]"
-      />
-      {errors.selectionCriteria && (
-        <p className="text-ck-red-500 ck-caption-1 mt-1">{errors.selectionCriteria.message}</p>
-      )}
+      <div>
+        <FloatingTextarea
+          label="인플루언서 선정 기준"
+          {...register('selectionCriteria')}
+          className="h-[200px]"
+        />
+        {errors.selectionCriteria && (
+          <p className="text-ck-red-500 ck-caption-1 mt-1">{errors.selectionCriteria.message}</p>
+        )}
+      </div>
 
       <div className="h-10"></div>
 

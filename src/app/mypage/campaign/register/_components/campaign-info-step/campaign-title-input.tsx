@@ -19,7 +19,7 @@ interface Props {
  */
 export default function CampaignTitleInput({ register, error }: Props) {
   return (
-    <div>
+    <div className="space-y-1">
       <FloatingInput label="캠페인 제목" {...register('title')} />
       {error && <p className="text-ck-red-500 ck-caption-1">{error}</p>}
     </div>

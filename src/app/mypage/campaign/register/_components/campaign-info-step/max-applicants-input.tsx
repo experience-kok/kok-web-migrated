@@ -20,7 +20,7 @@ interface Props {
  */
 export default function MaxApplicantsInput({ register, error }: Props) {
   return (
-    <div>
+    <div className="space-y-1">
       <FloatingInput
         label="선정 인원 (필수)"
         type="number"

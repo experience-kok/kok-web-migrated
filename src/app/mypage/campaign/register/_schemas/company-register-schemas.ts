@@ -169,7 +169,6 @@ export const selectionSchema = z.object({
   }),
   selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
 });
-
 // 캠페인 정보와 선정 정보를 함께 검증하는 스키마
 export const createSelectionSchemaWithCampaignValidation = (campaignInfo: {
   isAlwaysOpen: boolean;
@@ -203,3 +202,149 @@ export const createSelectionSchemaWithCampaignValidation = (campaignInfo: {
 };
 
 export type SelectionData = z.infer<typeof selectionSchema>;
+
+// 7. 미션 정보
+export const missionSchema = z.object({
+  missionGuide: z.string().min(1, { message: '미션 가이드를 입력해 주세요.' }),
+  titleKeywords: z.string().min(1, { message: '제목 키워드를 입력해 주세요.' }),
+  bodyKeywords: z.string().min(1, { message: '본문 키워드를 입력해 주세요.' }),
+});
+export type MissionData = z.infer<typeof missionSchema>;
+
+// 8. 미션 콘텐츠 정보
+export const missionContentSchema = z.object({
+  numberOfImage: z
+    .number({
+      required_error: '이미지 개수를 입력해 주세요.',
+      invalid_type_error: '이미지 개수는 숫자여야 해요.',
+    })
+    .min(0, { message: '이미지 개수는 0개 이상이어야 해요.' }),
+  numberOfVideo: z
+    .number({
+      required_error: '비디오 개수를 입력해 주세요.',
+      invalid_type_error: '비디오 개수는 숫자여야 해요.',
+    })
+    .min(0, { message: '비디오 개수는 0개 이상이어야 해요.' }),
+  numberOfText: z
+    .number({
+      required_error: '본문 작성 텍스트 수를 입력해 주세요.',
+      invalid_type_error: '본문 작성 텍스트 수는 숫자여야 해요.',
+    })
+    .min(0, { message: '본문 작성 텍스트 수는 0자 이상이어야 해요.' }),
+  isMap: z.boolean({
+    required_error: '지도 표시 여부를 선택해 주세요.',
+    invalid_type_error: '지도 표시 여부는 boolean 타입이어야 해요.',
+  }),
+  missionStartDate: z.coerce
+    .date({
+      required_error: '미션 시작일을 선택해 주세요.',
+      invalid_type_error: '유효한 날짜를 선택해 주세요.',
+    })
+    .optional(),
+  missionDeadlineDate: z.coerce
+    .date({
+      required_error: '미션 마감일을 선택해 주세요.',
+      invalid_type_error: '유효한 날짜를 선택해 주세요.',
+    })
+    .optional(),
+});
+
+// 미션 콘텐츠 정보와 캠페인/선정 정보를 함께 검증하는 스키마
+export const createMissionContentSchemaWithValidation = (campaignAndSelectionInfo: {
+  isAlwaysOpen: boolean;
+  selectionDate: Date;
+}) => {
+  return (
+    missionContentSchema
+      // 일반 캠페인인 경우 미션 날짜 필수 검증
+      .refine(
+        data => {
+          if (!campaignAndSelectionInfo.isAlwaysOpen) {
+            return data.missionStartDate !== undefined && data.missionStartDate !== null;
+          }
+          return true;
+        },
+        {
+          message: '일반 캠페인은 미션 시작일을 선택해야 해요.',
+          path: ['missionStartDate'],
+        },
+      )
+      .refine(
+        data => {
+          if (!campaignAndSelectionInfo.isAlwaysOpen) {
+            return data.missionDeadlineDate !== undefined && data.missionDeadlineDate !== null;
+          }
+          return true;
+        },
+        {
+          message: '일반 캠페인은 미션 마감일을 선택해야 해요.',
+          path: ['missionDeadlineDate'],
+        },
+      )
+      // 상시 캠페인인 경우 미션 날짜가 없어야 함
+      .refine(
+        data => {
+          if (campaignAndSelectionInfo.isAlwaysOpen) {
+            return data.missionStartDate === undefined || data.missionStartDate === null;
+          }
+          return true;
+        },
+        {
+          message: '상시 캠페인은 미션 시작일을 설정할 수 없어요.',
+          path: ['missionStartDate'],
+        },
+      )
+      .refine(
+        data => {
+          if (campaignAndSelectionInfo.isAlwaysOpen) {
+            return data.missionDeadlineDate === undefined || data.missionDeadlineDate === null;
+          }
+          return true;
+        },
+        {
+          message: '상시 캠페인은 미션 마감일을 설정할 수 없어요.',
+          path: ['missionDeadlineDate'],
+        },
+      )
+      // 일반 캠페인: 미션 시작일이 선정일 이후인지 검증
+      .refine(
+        data => {
+          if (!campaignAndSelectionInfo.isAlwaysOpen && data.missionStartDate) {
+            const selectionDate = new Date(campaignAndSelectionInfo.selectionDate);
+            const startDate = new Date(data.missionStartDate);
+            selectionDate.setHours(0, 0, 0, 0);
+            startDate.setHours(0, 0, 0, 0);
+            return startDate >= selectionDate;
+          }
+          return true;
+        },
+        {
+          message: '미션 시작일은 인플루언서 선정일 이후여야 해요.',
+          path: ['missionStartDate'],
+        },
+      )
+      // 일반 캠페인: 미션 마감일이 시작일 이후인지 검증
+      .refine(
+        data => {
+          if (
+            !campaignAndSelectionInfo.isAlwaysOpen &&
+            data.missionStartDate &&
+            data.missionDeadlineDate
+          ) {
+            const startDate = new Date(data.missionStartDate);
+            const deadlineDate = new Date(data.missionDeadlineDate);
+            startDate.setHours(0, 0, 0, 0);
+            deadlineDate.setHours(0, 0, 0, 0);
+            return deadlineDate >= startDate;
+          }
+          return true;
+        },
+        {
+          message: '미션 마감일은 미션 시작일 이후여야 해요.',
+          path: ['missionDeadlineDate'],
+        },
+      )
+  );
+};
+
+export type MissionContentData = z.infer<typeof missionContentSchema>;

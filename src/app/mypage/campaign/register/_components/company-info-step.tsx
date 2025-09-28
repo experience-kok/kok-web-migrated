@@ -39,17 +39,21 @@ export default function CompanyInfoStep({ onNext, companyData, context }: Props)
         업체의 정보를 알려주세요
       </div>
 
-      <FloatingInput label="담당자명" {...register('contactPerson')} />
-      {errors.contactPerson && (
-        <p className="text-ck-red-500 ck-caption-1">{errors.contactPerson.message}</p>
-      )}
+      <div className="space-y-1">
+        <FloatingInput label="담당자명" {...register('contactPerson')} />
+        {errors.contactPerson && (
+          <p className="text-ck-red-500 ck-caption-1">{errors.contactPerson.message}</p>
+        )}
+      </div>
 
       <div className="h-10"></div>
 
-      <FloatingInput label="연락처" {...register('phoneNumber')} />
-      {errors.phoneNumber && (
-        <p className="text-ck-red-500 ck-caption-1">{errors.phoneNumber.message}</p>
-      )}
+      <div className="space-y-1">
+        <FloatingInput label="연락처" {...register('phoneNumber')} />
+        {errors.phoneNumber && (
+          <p className="text-ck-red-500 ck-caption-1">{errors.phoneNumber.message}</p>
+        )}
+      </div>
 
       <BottomButton disabled={!isValid}>다음으로</BottomButton>
     </form>
