@@ -8,6 +8,8 @@ import { FloatingTextarea } from '@/components/ui/floating-textarea';
 
 import { MissionData, missionSchema } from '../../_schemas/company-register-schemas';
 
+import MissionKeywords from './mission-keywords';
+
 interface Props {
   context: any;
   onNext: (data: MissionData) => void;
@@ -22,11 +24,15 @@ export default function MissionInfoStep({ context, onNext }: Props) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isValid },
   } = useForm<MissionData>({
     resolver: zodResolver(missionSchema),
     mode: 'onChange',
   });
+
+  const titleKeywords = watch('titleKeywords');
+  const bodyKeywords = watch('bodyKeywords');
 
   return (
     <form onSubmit={handleSubmit(onNext)} className="px-5 pb-32">
@@ -49,6 +55,7 @@ export default function MissionInfoStep({ context, onNext }: Props) {
         {errors.titleKeywords && (
           <p className="text-ck-red-500 ck-caption-1">{errors.titleKeywords.message}</p>
         )}
+        <MissionKeywords keywordString={titleKeywords} />
         <p className="ck-caption-2 text-ck-gray-600">
           * 리뷰 제목에 반드시 포함되어야 할 키워드를 쉼표(,)로 구분하여 입력해주세요.
         </p>
@@ -61,6 +68,7 @@ export default function MissionInfoStep({ context, onNext }: Props) {
         {errors.bodyKeywords && (
           <p className="text-ck-red-500 ck-caption-1">{errors.bodyKeywords.message}</p>
         )}
+        <MissionKeywords keywordString={bodyKeywords} />
         <p className="ck-caption-2 text-ck-gray-600">
           * 리뷰 본문에 반드시 포함되어야 할 키워드를 쉼표(,)로 구분하여 입력해주세요.
         </p>
