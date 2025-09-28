@@ -47,6 +47,14 @@ export function usePostPresignedUrlMutation() {
   });
 }
 
+export function usePostCampaignMutationNew() {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: postCampaign,
+  });
+}
+
 /**
  * 캠페인 등록 뮤테이션
  */

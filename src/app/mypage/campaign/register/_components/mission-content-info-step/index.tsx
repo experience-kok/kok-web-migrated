@@ -1,3 +1,5 @@
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { Controller, useForm } from 'react-hook-form';
@@ -5,7 +7,10 @@ import { Controller, useForm } from 'react-hook-form';
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingInput } from '@/components/ui/floating-input';
 
-import { MissionContentData, missionContentSchema } from '../../_schemas/company-register-schemas';
+import {
+  MissionContentData,
+  createMissionContentSchemaWithValidation,
+} from '../../_schemas/company-register-schemas';
 
 import MissionDatePicker from './mission-date-picker';
 import WithMapCheckBox from './with-map-check-box';
@@ -28,32 +33,38 @@ interface Props {
  * 미션 콘텐츠 정보 입력 스텝 컴포넌트입니다.
  */
 export default function MissionContentInfoStep({ context, onNext }: Props) {
-  console.log('미션 콘텐츠 정보', context);
+  const missionContentSchemaWithValidation = createMissionContentSchemaWithValidation({
+    isAlwaysOpen: context.campaignInfo.isAlwaysOpen,
+    selectionDate: context.selectionInfo.selectionDate,
+  });
+
   const {
     register,
     handleSubmit,
     control,
     formState: { errors, isValid },
   } = useForm<MissionContentData>({
-    resolver: zodResolver(missionContentSchema),
+    resolver: zodResolver(missionContentSchemaWithValidation),
+    mode: 'onChange',
+    defaultValues: {
+      isMap: false,
+      numberOfImage: 0,
+      numberOfVideo: 0,
+      numberOfText: 0,
+    },
   });
 
   // 도움말 메시지 생성
   const getHelperMessage = () => {
-    if (!context.campaignInfo || !context.selectionInfo) return '';
-
-    if (context.campaignInfo.isAlwaysOpen) {
-      const startDate = new Date(context.selectionInfo.selectionDate);
-      return `인플루언서 선정일(${format(startDate, 'yyyy-MM-dd')}) 이후로 선택해 주세요.`;
-    }
-
-    return '';
+    if (!context.selectionInfo) return '';
+    const selectionDate = new Date(context.selectionInfo.selectionDate);
+    return `인플루언서 선정일(${format(selectionDate, 'yyyy-MM-dd')}) 이후로 선택해 주세요.`;
   };
 
-  const isMissionDate = context.campaignInfo.isAlwaysOpen ? false : true;
+  const isMissionDateRequired = !context.campaignInfo.isAlwaysOpen;
 
   return (
-    <form onSubmit={handleSubmit(onNext)} className="px-5">
+    <form onSubmit={handleSubmit(onNext)} className="px-5 pb-32">
       <div className="space-y-6">
         <h3 className="ck-sub-title-1 text-ck-gray-900">
           인플루언서가 미션에 포함해야 할 <br />
@@ -104,7 +115,7 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
           )}
         </div>
 
-        {isMissionDate && (
+        {isMissionDateRequired && (
           <>
             {/* 미션 시작일 */}
             <Controller
@@ -118,7 +129,6 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
                     setDate={field.onChange}
                     error={errors.missionStartDate?.message}
                   />
-                  {/* 도움말 메시지 */}
                   <p className="ck-caption-2 text-ck-gray-600 mt-1">{getHelperMessage()}</p>
                 </div>
               )}
@@ -135,8 +145,6 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
                     setDate={field.onChange}
                     error={errors.missionDeadlineDate?.message}
                   />
-                  {/* 도움말 메시지 */}
-                  <p className="ck-caption-2 text-ck-gray-600 mt-1">{getHelperMessage()}</p>
                 </div>
               )}
             />

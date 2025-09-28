@@ -17,6 +17,7 @@ import {
 import CampaignInfoStep from './campaign-info-step';
 import CategoryInfoStep from './category-info-step';
 import CompanyInfoStep from './company-info-step';
+import CreateCampaignStep from './create-campaign-step';
 import MissionContentInfoStep from './mission-content-info-step';
 import MissionInfoStep from './mission-info-step';
 import ProductInfoStep from './product-info-step';
@@ -87,10 +88,21 @@ export default function CampaignRegisterFunnel() {
       missionContentInfo: MissionContentData;
       visitInfo?: VisitData;
     };
+    캠페인생성: {
+      companyInfo: CompanyData;
+      categoryInfo: CategoryData;
+      thumbnailUrl: ThumbnailData;
+      campaignInfo: CampaignData;
+      productInfo: ProductData;
+      selectionInfo: SelectionData;
+      missionInfo: MissionData;
+      missionContentInfo: MissionContentData;
+      visitInfo?: VisitData;
+    };
   }>({
     id: 'campaign-register',
     initial: {
-      step: '방문정보',
+      step: '업체정보',
       context: {},
     },
   });
@@ -186,7 +198,7 @@ export default function CampaignRegisterFunnel() {
                   missionContentInfo: data,
                 });
               } else {
-                history.push('완료', {
+                history.push('캠페인생성', {
                   ...context,
                   missionContentInfo: data,
                 });
@@ -194,7 +206,18 @@ export default function CampaignRegisterFunnel() {
             }}
           />
         )}
-        방문정보={({ history, context }) => <VisitInfoStep context={context} />}
+        방문정보={({ history, context }) => (
+          <VisitInfoStep
+            context={context}
+            onNext={data => {
+              history.push('캠페인생성', {
+                ...context,
+                visitInfo: data,
+              });
+            }}
+          />
+        )}
+        캠페인생성={({ history, context }) => <CreateCampaignStep context={context} />}
       />
     </>
   );

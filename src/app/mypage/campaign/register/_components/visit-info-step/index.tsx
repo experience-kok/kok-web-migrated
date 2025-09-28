@@ -110,7 +110,7 @@ export default function VisitInfoStep({ context, onNext }: Props) {
         </div>
       </div>
 
-      <BottomButton disabled={!isValid}>캠페인 생성하기</BottomButton>
+      <BottomButton disabled={!isValid}>다음으로</BottomButton>
     </form>
   );
 }
