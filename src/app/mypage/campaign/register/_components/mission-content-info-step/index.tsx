@@ -42,10 +42,6 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
   const getHelperMessage = () => {
     if (!context.campaignInfo || !context.selectionInfo) return '';
 
-    // 상시 캠페인일 경우
-    if (context.campaignInfo.isAlwaysOpen) {
-    }
-
     if (context.campaignInfo.isAlwaysOpen) {
       const startDate = new Date(context.selectionInfo.selectionDate);
       return `인플루언서 선정일(${format(startDate, 'yyyy-MM-dd')}) 이후로 선택해 주세요.`;
@@ -78,7 +74,6 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
             label="이미지 수"
             {...register('numberOfImage', { valueAsNumber: true })}
             min="0"
-            max="99"
           />
           {errors.numberOfImage && (
             <p className="text-ck-red-500 ck-caption-2">{errors.numberOfImage.message}</p>
@@ -91,7 +86,6 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
             label="비디오 수"
             {...register('numberOfVideo', { valueAsNumber: true })}
             min="0"
-            max="99"
           />
           {errors.numberOfVideo && (
             <p className="text-ck-red-500 ck-caption-2">{errors.numberOfVideo.message}</p>
@@ -104,7 +98,6 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
             label="텍스트 수"
             {...register('numberOfText', { valueAsNumber: true })}
             min="0"
-            max="99"
           />
           {errors.numberOfText && (
             <p className="text-ck-red-500 ck-caption-2">{errors.numberOfText.message}</p>

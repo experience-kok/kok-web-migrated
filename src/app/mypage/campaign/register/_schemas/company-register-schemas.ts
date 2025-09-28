@@ -348,3 +348,72 @@ export const createMissionContentSchemaWithValidation = (campaignAndSelectionInf
 };
 
 export type MissionContentData = z.infer<typeof missionContentSchema>;
+
+// 9. 방문 정보 - 기본 스키마
+export const visitSchema = z.object({
+  homepage: z
+    .string()
+    .url({ message: '올바른 URL 형식을 입력해 주세요.' })
+    .optional()
+    .or(z.literal('')),
+  contactPhone: z
+    .string()
+    .min(1, { message: '매장 연락처를 입력해 주세요.' })
+    .max(20, { message: '연락처는 20자 이하로 입력해 주세요.' })
+    .regex(/^\d{2,3}-\d{3,4}-\d{4}$/, {
+      message: '올바른 전화번호 형식을 입력해 주세요. (예: 02-1234-5678)',
+    }),
+  visitAndReservationInfo: z
+    .string()
+    .min(1, { message: '방문 및 예약 정보를 입력해 주세요.' })
+    .max(500, { message: '방문 및 예약 정보는 500자 이하로 입력해 주세요.' }),
+  businessAddress: z
+    .string()
+    .min(1, { message: '사업장 주소를 입력해 주세요.' })
+    .max(200, { message: '주소는 200자 이하로 입력해 주세요.' }),
+  businessDetailAddress: z
+    .string()
+    .max(100, { message: '상세 주소는 100자 이하로 입력해 주세요.' })
+    .optional()
+    .or(z.literal('')),
+  lat: z
+    .number({
+      required_error: '위도 정보가 필요합니다.',
+      invalid_type_error: '올바른 위도 값을 입력해 주세요.',
+    })
+    .min(-90, { message: '위도는 -90 이상이어야 합니다.' })
+    .max(90, { message: '위도는 90 이하여야 합니다.' }),
+  lng: z
+    .number({
+      required_error: '경도 정보가 필요합니다.',
+      invalid_type_error: '올바른 경도 값을 입력해 주세요.',
+    })
+    .min(-180, { message: '경도는 -180 이상이어야 합니다.' })
+    .max(180, { message: '경도는 180 이하여야 합니다.' }),
+});
+
+// 방문 캠페인이 아닌 경우 사용할 선택적 스키마
+export const visitSchemaOptional = z.object({
+  homepage: z.string().optional(),
+  contactPhone: z.string().optional(),
+  visitAndReservationInfo: z.string().optional(),
+  businessAddress: z.string().optional(),
+  businessDetailAddress: z.string().optional(),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
+});
+
+// 카테고리 타입에 따라 동적으로 검증하는 스키마 생성 함수
+export const createVisitSchemaWithCategoryValidation = (categoryInfo: {
+  categoryType: '방문' | '배송';
+}) => {
+  // 배송 캠페인인 경우 모든 필드가 선택사항
+  if (categoryInfo.categoryType === '배송') {
+    return visitSchemaOptional;
+  }
+
+  // 방문 캠페인인 경우 특정 필드만 필수
+  return visitSchema;
+};
+
+export type VisitData = z.infer<typeof visitSchema>;

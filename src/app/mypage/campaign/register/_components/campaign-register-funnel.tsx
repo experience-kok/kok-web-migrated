@@ -11,6 +11,7 @@ import {
   SelectionData,
   MissionData,
   MissionContentData,
+  VisitData,
 } from '../_schemas/company-register-schemas';
 
 import CampaignInfoStep from './campaign-info-step';
@@ -21,6 +22,7 @@ import MissionInfoStep from './mission-info-step';
 import ProductInfoStep from './product-info-step';
 import SelectionInfoStep from './selection-info-step';
 import ThumbnailInfoStep from './thumbnail-info-step';
+import VisitInfoStep from './visit-info-step';
 
 /**
  * 캠페인 등록 퍼널 컴포넌트
@@ -83,11 +85,12 @@ export default function CampaignRegisterFunnel() {
       selectionInfo: SelectionData;
       missionInfo: MissionData;
       missionContentInfo: MissionContentData;
+      visitInfo?: VisitData;
     };
   }>({
     id: 'campaign-register',
     initial: {
-      step: '업체정보',
+      step: '방문정보',
       context: {},
     },
   });
@@ -191,9 +194,7 @@ export default function CampaignRegisterFunnel() {
             }}
           />
         )}
-        방문정보={({history, context}) => (
-          
-        )}
+        방문정보={({ history, context }) => <VisitInfoStep context={context} />}
       />
     </>
   );
