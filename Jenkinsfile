@@ -106,14 +106,16 @@ pipeline {
                     sshagent(credentials: ['chkok-ssh-key']) {
                         // 이미지 전송
                         sh """
-                            scp ${TAR_FILE} ${remoteService}:/home/ubuntu/
+                            scp ${TAR_FILE} ${remoteService}:/home/ec2-user/
                         """
-
+                        sh """
+                            scp docker-compose.yml ${remoteService}:/home/ec2-user/
+                        """
                         // 원격 서버에서 이미지 로드 + 컨테이너 재시작
                         sh """
                             ssh ${remoteService} '
-                                docker load < /home/ubuntu/${TAR_FILE} &&
-                                docker compose -f /home/ubuntu/docker-compose.yml up -d
+                                docker load < /home/ec2-user/${TAR_FILE} &&
+                                docker compose -f /home/ec2-user/docker-compose.yml up -d
                             '
                         """
                     }
