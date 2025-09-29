@@ -10,22 +10,19 @@ interface Props {
 }
 
 /**
- * 푸터 메뉴에 사용될 메뉴 아이템 컴포넌트
+ * 푸터 메뉴에 사용될 메뉴 아이템 컴포넌트입니다.
  */
 export default function MenuItem({ icon, url, ariaLabel }: Props) {
   const path = usePathname();
 
   return (
-    <li className="w-1/5 flex-1">
+    <li className="ck-interactive-scale-icon w-1/5 flex-1">
       <Link
         href={url}
-        className={`flex flex-col items-center ${path === url ? 'text-primary' : ''}`}
+        className={`flex flex-col items-center ${path === url ? 'text-ck-blue-500' : ''}`}
         aria-label={ariaLabel}
       >
         {icon}
-        {/* <Text size="xs" color={path === url ? 'primary' : 'muted-foreground'}>
-          {title}
-        </Text> */}
       </Link>
     </li>
   );
