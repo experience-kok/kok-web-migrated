@@ -19,7 +19,7 @@ pipeline {
                 script {
                     // 필수 패키지 설치: ssh-client, python3, pip, aws-cli
                     sh """
-                        apk add --no-cache bash openssh-client
+                        apk add --no-cache bash openssh-client docker
                     """
 
                     // Slack 알림
