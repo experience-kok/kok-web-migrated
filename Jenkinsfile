@@ -4,6 +4,9 @@ pipeline {
         SLACK_CHANNEL = credentials('jenkins-alert-channel')
         SLACK_CREDENTIAL_ID = 'slack-token'
         REMOTE_SERVICE_PRD = credentials('remote-service')
+        IMAGE_NAME = "kok-main-next-app"
+        IMAGE_TAG = "latest"
+        TAR_FILE = "kok-main-next-app.tar.gz"
     }
     stages {
         stage("Setup") {
@@ -11,14 +14,17 @@ pipeline {
                 script {
                     slackSend(
                         channel: SLACK_CHANNEL,
-                        message: ":rocket: *[STARTED]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> Branch: `${env.GIT_BRANCH}`\n> Started by: `${env.BUILD_USER_ID ?: 'Unknown'}`",
+                        message: ":rocket: *[배포 시작]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> 브랜치: `${env.GIT_BRANCH}`\n> 요청자: `${env.BUILD_USER_ID ?: '알 수 없음'}`",
                         tokenCredentialId: SLACK_CREDENTIAL_ID
                     )
-                    if (env.GIT_BRANCH == "origin/main") {
+                    
+                    // !TODO main 브랜치로 변경하려면 "origin/main" 수정
+                    if (env.GIT_BRANCH == "origin/test/output-performance") {
+                        echo "✅ Target branch is test branch. Proceeding with the job."
                         target = "production"
                         remoteService = REMOTE_SERVICE_PRD
                     } else {
-                        error ":bangbang: Unknown branch: ${env.GIT_BRANCH}"
+                        error ":bangbang: This job only runs on the configured branch."
                     }
                 }
             }
@@ -37,6 +43,38 @@ pipeline {
                 }
             }
         }
+        stage("Install pnpm & Build Next.js & Upload Static Files to S3") {
+            agent {
+                docker {
+                    image 'node:22-alpine'
+                    args '-u root'   // root 권한으로 설치 문제 방지
+                }
+            }
+            steps {
+                echo "STAGE: Installing pnpm and Building Next.js Application"
+                sh """
+                    # Corepack을 사용하여 pnpm 설치
+                    corepack enable
+                    corepack prepare pnpm@latest --activate
+                    
+                    # pnpm 버전 확인
+                    pnpm --version
+                    
+                    # 의존성 설치 및 빌드
+                    pnpm install --frozen-lockfile
+                    pnpm run build
+                """
+
+                echo "🚀 Uploading .next/static to S3..."
+                s3Upload(
+                    bucket: 'kok-main-service-bucket',
+                    workingDir: """${env.WORKSPACE}/.next""",   // 기준 디렉터리
+                    includePathPattern: 'static/**', // 업로드할 파일/폴더 패턴
+                    path: '_next/'         // S3 상 경로
+                )
+                echo "✅ Upload complete."
+            }
+        }
         stage("Check SSH & Docker") {
             when {
                 expression { return target == "production" }
@@ -53,22 +91,35 @@ pipeline {
                 }
             }
         }
-        stage("Deploy PROD") {
-            when {
-                expression { return target == "production" }
-            }
+        stage("Build Docker Image") {
             steps {
-                echo "STAGE: Deploy"
+                echo "STAGE: Build Docker Image"
+                sh """
+                    docker build -t ${IMAGE_NAME}:${IMAGE_TAG} -f Dockerfile .
+                    docker save ${IMAGE_NAME}:${IMAGE_TAG} | gzip > ${TAR_FILE}
+                """
+            }
+        }
+        stage("Transfer Image & Deploy") {
+            steps {
                 script {
                     sshagent(credentials: ['chkok-ssh-key']) {
-                        sh "docker -H ssh://${remoteService} rm -f next-app || true"
                         sh """
-                            docker -H ssh://${remoteService} compose \
-                            -f docker-compose.yml build
+                            ssh ${remoteService} '
+                                docker rm -f kok-main-next-app || true
+                            '
                         """
                         sh """
-                            docker -H ssh://${remoteService} compose \
-                            -f docker-compose.yml up -d
+                            scp ${TAR_FILE} ${remoteService}:/home/ec2-user/
+                        """
+                        sh """
+                            scp docker-compose.yml ${remoteService}:/home/ec2-user/
+                        """
+                        sh """
+                            ssh ${remoteService} '
+                                docker load < /home/ec2-user/${TAR_FILE} &&
+                                docker compose -f /home/ec2-user/docker-compose.yml up -d
+                            '
                         """
                     }
                 }
@@ -79,21 +130,21 @@ pipeline {
         success {
             slackSend(
                 channel: SLACK_CHANNEL,
-                message: ":white_check_mark: *[SUCCESS]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> :tada: Build completed successfully!\n> <${env.BUILD_URL}|View Build Details>",
+                message: ":white_check_mark: *[성공]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> :tada: 빌드가 성공적으로 완료되었습니다!\n> <${env.BUILD_URL}|빌드 상세 보기>",
                 tokenCredentialId: SLACK_CREDENTIAL_ID
             )
         }
         failure {
             slackSend(
                 channel: SLACK_CHANNEL,
-                message: ":x: *[FAILED]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> :warning: Reason: `${currentBuild.description ?: 'Unknown - check console output'}`\n> <${env.BUILD_URL}|View Build Logs>",
+                message: ":x: *[실패]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> :warning: 실패 원인: `${currentBuild.description ?: '콘솔 출력 확인 필요'}`\n> <${env.BUILD_URL}|빌드 로그 보기>",
                 tokenCredentialId: SLACK_CREDENTIAL_ID
             )
         }
         always {
             slackSend(
                 channel: SLACK_CHANNEL,
-                message: ":bell: *[FINISHED]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> Status: *${currentBuild.currentResult}*\n> Time: `${new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("Asia/Seoul"))}`\n> <${env.BUILD_URL}|Open Build>",
+                message: ":bell: *[작업 완료]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> 상태: *${currentBuild.currentResult}*\n> 완료 시간: `${new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("Asia/Seoul"))}`\n> <${env.BUILD_URL}|빌드 바로가기>",
                 tokenCredentialId: SLACK_CREDENTIAL_ID
             )
         }
