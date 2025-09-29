@@ -17,11 +17,19 @@ pipeline {
         stage("Setup") {
             steps {
                 script {
+                    // 필수 패키지 설치: ssh-client, python3, pip, aws-cli
+                    sh """
+                        apk add --no-cache bash openssh-client
+                    """
+
+                    // Slack 알림
                     slackSend(
                         channel: SLACK_CHANNEL,
                         message: ":rocket: *[배포 시작]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> 브랜치: `${env.GIT_BRANCH}`\n> 요청자: `${env.BUILD_USER_ID ?: '알 수 없음'}`",
                         tokenCredentialId: SLACK_CREDENTIAL_ID
                     )
+
+                    // 원격 서비스 변수
                     remoteService = REMOTE_SERVICE_PRD
                 }
             }
