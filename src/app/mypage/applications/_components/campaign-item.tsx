@@ -64,7 +64,7 @@ export default function CampaignItem({
   return (
     <>
       <Link href={`/campaign/${id}`} prefetch={true}>
-        <CampaignCard className="flex flex-row">
+        <CampaignCard className="ck-interactive-scale flex flex-row">
           {/* 이미지 컨테이너에 flex-shrink-0 적용하여 크기 고정 */}
           <div className="flex-shrink-0">
             <CampaignCard.Image
