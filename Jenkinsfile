@@ -17,15 +17,17 @@ pipeline {
                         message: ":rocket: *[배포 시작]* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\n> 브랜치: `${env.GIT_BRANCH}`\n> 요청자: `${env.BUILD_USER_ID ?: '알 수 없음'}`",
                         tokenCredentialId: SLACK_CREDENTIAL_ID
                     )
+                    remoteService = REMOTE_SERVICE_PRD
                     
                     // !TODO main 브랜치로 변경하려면 "origin/main" 수정
-                    if (env.GIT_BRANCH == "origin/test/output-performance") {
-                        echo "✅ Target branch is test branch. Proceeding with the job."
-                        target = "production"
-                        remoteService = REMOTE_SERVICE_PRD
-                    } else {
-                        error ":bangbang: This job only runs on the configured branch."
-                    }
+                    // 아직은 브렌치가 나뉘어짐에 따라서 따로 작업이 다르지 얺기 때문에 아래 구문 전체 주석 처리
+                    // if (env.GIT_BRANCH == "origin/main") {
+                    //     echo "✅ Target branch is main branch. Proceeding with the job."
+                    //     target = "production"
+                    //     remoteService = REMOTE_SERVICE_PRD
+                    // } else {
+                    //     error ":bangbang: This job only runs on the configured branch."
+                    // }
                 }
             }
         }
@@ -76,9 +78,9 @@ pipeline {
             }
         }
         stage("Check SSH & Docker") {
-            when {
-                expression { return target == "production" }
-            }
+            // when {
+            //     expression { return target == "production" }
+            // }
             steps {
                 echo "STAGE: Check SSH & Docker connection"
                 script {
