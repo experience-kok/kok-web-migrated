@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:22-alpine'
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock' // root 권한 + host Docker 접근
+        }
+    }
     environment {
         SLACK_CHANNEL = credentials('jenkins-alert-channel')
         SLACK_CREDENTIAL_ID = 'slack-token'
@@ -18,26 +23,11 @@ pipeline {
                         tokenCredentialId: SLACK_CREDENTIAL_ID
                     )
                     remoteService = REMOTE_SERVICE_PRD
-                    
-                    // !TODO main 브랜치로 변경하려면 "origin/main" 수정
-                    // 아직은 브렌치가 나뉘어짐에 따라서 따로 작업이 다르지 얺기 때문에 아래 구문 전체 주석 처리
-                    // if (env.GIT_BRANCH == "origin/main") {
-                    //     echo "✅ Target branch is main branch. Proceeding with the job."
-                    //     target = "production"
-                    //     remoteService = REMOTE_SERVICE_PRD
-                    // } else {
-                    //     error ":bangbang: This job only runs on the configured branch."
-                    // }
                 }
             }
         }
-        stage("Install pnpm & Build Next.js & Upload Static Files to S3") {
-            agent {
-                docker {
-                    image 'node:22-alpine'
-                    args '-u root'   // root 권한으로 설치 문제 방지
-                }
-            }
+
+        stage("Install pnpm, AWS CLI & Build Next.js") {
             steps {
                 echo "STAGE: Copy Env Files"
                 configFileProvider([
@@ -50,34 +40,38 @@ pipeline {
                     """
                 }
 
-                echo "STAGE: Installing pnpm and Building Next.js Application"
+                echo "STAGE: Installing pnpm and AWS CLI"
                 sh """
-                    # Corepack을 사용하여 pnpm 설치
+                    # Corepack으로 pnpm 설치
                     corepack enable
                     corepack prepare pnpm@latest --activate
-                    
-                    # pnpm 버전 확인
                     pnpm --version
-                    
-                    # 의존성 설치 및 빌드
+
+                    # AWS CLI 설치
+                    apk add --no-cache python3 py3-pip
+                    pip3 install --upgrade awscli
+
+                    # Next.js 의존성 설치 및 빌드
                     pnpm install --frozen-lockfile
                     pnpm run build
                 """
+            }
+        }
 
+        stage("Upload Static Files to S3") {
+            steps {
                 echo "🚀 Uploading .next/static to S3..."
                 s3Upload(
                     bucket: 'kok-main-service-bucket',
-                    workingDir: """${env.WORKSPACE}/.next""",   // 기준 디렉터리
-                    includePathPattern: 'static/**',            // 업로드할 파일/폴더 패턴
-                    path: '_next/'                               // S3 상 경로
+                    workingDir: """${env.WORKSPACE}/.next""",
+                    includePathPattern: 'static/**',
+                    path: '_next/'
                 )
                 echo "✅ Upload complete."
             }
         }
+
         stage("Check SSH & Docker") {
-            // when {
-            //     expression { return target == "production" }
-            // }
             steps {
                 echo "STAGE: Check SSH & Docker connection"
                 script {
@@ -90,6 +84,7 @@ pipeline {
                 }
             }
         }
+
         stage("Build Docker Image") {
             steps {
                 echo "STAGE: Build Docker Image"
@@ -99,14 +94,13 @@ pipeline {
                 """
             }
         }
+
         stage("Transfer Image & Deploy") {
             steps {
                 script {
                     sshagent(credentials: ['chkok-ssh-key']) {
                         sh """
-                            ssh ${remoteService} '
-                                docker rm -f kok-main-next-app || true
-                            '
+                            ssh ${remoteService} 'docker rm -f kok-main-next-app || true'
                         """
                         sh """
                             scp ${TAR_FILE} ${remoteService}:/home/ec2-user/
@@ -125,6 +119,7 @@ pipeline {
             }
         }
     }
+
     post {
         success {
             slackSend(
