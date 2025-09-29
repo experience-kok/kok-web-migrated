@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import AdImage from '@/assets/ad.png';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
@@ -35,30 +36,32 @@ export default function AdBanner() {
   }, [api]);
 
   return (
-    <div className="flex w-full flex-col items-center justify-center">
-      <Carousel setApi={setApi} className="w-full">
-        <CarouselContent>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <CarouselItem key={index}>
-              <Image src={AdImage} alt="광고 이미지" className="w-full rounded-[12px]" />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+    <Link href={'/mypage'}>
+      <div className="flex w-full flex-col items-center justify-center">
+        <Carousel setApi={setApi} className="w-full">
+          <CarouselContent>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <CarouselItem key={index}>
+                <Image src={AdImage} alt="광고 이미지" className="w-full rounded-[12px]" />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
 
-      {/* 점 인디케이터 */}
-      <div className="mt-3 flex space-x-2">
-        {Array.from({ length: count }).map((_, index) => (
-          <button
-            key={index}
-            className={`h-2 w-2 rounded-full transition-all duration-300 ${
-              current === index + 1 ? 'bg-foreground w-4' : 'bg-gray-300'
-            }`}
-            aria-label={`광고 ${index}번째 버튼`}
-            onClick={() => api?.scrollTo(index)}
-          />
-        ))}
+        {/* 점 인디케이터 */}
+        <div className="mt-3 flex space-x-2">
+          {Array.from({ length: count }).map((_, index) => (
+            <button
+              key={index}
+              className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                current === index + 1 ? 'bg-foreground w-4' : 'bg-gray-300'
+              }`}
+              aria-label={`광고 ${index}번째 버튼`}
+              onClick={() => api?.scrollTo(index)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

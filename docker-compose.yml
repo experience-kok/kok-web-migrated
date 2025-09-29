@@ -1,6 +1,8 @@
 services:
   app:
-    container_name: next-app
+    container_name: kok-main-next-app
+    image: kok-main-next-app:latest
+
     build:
       context: ./
       dockerfile: Dockerfile

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { House, Users, Menu, UserRound, Heart } from 'lucide-react';
+import { House, Menu, UserRound } from 'lucide-react';
 
 import { useScrollDirection } from '@/hooks/use-scroll-direction';
 
@@ -26,24 +26,24 @@ export default function FooterMenu() {
       url: '/category',
       ariaLabel: '카테고리 페이지로 이동',
     },
-    {
-      icon: <Users className="h-6 w-6" />,
-      title: '커뮤니티',
-      url: '/커뮤니티',
-      ariaLabel: '커뮤니티 페이지로 이동',
-    },
+    // {
+    //   icon: <Users className="h-6 w-6" />,
+    //   title: '커뮤니티',
+    //   url: '/커뮤니티',
+    //   ariaLabel: '커뮤니티 페이지로 이동',
+    // },
     {
       icon: <House className="h-6 w-6" />,
       title: '홈',
       url: '/',
       ariaLabel: '메인 페이지로 이동',
     },
-    {
-      icon: <Heart className="h-6 w-6" />,
-      title: '찜',
-      url: '/찜',
-      ariaLabel: '찜 페이지로 이동',
-    },
+    // {
+    //   icon: <Heart className="h-6 w-6" />,
+    //   title: '찜',
+    //   url: '/찜',
+    //   ariaLabel: '찜 페이지로 이동',
+    // },
     {
       icon: <UserRound className="h-6 w-6" />,
       title: '마이',

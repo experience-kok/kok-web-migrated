@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
@@ -64,16 +65,18 @@ export default function MainBanner({ banners }: Props) {
         <CarouselContent className="-ml-2 md:-ml-4">
           {banners.map((banner, index) => (
             <CarouselItem key={index} className="basis-[85%] pl-2">
-              <AspectRatio ratio={16 / 9} className="rounded-[12px]">
-                <Image
-                  src={banner.bannerUrl}
-                  alt={`Banner Image ${index + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 85vw, (max-width: 1200px) 60vw, 45vw"
-                  className="rounded-[12px] object-cover"
-                  priority={index === 0} // 첫 번째 이미지는 우선 로드
-                />
-              </AspectRatio>
+              <Link href={banner.redirectUrl} key={banner.id}>
+                <AspectRatio ratio={16 / 9} className="rounded-[12px]">
+                  <Image
+                    src={banner.bannerUrl}
+                    alt={`Banner Image ${index + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 85vw, (max-width: 1200px) 60vw, 45vw"
+                    className="rounded-[12px] object-cover"
+                    priority={index === 0} // 첫 번째 이미지는 우선 로드
+                  />
+                </AspectRatio>
+              </Link>
             </CarouselItem>
           ))}
         </CarouselContent>

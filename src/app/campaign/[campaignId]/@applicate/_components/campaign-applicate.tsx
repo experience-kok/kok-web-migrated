@@ -115,7 +115,7 @@ export default function CampaignApplicate({ campaignId }: Props) {
   return (
     <div>
       <div className="fixed right-0 bottom-0 left-0 z-50 mx-auto max-w-[600px] bg-white shadow-lg">
-        <div className="p-4 pt-0">
+        <div className="px-4 pt-0 pb-8">
           <div className="flex items-center gap-2">
             <Button
               onClick={handleSubmit}

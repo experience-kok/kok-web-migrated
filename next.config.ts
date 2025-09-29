@@ -1,13 +1,17 @@
 import type { NextConfig } from 'next';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig: NextConfig = {
   reactStrictMode: false,
+  devIndicators: false,
   logging: {
     fetches: {
       fullUrl: true,
     },
   },
   output: 'standalone',
+  assetPrefix: isProd ? 'https://d2gsv5nutdeogm.cloudfront.net' : undefined,
   images: {
     remotePatterns: [
       {

@@ -7,6 +7,8 @@ import SplitBox from '@/components/ui/split-box';
 
 import Campaign from './_components/campaign';
 import CampaignSkeleton from './_components/campaign/campaign-skeleton';
+import CampaignRegisterRouteButton from './_components/campaign-register-route-button';
+import ClientRegistryButton from './_components/client-registry/client-registry-button';
 import ProfileContainer from './_components/profile-container';
 import ProfileContainerSkeleton from './_components/profile-container/profile-container-skeleton';
 import Sns from './_components/sns';
@@ -40,6 +42,8 @@ export default function MyPage() {
         </ErrorBoundary>
       </section>
 
+      <CampaignRegisterRouteButton />
+
       <SplitBox />
 
       {/* 여기서 에러 발생 */}
@@ -62,12 +66,7 @@ export default function MyPage() {
           <span className="ck-body-2 font-semibold">공지사항</span>
           <ChevronRight width={16} height={16} className="text-muted-foreground" />
         </div>
-        <Link href={'/client/register'}>
-          <div className="flex w-full items-center justify-between py-5">
-            <span className="ck-body-2 font-semibold">클라이언트 계정으로 전환하기</span>
-            <ChevronRight width={16} height={16} className="text-muted-foreground" />
-          </div>
-        </Link>
+        <ClientRegistryButton />
       </section>
     </>
   );

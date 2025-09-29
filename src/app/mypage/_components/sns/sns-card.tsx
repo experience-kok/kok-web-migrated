@@ -19,11 +19,6 @@ const SNS_TYPE = {
     connectedTitle: '블로그',
     koreanName: '블로그',
   },
-  TIKTOK: {
-    title: '틱톡 연결하기',
-    connectedTitle: '틱톡',
-    koreanName: '틱톡',
-  },
 } as const;
 
 interface Props {
@@ -40,6 +35,12 @@ interface Props {
  */
 export default function SnsCard({ platform }: Props) {
   const { platformType, isConnected, accountUrl } = platform;
+
+  // TIKTOK는 제외하고 처리
+  if (platformType === 'TIKTOK') {
+    return null;
+  }
+
   const snsInfo = SNS_TYPE[platformType];
 
   if (!snsInfo) {
@@ -59,8 +60,6 @@ export default function SnsCard({ platform }: Props) {
         return 'bg-green-500';
       case 'INSTAGRAM':
         return 'bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500';
-      case 'TIKTOK':
-        return 'bg-black';
       default:
         return 'bg-gray-300';
     }

@@ -1,7 +1,9 @@
+import { delay } from '@/lib/delay';
 import { fetcher } from '@/lib/fetcher';
 
 import {
   GetCampaignApplicationsRequest,
+  PostCampaignRequest,
   PostMissionReviewRequest,
 } from '@/types/campaigns/requests';
 import {
@@ -30,7 +32,6 @@ import {
   GetVisitCampaignsRequest,
   GetVisitCampaignsResponse,
   PostCampaignApplicateResponse,
-  PostCampaignRequest,
 } from './types';
 
 /**
@@ -128,6 +129,7 @@ export async function getVisitCampaigns({
  * 캠페인 등록
  */
 export async function postCampaign(requestBody: PostCampaignRequest) {
+  await delay(3);
   const response = await fetcher.post<null>(`/campaigns`, requestBody, {
     requiresAuth: true,
   });
