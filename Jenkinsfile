@@ -65,7 +65,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:22-alpine'
-                    args '-u root'   // root 권한으로 설치 문제 방지
+                    args '-u root'
                 }
             }
             steps {
@@ -74,13 +74,13 @@ pipeline {
                     # Corepack 활성화 및 pnpm 설치
                     corepack enable
                     corepack prepare pnpm@latest --activate
-
-                    # 버전 확인
-                    pnpm --version
-
+        
                     # 의존성 설치 및 빌드
                     pnpm install --frozen-lockfile
                     pnpm run build
+        
+                    # Jenkins 호스트가 읽을 수 있도록 권한 변경
+                    chown -R ${env.JENKINS_UID}:${env.JENKINS_UID} .next
                 """
                 stash includes: '.next/**', name: 'next-build'
             }
