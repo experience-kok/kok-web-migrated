@@ -55,7 +55,7 @@ export default function QuickMenu() {
                 {/* Image 컴포넌트의 src에 public 폴더 기준 상대 경로를 직접 전달 */}
                 <Image
                   src={`/quickmenu/${item.icon}`}
-                  className="ck-interactive-scale-icon"
+                  className="ck-interactive-scale-small"
                   width={48}
                   height={48}
                   alt={`${item.name} 아이콘`}

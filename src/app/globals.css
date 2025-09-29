@@ -256,7 +256,7 @@
     @apply touch-manipulation transition-transform duration-150 ease-in-out active:scale-[98%];
   }
 
-  .ck-interactive-scale-icon {
+  .ck-interactive-scale-small {
     @apply touch-manipulation transition-transform duration-150 ease-in-out active:scale-[90%];
   }
 }

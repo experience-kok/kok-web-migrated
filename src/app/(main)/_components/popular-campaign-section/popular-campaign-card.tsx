@@ -14,7 +14,7 @@ interface Props {
 export default function PopularCampaignCard({ campaign }: Props) {
   return (
     <Link href={`/campaign/${campaign.id}`}>
-      <CampaignCard>
+      <CampaignCard className="ck-interactive-scale">
         <CampaignCard.Image imageUrl={campaign.thumbnailUrl} imageAlt={campaign.title} />
 
         <div className="flex cursor-pointer flex-col items-start px-0">

@@ -16,7 +16,7 @@ export default function MenuItem({ icon, url, ariaLabel }: Props) {
   const path = usePathname();
 
   return (
-    <li className="ck-interactive-scale-icon w-1/5 flex-1">
+    <li className="ck-interactive-scale-small w-1/5 flex-1">
       <Link
         href={url}
         className={`flex flex-col items-center ${path === url ? 'text-ck-blue-500' : ''}`}
