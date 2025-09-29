@@ -25,7 +25,7 @@ export default function CampaignRegisterRouteButton() {
         <>
           <SplitBox />
           <section className="px-4">
-            <Link href={'/campaign/manage/register'}>
+            <Link href={'/mypage/campaign/register'}>
               <div className="flex w-full items-center justify-between py-5">
                 <span className="ck-body-2 font-semibold">캠페인 생성하기</span>
                 <ChevronRight width={16} height={16} className="text-muted-foreground" />

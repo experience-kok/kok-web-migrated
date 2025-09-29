@@ -250,6 +250,11 @@
     line-height: 12px;
     letter-spacing: 0;
   }
+
+  /* 애니메이션 */
+  .ck-interactive-scale {
+    @apply touch-manipulation transition-transform duration-150 ease-in-out active:scale-[98%];
+  }
 }
 
 @layer utilities {
@@ -258,6 +263,17 @@
       display: none;
     }
     scrollbar-width: none;
+  }
+
+  .ck-hide-spin-buttons {
+    /* Firefox */
+    -moz-appearance: textfield;
+  }
+  .ck-hide-spin-buttons::-webkit-outer-spin-button,
+  .ck-hide-spin-buttons::-webkit-inner-spin-button {
+    /* Chrome, Safari, Edge, Opera */
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 
@@ -282,4 +298,14 @@ html {
   html {
     font-size: 16px;
   }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
 }

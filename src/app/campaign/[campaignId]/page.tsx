@@ -103,7 +103,7 @@ export default async function CampaignDetailPage({ params }: Props) {
     <>
       {/* 캠페인 썸네일 이미지 */}
       <section className="relative aspect-square">
-        <CampaignThumbnail thumnailUrl={thumbnailUrl} />
+        <CampaignThumbnail thumbnailUrl={thumbnailUrl} />
       </section>
 
       {/* 캠페인 기본 정보 - 캠페인 타입, 지원자 수, 캠페인 모집 기간 */}
