@@ -5,9 +5,10 @@ import { cookies } from 'next/headers';
 interface Props {
   children: ReactNode;
   applicate: ReactNode; // parallel route slot
+  routeToLogin: ReactNode;
 }
 
-export default async function CampaignDetailLayout({ children, applicate }: Props) {
+export default async function CampaignDetailLayout({ children, applicate, routeToLogin }: Props) {
   const cookieStore = await cookies();
   const token = cookieStore.get('accessToken')?.value; // 또는 다른 토큰 쿠키명
 
@@ -18,7 +19,7 @@ export default async function CampaignDetailLayout({ children, applicate }: Prop
       {children}
 
       {/* 로그인한 사용자만 applicate 슬롯 렌더링 */}
-      {isAuthenticated && applicate}
+      {isAuthenticated ? applicate : routeToLogin}
     </div>
   );
 }

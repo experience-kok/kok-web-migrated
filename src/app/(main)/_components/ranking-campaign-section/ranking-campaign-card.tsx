@@ -14,7 +14,7 @@ interface Props {
 export default function RankingCampaignCard({ campaign, ranking }: Props) {
   return (
     <Link href={`/campaign/${campaign.id}`}>
-      <CampaignCard className="flex-row items-center gap-3">
+      <CampaignCard className="ck-interactive-scale flex-row items-center gap-3">
         <div className="group relative h-[115px] w-[115px] cursor-pointer overflow-hidden rounded-[12px]">
           <CampaignCard.Image imageUrl={campaign.thumbnailUrl} imageAlt={campaign.title} />
           <div className="absolute top-0 left-0 flex h-8 w-8 items-center justify-center rounded-md bg-black/70">

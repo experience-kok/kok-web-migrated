@@ -7,6 +7,7 @@ import MainBanner from './main-banner';
  */
 export default async function MainBannerSection() {
   const bannersData = await getBanners();
+  console.log(bannersData);
 
   return (
     <section>

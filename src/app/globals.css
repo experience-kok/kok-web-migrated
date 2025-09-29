@@ -255,6 +255,10 @@
   .ck-interactive-scale {
     @apply touch-manipulation transition-transform duration-150 ease-in-out active:scale-[98%];
   }
+
+  .ck-interactive-scale-small {
+    @apply touch-manipulation transition-transform duration-150 ease-in-out active:scale-[90%];
+  }
 }
 
 @layer utilities {

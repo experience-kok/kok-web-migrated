@@ -10,8 +10,7 @@ import { toast } from 'sonner';
 
 import AlertDialog, { AlertDialogConfig } from '@/components/shared/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FloatingInput } from '@/components/ui/floating-input';
 import { isFetcherError } from '@/lib/fetcher';
 import {
   clientBusinessInfoSchema,
@@ -103,45 +102,38 @@ export function BusinessInfoForm() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-6">
+    <div className="">
       <div className="space-y-2">
-        <h2 className="ck-headline-2 font-semibold">사업자 정보 등록</h2>
-        <p className="text-ck-gray-700">회사 정보를 입력해주세요.</p>
+        <h3 className="ck-sub-title-1 text-ck-gray-900 pb-10">
+          사업자 정보 등록을 위해 <br />
+          정보를 알려주세요
+        </h3>
       </div>
 
       <form onSubmit={handleSubmit(handlePostBusinessInfo)} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="companyName" className="ck-body-2-bold">
-            회사명
-          </Label>
-          <Input
-            id="companyName"
-            type="text"
-            placeholder="회사명을 입력해주세요"
-            {...register('companyName')}
-            className={errors.companyName ? 'border-destructive' : ''}
-          />
+          <FloatingInput type="text" label="회사명" {...register('companyName')} />
           {errors.companyName && (
-            <p className="text-destructive text-sm">{errors.companyName.message}</p>
+            <p className="text-ck-red-500 ck-caption-2">{errors.companyName.message}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="businessRegistrationNumber">사업자번호</Label>
-          <Input
-            id="businessRegistrationNumber"
+          <FloatingInput
             type="text"
-            placeholder="000-00-00000"
-            value={watch('businessRegistrationNumber')}
+            label="사업자번호"
+            {...register('businessRegistrationNumber')}
             onChange={handleBusinessNumberChange}
-            className={errors.businessRegistrationNumber ? 'border-destructive' : ''}
+            value={watch('businessRegistrationNumber')}
           />
           {errors.businessRegistrationNumber && (
-            <p className="text-destructive text-sm">{errors.businessRegistrationNumber.message}</p>
+            <p className="text-ck-red-500 ck-caption-2">
+              {errors.businessRegistrationNumber.message}
+            </p>
           )}
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="ck-body-1-bold w-full">
           {isPending ? '등록 중...' : '등록하기'}
         </Button>
       </form>
