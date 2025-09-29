@@ -10,9 +10,12 @@ export async function middleware(request: NextRequest) {
   const { pathname } = new URL(request.url);
 
   // PROTECTED_ROUTES에 접근하는지 확인
-  const isProtectedRoute = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
+  const isProtectedRoute = PROTECTED_ROUTES.some(route => {
+    return pathname === route || pathname.startsWith(route + '/');
+  });
 
   if (isProtectedRoute) {
+    console.log('ㅁㅁㅁ');
     const accessToken = request.cookies.get('accessToken')?.value;
     const refreshToken = request.cookies.get('refreshToken')?.value;
 
@@ -22,7 +25,9 @@ export async function middleware(request: NextRequest) {
     }
 
     // ONLY_CLIENT_ROUTES 체크
-    const isOnlyClientRoute = ONLY_CLIENT_ROUTES.some(route => pathname.startsWith(route));
+    const isOnlyClientRoute = ONLY_CLIENT_ROUTES.some(route => {
+      return pathname === route || pathname.startsWith(route + '/');
+    });
 
     if (isOnlyClientRoute) {
       try {
