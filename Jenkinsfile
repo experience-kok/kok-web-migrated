@@ -45,38 +45,6 @@ pipeline {
                 }
             }
         }
-        stage("Install pnpm & Build Next.js & Upload Static Files to S3") {
-            agent {
-                docker {
-                    image 'node:22-alpine'
-                    args '-u root'   // root 권한으로 설치 문제 방지
-                }
-            }
-            steps {
-                echo "STAGE: Installing pnpm and Building Next.js Application"
-                sh """
-                    # Corepack을 사용하여 pnpm 설치
-                    corepack enable
-                    corepack prepare pnpm@latest --activate
-                    
-                    # pnpm 버전 확인
-                    pnpm --version
-                    
-                    # 의존성 설치 및 빌드
-                    pnpm install --frozen-lockfile
-                    pnpm run build
-                """
-
-                echo "🚀 Uploading .next/static to S3..."
-                s3Upload(
-                    bucket: 'kok-main-service-bucket',
-                    workingDir: """${env.WORKSPACE}/.next""",   // 기준 디렉터리
-                    includePathPattern: 'static/**', // 업로드할 파일/폴더 패턴
-                    path: '_next/'         // S3 상 경로
-                )
-                echo "✅ Upload complete."
-            }
-        }
         stage("Check SSH & Docker") {
             // when {
             //     expression { return target == "production" }
@@ -91,6 +59,43 @@ pipeline {
                         sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'docker compose version || docker-compose version || echo 🚫 docker compose not found'"
                     }
                 }
+            }
+        }
+        stage("Install pnpm & Build Next.js") {
+            agent {
+                docker {
+                    image 'node:22-alpine'
+                    args '-u root'   // root 권한으로 설치 문제 방지
+                }
+            }
+            steps {
+                echo "STAGE: Install dependencies and Build Next.js"
+                sh """
+                    # Corepack 활성화 및 pnpm 설치
+                    corepack enable
+                    corepack prepare pnpm@latest --activate
+
+                    # 버전 확인
+                    pnpm --version
+
+                    # 의존성 설치 및 빌드
+                    pnpm install --frozen-lockfile
+                    pnpm run build
+                """
+                stash includes: '.next/**', name: 'next-build'
+            }
+        }
+        stage("Upload Static Files to S3") {
+            steps {
+                echo "STAGE: Upload .next/static to S3"
+                unstash 'next-build'
+                s3Upload(
+                    bucket: 'kok-main-service-bucket',
+                    workingDir: """${env.WORKSPACE}/.next""",   // 기준 디렉터리
+                    includePathPattern: 'static/**',           // 업로드할 파일/폴더 패턴
+                    path: '_next/'                             // S3 상 경로
+                )
+                echo "✅ Upload complete."
             }
         }
         stage("Build Docker Image") {
