@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { CampaignCard } from '@/components/shared/campaign-card-new';
@@ -37,6 +36,7 @@ export default function CampaignItem({
 }: Props) {
   const router = useRouter();
   const [isMissionDialogOpen, setIsMissionDialogOpen] = useState(false);
+  const isPending = applicationStatus === 'PENDING';
 
   // 이미지 필터 클래스 생성
   const imageFilterClass = grayscale ? 'filter grayscale' : '';
@@ -61,10 +61,28 @@ export default function CampaignItem({
     setIsMissionDialogOpen(true);
   };
 
+  // 카드 전체 클릭 시 상세로 이동 (PENDING이면 이동 차단)
+  const handleCardClick = () => {
+    if (isPending) return;
+    router.push(`/campaign/${id}`);
+  };
+
   return (
     <>
-      <Link href={`/campaign/${id}`} prefetch={true}>
-        <CampaignCard className="ck-interactive-scale flex flex-row">
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleCardClick}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleCardClick();
+          }
+        }}
+      >
+        <CampaignCard
+          className={`ck-interactive-scale flex flex-row ${isPending ? 'cursor-not-allowed' : ''}`}
+        >
           {/* 이미지 컨테이너에 flex-shrink-0 적용하여 크기 고정 */}
           <div className="flex-shrink-0">
             <CampaignCard.Image
@@ -106,7 +124,7 @@ export default function CampaignItem({
             </div>
           )}
         </CampaignCard>
-      </Link>
+      </div>
 
       <MissionSubmitDialog
         isOpen={isMissionDialogOpen}
