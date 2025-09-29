@@ -1,5 +1,5 @@
-// import AdBanner from './_components/ad-banner';
-import DeliverySection from './_components/delivery-section';
+import AdBanner from './_components/ad-banner';
+// import DeliverySection from './_components/delivery-section';
 import VisitSection from './_components/visit-section';
 
 /**
@@ -10,11 +10,11 @@ export default function CategoryPage() {
     <>
       <VisitSection />
 
-      <DeliverySection />
+      {/* <DeliverySection /> */}
 
-      {/* <section className="my-10 px-5">
+      <section className="my-10 px-5">
         <AdBanner />
-      </section> */}
+      </section>
     </>
   );
 }
