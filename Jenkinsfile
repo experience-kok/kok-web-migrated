@@ -104,14 +104,17 @@ pipeline {
             steps {
                 script {
                     sshagent(credentials: ['chkok-ssh-key']) {
-                        // 이미지 전송
+                        sh """
+                            ssh ${remoteService} '
+                                docker rm -f kok-main-next-app || true
+                            '
+                        """
                         sh """
                             scp ${TAR_FILE} ${remoteService}:/home/ec2-user/
                         """
                         sh """
                             scp docker-compose.yml ${remoteService}:/home/ec2-user/
                         """
-                        // 원격 서버에서 이미지 로드 + 컨테이너 재시작
                         sh """
                             ssh ${remoteService} '
                                 docker load < /home/ec2-user/${TAR_FILE} &&
