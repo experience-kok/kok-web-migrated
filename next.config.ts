@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'd2gsv5nutdeogm.cloudfront.net',
+        port: '',
+      },
+      {
+        protocol: 'https',
         hostname: 'images.unsplash.com',
         port: '',
       },
