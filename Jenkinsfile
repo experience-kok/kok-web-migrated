@@ -4,6 +4,9 @@ pipeline {
         SLACK_CHANNEL = credentials('jenkins-alert-channel')
         SLACK_CREDENTIAL_ID = 'slack-token'
         REMOTE_SERVICE_PRD = credentials('remote-service')
+        IMAGE_NAME = "kok-main-next-app"
+        IMAGE_TAG = "latest"
+        TAR_FILE = "kok-main-next-app.tar.gz"
     }
     stages {
         stage("Setup") {
@@ -70,6 +73,51 @@ pipeline {
                     path: '_next/'         // S3 상 경로
                 )
                 echo "✅ Upload complete."
+            }
+        }
+        stage("Check SSH & Docker") {
+            when {
+                expression { return target == "production" }
+            }
+            steps {
+                echo "STAGE: Check SSH & Docker connection"
+                script {
+                    sshagent(credentials: ['chkok-ssh-key']) {
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'echo ✅ SSH connection success'"
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'docker ps -a'"
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'docker version'"
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteService} 'docker compose version || docker-compose version || echo 🚫 docker compose not found'"
+                    }
+                }
+            }
+        }
+        stage("Build Docker Image") {
+            steps {
+                echo "STAGE: Build Docker Image"
+                sh """
+                    docker build -t ${IMAGE_NAME}:${IMAGE_TAG} -f Dockerfile .
+                    docker save ${IMAGE_NAME}:${IMAGE_TAG} | gzip > ${TAR_FILE}
+                """
+            }
+        }
+        stage("Transfer Image & Deploy") {
+            steps {
+                script {
+                    sshagent(credentials: ['chkok-ssh-key']) {
+                        // 이미지 전송
+                        sh """
+                            scp ${TAR_FILE} ${remoteService}:/home/ubuntu/
+                        """
+
+                        // 원격 서버에서 이미지 로드 + 컨테이너 재시작
+                        sh """
+                            ssh ${remoteService} '
+                                docker load < /home/ubuntu/${TAR_FILE} &&
+                                docker compose -f /home/ubuntu/docker-compose.yml up -d
+                            '
+                        """
+                    }
+                }
             }
         }
     }
