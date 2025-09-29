@@ -25,14 +25,21 @@ export default function ProfileContainer() {
           <div className="group relative cursor-pointer">
             <Avatar className="h-20 w-20">
               <AvatarImage
-                src={user.profileImage ?? '/kogi.png'}
+                src={
+                  user.profileImage ?? `${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/kogi/kogi.png`
+                }
                 width={70}
                 height={70}
                 alt="프로필 이미지"
               />
 
               <AvatarFallback>
-                <Image src={'/kogi.png'} width={70} height={70} alt="프로필 이미지" />
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/kogi/kogi.png`}
+                  width={70}
+                  height={70}
+                  alt="프로필 이미지"
+                />
               </AvatarFallback>
             </Avatar>
 

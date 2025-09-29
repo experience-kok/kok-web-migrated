@@ -186,7 +186,10 @@ export default function ApplicantsCard({ campaignId, status, applicant }: Props)
       <Card className={`${status === 'SELECTED' ? missionStatusStyle : ''}`}>
         <CardContent className="flex items-center justify-between">
           <div className="flex flex-wrap items-center space-x-3">
-            <ApplicantsInfoBox nickname={applicant.user.nickname} profileUrl={'/kogi.png'} />
+            <ApplicantsInfoBox
+              nickname={applicant.user.nickname}
+              profileUrl={`${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/kogi/kogi.png`}
+            />
 
             <ApplicantsSNS snsAccounts={applicant.allSnsUrls} />
           </div>

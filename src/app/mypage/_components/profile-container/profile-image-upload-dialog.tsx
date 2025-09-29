@@ -99,7 +99,12 @@ export default function ProfileImageUploadDialog({ children, user }: Props) {
                     </AvatarImage>
                   ) : null}
                   <AvatarFallback>
-                    <Image src={'/kogi.png'} width={70} height={70} alt="프로필 이미지" />
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/kogi/kogi.png`}
+                      width={70}
+                      height={70}
+                      alt="프로필 이미지"
+                    />
                   </AvatarFallback>
                 </Avatar>
 
