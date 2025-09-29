@@ -17,15 +17,15 @@ interface Props {
 // SNS 타입별 아이콘과 라벨 매핑
 const SNS_INFO = {
   BLOG: {
-    icon: '/sns/blog.svg',
+    icon: `${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/platform/blog.svg`,
     alt: '네이버블로그',
   },
   INSTAGRAM: {
-    icon: '/sns/instagram.svg',
+    icon: `${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/platform/instagram.svg`,
     alt: '인스타그램',
   },
   YOUTUBE: {
-    icon: '/sns/youtube.svg',
+    icon: `${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/platform/youtube.svg`,
     alt: '유튜브',
   },
   // TIKTOK: {

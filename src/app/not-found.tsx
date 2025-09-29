@@ -24,7 +24,7 @@ export default function NotFound() {
           </Link>
 
           <Image
-            src={'/not_found.svg'}
+            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/kogi/kogi-not-found.svg`}
             width={128}
             height={128}
             alt="404 이미지"

@@ -5,36 +5,37 @@ import Link from 'next/link';
  * 메인 페이지 퀵 메뉴 컴포넌트
  */
 export default function QuickMenu() {
+  const cloudFront = `${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/quickmenu`;
   const menuItems = [
-    { id: 1, name: '이용가이드', icon: '/guide.svg' },
+    { id: 1, name: '이용가이드', icon: `${cloudFront}/guide.svg` },
     {
       id: 2,
       name: '맛집',
-      icon: '/restaurant.svg',
+      icon: `${cloudFront}/restaurant.svg`,
       url: `/campaign/visit?categoryName=${encodeURIComponent('맛집')}`,
     },
     {
       id: 3,
       name: '카페',
-      icon: '/cafe.svg',
+      icon: `${cloudFront}/cafe.svg`,
       url: `/campaign/visit?categoryName=${encodeURIComponent('카페')}`,
     },
     {
       id: 4,
       name: '뷰티',
-      icon: '/beauty.svg',
+      icon: `${cloudFront}/beauty.svg`,
       url: `/campaign/visit?categoryName=${encodeURIComponent('뷰티')}`,
     },
     {
       id: 5,
       name: '숙박',
-      icon: '/lodge.svg',
+      icon: `${cloudFront}/lodge.svg`,
       url: `/campaign/visit?categoryName=${encodeURIComponent('숙박')}`,
     },
     {
       id: 6,
       name: '기타',
-      icon: '/another.svg',
+      icon: `${cloudFront}/another.svg`,
       url: `/campaign/visit?categoryName=${encodeURIComponent('기타')}`,
     },
     // { id: 7, name: '화장품', icon: '/' },
@@ -54,7 +55,7 @@ export default function QuickMenu() {
               <>
                 {/* Image 컴포넌트의 src에 public 폴더 기준 상대 경로를 직접 전달 */}
                 <Image
-                  src={`/quickmenu/${item.icon}`}
+                  src={item.icon}
                   className="ck-interactive-scale-small"
                   width={48}
                   height={48}
