@@ -1,13 +1,16 @@
 'use client';
 
 import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 /**
  * 프로필 페이지 헤더 컴포넌트
  */
 export default function MypageHeader() {
+  const router = useRouter();
+
   const handleBack = () => {
-    window.history.back();
+    router.back();
   };
 
   return (

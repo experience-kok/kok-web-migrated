@@ -24,11 +24,10 @@ export default function CompanyInfoStep({ onNext, companyData }: Props) {
   } = useForm<CompanyData>({
     resolver: zodResolver(companySchema),
     mode: 'onChange',
-    defaultValues: companyData || {
-      contactPerson: '',
-      phoneNumber: '',
-    },
+    defaultValues: companyData,
   });
+
+  console.log(companyData);
 
   return (
     <form onSubmit={handleSubmit(onNext)} className="px-5">

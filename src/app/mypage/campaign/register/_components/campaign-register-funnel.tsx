@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { useFunnel } from '@use-funnel/browser';
 
 import {
@@ -107,9 +109,24 @@ export default function CampaignRegisterFunnel() {
     },
   });
 
+  useEffect(() => {
+    console.log(funnel.context, funnel.history, funnel.index);
+  });
+
   return (
     <>
+      {/* <div className="px-5 py-2">
+        <div className="h-2 w-full rounded-full bg-gray-200">
+          <div
+            className="h-2 rounded-full bg-blue-600 transition-all duration-300"
+            style={{
+              width: `${((stepOrder.indexOf(funnel.step) + 1) / stepOrder.length) * 100}%`,
+            }}
+          />
+        </div>
+      </div> */}
       {/* 프로그레스바 추가 필요 */}
+
       <funnel.Render
         업체정보={({ history, context }) => (
           <CompanyInfoStep
