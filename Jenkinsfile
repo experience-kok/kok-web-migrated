@@ -47,10 +47,6 @@ pipeline {
                     corepack prepare pnpm@latest --activate
                     pnpm --version
 
-                    # AWS CLI 설치
-                    apk add --no-cache python3 py3-pip
-                    pip3 install --upgrade awscli
-
                     # Next.js 의존성 설치 및 빌드
                     pnpm install --frozen-lockfile
                     pnpm run build
