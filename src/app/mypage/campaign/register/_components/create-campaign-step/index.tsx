@@ -160,7 +160,7 @@ export default function CreateCampaignStep({ context }: Props) {
 
         <div className="flex h-[calc(100vh-4rem)] w-full flex-col items-center justify-center space-y-4 text-center">
           <Image
-            src="/kogi-make.svg"
+            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/kogi/kogi-make.svg`}
             alt="캠페인을 생성중인 코기"
             width={200}
             height={200}
