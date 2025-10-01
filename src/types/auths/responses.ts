@@ -1,11 +1,13 @@
-import { LoginType, User } from './models';
+import { LoginType } from './models';
+
+import { User } from '@/types/users/models';
 
 /**
  * 신규 유저 로그인 응답
  * 회원가입시 신규 유저일 경우 동의 항목을 받아야합니다.
  */
 export interface NewUserLoginResponse {
-  loginType: 'consentRequired';
+  loginType: Extract<LoginType, 'consentRequired'>;
   tempToken: string;
   user: {
     id: number;
@@ -23,7 +25,7 @@ export interface ExistingUserLoginResponse {
   user: User;
   accessToken: string;
   refreshToken: string;
-  loginType: LoginType;
+  loginType: Exclude<LoginType, 'consentRequired'>;
 }
 
 /**

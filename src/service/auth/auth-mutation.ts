@@ -18,24 +18,32 @@ export function useLoginMutation() {
   return useMutation({
     mutationFn: postLogin,
     onSuccess: data => {
-      const { loginType, user, accessToken, refreshToken } = data;
-
-      setTokens(accessToken, refreshToken);
-      setUser(user);
-
-      if (loginType === 'login') {
-        router.push('/');
-
-        setTimeout(() => {
-          toast.success(`${user.nickname}님, 환영해요!`, {
-            position: 'top-center',
-            duration: 3000,
-          });
-        }, 1000);
+      // 신규 유저 로그인
+      if (data.loginType === 'consentRequired') {
+        const { tempToken } = data;
+        router.push(`/login/consent?tempToken=${tempToken}`);
       }
-      // 회원가입시 환영 페이지로 이동
-      else if (loginType === 'registration') {
-        router.push('/welcome');
+      // 기존 유저 로그인
+      else {
+        const { loginType, user, accessToken, refreshToken } = data;
+
+        setTokens(accessToken, refreshToken);
+        setUser(user);
+
+        if (loginType === 'login') {
+          router.push('/');
+
+          setTimeout(() => {
+            toast.success(`${user.nickname}님, 환영해요!`, {
+              position: 'top-center',
+              duration: 3000,
+            });
+          }, 1000);
+        }
+        // 회원가입시 환영 페이지로 이동
+        else if (loginType === 'registration') {
+          router.push('/welcome');
+        }
       }
     },
     onError: error => {
