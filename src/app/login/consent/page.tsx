@@ -442,7 +442,7 @@ export default function ConsentPage() {
                   <button
                     type="button"
                     onClick={() => setActiveTermId(item.id as AgreementKeys)}
-                    className="text-sm text-gray-500 hover:underline"
+                    className="text-ck-gray-700 ck-caption-1 hover:underline"
                   >
                     보기
                   </button>

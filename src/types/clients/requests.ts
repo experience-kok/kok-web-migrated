@@ -2,4 +2,5 @@
 export interface PostBusinessInfoRequest {
   companyName: string;
   businessRegistrationNumber: string; // 사업자 번호
+  termsAgreed: boolean;
 }

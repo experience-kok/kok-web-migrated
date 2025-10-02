@@ -10,14 +10,14 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 
-interface ConsentModalProps {
+interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
   content: string;
 }
 
-export function ConsentDialog({ open, onOpenChange, title, content }: ConsentModalProps) {
+export function ConsentDialog({ open, onOpenChange, title, content }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
