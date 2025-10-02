@@ -8,10 +8,12 @@ import { PostBusinessInfoRequest } from '@/types/clients/requests';
 export async function postBusinessInfo({
   companyName,
   businessRegistrationNumber,
+  termsAgreed,
 }: PostBusinessInfoRequest) {
-  const requestBody = {
+  const requestBody: PostBusinessInfoRequest = {
     companyName,
     businessRegistrationNumber,
+    termsAgreed,
   };
   const response = await fetcher.post(`/business-info`, requestBody, {
     requiresAuth: true,

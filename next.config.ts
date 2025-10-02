@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   assetPrefix: isProd ? 'https://d2gsv5nutdeogm.cloudfront.net' : undefined,
   images: {
     remotePatterns: [
+      // CDN: Cloud front
       {
         protocol: 'https',
         hostname: 'd2gsv5nutdeogm.cloudfront.net',
@@ -21,24 +22,22 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: 's3.ap-northeast-2.amazonaws.com',
         port: '',
       },
+      // S3
       {
         protocol: 'https',
-        hostname: 'drxgfm74s70w1.cloudfront.net',
+        hostname: 'kok-main-service-bucket.s3.ap-northeast-2.amazonaws.com',
         port: '',
       },
+      // S3: ckokservice
       {
         protocol: 'https',
         hostname: 'ckokservice.s3.ap-northeast-2.amazonaws.com',
         port: '',
       },
-      {
-        protocol: 'https',
-        hostname: 'imagescdn.gettyimagesbank.com',
-        port: '',
-      },
+      // KAKAO: 카카오 프로필 이미지
       {
         protocol: 'http',
         hostname: 'k.kakaocdn.net',

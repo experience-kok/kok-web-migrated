@@ -12,7 +12,7 @@ import Confetti from './_components/confetti';
  */
 export default function WelcomePage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center p-5">
       <Confetti />
       <div className="flex w-full max-w-lg flex-col gap-4">
         <Text as="h1" weight="bold" size="3xl" className="text-center">

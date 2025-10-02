@@ -1,6 +1,7 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 import localFont from 'next/font/local';
 import Script from 'next/script';
+import NextTopLoader from 'nextjs-toploader';
 
 import type { Metadata } from 'next';
 
@@ -43,19 +44,25 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${pretendard.variable} bg-ck-gray-200 antialiased`}
         suppressHydrationWarning={true}
       >
+        <NextTopLoader
+          color="#2388ff"
+          height={4}
+          speed={50}
+          showSpinner={false}
+          easing="ease"
+          shadow="0 0 10px #2299DD, 0 0 5px #2299DD"
+        />
         <div id="portal-root" className="relative">
           {/* 메인 앱 컨테이너 - 중앙 정렬 및 모바일 사이즈 제한 */}
           <div className="relative mx-auto min-h-screen max-w-[600px] bg-white">
             <Provider>{children}</Provider>
           </div>
         </div>
-
         <Script
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_KEY}&libraries=services,clusterer&autoload=false`}
           strategy="beforeInteractive"
         />
-
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_KEY && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_KEY} />
         )}

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { Text } from '@/components/ui/text';
 
 const currentYear = new Date().getFullYear(); // 현재 연도 가져오기
@@ -13,16 +15,24 @@ export default function Footer() {
           체험콕
         </Text>
         <div className="text-muted-foreground mt-2 text-xs">
-          {/* 회사명 | 대표이사: 이순신 | 개인정보 보호 최고책임자: 삼순신 <br /> */}
-          {/* 사업자등록번호: 123-11-12345 | 통신판매업신고번호: 제0000-서울강남-00000호 <br /> */}
-          {/* 주소: 서울특별시 OO구 OO로 OOO길 OO (논현동) <br /> */}
-          메일:{' '}
+          문의:{' '}
           <a
             href="mailto:chkok.official@gmail.com"
             className="text-muted-foreground hover:underline"
           >
             chkok.official@gmail.com
           </a>{' '}
+          <div className="flex items-start gap-2">
+            <Link href={'https://chkok.notion.site/24daaf9264b2808c88f6e0486e6ea5f0'}>
+              이용약관
+            </Link>
+            <Link href={'https://chkok.notion.site/256aaf9264b280aeae76e1b3af19be50?pvs=74'}>
+              이용약관(기업)
+            </Link>
+            <Link href={'https://chkok.notion.site/24daaf9264b2804584e0deb6f3828c4f?pvs=74'}>
+              개인정보처리방침
+            </Link>
+          </div>
           {/* | 전화: 1234-1234 | 팩스: 02-123-4567 <br /> */}
           <Text size="sm" as="p" color="foreground" className="mt-4" weight="bold">
             &copy; {currentYear} KOK. All rights reserved.

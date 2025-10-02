@@ -9,6 +9,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'hourly' as const,
       priority: 1,
     },
+    {
+      // 로그인 페이지
+      url: 'https://chkok.kr/login',
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    },
     // 추후 검색 모달에서 페이지로 변경시 검색 페이지 추가
   ];
 

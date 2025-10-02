@@ -8,7 +8,7 @@ export default function CategoryLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="bg-ck-gray-200 flex min-h-[100dvh] flex-col">
+    <div className="bg-ck-gray-100 flex min-h-[100dvh] flex-col">
       <CategoryHeader />
       <main className="h-full w-full flex-grow">{children}</main>
       <FooterMenu />
