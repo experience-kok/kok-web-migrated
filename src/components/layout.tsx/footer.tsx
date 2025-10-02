@@ -23,15 +23,13 @@ export default function Footer() {
             chkok.official@gmail.com
           </a>{' '}
           <div className="flex items-start gap-2">
-            <Link
-              href={'https://www.notion.so/chkok/24daaf9264b2808c88f6e0486e6ea5f0?source=copy_link'}
-            >
+            <Link href={'https://chkok.notion.site/24daaf9264b2808c88f6e0486e6ea5f0'}>
               이용약관
             </Link>
-            <Link href={'https://chkok.notion.site/256aaf9264b280aeae76e1b3af19be50'}>
+            <Link href={'https://chkok.notion.site/256aaf9264b280aeae76e1b3af19be50?pvs=74'}>
               이용약관(기업)
             </Link>
-            <Link href={'https://www.notion.so/chkok/24daaf9264b2804584e0deb6f3828c4f'}>
+            <Link href={'https://chkok.notion.site/24daaf9264b2804584e0deb6f3828c4f?pvs=74'}>
               개인정보처리방침
             </Link>
           </div>
