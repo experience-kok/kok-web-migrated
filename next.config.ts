@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   assetPrefix: isProd ? 'https://d2gsv5nutdeogm.cloudfront.net' : undefined,
   images: {
     remotePatterns: [
+      // CDN: cloud front
       {
         protocol: 'https',
         hostname: 'd2gsv5nutdeogm.cloudfront.net',

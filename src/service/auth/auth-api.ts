@@ -5,7 +5,7 @@ import {
   PostKakaoLoginRequest,
   PostLoginRequest,
 } from '@/types/auths/requests';
-import { LoginResponse } from '@/types/auths/responses';
+import { LoginResponse, PostConsentRespones } from '@/types/auths/responses';
 
 /**
  * POST /api/auth/kakao 카카오 로그인 API
@@ -60,7 +60,7 @@ export async function postConsent({ tempToken, agreements }: PostConsentRequest)
     agreements,
   };
 
-  const response = await fetcher.post<null>(`/auth/consent`, requestBody);
+  const response = await fetcher.post<PostConsentRespones>(`/auth/consent`, requestBody);
 
   return response;
 }

@@ -52,7 +52,7 @@ export default function KakaoCallbackPage() {
         if (response.loginType === 'consentRequired') {
           // 신규 유저: 동의 페이지로 리디렉션
           const { tempToken } = response;
-          router.push(`/consent?tempToken=${tempToken}`);
+          router.push(`/login/consent?tempToken=${tempToken}`);
         } else {
           // 기존 유저: 로그인 처리
           const { loginType, user, accessToken, refreshToken } = response;

@@ -35,3 +35,13 @@ export interface ExistingUserLoginResponse {
  * /api/auth/login, api/auth/kakao API를 이용해 로그인시 아래 타입을 반환합니다.
  */
 export type LoginResponse = ExistingUserLoginResponse | NewUserLoginResponse;
+
+/**
+ * 동의 완료 및 회원가입 성공 응답
+ */
+export interface PostConsentRespones {
+  loginType: Exclude<LoginType, 'consentRequired'>;
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+}
