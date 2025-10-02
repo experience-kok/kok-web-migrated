@@ -1,6 +1,6 @@
-import { LoginType } from './models';
-
 import { User } from '@/types/users/models';
+
+import { LoginType } from './models';
 
 /**
  * 신규 유저 로그인 응답
