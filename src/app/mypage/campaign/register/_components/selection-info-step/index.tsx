@@ -80,22 +80,23 @@ export default function SelectionInfoStep({ context, onNext }: Props) {
 
       <div className="h-10"></div>
 
-      {/* 인플루언서 선정일 */}
-      <Controller
-        name="selectionDate"
-        control={control}
-        render={({ field }) => (
-          <div>
-            <SelectionDatePicker
-              date={field.value}
-              setDate={field.onChange}
-              error={errors.selectionDate?.message}
-            />
-            {/* 도움말 메시지 */}
-            <p className="ck-caption-2 text-ck-gray-600 mt-1">{getHelperMessage()}</p>
-          </div>
-        )}
-      />
+      {!context.campaignInfo.isAlwaysOpen && (
+        <Controller
+          name="selectionDate"
+          control={control}
+          render={({ field }) => (
+            <div>
+              <SelectionDatePicker
+                date={field.value}
+                setDate={field.onChange}
+                error={errors.selectionDate?.message}
+              />
+              {/* 도움말 메시지 */}
+              <p className="ck-caption-2 text-ck-gray-600 mt-1">{getHelperMessage()}</p>
+            </div>
+          )}
+        />
+      )}
 
       <BottomButton disabled={!isValid}>다음으로</BottomButton>
     </form>

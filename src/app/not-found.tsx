@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function NotFound() {
+  const imageUrl = `${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/kogi/kogi-not-found.svg`;
+
   return (
     <>
       <main className="min-h-[100dvh]">
@@ -24,11 +26,12 @@ export default function NotFound() {
           </Link>
 
           <Image
-            src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT}/public/kogi/kogi-not-found.svg`}
+            src={imageUrl}
             width={128}
             height={128}
             alt="404 이미지"
             className="mt-4"
+            unoptimized
           />
         </div>
       </main>

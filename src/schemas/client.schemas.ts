@@ -18,7 +18,11 @@ export const clientBusinessInfoSchema = z.object({
       // 하이픈 제거 후 10자리 숫자인지 확인
       const numbersOnly = value.replace(/-/g, '');
       return numbersOnly.length === 10 && /^\d+$/.test(numbersOnly);
-    }, '사업자번호는 10자리 숫자여야 합니다.'),
+    }, '사업자번호는 10자리 숫자여야 해요.'),
+
+  termsAgreed: z.boolean().refine(val => val === true, {
+    message: '클라이언트 이용약관에 동의해주세요.',
+  }),
 });
 
 export type ClientBusinessInfoRegisterForm = z.infer<typeof clientBusinessInfoSchema>;

@@ -18,7 +18,7 @@ import WithMapCheckBox from './with-map-check-box';
 interface Props {
   context: {
     selectionInfo: {
-      selectionDate: Date;
+      selectionDate?: Date;
     };
     campaignInfo: {
       isAlwaysOpen: boolean;
@@ -54,10 +54,11 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
     },
   });
 
-  // 도움말 메시지 생성
   const getHelperMessage = () => {
-    if (!context.selectionInfo) return '';
+    if (!context.selectionInfo?.selectionDate) return '';
     const selectionDate = new Date(context.selectionInfo.selectionDate);
+    // 유효하지 않은 날짜일 경우 빈 문자열 반환
+    if (isNaN(selectionDate.getTime())) return '';
     return `인플루언서 선정일(${format(selectionDate, 'yyyy-MM-dd')}) 이후로 선택해 주세요.`;
   };
 
@@ -75,7 +76,10 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
           name="isMap"
           control={control}
           render={({ field }) => (
-            <WithMapCheckBox checked={field.value} onChange={field.onChange} />
+            <WithMapCheckBox
+              checked={field.value}
+              onChange={(checked: boolean) => field.onChange(checked)}
+            />
           )}
         />
 
@@ -117,7 +121,6 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
 
         {isMissionDateRequired && (
           <>
-            {/* 미션 시작일 */}
             <Controller
               name="missionStartDate"
               control={control}
@@ -133,7 +136,6 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
                 </div>
               )}
             />
-            {/* 미션 종료일 */}
             <Controller
               name="missionDeadlineDate"
               control={control}

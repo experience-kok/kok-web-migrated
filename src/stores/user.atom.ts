@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
-import { User } from '@/models/user';
+import { User } from '@/types/users/models';
 
 export const userAtom = atomWithStorage<User | null>('user', null);
 

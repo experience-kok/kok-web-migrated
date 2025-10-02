@@ -163,10 +163,12 @@ export type ProductData = z.infer<typeof productSchema>;
 
 // 6. 인플루언서 선정 정보
 export const selectionSchema = z.object({
-  selectionDate: z.coerce.date({
-    required_error: '인플루언서 선정일을 선택해 주세요.',
-    invalid_type_error: '유효한 날짜를 선택해 주세요.',
-  }),
+  selectionDate: z.coerce
+    .date({
+      required_error: '인플루언서 선정일을 선택해 주세요.',
+      invalid_type_error: '유효한 날짜를 선택해 주세요.',
+    })
+    .optional(),
   selectionCriteria: z.string().min(1, { message: '선정 기준을 입력해 주세요.' }),
 });
 // 캠페인 정보와 선정 정보를 함께 검증하는 스키마
@@ -175,30 +177,34 @@ export const createSelectionSchemaWithCampaignValidation = (campaignInfo: {
   recruitmentEndDate?: Date;
   recruitmentStartDate: Date;
 }) => {
-  return selectionSchema.refine(
-    data => {
-      const selectedDate = new Date(data.selectionDate);
-      selectedDate.setHours(0, 0, 0, 0);
+  return selectionSchema.superRefine((data, ctx) => {
+    if (!campaignInfo.isAlwaysOpen) {
+      if (!data.selectionDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: '인플루언서 선정일을 선택해 주세요.',
+          path: ['selectionDate'],
+        });
+        return;
+      }
 
-      if (!campaignInfo.isAlwaysOpen && campaignInfo.recruitmentEndDate) {
-        // 일반 캠페인: 모집 종료일 이후여야 함
+      if (campaignInfo.recruitmentEndDate) {
+        const selectedDate = new Date(data.selectionDate);
+        selectedDate.setHours(0, 0, 0, 0);
+
         const endDate = new Date(campaignInfo.recruitmentEndDate);
         endDate.setHours(0, 0, 0, 0);
-        return selectedDate >= endDate;
-      } else {
-        // 상시 캠페인: 모집 시작일 이후여야 함
-        const startDate = new Date(campaignInfo.recruitmentStartDate);
-        startDate.setHours(0, 0, 0, 0);
-        return selectedDate >= startDate;
+
+        if (selectedDate < endDate) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '인플루언서 선정일은 모집 종료일 이후여야 해요.',
+            path: ['selectionDate'],
+          });
+        }
       }
-    },
-    {
-      message: campaignInfo.isAlwaysOpen
-        ? '인플루언서 선정일은 모집 시작일 이후여야 해요.'
-        : '인플루언서 선정일은 모집 종료일 이후여야 해요.',
-      path: ['selectionDate'],
-    },
-  );
+    }
+  });
 };
 
 export type SelectionData = z.infer<typeof selectionSchema>;
@@ -249,10 +255,9 @@ export const missionContentSchema = z.object({
     .optional(),
 });
 
-// 미션 콘텐츠 정보와 캠페인/선정 정보를 함께 검증하는 스키마
 export const createMissionContentSchemaWithValidation = (campaignAndSelectionInfo: {
   isAlwaysOpen: boolean;
-  selectionDate: Date;
+  selectionDate?: Date;
 }) => {
   return (
     missionContentSchema
@@ -306,10 +311,13 @@ export const createMissionContentSchemaWithValidation = (campaignAndSelectionInf
           path: ['missionDeadlineDate'],
         },
       )
-      // 일반 캠페인: 미션 시작일이 선정일 이후인지 검증
       .refine(
         data => {
-          if (!campaignAndSelectionInfo.isAlwaysOpen && data.missionStartDate) {
+          if (
+            !campaignAndSelectionInfo.isAlwaysOpen &&
+            data.missionStartDate &&
+            campaignAndSelectionInfo.selectionDate
+          ) {
             const selectionDate = new Date(campaignAndSelectionInfo.selectionDate);
             const startDate = new Date(data.missionStartDate);
             selectionDate.setHours(0, 0, 0, 0);
@@ -323,7 +331,6 @@ export const createMissionContentSchemaWithValidation = (campaignAndSelectionInf
           path: ['missionStartDate'],
         },
       )
-      // 일반 캠페인: 미션 마감일이 시작일 이후인지 검증
       .refine(
         data => {
           if (

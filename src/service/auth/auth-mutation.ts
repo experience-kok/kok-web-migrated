@@ -9,7 +9,7 @@ import { userAtom } from '@/stores/user.atom';
 
 import { useMutation } from '@tanstack/react-query';
 
-import { postLogin, postLogout } from './auth-api';
+import { postConsent, postLogin, postLogout } from './auth-api';
 
 export function useLoginMutation() {
   const setUser = useSetAtom(userAtom);
@@ -18,24 +18,32 @@ export function useLoginMutation() {
   return useMutation({
     mutationFn: postLogin,
     onSuccess: data => {
-      const { loginType, user, accessToken, refreshToken } = data;
-
-      setTokens(accessToken, refreshToken);
-      setUser(user);
-
-      if (loginType === 'login') {
-        router.push('/');
-
-        setTimeout(() => {
-          toast.success(`${user.nickname}님, 환영해요!`, {
-            position: 'top-center',
-            duration: 3000,
-          });
-        }, 1000);
+      // 신규 유저 로그인
+      if (data.loginType === 'consentRequired') {
+        const { tempToken } = data;
+        router.push(`/login/consent?tempToken=${tempToken}`);
       }
-      // 회원가입시 환영 페이지로 이동
-      else if (loginType === 'registration') {
-        router.push('/welcome');
+      // 기존 유저 로그인
+      else {
+        const { loginType, user, accessToken, refreshToken } = data;
+
+        setTokens(accessToken, refreshToken);
+        setUser(user);
+
+        if (loginType === 'login') {
+          router.push('/');
+
+          setTimeout(() => {
+            toast.success(`${user.nickname}님, 환영해요!`, {
+              position: 'top-center',
+              duration: 3000,
+            });
+          }, 1000);
+        }
+        // 회원가입시 환영 페이지로 이동
+        else if (loginType === 'registration') {
+          router.push('/welcome');
+        }
       }
     },
     onError: error => {
@@ -67,6 +75,37 @@ export function useLogoutMutation() {
       removeAllTokens();
 
       router.push('/');
+    },
+  });
+}
+
+/**
+ * 신규 회원일 경우 이용약관, 개인정보처리방침을 동의받기 위한 뮤테이션입니다.
+ */
+export function useConsentMutation() {
+  const setUser = useSetAtom(userAtom);
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: postConsent,
+    onSuccess: data => {
+      const { user, accessToken, refreshToken } = data;
+
+      setTokens(accessToken, refreshToken);
+      setUser(user);
+
+      // 동의 완료 후 환영 페이지로 이동
+      router.push('/welcome');
+    },
+    onError: error => {
+      toast.error(
+        error instanceof Error ? error.message : '오류가 발생했어요. 다시 시도해주세요.',
+        {
+          position: 'top-center',
+          duration: 3000,
+        },
+      );
+      router.push('/login');
     },
   });
 }

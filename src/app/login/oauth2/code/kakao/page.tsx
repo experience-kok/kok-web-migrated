@@ -29,10 +29,9 @@ export default function KakaoCallbackPage() {
     const handleCallback = async () => {
       hasProcessed.current = true;
 
-      const code = searchParams.get('code'); // redirect uri에서 코드 추출
-      const provider = window.location.pathname.split('/').pop(); // 'kakao' 추출
+      const code = searchParams.get('code');
+      const provider = window.location.pathname.split('/').pop();
 
-      // 코드 또는 oauth 제공자가 없을 경우 로그인 페이지로 이동
       if (!code || !provider) {
         toast.error('로그인 정보를 찾을 수 없어요.', {
           position: 'top-center',
@@ -50,27 +49,34 @@ export default function KakaoCallbackPage() {
           redirectUri,
         });
 
-        const { loginType, user, accessToken, refreshToken } = response;
+        if (response.loginType === 'consentRequired') {
+          // 신규 유저: 동의 페이지로 리디렉션
+          const { tempToken } = response;
+          router.push(`/login/consent?tempToken=${tempToken}`);
+        } else {
+          // 기존 유저: 로그인 처리
+          const { loginType, user, accessToken, refreshToken } = response;
 
-        setTokens(accessToken, refreshToken);
-        setUser(user);
+          setTokens(accessToken, refreshToken);
+          setUser(user);
 
-        if (loginType === 'login') {
-          router.push('/');
+          if (loginType === 'login') {
+            router.push('/');
 
-          setTimeout(() => {
-            toast.success(`${user.nickname}님, 환영해요!`, {
-              position: 'top-center',
-              duration: 3000,
-            });
-          }, 1000);
-        }
-        // 회원가입시 환영 페이지로 이동
-        else if (loginType === 'registration') {
-          router.push('/welcome');
+            setTimeout(() => {
+              toast.success(`${user.nickname}님, 환영해요!`, {
+                position: 'top-center',
+                duration: 3000,
+              });
+            }, 1000);
+          }
+          // 회원가입시 환영 페이지로 이동
+          else if (loginType === 'registration') {
+            router.push('/welcome');
+          }
         }
       } catch (error) {
-        hasProcessed.current = false; // 에러시 재시도 가능하도록
+        hasProcessed.current = false;
         toast.error(error instanceof Error ? error.message : '잠시 후 다시 시도해주세요.', {
           position: 'top-center',
           duration: 3000,
