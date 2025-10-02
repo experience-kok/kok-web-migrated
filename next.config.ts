@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
         hostname: 'd2gsv5nutdeogm.cloudfront.net',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 's3.ap-northeast-2.amazonaws.com',
+        port: '',
+      },
       // S3
       {
         protocol: 'https',
