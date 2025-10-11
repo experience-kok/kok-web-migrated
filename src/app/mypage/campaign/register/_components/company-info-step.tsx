@@ -26,8 +26,6 @@ export default function CompanyInfoStep({ onNext, companyData }: Props) {
     defaultValues: companyData,
   });
 
-  console.log(companyData);
-
   return (
     <form onSubmit={handleSubmit(onNext)} className="px-5">
       <div className="ck-title pt-5 pb-10">

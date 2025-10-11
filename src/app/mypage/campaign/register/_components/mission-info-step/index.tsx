@@ -11,12 +11,13 @@ import MissionKeywords from './mission-keywords';
 
 interface Props {
   onNext: (data: MissionData) => void;
+  missionData?: MissionData;
 }
 
 /**
  * 미션 정보 입력 스텝 컴포넌트입니다.
  */
-export default function MissionInfoStep({ onNext }: Props) {
+export default function MissionInfoStep({ onNext, missionData }: Props) {
   const {
     register,
     handleSubmit,
@@ -25,6 +26,7 @@ export default function MissionInfoStep({ onNext }: Props) {
   } = useForm<MissionData>({
     resolver: zodResolver(missionSchema),
     mode: 'onChange',
+    defaultValues: missionData,
   });
 
   const titleKeywords = watch('titleKeywords');

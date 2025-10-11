@@ -15,12 +15,13 @@ import RecruitmentDatePicker from './recruitment-date-picker';
 
 interface Props {
   onNext: (data: CampaignData) => void;
+  campaignData?: CampaignData;
 }
 
 /**
  * 캠페인 정보 입력 스텝 컴포넌트입니다.
  */
-export default function CampaignInfoStep({ onNext }: Props) {
+export default function CampaignInfoStep({ onNext, campaignData }: Props) {
   const {
     register,
     control,
@@ -31,13 +32,7 @@ export default function CampaignInfoStep({ onNext }: Props) {
   } = useForm<CampaignData>({
     resolver: zodResolver(campaignSchema),
     mode: 'onChange',
-    defaultValues: {
-      title: '',
-      isAlwaysOpen: false,
-      recruitmentStartDate: undefined,
-      recruitmentEndDate: undefined,
-      maxApplicants: undefined,
-    },
+    defaultValues: campaignData,
   });
 
   const 상시모집캠페인여부 = watch('isAlwaysOpen');

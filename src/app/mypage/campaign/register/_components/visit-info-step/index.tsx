@@ -11,15 +11,11 @@ import { VisitData, visitSchema } from '@/schemas/campaign-register.schemas';
 import MapPicker from './map-picker';
 
 interface Props {
-  // context: {
-  //   categoryInfo: {
-  //     categoryType: '방문' | '배송';
-  //   };
-  // };
   onNext: (data: VisitData) => void;
+  visitData?: VisitData;
 }
 
-export default function VisitInfoStep({ onNext }: Props) {
+export default function VisitInfoStep({ onNext, visitData }: Props) {
   const {
     register,
     handleSubmit,
@@ -29,7 +25,7 @@ export default function VisitInfoStep({ onNext }: Props) {
   } = useForm<VisitData>({
     resolver: zodResolver(visitSchema),
     mode: 'onChange',
-    defaultValues: {
+    defaultValues: visitData || {
       homepage: '',
       contactPhone: '',
       visitAndReservationInfo: '',

@@ -8,12 +8,13 @@ import { ProductData, productSchema } from '@/schemas/campaign-register.schemas'
 
 interface Props {
   onNext: (data: ProductData) => void;
+  productData?: ProductData;
 }
 
 /**
  * 캠페인을 통해 제공되는 제품/서비스 정보 입력 스텝 컴포넌트입니다.
  */
-export default function ProductInfoStep({ onNext }: Props) {
+export default function ProductInfoStep({ onNext, productData }: Props) {
   const {
     register,
     handleSubmit,
@@ -21,6 +22,7 @@ export default function ProductInfoStep({ onNext }: Props) {
   } = useForm<ProductData>({
     resolver: zodResolver(productSchema),
     mode: 'onChange',
+    defaultValues: productData,
   });
 
   return (

@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 
 import { useFunnel } from '@use-funnel/browser';
+import { useAtom } from 'jotai';
 
 import {
   CompanyData,
@@ -15,6 +16,8 @@ import {
   MissionContentData,
   VisitData,
 } from '@/schemas/campaign-register.schemas';
+
+import { campaignRegisterDataAtom } from '@/stores/campaign-register.atom';
 
 import CampaignInfoStep from './campaign-info-step';
 import CategoryInfoStep from './category-info-step';
@@ -31,6 +34,8 @@ import VisitInfoStep from './visit-info-step';
  * 캠페인 등록 퍼널 컴포넌트
  */
 export default function CampaignRegisterFunnel() {
+  const [registerData, setRegisterData] = useAtom(campaignRegisterDataAtom);
+
   const funnel = useFunnel<{
     업체정보: { companyInfo?: CompanyData };
     카테고리정보: { companyInfo: CompanyData; categoryInfo?: CategoryData };
@@ -110,35 +115,26 @@ export default function CampaignRegisterFunnel() {
   });
 
   useEffect(() => {
-    console.log(funnel.context, funnel.history, funnel.index);
-  });
+    console.log(registerData);
+  }, [registerData]);
 
   return (
     <>
-      {/* <div className="px-5 py-2">
-        <div className="h-2 w-full rounded-full bg-gray-200">
-          <div
-            className="h-2 rounded-full bg-blue-600 transition-all duration-300"
-            style={{
-              width: `${((stepOrder.indexOf(funnel.step) + 1) / stepOrder.length) * 100}%`,
-            }}
-          />
-        </div>
-      </div> */}
-      {/* 프로그레스바 추가 필요 */}
-
       <funnel.Render
-        업체정보={({ history, context }) => (
+        업체정보={({ history }) => (
           <CompanyInfoStep
-            companyData={context.companyInfo}
+            companyData={registerData.companyInfo}
             onNext={data => {
+              setRegisterData(prev => ({ ...prev, companyInfo: data }));
               history.push('카테고리정보', { companyInfo: data });
             }}
           />
         )}
         카테고리정보={({ history, context }) => (
           <CategoryInfoStep
+            categoryData={registerData.categoryInfo}
             onNext={data => {
+              setRegisterData(prev => ({ ...prev, categoryInfo: data }));
               history.push('썸네일정보', {
                 ...context,
                 categoryInfo: data,
@@ -158,7 +154,9 @@ export default function CampaignRegisterFunnel() {
         )}
         캠페인정보={({ history, context }) => (
           <CampaignInfoStep
+            campaignData={registerData.campaignInfo}
             onNext={data => {
+              setRegisterData(prev => ({ ...prev, campaignInfo: data }));
               history.push('제품정보', {
                 ...context,
                 campaignInfo: data,
@@ -168,7 +166,9 @@ export default function CampaignRegisterFunnel() {
         )}
         제품정보={({ history, context }) => (
           <ProductInfoStep
+            productData={registerData.productInfo}
             onNext={data => {
+              setRegisterData(prev => ({ ...prev, productInfo: data }));
               history.push('인플루언서_선정정보', {
                 ...context,
                 productInfo: data,
@@ -178,8 +178,10 @@ export default function CampaignRegisterFunnel() {
         )}
         인플루언서_선정정보={({ history, context }) => (
           <SelectionInfoStep
+            selectionData={registerData.selectionInfo}
             context={context}
             onNext={data => {
+              setRegisterData(prev => ({ ...prev, selectionInfo: data }));
               history.push('미션정보', {
                 ...context,
                 selectionInfo: data,
@@ -189,7 +191,9 @@ export default function CampaignRegisterFunnel() {
         )}
         미션정보={({ history, context }) => (
           <MissionInfoStep
+            missionData={registerData.missionInfo}
             onNext={data => {
+              setRegisterData(prev => ({ ...prev, missionInfo: data }));
               history.push('미션콘텐츠정보', {
                 ...context,
                 missionInfo: data,
@@ -199,8 +203,10 @@ export default function CampaignRegisterFunnel() {
         )}
         미션콘텐츠정보={({ history, context }) => (
           <MissionContentInfoStep
+            missionContentData={registerData.missionContentInfo}
             context={context}
             onNext={data => {
+              setRegisterData(prev => ({ ...prev, missionContentInfo: data }));
               const 방문캠페인 = context.categoryInfo.categoryType === '방문';
 
               if (방문캠페인) {
@@ -219,7 +225,9 @@ export default function CampaignRegisterFunnel() {
         )}
         방문정보={({ history, context }) => (
           <VisitInfoStep
+            visitData={registerData.visitInfo}
             onNext={data => {
+              setRegisterData(prev => ({ ...prev, visitInfo: data }));
               history.push('캠페인생성', {
                 ...context,
                 visitInfo: data,
