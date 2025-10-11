@@ -6,8 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
-
-import { CampaignData, campaignSchema } from '../../_schemas/company-register-schemas';
+import { CampaignData, campaignSchema } from '@/schemas/campaign-register.schemas';
 
 import AlwaysOpenCheckBox from './always-open-check-box';
 import CampaignTitleInput from './campaign-title-input';

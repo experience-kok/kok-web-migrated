@@ -21,10 +21,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import SplitBox from '@/components/ui/split-box';
-import { usePostCampaignMutationNew } from '@/service/campaigns/campaigns-mutation';
-
-import { PostCampaignRequest } from '@/types/campaigns/requests';
-
 import {
   CampaignData,
   CategoryData,
@@ -35,7 +31,10 @@ import {
   SelectionData,
   ThumbnailData,
   VisitData,
-} from '../../_schemas/company-register-schemas';
+} from '@/schemas/campaign-register.schemas';
+import { usePostCampaignMutationNew } from '@/service/campaigns/campaigns-mutation';
+
+import { PostCampaignRequest } from '@/types/campaigns/requests';
 
 interface Props {
   context: {

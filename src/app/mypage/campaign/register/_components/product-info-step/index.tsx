@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form';
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingInput } from '@/components/ui/floating-input';
 import { FloatingTextarea } from '@/components/ui/floating-textarea';
-
-import { ProductData, productSchema } from '../../_schemas/company-register-schemas';
+import { ProductData, productSchema } from '@/schemas/campaign-register.schemas';
 
 interface Props {
   onNext: (data: ProductData) => void;

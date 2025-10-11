@@ -8,11 +8,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingTextarea } from '@/components/ui/floating-textarea';
-
 import {
   SelectionData,
   createSelectionSchemaWithCampaignValidation,
-} from '../../_schemas/company-register-schemas';
+} from '@/schemas/campaign-register.schemas';
 
 import SelectionDatePicker from './selection-date-picker';
 

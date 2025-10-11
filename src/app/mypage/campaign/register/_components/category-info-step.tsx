@@ -11,14 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { CategoryData, categorySchema } from '@/schemas/campaign-register.schemas';
 
 import {
   type CampaignCategoryType,
   CAMPAIGN_TYPES,
   VISIT_CATEGORIES,
 } from '@/types/campaigns/models';
-
-import { CategoryData, categorySchema } from '../_schemas/company-register-schemas';
 
 // 카테고리 옵션
 const CATEGORY_OPTIONS: Record<CampaignCategoryType, readonly string[]> = {

@@ -6,11 +6,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingInput } from '@/components/ui/floating-input';
-
 import {
   MissionContentData,
   createMissionContentSchemaWithValidation,
-} from '../../_schemas/company-register-schemas';
+} from '@/schemas/campaign-register.schemas';
 
 import MissionDatePicker from './mission-date-picker';
 import WithMapCheckBox from './with-map-check-box';

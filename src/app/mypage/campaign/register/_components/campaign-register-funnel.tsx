@@ -14,7 +14,7 @@ import {
   MissionData,
   MissionContentData,
   VisitData,
-} from '../_schemas/company-register-schemas';
+} from '@/schemas/campaign-register.schemas';
 
 import CampaignInfoStep from './campaign-info-step';
 import CategoryInfoStep from './category-info-step';

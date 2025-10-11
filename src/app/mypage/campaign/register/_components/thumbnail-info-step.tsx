@@ -20,9 +20,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { ThumbnailData, thumbnailSchema } from '@/schemas/campaign-register.schemas';
 import { usePostPresignedUrlMutation } from '@/service/campaigns/campaigns-mutation';
-
-import { ThumbnailData, thumbnailSchema } from '../_schemas/company-register-schemas';
 
 interface Props {
   onNext: (data: ThumbnailData) => void;

@@ -5,8 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingTextarea } from '@/components/ui/floating-textarea';
-
-import { MissionData, missionSchema } from '../../_schemas/company-register-schemas';
+import { MissionData, missionSchema } from '@/schemas/campaign-register.schemas';
 
 import MissionKeywords from './mission-keywords';
 

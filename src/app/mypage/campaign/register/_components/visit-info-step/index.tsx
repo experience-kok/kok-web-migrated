@@ -6,8 +6,7 @@ import { useForm } from 'react-hook-form';
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingInput } from '@/components/ui/floating-input';
 import { FloatingTextarea } from '@/components/ui/floating-textarea';
-
-import { VisitData, visitSchema } from '../../_schemas/company-register-schemas';
+import { VisitData, visitSchema } from '@/schemas/campaign-register.schemas';
 
 import MapPicker from './map-picker';
 
