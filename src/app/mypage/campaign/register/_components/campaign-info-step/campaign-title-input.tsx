@@ -3,8 +3,7 @@
 import { UseFormRegister } from 'react-hook-form';
 
 import { FloatingInput } from '@/components/ui/floating-input';
-
-import { CampaignData } from '../../_schemas/company-register-schemas';
+import { CampaignData } from '@/schemas/campaign-register.schemas';
 
 interface Props {
   register: UseFormRegister<CampaignData>;

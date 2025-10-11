@@ -16,6 +16,8 @@ export default async function CampaignArticlePage({ params }: Props) {
   const { campaignId } = await params;
   const { kokPost } = await getKokArticle(Number(campaignId));
 
+  console.log(kokPost);
+
   return (
     <>
       <article className="mx-auto max-w-4xl bg-gray-50 p-6 pb-32">

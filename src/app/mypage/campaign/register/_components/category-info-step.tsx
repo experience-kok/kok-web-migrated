@@ -11,14 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { CategoryData, categorySchema } from '@/schemas/campaign-register.schemas';
 
 import {
   type CampaignCategoryType,
   CAMPAIGN_TYPES,
   VISIT_CATEGORIES,
 } from '@/types/campaigns/models';
-
-import { CategoryData, categorySchema } from '../_schemas/company-register-schemas';
 
 // 카테고리 옵션
 const CATEGORY_OPTIONS: Record<CampaignCategoryType, readonly string[]> = {
@@ -28,15 +27,17 @@ const CATEGORY_OPTIONS: Record<CampaignCategoryType, readonly string[]> = {
 
 interface Props {
   onNext: (data: CategoryData) => void;
+  categoryData?: CategoryData;
 }
 
 /**
  * 카테고리 선택 스텝 컴포넌트 (순서 변경)
  */
-export default function CategoryInfoStep({ onNext }: Props) {
+export default function CategoryInfoStep({ onNext, categoryData }: Props) {
   const { control, handleSubmit, watch, resetField } = useForm<CategoryData>({
     resolver: zodResolver(categorySchema),
     mode: 'onChange',
+    defaultValues: categoryData,
   });
 
   // 각 필드의 값을 확인하기 위해 watch 사용
