@@ -5,8 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingInput } from '@/components/ui/floating-input';
-
-import { CompanyData, companySchema } from '../_schemas/company-register-schemas';
+import { CompanyData, companySchema } from '@/schemas/campaign-register.schemas';
 
 interface Props {
   onNext: (data: CompanyData) => void;
@@ -26,8 +25,6 @@ export default function CompanyInfoStep({ onNext, companyData }: Props) {
     mode: 'onChange',
     defaultValues: companyData,
   });
-
-  console.log(companyData);
 
   return (
     <form onSubmit={handleSubmit(onNext)} className="px-5">

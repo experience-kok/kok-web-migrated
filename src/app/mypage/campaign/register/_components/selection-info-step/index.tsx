@@ -8,11 +8,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingTextarea } from '@/components/ui/floating-textarea';
-
 import {
   SelectionData,
   createSelectionSchemaWithCampaignValidation,
-} from '../../_schemas/company-register-schemas';
+} from '@/schemas/campaign-register.schemas';
 
 import SelectionDatePicker from './selection-date-picker';
 
@@ -25,12 +24,13 @@ interface Props {
     };
   };
   onNext: (data: SelectionData) => void;
+  selectionData?: SelectionData;
 }
 
 /**
  * 인플루언서 선정 정보 입력 스텝 컴포넌트입니다.
  */
-export default function SelectionInfoStep({ context, onNext }: Props) {
+export default function SelectionInfoStep({ context, onNext, selectionData }: Props) {
   // 캠페인 정보에 따라 동적으로 스키마 생성
   const validationSchema = useMemo(() => {
     return createSelectionSchemaWithCampaignValidation(context.campaignInfo);
@@ -44,6 +44,7 @@ export default function SelectionInfoStep({ context, onNext }: Props) {
   } = useForm<SelectionData>({
     resolver: zodResolver(validationSchema),
     mode: 'onChange',
+    defaultValues: selectionData,
   });
 
   // 도움말 메시지 생성

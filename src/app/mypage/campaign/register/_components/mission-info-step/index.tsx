@@ -5,19 +5,19 @@ import { useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingTextarea } from '@/components/ui/floating-textarea';
-
-import { MissionData, missionSchema } from '../../_schemas/company-register-schemas';
+import { MissionData, missionSchema } from '@/schemas/campaign-register.schemas';
 
 import MissionKeywords from './mission-keywords';
 
 interface Props {
   onNext: (data: MissionData) => void;
+  missionData?: MissionData;
 }
 
 /**
  * 미션 정보 입력 스텝 컴포넌트입니다.
  */
-export default function MissionInfoStep({ onNext }: Props) {
+export default function MissionInfoStep({ onNext, missionData }: Props) {
   const {
     register,
     handleSubmit,
@@ -26,6 +26,7 @@ export default function MissionInfoStep({ onNext }: Props) {
   } = useForm<MissionData>({
     resolver: zodResolver(missionSchema),
     mode: 'onChange',
+    defaultValues: missionData,
   });
 
   const titleKeywords = watch('titleKeywords');

@@ -6,11 +6,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 import BottomButton from '@/components/shared/bottom-button';
 import { FloatingInput } from '@/components/ui/floating-input';
-
 import {
   MissionContentData,
   createMissionContentSchemaWithValidation,
-} from '../../_schemas/company-register-schemas';
+} from '@/schemas/campaign-register.schemas';
 
 import MissionDatePicker from './mission-date-picker';
 import WithMapCheckBox from './with-map-check-box';
@@ -27,12 +26,13 @@ interface Props {
     };
   };
   onNext: (data: MissionContentData) => void;
+  missionContentData?: MissionContentData;
 }
 
 /**
  * 미션 콘텐츠 정보 입력 스텝 컴포넌트입니다.
  */
-export default function MissionContentInfoStep({ context, onNext }: Props) {
+export default function MissionContentInfoStep({ context, onNext, missionContentData }: Props) {
   const missionContentSchemaWithValidation = createMissionContentSchemaWithValidation({
     isAlwaysOpen: context.campaignInfo.isAlwaysOpen,
     selectionDate: context.selectionInfo.selectionDate,
@@ -46,7 +46,7 @@ export default function MissionContentInfoStep({ context, onNext }: Props) {
   } = useForm<MissionContentData>({
     resolver: zodResolver(missionContentSchemaWithValidation),
     mode: 'onChange',
-    defaultValues: {
+    defaultValues: missionContentData || {
       isMap: false,
       numberOfImage: 0,
       numberOfVideo: 0,
